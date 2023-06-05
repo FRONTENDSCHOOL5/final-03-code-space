@@ -5,7 +5,7 @@
 <table>
   <tr>
     <td align="center">
-      <a href="https://github.com/DanielQ](https://github.com/ChoByungHyun">
+      <a href="https://github.com/ChoByungHyun">
         <img src="https://avatars.githubusercontent.com/u/102468625?v=4" width="150px;"/>
         <br/>
         <sub><b>조병현</b></sub>
