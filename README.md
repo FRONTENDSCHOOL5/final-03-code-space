@@ -8,7 +8,7 @@
       <a href="https://github.com/DanielQ](https://github.com/ChoByungHyun">
         <img src="https://avatars.githubusercontent.com/u/102468625?v=4" width="150px;"/>
         <br/>
-        <sub><b>조병현님</b></sub>
+        <sub><b>조병현</b></sub>
       </a>
       <br/>
     </td>
@@ -16,7 +16,7 @@
       <a href="https://github.com/garamse">
         <img src="https://avatars.githubusercontent.com/u/75787973?v=4" width="150px;"/>
         <br/>
-        <sub><b>김가람님</b></sub>
+        <sub><b>김가람</b></sub>
       </a>
       <br/>
     </td>
@@ -24,7 +24,7 @@
       <a href="https://github.com/seoye0ng">
         <img src="https://avatars.githubusercontent.com/u/101791501?v=4" width="150px;"/>
         <br/>
-        <sub><b>백서영님</b></sub>
+        <sub><b>백서영</b></sub>
       </a>
       <br/>
     </td>
