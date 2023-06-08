@@ -23,6 +23,10 @@ const GlobalStyle = createGlobalStyle`
     --title-font : 'NEXON Lv1 Gothic OTF';
  }
 
+ * {
+    box-sizing: border-box;
+ }
+
  .a11y-hidden {
     clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
