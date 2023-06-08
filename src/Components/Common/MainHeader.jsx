@@ -1,22 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import backIcon from '../../assets/icon-arrow-left.svg';
 import searchIcon from '../../assets/icon-search.svg';
 import Button from './Button';
-const MainHeader = ({ type, leftChild, rightChild }) => {
-  leftChild = '코드허브 피드';
-  type = 'feed';
+const MainHeader = ({ toggle, setToggle }) => {
+  function goSearch() {
+    if (toggle === 'feed') {
+      setToggle('search');
+    } else {
+      setToggle('feed');
+    }
+  }
+  console.log(toggle);
+
   return (
     <>
       <SLayout>
-        {type === 'feed' ? (
+        {toggle === 'feed' ? (
           <>
-            <div>{leftChild}</div>
-            <img src={searchIcon} alt="돋보기"></img>
+            <div>코드스페이스</div>
+            <img src={searchIcon} alt="돋보기" onClick={goSearch}></img>
           </>
         ) : (
           <>
-            <img src={backIcon} alt="뒤로가기"></img>
+            <img src={backIcon} alt="뒤로가기" onClick={goSearch}></img>
             <SSearch type="text" placeholder="Search" />
           </>
         )}

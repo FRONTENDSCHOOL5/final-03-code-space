@@ -5,12 +5,13 @@ import MainHeader from './Components/Common/MainHeader';
 import LoginHeader from './Components/Common/LoginHeader';
 import MainPage from './Pages/MainPage';
 import LandingPage from './Pages/LandingPage';
+import FeedPage from './Pages/FeedPage';
 function App() {
   return (
     <div>
       <GlobalStyle />
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/" element={<FeedPage />} />
         <Route path="/btmnav" element={<BottomNav />} />
         <Route path="/loginheader" element={<LoginHeader />} />
         <Route path="/mainheader" element={<MainHeader />} />
