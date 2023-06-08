@@ -8,10 +8,13 @@ import BottomNav from '../Components/Common/BottomNav';
 const MainPage = () => {
   return (
     <SMain>
-      <MainHeader />
-      {/* <Input placeholder="email" label="이메일" /> */}
-      {/* <Input placeholder="password" label="비밀번호" /> */}
-      <SBtnBox>{/* <Button>다음</Button> */}</SBtnBox>
+      <MainHeader type="feed" />
+      {/* <LoginHeader HeadTitle="이메일로 회원가입" /> */}
+      <Input placeholder="email" label="이메일" />
+      <Input placeholder="password" label="비밀번호" />
+      <SBtnBox>
+        <Button>다음</Button>
+      </SBtnBox>
       <BottomNav />
     </SMain>
   );

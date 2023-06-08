@@ -3,15 +3,13 @@ import styled from 'styled-components';
 import backIcon from '../../assets/icon-arrow-left.svg';
 import searchIcon from '../../assets/icon-search.svg';
 import Button from './Button';
-const MainHeader = ({ type, leftChild, rightChild }) => {
-  leftChild = '코드허브 피드';
-  type = 'feed';
+const MainHeader = ({ type }) => {
   return (
     <>
       <SLayout>
         {type === 'feed' ? (
           <>
-            <div>{leftChild}</div>
+            <div>코드허브 피드</div>
             <img src={searchIcon} alt="돋보기"></img>
           </>
         ) : (
