@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import BottomNav from '../Components/Common/BottomNav';
+import profileImg from '../assets/default-profile-image.svg';
 
 const MainFeed = () => {
   const BaseURL = 'https://api.mandarin.weniv.co.kr/';
@@ -9,6 +10,7 @@ const MainFeed = () => {
   const Authorization =
     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
 
+  const APIDefaultImage = 'http://146.56.183.55:5050/Ellipse.png';
   useEffect(() => {
     fetchFeed();
   }, []);
@@ -34,7 +36,6 @@ const MainFeed = () => {
           FeedListArr.push(data.posts[i]);
         }
         setFeedList(FeedListArr);
-        console.log(FeedList);
         setfetchData(true);
       }
     } catch (error) {
@@ -52,7 +53,11 @@ const MainFeed = () => {
             return (
               <SFeedCard key={item.id}>
                 <SAuthor>
-                  <SProfileImg src={item.author.image} alt="프사" />
+                  {item.author.image === APIDefaultImage ? (
+                    <SProfileImg src={profileImg} alt="프사" />
+                  ) : (
+                    <SProfileImg src={item.author.image} alt="프사" />
+                  )}
                   <SAccountname>{item.author.accountname}</SAccountname>
                 </SAuthor>
                 <div>
@@ -84,6 +89,7 @@ const SMain = styled.div`
   margin: 0 auto;
   background-color: var(--black);
   height: 100vh;
+  color: var(--white);
 `;
 
 const SContent = styled.div`
