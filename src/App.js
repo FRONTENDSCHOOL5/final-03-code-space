@@ -5,6 +5,7 @@ import MainHeader from './Components/Common/MainHeader';
 import LoginHeader from './Components/Common/LoginHeader';
 import MainPage from './Pages/MainPage';
 import LandingPage from './Pages/LandingPage';
+import ProductPage from './Pages/ProductPage';
 function App() {
   return (
     <div>
@@ -15,6 +16,7 @@ function App() {
         <Route path="/loginheader" element={<LoginHeader />} />
         <Route path="/mainheader" element={<MainHeader />} />
         <Route path="/landing" element={<LandingPage />} />
+        <Route path="/product" element={<ProductPage />} />
       </Routes>
     </div>
   );

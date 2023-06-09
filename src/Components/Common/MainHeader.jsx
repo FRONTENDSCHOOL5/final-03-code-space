@@ -12,7 +12,14 @@ const MainHeader = ({ type }) => {
             <div>코드허브 피드</div>
             <img src={searchIcon} alt="돋보기"></img>
           </>
-        ) : (
+        ) : 
+        type === 'save' ? (
+          <>
+            <img src={backIcon} alt="뒤로가기"></img>
+            <SSaveBtn>Save</SSaveBtn>
+          </>
+        ) :
+        (
           <>
             <img src={backIcon} alt="뒤로가기"></img>
             <SSearch type="text" placeholder="Search" />
@@ -39,6 +46,7 @@ const SLayout = styled.div`
   font-weight: bold;
   align-items: center;
 `;
+
 const SSearch = styled.input`
   display: flex;
   flex: 1;
@@ -48,4 +56,12 @@ const SSearch = styled.input`
   margin-left: 10px;
   border: none;
   box-sizing: border-box;
+`;
+
+const SSaveBtn = styled(Button)`
+  width: 90px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
