@@ -1,23 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import MainHeader from './MainHeader';
 
 export default function LoginHeader({ HeadTitle, HeadTxt }) {
   return (
     <>
-      <StyledHeader>
+      <SHeader>
         <strong className="HeadTitle">{HeadTitle}</strong>
-        {HeadTxt && <StyleSubTxt className="HeadTxt">{HeadTxt}</StyleSubTxt>}
-      </StyledHeader>
+        {HeadTxt && <p className="HeadTxt">{HeadTxt} </p>}
+      </SHeader>
     </>
   );
 }
 
-const StyledHeader = styled.header`
+const SHeader = styled.header`
   background-color: #1e1e1e;
   max-width: 390px;
   margin: 0 auto;
-  padding: 15px 0;
+  padding-top: 40px;
   text-align: center;
 
   .HeadTitle {
@@ -25,9 +24,11 @@ const StyledHeader = styled.header`
     font-size: 24px;
     font-family: var(--title-font);
   }
-`;
 
-const StyleSubTxt = styled.p`
-  color: #cacaca;
-  font-size: 14px;
+  .HeadTxt {
+    color: #cacaca;
+    font-size: 14px;
+    margin-top:-10px;
+    margin-bottom:50px;
+  }
 `;
