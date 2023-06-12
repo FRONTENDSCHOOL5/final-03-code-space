@@ -61,7 +61,10 @@ const MainFeed = () => {
                   <SAccountname>{item.author.accountname}</SAccountname>
                 </SAuthor>
                 <div>
-                  <SContent>{item.content}</SContent>
+                  <SContent>
+                    {item.content +
+                      'pigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpig'}
+                  </SContent>
                 </div>
               </SFeedCard>
             );
@@ -94,6 +97,7 @@ const SMain = styled.div`
 
 const SContent = styled.div`
   color: var(--white);
+  word-break: break-all;
 `;
 const SAccountname = styled.div`
   color: var(--point-color);
