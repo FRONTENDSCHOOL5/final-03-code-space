@@ -7,7 +7,7 @@ import postIcon from '../../assets/icons/post.svg';
 import profileIcon from '../../assets/icons/profile.svg';
 
 export default function BottomNav() {
-  const navItems = ['홈', '채팅', '게시물 작성', '프로필'];
+  const navItems = ['feed', 'chat', 'post', 'myprofile'];
   const imgs = [homeIcon, chatIcon, postIcon, profileIcon];
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -21,7 +21,7 @@ export default function BottomNav() {
         {navItems.map((item, index) => (
           <SItemStyle key={index} active={index === activeIndex}>
             <LinkBtn
-              to={`/`}
+              url={item}
               src={imgs[index]}
               text={item}
               active={index === activeIndex}
@@ -34,11 +34,21 @@ export default function BottomNav() {
   );
 }
 
-const LinkBtn = ({ src, text, active, onClick }) => {
+const LinkBtn = ({ src, text, active, onClick, url }) => {
   return (
-    <Link onClick={onClick}>
+    <Link onClick={onClick} to={`/${url}`}>
       <img src={src} alt="" className={active ? 'active' : ''} />
-      <p className={active ? 'active' : ''}>{text}</p>
+      <p className={active ? 'active' : ''}>
+        {text === 'feed'
+          ? '홈'
+          : '홈' && text === 'chat'
+          ? '채팅'
+          : '채팅' && text === 'post'
+          ? '게시글작성'
+          : '게시글작성' && text === 'myprofile'
+          ? '프로필'
+          : '프로필'}
+      </p>
     </Link>
   );
 };

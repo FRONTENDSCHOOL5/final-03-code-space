@@ -42,6 +42,9 @@ ul{
     margin:0;
     padding:0;
 }
+a{
+    text-decoration: none;
+}
 
 li{
     list-style: none;
