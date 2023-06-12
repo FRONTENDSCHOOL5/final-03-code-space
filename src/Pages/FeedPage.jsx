@@ -35,37 +35,13 @@ const MainFeed = () => {
       for (let i = 0; i < response.data.posts.length; i++) {
         FeedListArr.push(response.data.posts[i]);
       }
+      console.log(FeedListArr);
       setFeedList(FeedListArr);
       setfetchData(true);
     } catch (error) {
       console.error(error);
     }
   }
-
-  // async function fetchFeed() {
-  //   try {
-  //     const response = await fetch(`${BaseURL + FollowingPOST}`, {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json;',
-  //         Authorization: Authorization,
-  //       },
-  //     });
-  //     if (!response.ok) {
-  //       throw new Error('네트워크에 문제가 있습니다.');
-  //     } else {
-  //       const data = await response.json();
-  //       const FeedListArr = [];
-  //       for (let i = 0; i < data.posts.length; i++) {
-  //         FeedListArr.push(data.posts[i]);
-  //       }
-  //       setFeedList(FeedListArr);
-  //       setfetchData(true);
-  //     }
-  //   } catch (error) {
-  //     console.error('데이터를 가져오는데 문제가 생겼습니다.', error);
-  //   }
-  // }
 
   return (
     <>
@@ -82,14 +58,16 @@ const MainFeed = () => {
                   ) : (
                     <SProfileImg src={item.author.image} alt="프사" />
                   )}
-                  <SAccountname>{item.author.accountname}</SAccountname>
+                  <STitleContainer>
+                    <SContent>{item.content}</SContent>
+                    <SAuthorInfo>
+                      <SContent>{item.author.username}</SContent>
+                      <SAccountname>@{item.author.accountname}</SAccountname>
+                      <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>
+                    </SAuthorInfo>
+                  </STitleContainer>
                 </SAuthor>
-                <div>
-                  <SContent>
-                    {item.content +
-                      'pigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpigpig'}
-                  </SContent>
-                </div>
+                <div>{/* <SContent>{item.content}</SContent> */}</div>
               </SFeedCard>
             );
           })}
@@ -98,6 +76,8 @@ const MainFeed = () => {
     </>
   );
 };
+
+function goPostDetail() {}
 
 const FeedPage = () => {
   const [toggle, setToggle] = useState('feed');
@@ -124,7 +104,8 @@ const SContent = styled.div`
   word-break: break-all;
 `;
 const SAccountname = styled.div`
-  color: var(--point-color);
+  color: var(--darkgray);
+  font-size: 12px;
 `;
 
 const SFeedCard = styled.div`
@@ -137,11 +118,25 @@ const SFeedCard = styled.div`
 const SAuthor = styled.div`
   display: flex;
   align-items: center;
+
   gap: 10px;
+
+  cursor: pointer;
 `;
 const SProfileImg = styled.img`
   max-width: 46px;
   max-height: 46px;
   width: 100%;
   height: 100%;
+  border: none;
+`;
+const STitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const SAuthorInfo = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  gap: 5px;
 `;
