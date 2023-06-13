@@ -1,7 +1,9 @@
-import 'normalize.css';
-
 const { createGlobalStyle } = require('styled-components');
+const { default: reset } = require('styled-reset');
+
 const GlobalStyle = createGlobalStyle`
+ ${reset}
+
 
 @font-face {
     font-family: 'NEXON Lv1 Gothic OTF';
@@ -10,17 +12,31 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'YESGothic-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_13@1.0/YESGothic-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root{
-    
-    --point-color: #2BAE66;
-    --black: #1E1E1E;
-    --white: #F8F8F8;
+    // color
+    --point-color: #2bae66;
+    --secondary-color: #b1e0C6;
+
+    --black: #16171e; 
+    --white: #f0f0f0;
 
     --lightgray:#cacaca;
-    --gray:#adadad;
-    --darkgray:#6f6f6f;
+    --gray:#aaaaaa;
+    --darkgray:#787878;
+ 
+    --nav-icon-color: #adadad;
+    --border-gray:#6f6f6f;
 
+    // font
     --title-font : 'NEXON Lv1 Gothic OTF';
+    --default-font : 'YESGothic-Regular';
  }
 
  * {
@@ -42,8 +58,10 @@ ul{
     margin:0;
     padding:0;
 }
+
 a{
     text-decoration: none;
+    color: inherit;
 }
 
 li{
@@ -54,10 +72,6 @@ li{
     background:none;
     border: none;
  }
-
- a{
-    text-decoration: none;
-}
 
 p{
     margin:0;
