@@ -8,19 +8,26 @@ const GlobalStyle = createGlobalStyle`
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+    
 }
-
+@font-face {
+    font-family: 'YESGothic-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_13@1.0/YESGothic-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 :root{
     
     --point-color: #2BAE66;
     --black: #1E1E1E;
-    --white: #F8F8F8;
+    --white: #F0F0F0;
 
-    --lightgray:#cacaca;
+    --lightgray:#aaaaaa;
     --gray:#adadad;
-    --darkgray:#6f6f6f;
+    --darkgray:#767676;
 
     --title-font : 'NEXON Lv1 Gothic OTF';
+    --content-font : 'YESGothic-Regular';
  }
 
  * {
