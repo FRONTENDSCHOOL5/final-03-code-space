@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { RecoilRoot } from 'recoil';
 import styled from 'styled-components';
 import LoginHeader from '../Components/Common/LoginHeader';
 import Input from '../Components/Common/Input';
 import Button from '../Components/Common/Button';
 
-const LoginPage = () => {
+import { useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
+import { setToken } from '../Atom/atom';
+
+const LoginPage = () => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
+
+  const setTokenAtom = useSetRecoilState(setToken);
+
+  const isToken = useRecoilValue(setToken);
+
+  console.log(isToken);
 
   const InputHandler = e => {
     if (e.target.type === 'email') {
@@ -19,40 +28,56 @@ const LoginPage = () => {
     }
   };
 
-  console.log(userEmail,userPassword);
+  console.log(userEmail, userPassword);
 
-
-  async function LoginSubmit (e) {
-    console.log("gkjgkg")
+  async function LoginSubmit(e) {
+    console.log('gkjgkg');
     e.preventDefault();
-    const url = "https://api.mandarin.weniv.co.kr";
+    const url = 'https://api.mandarin.weniv.co.kr';
 
-try {
-  const response = await axios.post(url + "/user/login/", {
-    user: {
-      email: userEmail,
-      password: userPassword,
+    try {
+      const response = await axios.post(
+        url + '/user/login/',
+        {
+          user: {
+            email: userEmail,
+            password: userPassword,
+          },
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      console.log(response.data.user.token);
+      setTokenAtom(response.data.user.token);
+    } catch (error) {
+      console.error(error);
     }
-  }, {
-    headers: {
-      "Content-Type": "application/json",
-    }
-  });
-
-  console.log(response.data);
-  console.log(response.data.user.token)
-} catch (error) {
-  console.error(error);
-}
   }
-
-
 
   return (
     <SMain onSubmit={LoginSubmit}>
-        <LoginHeader HeadTitle="로그인" />
-        <Input id="user-email" type="email" placeholder="email" label="이메일" LabelHtmlFor="user-email" value={userEmail} onChange={InputHandler} />
-        <Input id="user-password" type="password" placeholder="password" label="비밀번호" LabelHtmlFor="user-password" value={userPassword} onChange={InputHandler} />
+      <LoginHeader HeadTitle="로그인" />
+      <Input
+        id="user-email"
+        type="email"
+        placeholder="email"
+        label="이메일"
+        LabelHtmlFor="user-email"
+        value={userEmail}
+        onChange={InputHandler}
+      />
+      <Input
+        id="user-password"
+        type="password"
+        placeholder="password"
+        label="비밀번호"
+        LabelHtmlFor="user-password"
+        value={userPassword}
+        onChange={InputHandler}
+      />
       <SBtnBox>
         <Button type="submit">다음</Button>
       </SBtnBox>
