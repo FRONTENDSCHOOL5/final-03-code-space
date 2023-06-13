@@ -40,7 +40,7 @@ const SLayout = styled.div`
   max-height: 48px;
   margin: 0 auto;
   border-bottom: 1px solid #767676;
-  background-color: #1e1e1e;
+  background-color: var(--black);
   color: #f8f8f8;
   padding: 15px;
   box-sizing: border-box;
