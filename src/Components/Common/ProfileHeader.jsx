@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function LoginHeader({ HeadTitle, HeadTxt }) {
+export default function ProfileHeader({ HeadTitle, HeadTxt }) {
   return (
     <>
       <SHeader>
@@ -13,7 +13,7 @@ export default function LoginHeader({ HeadTitle, HeadTxt }) {
 }
 
 const SHeader = styled.header`
-  background-color: #1e1e1e;
+  background-color: var(--black);
   max-width: 390px;
   margin: 0 auto;
   padding-top: 40px;

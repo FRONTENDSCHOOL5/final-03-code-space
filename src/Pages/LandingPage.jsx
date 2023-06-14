@@ -38,7 +38,7 @@ const LandingPage = () => {
         </SLoginItem>
       </SLoginList>
       <FootLink>
-        <Link to="" className="EmailLink">
+        <Link to="/Login" className="EmailLink">
           이메일로 로그인
         </Link>
         <Link to="/signup" className="SignUpLink">
