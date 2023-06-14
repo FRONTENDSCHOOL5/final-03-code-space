@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export default function Button(props) {
   const { type } = props;
@@ -24,6 +24,15 @@ const SButton = styled.button`
   border-radius: ${props => props.borderRadius || '44px'};
   box-sizing: border-box;
   cursor: pointer;
+
+  ${props =>
+    props.subscribed &&
+    css`
+      background-color: transparent;
+      color: #cacaca;
+      border: 1px solid #6f6f6f;
+    `}
+
   &:hover {
     transition: all 0.3s;
     background-color: var(--darkgray);
