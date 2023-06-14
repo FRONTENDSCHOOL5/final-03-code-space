@@ -12,6 +12,7 @@ import FollowPage from './Pages/FollowPage';
 import FollowingPage from './Pages/FollowingPage';
 import MyProfilePage from './Pages/MyProfilePage';
 import SearchPage from './Pages/SearchPage';
+import Modal from './Components/Common/Modal';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/post" element={<PostPage />} />
         <Route path="/follow" element={<FollowPage />} />
         <Route path="/following" element={<FollowingPage />} />
+        <Route path="/Modal" element={<Modal />} />
       </Routes>
     </div>
   );

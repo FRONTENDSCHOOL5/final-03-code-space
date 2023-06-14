@@ -80,8 +80,7 @@ const SItemStyle = styled.li`
     font-weight: 400;
     line-height: 14px;
     font-size: 10px;
-    svg {
-    }
+
     img {
       margin-bottom: 7px;
       &.active {
