@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
-import LoginHeader from '../Components/Common/LoginHeader';
-import Input from '../Components/Common/Input';
-import Button from '../Components/Common/Button';
+import Modal from '../Components/Common/Modal';
 
 import { useSetRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
@@ -15,12 +12,9 @@ const LoginPage = () => {
   const [userPassword, setUserPassword] = useState('');
 
   const setTokenAtom = useSetRecoilState(setToken);
-
   const isToken = useRecoilValue(setToken);
 
-  console.log(isToken);
-
-  const InputHandler = e => {
+  const inputHandler = (e) => {
     if (e.target.type === 'email') {
       setUserEmail(e.target.value);
     } else if (e.target.type === 'password') {
@@ -28,10 +22,7 @@ const LoginPage = () => {
     }
   };
 
-  console.log(userEmail, userPassword);
-
-  async function LoginSubmit(e) {
-    console.log('gkjgkg');
+  async function loginSubmit(e) {
     e.preventDefault();
     const url = 'https://api.mandarin.weniv.co.kr';
 
@@ -50,61 +41,23 @@ const LoginPage = () => {
           },
         },
       );
-      console.log(response.data.user.token);
-      setTokenAtom(response.data.user.token);
+      const userData = response.data.user;
+      console.log(userData.token);
+      setTokenAtom(userData.token);
     } catch (error) {
       console.error(error);
     }
   }
 
   return (
-    <SMain onSubmit={LoginSubmit}>
-      <LoginHeader HeadTitle="로그인" />
-      <Input
-        id="user-email"
-        type="email"
-        placeholder="email"
-        label="이메일"
-        LabelHtmlFor="user-email"
-        value={userEmail}
-        onChange={InputHandler}
-      />
-      <Input
-        id="user-password"
-        type="password"
-        placeholder="password"
-        label="비밀번호"
-        LabelHtmlFor="user-password"
-        value={userPassword}
-        onChange={InputHandler}
-      />
-      <SBtnBox>
-        <Button type="submit">다음</Button>
-      </SBtnBox>
-    </SMain>
+    <Modal
+      title="로그인"
+      loginSubmit={loginSubmit}
+      userEmail={userEmail}
+      userPassword={userPassword}
+      inputHandler={inputHandler}
+    />
   );
 };
 
 export default LoginPage;
-
-const SMain = styled.form`
-  max-width: 390px;
-  margin: 0 auto;
-  background-color: var(--black);
-  height: 100vh;
-
-  .Error {
-    margin-left: 32px;
-    margin-top: -10px;
-    font-size: 12px;
-    color: #2bae66;
-  }
-
-  Button {
-    margin-top: 20px;
-  }
-`;
-
-const SBtnBox = styled.div`
-  margin: 16px 32px;
-`;
