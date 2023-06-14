@@ -1,11 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import ProductCard from './ProductCard';
 
 export default function ProductList() {
-  // 상품 요청 (토큰 필요)
+  const [productData, setProductData] = useState([]);
 
-  // 상품이 있을 때
+  const URL = 'https://api.mandarin.weniv.co.kr';
+  // const reqPath = `/product/${accountname}`;
+  const reqPath = `/product/Alphca/`;
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  async function getUserData() {
+    try {
+      const response = await axios.get(URL + reqPath, {
+        method: 'get',
+        headers: {
+          // 상품 요청 (토큰 필요)
+          // Authorization: `Bearer ${token}`
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzc0YjJjYjIwNTY2MzJkMDAwNSIsImV4cCI6MTY5MDY5NDI2NywiaWF0IjoxNjg1NTEwMjY3fQ.5zJTqiHvH3B0rRBfkV9_BQH6atdJX6qg5V3P99I7T8M',
+          'Content-type': 'application/json',
+        },
+      });
+      console.log(response.data.product);
+
+      const productData = response.data.product;
+      setProductData(productData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <SLayout>
       <SProductListTitle>판매 중인 상품</SProductListTitle>
@@ -17,8 +46,6 @@ export default function ProductList() {
       </SProductList>
     </SLayout>
   );
-
-  // 상품이 없을 때
 }
 
 const SLayout = styled.div`
