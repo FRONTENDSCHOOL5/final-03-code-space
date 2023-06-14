@@ -1,35 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import backIcon from '../../assets/icon-arrow-left.svg';
 import searchIcon from '../../assets/icon-search.svg';
 import Button from './Button';
-import { useRecoilValue } from 'recoil';
-import { headerToggle } from '../../Atom/atom';
-import { useSetRecoilState } from 'recoil';
 
-const MainHeader = () => {
-  const headerToggleState = useRecoilValue(headerToggle);
-  const setHeaderToggleState = useSetRecoilState(headerToggle);
-
-  function goSearch() {
-    if (headerToggleState === 'feed') {
-      setHeaderToggleState('search');
-    } else {
-      setHeaderToggleState('feed');
-    }
-  }
-
+const MainHeader = ({ type }) => {
   return (
     <>
       <SLayout>
-        {headerToggleState === 'feed' ? (
+        {type === 'feed' ? (
           <>
-            <div>코드스페이스</div>
-            <img src={searchIcon} alt="돋보기" onClick={goSearch}></img>
+            <div>코드허브 피드</div>
+            <img src={searchIcon} alt="돋보기"></img>
           </>
         ) : type === 'search' ? (
           <>
-            <img src={backIcon} alt="뒤로가기" onClick={goSearch}></img>
+            <img src={backIcon} alt="뒤로가기"></img>
             <SSearch type="text" placeholder="Search" />
           </>
         ) : type === 'profile' ? (

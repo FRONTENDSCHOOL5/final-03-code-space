@@ -9,7 +9,6 @@ import { SMainLayout } from '../Styles/MainLayoutStyle';
 import { useRecoilValue } from 'recoil';
 import { useSetRecoilState } from 'recoil';
 import { headerToggle } from '../Atom/atom';
-import MainHeader from '../Components/Common/MainHeader';
 
 // 피드 메인 페이지
 const FeedPage = () => {
@@ -23,7 +22,7 @@ const FeedPage = () => {
 
   return (
     <>
-      <MainHeader />
+      <MainHeader type="feed" />
       {headerToggleState === 'feed' ? (
         <>
           <STagLayout>
@@ -43,15 +42,7 @@ const FeedPage = () => {
 export default FeedPage;
 
 // FeedPage =====================================================
-const SMain = styled.div`
-  max-width: 390px;
-  margin: 0 auto;
-  background-color: var(--black);
-  min-height: 100vh;
-  padding-bottom: 64px;
-  color: var(--white);
-  font-family: var(--content-font);
-`;
+
 const STagLayout = styled.div`
   display: flex;
   gap: 10px;

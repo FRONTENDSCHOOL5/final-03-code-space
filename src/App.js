@@ -14,7 +14,6 @@ import MyProfilePage from './Pages/MyProfilePage';
 import SearchPage from './Pages/SearchPage';
 import FeedDetailPage from './Pages/FeedDetailPage';
 import { SMainLayout } from './Styles/MainLayoutStyle';
-import { SMainLayout } from './Styles/MainLayoutStyle';
 
 function App() {
   return (
