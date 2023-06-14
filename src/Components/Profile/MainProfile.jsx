@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import profileImg from '../../assets/img/profile-img.png';
-import iconChat from '../../assets/icons/chat.png';
-import iconShare from '../../assets/icons/share.png';
 import Button from '../Common/Button';
 
 export default function MainProfile() {
@@ -71,10 +69,10 @@ export default function MainProfile() {
 
       <SBtnBox>
         <Button width="120px" myProfileBtn={true}>
-          프로필 수정
+          <Link to="/profile">프로필 수정</Link>
         </Button>
         <Button width="100px" myProfileBtn={true}>
-          상품 등록
+          <Link to="/product">상품 등록</Link>
         </Button>
       </SBtnBox>
     </SProfileLayout>
