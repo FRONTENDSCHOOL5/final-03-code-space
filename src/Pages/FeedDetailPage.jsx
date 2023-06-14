@@ -6,6 +6,7 @@ import iconComment from '../assets/icons/chat-green.svg';
 import profileImg from '../assets/default-profile-image.svg';
 import { useLocation } from 'react-router-dom';
 import MainHeader from '../Components/Common/MainHeader';
+import Comment from '../Components/Feed/Comment';
 import BottomNav from '../Components/Common/BottomNav';
 import {
   SFeedCard,
@@ -30,20 +31,12 @@ const APIDefaultImage = 'http://146.56.183.55:5050/Ellipse.png';
 const FeedDetailPage = () => {
   const location = useLocation();
 
-  console.log(location.state);
-
   const feedList = location.state.item;
   const extracted = location.state.extracted;
   const remaining = location.state.remaining;
 
-  const commentContent = FetchComment(feedList.id);
-
-  const [commentList, setCommentList] = useState([]);
-
-  const handleCommentListChange = newCommentList => {
-    setCommentList(newCommentList);
-  };
-  console.log(commentList);
+  const [commentList, setCommentList] = useState({});
+  const [isFetchData, setIsFetchData] = useState(false);
 
   const commentArray = [];
   feedList.comments.map(comment => {
@@ -86,10 +79,24 @@ const FeedDetailPage = () => {
           <SAccountname>{feedList.createdAt.slice(0, 10)}</SAccountname>
         </SReactionContainer>
       </SFeedCard>
+      <Comment
+        feedList={feedList}
+        commentList={commentList}
+        setCommentList={setCommentList}
+        isFetchData={isFetchData}
+        setIsFetchData={setIsFetchData}
+      />
       {/* <div>{FetchComment(feedList.id).content}</div> */}
       <div>{/* <img src={feedList.}/> */}</div>
-      <FetchComment postID={feedList.id} setCommentList={setCommentList} />
-      <WriteComment />
+      {/* <FetchComment postID={feedList.id} setIsFetchData={setIsFetchData} setCommentList={setCommentList} /> */}
+      {/* {isFetchData ? <div>{commentList.map(comment => comment.content)}</div> : <div>실패</div>} */}
+      <WriteComment
+        feedList={feedList}
+        commentList={commentList}
+        setCommentList={setCommentList}
+        isFetchData={isFetchData}
+        setIsFetchData={setIsFetchData}
+      />
     </>
   );
 };
