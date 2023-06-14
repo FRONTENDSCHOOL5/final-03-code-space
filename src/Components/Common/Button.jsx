@@ -33,6 +33,14 @@ const SButton = styled.button`
       border: 1px solid #6f6f6f;
     `}
 
+  ${props =>
+    props.myProfileBtn &&
+    css`
+      background-color: transparent;
+      color: #cacaca;
+      border: 1px solid #6f6f6f;
+    `}
+
   &:hover {
     transition: all 0.3s;
     background-color: var(--darkgray);

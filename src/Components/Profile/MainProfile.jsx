@@ -1,5 +1,6 @@
-// import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import profileImg from '../../assets/img/profile-img.png';
 import iconChat from '../../assets/icons/chat.png';
@@ -7,24 +8,65 @@ import iconShare from '../../assets/icons/share.png';
 import Button from '../Common/Button';
 
 export default function MainProfile() {
+  const [userData, setUserData] = useState({
+    followerCount: 0,
+    followingCount: 0,
+    username: '',
+    accountname: '',
+    intro: '',
+  });
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  const URL = 'https://api.mandarin.weniv.co.kr';
+
+  async function getUserData() {
+    try {
+      const response = await axios.get(`${URL}/user/myinfo`, {
+        url: `${URL}/user/myinfo`,
+        method: 'get',
+        headers: {
+          // Authorization: `Bearer ${token}`
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzc0YjJjYjIwNTY2MzJkMDAwNSIsImV4cCI6MTY5MDY5NDI2NywiaWF0IjoxNjg1NTEwMjY3fQ.5zJTqiHvH3B0rRBfkV9_BQH6atdJX6qg5V3P99I7T8M',
+        },
+      });
+      console.log(response.data);
+
+      const userData = response.data.user;
+
+      setUserData({
+        followerCount: userData.followerCount,
+        followingCount: userData.followingCount,
+        username: userData.username,
+        accountname: userData.accountname,
+        intro: userData.intro,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <SProfileLayout>
       <SProfileImgBox>
         <SFollowLink to="/follow">
-          <strong>followerCount</strong>
+          <strong>{userData.followerCount}</strong>
           <p>followers</p>
         </SFollowLink>
         <img src={profileImg} alt="" />
         <SFollowLink to="/following">
-          <strong>followingCount</strong>
+          <strong>{userData.followingCount}</strong>
           <p>followings</p>
         </SFollowLink>
       </SProfileImgBox>
 
       <SProfileInfo>
-        <strong>username</strong>
-        <p>accountname</p>
-        <p>intro</p>
+        <strong>{userData.username}</strong>
+        <p>{userData.accountname}</p>
+        <p>{userData.intro}</p>
       </SProfileInfo>
 
       <SBtnBox>
