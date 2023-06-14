@@ -9,7 +9,6 @@ export const setToken = atom({
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
-import { atom } from 'recoil';
 
 export const headerToggle = atom({
   key: 'headerToggle',

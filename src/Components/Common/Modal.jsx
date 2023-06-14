@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from './Button';
 
-const Modal = ({ title, loginSubmit, userEmail, userPassword, inputHandler }) => {
+const Modal = ({ title, loginSubmit, userEmail, userPassword, inputHandler, showErrorMessage}) => {
   const isFormValid = userEmail !== '' && userPassword !== '';
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const navigate = useNavigate();
 
   const handleLoginSubmit = e => {
     e.preventDefault();
-    if (userEmail === 'zxcasd1111@naver.com' && userPassword === '111222333') {
       loginSubmit(e);
-      navigate('/feed'); // 로그인 성공 시 main 피드로 이동
-    } else {
-      setShowErrorMessage(true);
-    }
+     
   };
 
   return (

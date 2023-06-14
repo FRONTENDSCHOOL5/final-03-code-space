@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Modal from '../Components/Common/Modal';
 
@@ -8,11 +9,14 @@ import { useRecoilValue } from 'recoil';
 import { setToken } from '../Atom/atom';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
   const setTokenAtom = useSetRecoilState(setToken);
   const isToken = useRecoilValue(setToken);
+
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   const inputHandler = (e) => {
     if (e.target.type === 'email') {
@@ -44,7 +48,9 @@ const LoginPage = () => {
       const userData = response.data.user;
       console.log(userData.token);
       setTokenAtom(userData.token);
+      navigate('/feed'); // 로그인 성공 시 main 피드로 이동
     } catch (error) {
+      setShowErrorMessage(true);
       console.error(error);
     }
   }
@@ -56,6 +62,7 @@ const LoginPage = () => {
       userEmail={userEmail}
       userPassword={userPassword}
       inputHandler={inputHandler}
+      showErrorMessage={showErrorMessage}
     />
   );
 };
