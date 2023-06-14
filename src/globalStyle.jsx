@@ -1,33 +1,42 @@
-import 'normalize.css';
-
 const { createGlobalStyle } = require('styled-components');
+const { default: reset } = require('styled-reset');
+
 const GlobalStyle = createGlobalStyle`
+ ${reset}
+
 
 @font-face {
     font-family: 'NEXON Lv1 Gothic OTF';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-    
 }
+
 @font-face {
     font-family: 'YESGothic-Regular';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_13@1.0/YESGothic-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
+
 :root{
-    
-    --point-color: #2BAE66;
-    --black: #16171e;
-    --white: #F0F0F0;
+    // color
+    --point-color: #2bae66;
+    --secondary-color: #b1e0C6;
 
-    --lightgray:#aaaaaa;
-    --gray:#adadad;
-    --darkgray:#767676;
+    --black: #16171e; 
+    --white: #f0f0f0;
 
+    --lightgray:#cacaca;
+    --gray:#aaaaaa;
+    --darkgray:#787878;
+ 
+    --nav-icon-color: #adadad;
+    --border-gray:#6f6f6f;
+
+    // font
     --title-font : 'NEXON Lv1 Gothic OTF';
-    --content-font : 'YESGothic-Regular';
+    --default-font : 'YESGothic-Regular';
  }
 
  * {
@@ -49,8 +58,10 @@ ul{
     margin:0;
     padding:0;
 }
+
 a{
     text-decoration: none;
+    color: inherit;
 }
 
 li{
@@ -61,10 +72,6 @@ li{
     background:none;
     border: none;
  }
-
- a{
-    text-decoration: none;
-}
 
 p{
     margin:0;
