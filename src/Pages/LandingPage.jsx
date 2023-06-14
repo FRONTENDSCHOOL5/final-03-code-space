@@ -42,7 +42,7 @@ const LandingPage = () => {
         <Link to="" className="EmailLink">
           이메일로 로그인
         </Link>
-        <Link to="" className="SignUpLink">
+        <Link to="/signup" className="SignUpLink">
           회원가입
         </Link>
       </FootLink>
