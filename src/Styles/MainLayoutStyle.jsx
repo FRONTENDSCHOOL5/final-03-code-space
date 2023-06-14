@@ -1,13 +1,4 @@
-import React from 'react';
 import styled from 'styled-components';
-
-export default function MainLayout() {
-  return (
-    <>
-      <SMainLayout />
-    </>
-  );
-}
 
 const SMainLayout = styled.div`
   margin: 0 auto;
@@ -15,3 +6,4 @@ const SMainLayout = styled.div`
   background-color: var(--black);
   height: 100vh;
 `;
+export { SMainLayout };
