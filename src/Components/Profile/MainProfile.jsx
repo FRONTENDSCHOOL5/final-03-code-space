@@ -82,7 +82,7 @@ export default function MainProfile() {
 const SProfileLayout = styled.section`
   box-shadow: inset 0 0 20px red;
   background-color: var(--black);
-  padding: 30px 0 26px;
+  padding: 30px 16px 26px;
   font-family: var(--default-font);
 `;
 

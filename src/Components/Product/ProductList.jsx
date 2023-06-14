@@ -29,6 +29,7 @@ const SLayout = styled.div`
 const SProductList = styled.div`
   display: flex;
   gap: 10px;
+  overflow: hidden;
   box-shadow: inset 0px 0px 10px red;
 `;
 

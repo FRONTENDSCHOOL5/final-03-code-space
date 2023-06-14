@@ -1,12 +1,16 @@
 import React from 'react';
-import ProductList from '../Components/Product/ProductList';
+import MainHeader from '../Components/Common/MainHeader';
+import BottomNav from '../Components/Common/BottomNav';
 import MainProfile from '../Components/Profile/MainProfile';
+import ProductList from '../Components/Product/ProductList';
 
 const MyProfile = () => {
   return (
     <>
+      <MainHeader />
       <MainProfile />
       <ProductList />
+      <BottomNav />
     </>
   );
 };
