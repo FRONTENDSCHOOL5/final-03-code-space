@@ -2,10 +2,13 @@ import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg'
+import delImg from '../assets/icons/del.svg'
 
 const PostPage = () => {
   const url = "https://api.mandarin.weniv.co.kr/";
+
   const photoInput = useRef();
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState('');
   const [photoAddList, setPhotoAddList] = useState([]);
@@ -20,7 +23,7 @@ const PostPage = () => {
     setIsOpen(false);
   };
 
-  // 사진 업로드 버튼 클릭시 파일 선택 가능
+  // 이미지 업로드 버튼 클릭시 파일 선택 가능
   const handleClick = () => {
     photoInput.current.click();
   }
@@ -40,15 +43,29 @@ const PostPage = () => {
     setPhotoAddList(tmp.concat(photoAddList))
   }
 
-  const photoAddPreview = () => {
-    return photoAddList.map((photo) => {
-      return (
-        <SImgBox key={photo.url}>
-          <SPreviewImg src={photo.url}></SPreviewImg>
-        </SImgBox>
-      )
-    })
+  // 이미지 삭제
+  const onRemoveAdd = (deleteUrl) => {
+    setPhotoAddList(photoAddList.filter(photo => photo.url != deleteUrl))
   }
+
+  // 이미지 미리보기
+  const photoAddPreview = () => {
+    return (
+      <SImgContainer>
+      { photoAddList.map((photo, index) => {
+        const imgWidth = photoAddList.length === 1 ? '350px' : '100px';
+        const imgMargin = photoAddList.length === 1 ? '20px' : '10px';
+        return (
+            <SImgBox key={photo.url}>
+              <SDelBtn onClick={()=>onRemoveAdd(photo.url)}></SDelBtn>
+              <SPreviewImg src={photo.url} style={{ width: imgWidth, margin: imgMargin}}></SPreviewImg>
+            </SImgBox>
+        );
+      })
+      }
+      </SImgContainer>
+    );
+  };
 
   return(
     <SMain>
@@ -82,10 +99,11 @@ const PostPage = () => {
 export default PostPage;
 
 const SMain = styled.div`
+  position: relative;
   max-width: 390px;
   margin: 0 auto;
   background-color: var(--black);
-  height: 100vh;
+  min-height: 100vh;
 `;
 
 const DropdownWrapper = styled.div`
@@ -166,8 +184,10 @@ const SPostContent = styled.textarea`
 `;
 
 const SUploadImgBtn = styled.div`
+  position: fixed;
+  bottom: 10px;
+  right: 580px;
   display: flex;
-  float: right;
   align-items: end;
   width: 50px;
   height: 50px;
@@ -181,12 +201,30 @@ const SInputImg = styled.input`
   display: none;
 `;
 
+const SImgContainer = styled.div`
+  display: flex;
+`;
+
 const SImgBox = styled.div`
-  width: 100%;
-`
+  flex: 1;
+  position: relative;
+`;
 
 const SPreviewImg = styled.img`
-  width: 350px;
-  margin: 20px;
   border-radius: 10px;
+`;
+
+const SDelBtn = styled.div`
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 30px;
+  height: 30px;
+  background-image: url(${delImg});
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 `;
