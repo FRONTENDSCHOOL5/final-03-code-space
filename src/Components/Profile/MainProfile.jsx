@@ -1,4 +1,5 @@
 // import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import profileImg from '../../assets/img/profile-img.png';
 import iconChat from '../../assets/icons/chat.png';
@@ -9,12 +10,12 @@ export default function MainProfile() {
   return (
     <SProfileLayout>
       <SProfileImgBox>
-        <SFollowLink to="/followers">
+        <SFollowLink to="/follow">
           <strong>followerCount</strong>
           <p>followers</p>
         </SFollowLink>
         <img src={profileImg} alt="" />
-        <SFollowLink to="/followings">
+        <SFollowLink to="/following">
           <strong>followingCount</strong>
           <p>followings</p>
         </SFollowLink>
@@ -54,7 +55,7 @@ const SProfileImgBox = styled.div`
   }
 `;
 
-const SFollowLink = styled.div`
+const SFollowLink = styled(Link)`
   text-align: center;
 
   strong {
