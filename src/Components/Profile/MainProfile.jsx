@@ -70,9 +70,12 @@ export default function MainProfile() {
       </SProfileInfo>
 
       <SBtnBox>
-        <SChatBtn />
-        <Button width="120px">isfollow</Button>
-        <SShareBtn />
+        <Button width="120px" myProfileBtn={true}>
+          프로필 수정
+        </Button>
+        <Button width="100px" myProfileBtn={true}>
+          상품 등록
+        </Button>
       </SBtnBox>
     </SProfileLayout>
   );
@@ -144,20 +147,9 @@ const SProfileInfo = styled.div`
 
 const SBtnBox = styled.div`
   box-shadow: inset 0 0 20px red;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  align-items: center;
-`;
+  text-align: center;
 
-const SChatBtn = styled.button`
-  background: url(${iconChat}) no-repeat center/ 15px 15px;
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--border-gray);
-  border-radius: 50%;
-`;
-
-const SShareBtn = styled(SChatBtn)`
-  background: url(${iconShare}) no-repeat center/ 20px 20px;
+  button:first-child {
+    margin-right: 12px;
+  }
 `;
