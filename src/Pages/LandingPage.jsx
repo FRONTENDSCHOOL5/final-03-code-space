@@ -6,7 +6,6 @@ import LogoTitile from '../assets/img/Code Space.png';
 import kakaoIcon from '../assets/icons/kakao.svg';
 import GoogleIcon from '../assets/icons/google.svg';
 import FacebookIcon from '../assets/icons/facebook.svg';
-
 import Button from '../Components/Common/Button';
 
 const LandingPage = () => {
