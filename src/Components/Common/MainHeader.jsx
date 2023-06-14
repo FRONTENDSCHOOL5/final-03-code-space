@@ -3,20 +3,26 @@ import styled from 'styled-components';
 import backIcon from '../../assets/icon-arrow-left.svg';
 import searchIcon from '../../assets/icon-search.svg';
 import Button from './Button';
-const MainHeader = ({ toggle, setToggle }) => {
+import { useRecoilValue } from 'recoil';
+import { headerToggle } from '../../Atom/atom';
+import { useSetRecoilState } from 'recoil';
+
+const MainHeader = () => {
+  const headerToggleState = useRecoilValue(headerToggle);
+  const setHeaderToggleState = useSetRecoilState(headerToggle);
+
   function goSearch() {
-    if (toggle === 'feed') {
-      setToggle('search');
+    if (headerToggleState === 'feed') {
+      setHeaderToggleState('search');
     } else {
-      setToggle('feed');
+      setHeaderToggleState('feed');
     }
   }
-  console.log(toggle);
 
   return (
     <>
       <SLayout>
-        {toggle === 'feed' ? (
+        {headerToggleState === 'feed' ? (
           <>
             <div>코드스페이스</div>
             <img src={searchIcon} alt="돋보기" onClick={goSearch}></img>

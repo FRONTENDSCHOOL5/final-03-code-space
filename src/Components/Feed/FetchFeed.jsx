@@ -9,7 +9,7 @@ const FetchFeed = () => {
   const Authorization =
     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
 
-  const [fetchData, setfetchData] = useState(false);
+  const [isFetchData, setIsFetchData] = useState(false);
   const [FeedList, setFeedList] = useState([]);
 
   useEffect(() => {
@@ -31,9 +31,8 @@ const FetchFeed = () => {
       for (let i = 0; i < response.data.posts.length; i++) {
         FeedListArr.push(response.data.posts[i]);
       }
-      console.log(FeedListArr);
       setFeedList(FeedListArr);
-      setfetchData(true);
+      setIsFetchData(true);
     } catch (error) {
       console.error(error);
     }
@@ -41,7 +40,7 @@ const FetchFeed = () => {
 
   return (
     <>
-      <Post fetchData={fetchData} FeedList={FeedList} />
+      <Post isFetchData={isFetchData} FeedList={FeedList} />
     </>
   );
 };
