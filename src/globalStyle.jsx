@@ -2,7 +2,7 @@ const { createGlobalStyle } = require('styled-components');
 const { default: reset } = require('styled-reset');
 
 const GlobalStyle = createGlobalStyle`
- ${reset}
+${reset}
 
 
 @font-face {

@@ -19,12 +19,6 @@ function App() {
     <div>
       <GlobalStyle />
       <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/btmnav" element={<BottomNav />} />
-        <Route path="/loginheader" element={<LoginHeader />} />
-        <Route path="/mainheader" element={<MainHeader />} />
-        <Route path="/landing" element={<LandingPage />} />
-        <Route path="/product" element={<ProductPage />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/feed" element={<FeedPage />} />
         <Route path="/search" element={<SearchPage />} />

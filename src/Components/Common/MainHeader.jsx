@@ -16,7 +16,13 @@ const MainHeader = ({ type }) => {
         type === 'save' ? (
           <>
             <img src={backIcon} alt="뒤로가기"></img>
-            <SSaveBtn>Save</SSaveBtn>
+            <SSaveBtn>저장</SSaveBtn>
+          </>
+        ) :
+        type === 'upload' ? (
+          <>
+            <img src={backIcon} alt="뒤로가기"></img>
+            <SSaveBtn>업로드</SSaveBtn>
           </>
         ) :
         (
