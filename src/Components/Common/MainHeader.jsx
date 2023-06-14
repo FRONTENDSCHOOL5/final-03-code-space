@@ -27,11 +27,23 @@ const MainHeader = () => {
             <div>코드스페이스</div>
             <img src={searchIcon} alt="돋보기" onClick={goSearch}></img>
           </>
-        ) : (
+        ) : type === 'search' ? (
           <>
             <img src={backIcon} alt="뒤로가기" onClick={goSearch}></img>
             <SSearch type="text" placeholder="Search" />
           </>
+        ) : type === 'profile' ? (
+          <>
+            <img src={backIcon} alt="뒤로가기"></img>
+            <img src={searchIcon} alt="돋보기"></img>
+          </>
+        ) : type === 'upload' ? (
+          <>
+            <img src={backIcon} alt="뒤로가기"></img>
+            <img src={searchIcon} alt="돋보기"></img>
+          </>
+        ) : (
+          <>에러</>
         )}
       </SLayout>
     </>
@@ -45,9 +57,9 @@ const SLayout = styled.div`
   max-width: 390px;
   max-height: 48px;
   margin: 0 auto;
-  border-bottom: 1px solid #767676;
+  border-bottom: 1px solid var(--darkgray);
   background-color: var(--black);
-  color: #f8f8f8;
+  color: var(--white);
   padding: 15px;
   box-sizing: border-box;
   font-family: var(--title-font);

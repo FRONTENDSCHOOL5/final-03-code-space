@@ -4,3 +4,7 @@ export const headerToggle = atom({
   key: 'headerToggle',
   default: 'feed',
 });
+export const bottomNavIndex = atom({
+  key: 'bottomNavIndex',
+  default: 0,
+});

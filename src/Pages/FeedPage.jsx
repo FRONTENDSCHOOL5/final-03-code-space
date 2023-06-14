@@ -9,6 +9,7 @@ import { SMainLayout } from '../Styles/MainLayoutStyle';
 import { useRecoilValue } from 'recoil';
 import { useSetRecoilState } from 'recoil';
 import { headerToggle } from '../Atom/atom';
+import MainHeader from '../Components/Common/MainHeader';
 
 // 피드 메인 페이지
 const FeedPage = () => {

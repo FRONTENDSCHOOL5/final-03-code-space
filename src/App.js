@@ -14,28 +14,31 @@ import MyProfilePage from './Pages/MyProfilePage';
 import SearchPage from './Pages/SearchPage';
 import FeedDetailPage from './Pages/FeedDetailPage';
 import { SMainLayout } from './Styles/MainLayoutStyle';
+import { SMainLayout } from './Styles/MainLayoutStyle';
 
 function App() {
   return (
     <div>
       <GlobalStyle />
       <SMainLayout>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/feed" element={<FeedPage />} />
-          <Route path="/feeddetail" element={<FeedDetailPage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/profile" element={<ProfileSetPage />} />
-          <Route path="/myprofile" element={<MyProfilePage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/messagelist" element={<MessageListPage />} />
-          <Route path="/messagelist" element={<MessagePage />} />
-          <Route path="/post" element={<PostPage />} />
-          <Route path="/follow" element={<FollowPage />} />
-          <Route path="/following" element={<FollowingPage />} />
-        </Routes>
-        /
+        <SMainLayout>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/feed" element={<FeedPage />} />
+            <Route path="/feeddetail" element={<FeedDetailPage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/profile" element={<ProfileSetPage />} />
+            <Route path="/myprofile" element={<MyProfilePage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/messagelist" element={<MessageListPage />} />
+            <Route path="/message" element={<MessagePage />} />
+            <Route path="/post" element={<PostPage />} />
+            <Route path="/follow" element={<FollowPage />} />
+            <Route path="/following" element={<FollowingPage />} />
+          </Routes>
+          /
+        </SMainLayout>
       </SMainLayout>
     </div>
   );

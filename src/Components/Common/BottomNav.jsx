@@ -6,25 +6,31 @@ import chatIcon from '../../assets/icons/chat.svg';
 import postIcon from '../../assets/icons/post.svg';
 import profileIcon from '../../assets/icons/profile.svg';
 
+import { useRecoilValue } from 'recoil';
+import { useSetRecoilState } from 'recoil';
+import { bottomNavIndex } from '../../Atom/atom';
+
 export default function BottomNav() {
-  const navItems = ['feed', 'chat', 'post', 'myprofile'];
+  const navItems = ['feed', 'message', 'post', 'myprofile'];
   const imgs = [homeIcon, chatIcon, postIcon, profileIcon];
-  const [activeIndex, setActiveIndex] = useState(0);
+
+  const bottomNavIndexState = useRecoilValue(bottomNavIndex);
+  const setBottomNavIndexState = useSetRecoilState(bottomNavIndex);
 
   const handleClick = index => {
-    setActiveIndex(index);
+    setBottomNavIndexState(index);
   };
 
   return (
     <SNavLayout>
       <SListStyle>
         {navItems.map((item, index) => (
-          <SItemStyle key={index} active={index === activeIndex}>
+          <SItemStyle key={index} active={index === bottomNavIndexState}>
             <LinkBtn
               url={item}
               src={imgs[index]}
               text={item}
-              active={index === activeIndex}
+              active={index === bottomNavIndexState}
               onClick={() => handleClick(index)}
             />
           </SItemStyle>
@@ -41,7 +47,7 @@ const LinkBtn = ({ src, text, active, onClick, url }) => {
       <p className={active ? 'active' : ''}>
         {text === 'feed'
           ? '홈'
-          : '홈' && text === 'chat'
+          : '홈' && text === 'message'
           ? '채팅'
           : '채팅' && text === 'post'
           ? '게시글작성'
