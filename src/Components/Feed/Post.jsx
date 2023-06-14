@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { useNavigate } from 'react-router-dom';
 import { extractString } from './extractString';
 
 import iconHeart from '../../assets/icons/heart.svg';
@@ -8,10 +8,15 @@ import iconComment from '../../assets/icons/chat-green.svg';
 import profileImg from '../../assets/default-profile-image.svg';
 const APIDefaultImage = 'http://146.56.183.55:5050/Ellipse.png';
 
-const Post = ({ fetchData, FeedList }) => {
+const Post = ({ isFetchData, FeedList }) => {
+  const navigate = useNavigate();
+  function goFeedDetail(item, extracted, remaining) {
+    navigate('/feeddetail', { state: { item, extracted, remaining } });
+  }
+
   return (
     <>
-      {fetchData === false ? (
+      {isFetchData === false ? (
         <div>로딩중....</div>
       ) : (
         <div>
@@ -23,7 +28,7 @@ const Post = ({ fetchData, FeedList }) => {
             }
             const { extracted, remaining } = extractedData;
             return (
-              <SFeedCard key={item.id}>
+              <SFeedCard key={item.id} onClick={() => goFeedDetail(item, extracted, remaining)}>
                 <SAuthor>
                   {item.author.image === APIDefaultImage ? (
                     <SProfileImg src={profileImg} alt="프사" />
@@ -62,6 +67,7 @@ const Post = ({ fetchData, FeedList }) => {
 };
 
 export default Post;
+
 const STitle = styled.div`
   color: var(--white);
   word-break: break-all;
@@ -90,14 +96,13 @@ const SFeedCard = styled.div`
   border: 1px solid var(--darkgray);
   padding: 20px;
   box-sizing: border-box;
+  cursor: pointer;
 `;
 const SAuthor = styled.div`
   display: flex;
   align-items: center;
 
   gap: 10px;
-
-  cursor: pointer;
 `;
 const SProfileImg = styled.img`
   max-width: 46px;
