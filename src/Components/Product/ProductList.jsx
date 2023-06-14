@@ -22,8 +22,8 @@ export default function ProductList() {
 }
 
 const SLayout = styled.div`
-  padding: 20px;
-  background-color: var(--black);
+  box-shadow: inset 0px 0px 10px red;
+  padding-left: 16px;
 `;
 
 const SProductList = styled.div`
