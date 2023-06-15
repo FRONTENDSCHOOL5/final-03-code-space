@@ -17,6 +17,13 @@ const ProductPage = () => {
 
 export default ProductPage;
 
+const SMain = styled.div`
+  max-width: 390px;
+  margin: 0 auto;
+  background-color: var(--black);
+  height: 100vh;
+`;
+
 const SImgBg = styled.div`
   margin: 34px;
   width: 322px;
