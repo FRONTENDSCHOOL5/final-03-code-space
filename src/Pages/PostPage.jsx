@@ -8,11 +8,11 @@ import axios from 'axios';
 const PostPage = () => {
   const url = "https://api.mandarin.weniv.co.kr/";
 
-  const photoInput = useRef();
+  const imgInput = useRef();
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState('');
-  const [photoAddList, setPhotoAddList] = useState([]);
+  const [imgAddList, setImgAddList] = useState([]);
 
   // 카테고리 드롭다운
   const toggleDropdown = () => {
@@ -26,50 +26,58 @@ const PostPage = () => {
 
   // 이미지 업로드 버튼 클릭시 파일 선택 가능
   const handleClick = () => {
-    photoInput.current.click();
+    imgInput.current.click();
   }
 
-  const handlePhoto = async (file) => {
+
+  // 이미지 서버 업로드
+  const handleUploadImg = async (e) => {
+    const file = e.target.files[0];
     const formData = new FormData();
     formData.append('image', file);
 
+    for(let value of formData.values()){
+      console.log(value);
+    }
+
+    const config = {
+      headers:{'Content-Type': 'multipart/form-data',}
+    };
+
     try {
-      const response = await axios.post(url + "/image/uploadfile/", formData, {
-          headers: {'Content-Type': 'multipart/form-data',},
-      });
+      const response = await axios.post(url+"image/uploadfiles/", formData, config).then(alert("업로드완료!"));
+      const uploadedImageUrl = response.data[0].filename;
+      console.log(uploadedImageUrl);
+      setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
       console.log(response);
-      
-      const postImgName = response.data[0].filename;
-      return postImgName;
-    } catch (error) {
-      //응답 실패
-      console.error(error);
+    }catch (error) {
+      console.log(error);
     }
   }
 
-  // 이미지 삭제
-  const onRemoveAdd = (deleteUrl) => {
-    setPhotoAddList(photoAddList.filter(photo => photo.url != deleteUrl))
-  }
-
   // 이미지 미리보기
-  const photoAddPreview = () => {
-    return (
+  const imgAddPreview = () => {
+    return(
       <SImgContainer>
-      { photoAddList.map((photo, index) => {
-        const imgWidth = photoAddList.length === 1 ? '350px' : '100px';
-        const imgMargin = photoAddList.length === 1 ? '20px' : '10px';
-        return (
-            <SImgBox key={photo.url}>
-              <SDelBtn onClick={()=>onRemoveAdd(photo.url)}></SDelBtn>
-              <SPreviewImg src={photo.url} style={{ width: imgWidth, margin: imgMargin}}></SPreviewImg>
+        {imgAddList.map((img, index) => {
+          const imgWidth = imgAddList.length === 1 ? '350px' : '100px';
+          const imgMargin = imgAddList.length === 1 ? '20px' : '10px';
+          return(
+            <SImgBox key={index}>
+              <SDelBtn onClick={()=> onRemoveAdd(img.url)}></SDelBtn>
+              <SPreviewImg src={url+img.url} style={{width: imgWidth, margin: imgMargin}}></SPreviewImg>
             </SImgBox>
-        );
-      })
-      }
+          );
+        })};
       </SImgContainer>
     );
   };
+
+
+  // 이미지 삭제
+  const onRemoveAdd = (deleteUrl) => {
+    setImgAddList(imgAddList.filter(img => img.url != deleteUrl))
+  }
 
   return(
     <SMain>
@@ -90,10 +98,10 @@ const PostPage = () => {
       </STitle>
       <SPostContent placeholder="게시글 입력하기..."></SPostContent>
 
-      {photoAddPreview()}
+      {imgAddPreview()}
 
       <SUploadImgBtn onClick={handleClick}>
-        <SInputImg type="file" accept="image/jpg, image/jpeg, image/png" multiple ref={photoInput} onChange={(e) => handlePhoto(e)}></SInputImg>
+        <SInputImg type="file" accept="image/jpg, image/jpeg, image/png" multiple ref={imgInput} onChange={handleUploadImg}></SInputImg>
     </SUploadImgBtn>
   </SMain>
   );
@@ -187,11 +195,11 @@ const SPostContent = styled.textarea`
 `;
 
 const SUploadImgBtn = styled.div`
-  position: fixed;
+  /* position: fixed;
   bottom: 10px;
   right: 580px;
   display: flex;
-  align-items: end;
+  align-items: end; */
   width: 50px;
   height: 50px;
   margin: 20px;
