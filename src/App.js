@@ -34,6 +34,7 @@ function App() {
           <Route path="/messagelist" element={<MessageListPage />} />
           <Route path="/message" element={<MessagePage />} />
           <Route path="/post" element={<PostPage />} />
+          <Route path="/product" element={<ProductPage />} />
           <Route path="/follow" element={<FollowPage />} />
           <Route path="/following" element={<FollowingPage />} />
           <Route path="/Modal" element={<Modal />} />

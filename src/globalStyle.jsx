@@ -7,11 +7,7 @@ function setScreenSize() {
 }
 setScreenSize();
 const GlobalStyle = createGlobalStyle`
-<<<<<<< HEAD
-${reset}
-=======
  ${reset}
->>>>>>> a6b5bc3fb350dad087b1f5c7fa42dc688ef0c0a1
 
 
 @font-face {
@@ -42,10 +38,7 @@ ${reset}
  
     --nav-icon-color: #adadad;
     --border-gray:#6f6f6f;
-<<<<<<< HEAD
-=======
     --modal-gray:#f8f8f8;
->>>>>>> a6b5bc3fb350dad087b1f5c7fa42dc688ef0c0a1
 
     // font
     --title-font : 'NEXON Lv1 Gothic OTF';
