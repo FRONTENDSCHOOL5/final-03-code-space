@@ -1,6 +1,11 @@
 const { createGlobalStyle } = require('styled-components');
 const { default: reset } = require('styled-reset');
+function setScreenSize() {
+  let vh = window.innerHeight * 0.01;
 
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+setScreenSize();
 const GlobalStyle = createGlobalStyle`
  ${reset}
 
@@ -81,6 +86,15 @@ p{
 img{
     margin:0;
 }
+
+/* html{
+  min-height: 100vh;
+}
+body{
+  min-height: calc(var(--vh, 1vh) * 100);
+
+
+} */
 
 `;
 export default GlobalStyle;
