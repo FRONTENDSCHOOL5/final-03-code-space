@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg'
@@ -7,11 +7,14 @@ import axios from 'axios';
 
 const PostPage = () => {
   const url = "https://api.mandarin.weniv.co.kr/";
+  const authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
 
   const imgInput = useRef();
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState('');
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const [imgAddList, setImgAddList] = useState([]);
 
   // 카테고리 드롭다운
@@ -24,6 +27,39 @@ const PostPage = () => {
     setIsOpen(false);
   };
 
+  // 제목
+  function writeTitle(e) {
+    setTitle(e.target.value);
+  }
+
+  // 게시글 
+  function writePost(e) {
+    setContent(e.target.value);
+  }
+
+  // 카테고리, 제목, 게시글 보내기
+  const handleUploadPost = async (e) => {
+    const imgUrl = imgAddList[0].url
+    const image = url + imgUrl;
+
+    const config = {
+      headers:{"Authorization" : authorization,
+      "Content-type" : "application/json"}
+    }
+
+    try {
+      const response = await axios.post(url+"post", {
+        "post": {
+          "content":`\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"${content}`,
+          "image": image // 이미지 url
+        }
+      }, config)
+      console.log(response);
+    } catch(error){
+      console.log(error);
+    }
+  }
+
   // 이미지 업로드 버튼 클릭시 파일 선택 가능
   const handleClick = () => {
     imgInput.current.click();
@@ -35,10 +71,6 @@ const PostPage = () => {
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append('image', file);
-
-    for(let value of formData.values()){
-      console.log(value);
-    }
 
     const config = {
       headers:{'Content-Type': 'multipart/form-data',}
@@ -64,24 +96,24 @@ const PostPage = () => {
           const imgMargin = imgAddList.length === 1 ? '20px' : '10px';
           return(
             <SImgBox key={index}>
-              <SDelBtn onClick={()=> onRemoveAdd(img.url)}></SDelBtn>
-              <SPreviewImg src={url+img.url} style={{width: imgWidth, margin: imgMargin}}></SPreviewImg>
+              <SDelBtn onClick={()=> onRemoveAdd(img.url)}/>
+              <SPreviewImg src={url+img.url} style={{width: imgWidth, margin: imgMargin}}/>
             </SImgBox>
-          );
-        })};
+            )
+          })
+        }
       </SImgContainer>
-    );
+    )
   };
-
 
   // 이미지 삭제
   const onRemoveAdd = (deleteUrl) => {
-    setImgAddList(imgAddList.filter(img => img.url != deleteUrl))
+    setImgAddList(imgAddList.filter(img => img.url !== deleteUrl));
   }
 
   return(
-    <SMain>
-      <MainHeader type="upload"/>
+    <>
+      <MainHeader type="upload" handleUploadPost={handleUploadPost}/>
       <STitle>
         <DropdownWrapper>
           <DropdownButton onClick={toggleDropdown}>
@@ -93,29 +125,18 @@ const PostPage = () => {
             <DropdownItem onClick={() => handleItemClick('자유게시판')}>자유게시판</DropdownItem>
           </DropdownContent>
         </DropdownWrapper>
-
-        <SContentTitle placeholder="제목"/>
+        <SContentTitle placeholder="제목" onChange={writeTitle}/>
       </STitle>
-      <SPostContent placeholder="게시글 입력하기..."></SPostContent>
-
+      <SPostContent placeholder="게시글 입력하기..." onChange={writePost}></SPostContent>
       {imgAddPreview()}
-
       <SUploadImgBtn onClick={handleClick}>
         <SInputImg type="file" accept="image/jpg, image/jpeg, image/png" multiple ref={imgInput} onChange={handleUploadImg}></SInputImg>
     </SUploadImgBtn>
-  </SMain>
+  </>
   );
 };
 
 export default PostPage;
-
-const SMain = styled.div`
-  position: relative;
-  max-width: 390px;
-  margin: 0 auto;
-  background-color: var(--black);
-  min-height: 100vh;
-`;
 
 const DropdownWrapper = styled.div`
   margin: 15px;
@@ -184,7 +205,7 @@ const SPostContent = styled.textarea`
   margin: 0 20px;
   padding: 0;
   width: 350px;
-  height: 200px;
+  /* height: 200px; */
   background-color: var(--black);
   border: none;
   color: var(--white);
@@ -195,11 +216,7 @@ const SPostContent = styled.textarea`
 `;
 
 const SUploadImgBtn = styled.div`
-  /* position: fixed;
-  bottom: 10px;
-  right: 580px;
-  display: flex;
-  align-items: end; */
+  float: right;
   width: 50px;
   height: 50px;
   margin: 20px;

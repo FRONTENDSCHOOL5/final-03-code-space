@@ -5,7 +5,8 @@ import searchIcon from '../../assets/icon-search.svg';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
 
-const MainHeader = ({ type }) => {
+
+const MainHeader = ({ type, handleUploadPost}) => {
   const navigate = useNavigate();
   function goBack() {
     navigate(-1);
@@ -36,7 +37,7 @@ const MainHeader = ({ type }) => {
         ) : type === 'upload' ? (
           <>
             <img src={backIcon} alt="뒤로가기"></img>
-            <SSaveBtn>업로드</SSaveBtn>
+            <SSaveBtn onClick={handleUploadPost}>업로드</SSaveBtn>
           </>
         ) : (
           <>에러</>
