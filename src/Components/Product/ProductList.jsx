@@ -3,12 +3,11 @@ import axios from 'axios';
 import styled from 'styled-components';
 import ProductCard from './ProductCard';
 
-export default function ProductList() {
+export default function ProductList({ accountName }) {
   const [productData, setProductData] = useState([]);
 
   const URL = 'https://api.mandarin.weniv.co.kr';
-  // const reqPath = `/product/${accountname}`;
-  const reqPath = `/product/Alphca/`;
+  const reqPath = `/product/${accountName}`;
 
   useEffect(() => {
     getUserData();
