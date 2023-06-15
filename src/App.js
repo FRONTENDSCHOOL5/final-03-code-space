@@ -38,7 +38,6 @@ function App() {
             <Route path="/following" element={<FollowingPage />} />
             <Route path="/Modal" element={<Modal />} />
           </Routes>
-          /
         </SMainLayout>
       </SMainLayout>
     </div>

@@ -15,7 +15,7 @@ const MainHeader = ({ type }) => {
       <SLayout>
         {type === 'feed' ? (
           <>
-            <div>코드허브 피드</div>
+            <div>코드스페이스</div>
             <img src={searchIcon} alt="돋보기"></img>
           </>
         ) : type === 'search' ? (
