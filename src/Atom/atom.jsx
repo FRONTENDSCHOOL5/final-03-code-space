@@ -18,6 +18,10 @@ export const bottomNavIndex = atom({
   key: 'bottomNavIndex',
   default: 0,
 });
+export const isLandingEnter = atom({
+  key: 'isLandingEnter',
+  default: true,
+});
 export const isfeedFetchToggle = atom({
   key: 'isfeedFetchToggle',
   default: false,
