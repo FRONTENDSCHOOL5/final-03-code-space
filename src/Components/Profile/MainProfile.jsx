@@ -19,13 +19,14 @@ export default function MainProfile() {
   }, []);
 
   const URL = 'https://api.mandarin.weniv.co.kr';
+  const reqPath = `/user/myinfo`;
 
   async function getUserData() {
     try {
-      const response = await axios.get(`${URL}/user/myinfo`, {
-        url: `${URL}/user/myinfo`,
+      const response = await axios.get(URL + reqPath, {
         method: 'get',
         headers: {
+          // 프로필 정보 요청 (토큰 필요)
           // Authorization: `Bearer ${token}`
           Authorization:
             'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzc0YjJjYjIwNTY2MzJkMDAwNSIsImV4cCI6MTY5MDY5NDI2NywiaWF0IjoxNjg1NTEwMjY3fQ.5zJTqiHvH3B0rRBfkV9_BQH6atdJX6qg5V3P99I7T8M',

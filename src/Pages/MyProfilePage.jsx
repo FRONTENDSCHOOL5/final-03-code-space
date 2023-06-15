@@ -4,7 +4,7 @@ import BottomNav from '../Components/Common/BottomNav';
 import MainProfile from '../Components/Profile/MainProfile';
 import ProductList from '../Components/Product/ProductList';
 
-const MyProfile = () => {
+function MyProfile() {
   return (
     <>
       <MainHeader />
@@ -13,6 +13,6 @@ const MyProfile = () => {
       <BottomNav />
     </>
   );
-};
+}
 
 export default MyProfile;
