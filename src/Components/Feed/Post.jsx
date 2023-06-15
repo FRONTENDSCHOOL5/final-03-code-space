@@ -17,6 +17,7 @@ import {
   SReactionContainer,
   SReactionContent,
   SReactionCount,
+  SMainContent,
 } from '../../Styles/FeedStyle/PostStyle';
 
 import iconHeart from '../../assets/icons/heart.svg';
@@ -63,7 +64,7 @@ const Post = ({ isFetchData, FeedList }) => {
                   </STitleContainer>
                 </SAuthor>
                 <div>
-                  <SContent onClick={() => goFeedDetail(item, extracted, remaining)}>{remaining}</SContent>
+                  <SMainContent onClick={() => goFeedDetail(item, extracted, remaining)}>{remaining}</SMainContent>
                 </div>
                 <SReactionContainer>
                   <SReactionContent onClick={() => goFeedDetail(item, extracted, remaining)}>

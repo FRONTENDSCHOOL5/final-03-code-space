@@ -46,5 +46,5 @@ export default FeedPage;
 const STagLayout = styled.div`
   display: flex;
   gap: 10px;
-  padding: 6px;
+  padding: 6px 20px;
 `;

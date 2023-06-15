@@ -5,10 +5,22 @@ const STitle = styled.div`
   word-break: break-all;
   font-weight: bold;
 `;
+const SMainContent = styled.div`
+  color: var(--white);
+  font-size: 14px;
+  margin: 10px 5px;
+  box-sizing: border-box;
+  word-break: break-all;
+  line-height: 16px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+`;
 const SContent = styled.div`
   color: var(--white);
   font-size: 14px;
-  padding: 10px 5px;
+  margin: 10px 5px;
   box-sizing: border-box;
   word-break: break-all;
   line-height: 16px;
@@ -102,4 +114,5 @@ export {
   SReactionContent,
   SReactionCount,
   SDetailFeedCard,
+  SMainContent,
 };
