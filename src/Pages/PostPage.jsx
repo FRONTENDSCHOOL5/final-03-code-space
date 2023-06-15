@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg'
 import delImg from '../assets/icons/del.svg'
+import axios from 'axios';
 
 const PostPage = () => {
   const url = "https://api.mandarin.weniv.co.kr/";
@@ -28,19 +29,22 @@ const PostPage = () => {
     photoInput.current.click();
   }
 
-  const handlePhoto = (e) => {
-    const tmp = [];
-    const photoAdd = e.target.files;
+  const handlePhoto = async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
 
-    for(let i = 0; i < photoAdd.length; i++){
-      tmp.push({
-        id: photoAdd[i].name, 
-        file: photoAdd[i], 
-        url: URL.createObjectURL(photoAdd[i])
-      })
+    try {
+      const response = await axios.post(url + "/image/uploadfile/", formData, {
+          headers: {'Content-Type': 'multipart/form-data',},
+      });
+      console.log(response);
+      
+      const postImgName = response.data[0].filename;
+      return postImgName;
+    } catch (error) {
+      //응답 실패
+      console.error(error);
     }
-
-    setPhotoAddList(tmp.concat(photoAddList))
   }
 
   // 이미지 삭제
@@ -89,8 +93,7 @@ const PostPage = () => {
       {photoAddPreview()}
 
       <SUploadImgBtn onClick={handleClick}>
-        <SInputImg type="file" accept="image/jpg, image/jpeg, image/png" 
-    multiple ref={photoInput} onChange={(e) => handlePhoto(e)}></SInputImg>
+        <SInputImg type="file" accept="image/jpg, image/jpeg, image/png" multiple ref={photoInput} onChange={(e) => handlePhoto(e)}></SInputImg>
     </SUploadImgBtn>
   </SMain>
   );
