@@ -42,6 +42,7 @@ const Modal = ({
             id="user-email"
             value={userEmail}
             onChange={inputHandler}
+            onBlur={() => SignupSubmit(userEmail)}
           />
           <SErrorMessage>{successRes}</SErrorMessage>
         </SFormWrap>

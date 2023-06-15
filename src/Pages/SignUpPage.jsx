@@ -19,7 +19,7 @@ const SignUpPage = () => {
   };
 
   const SignupSubmit = async e => {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (userPassword.length < 6) {
       setIsPasswordValid(false);
@@ -28,7 +28,7 @@ const SignUpPage = () => {
     }
 
     const url = 'https://api.mandarin.weniv.co.kr';
-
+    console.log(userEmail);
     try {
       const response = await axios.post(
         url + '/user/emailvalid/',
@@ -45,14 +45,14 @@ const SignUpPage = () => {
       );
 
       setSuccessRes(response.data.message);
-      console.log(response.data.message)
+      console.log(response.data.message);
 
-      if (successRes === '이미 가입된 이메일 주소 입니다.') {
-      } else if (successRes === '사용 가능한 이메일 입니다.') {
+      if (successRes === '사용 가능한 이메일 입니다.') {
         navigate('/profile');
       }
     } catch (error) {
-      console.log(error);
+      setSuccessRes(error.response.data.message);
+      console.log(error.response.data.message);
     }
   };
 
