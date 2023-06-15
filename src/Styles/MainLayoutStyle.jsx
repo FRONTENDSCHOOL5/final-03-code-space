@@ -4,6 +4,7 @@ const SMainLayout = styled.div`
   margin: 0 auto;
   max-width: 390px;
   background-color: var(--black);
-  height: 100vh;
+  min-height: 100vh;
+  padding-bottom: 64px;
 `;
 export { SMainLayout };
