@@ -31,6 +31,13 @@ const SFeedCard = styled.div`
   box-sizing: border-box;
   cursor: pointer;
 `;
+const SDetailFeedCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--darkgray);
+  padding: 20px;
+  box-sizing: border-box;
+`;
 const SAuthor = styled.div`
   display: flex;
   align-items: center;
@@ -94,4 +101,5 @@ export {
   SReactionContainer,
   SReactionContent,
   SReactionCount,
+  SDetailFeedCard,
 };
