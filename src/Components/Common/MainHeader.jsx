@@ -5,7 +5,8 @@ import searchIcon from '../../assets/icon-search.svg';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
 
-const MainHeader = ({ type }) => {
+
+const MainHeader = ({ type, handleUploadPost}) => {
   const navigate = useNavigate();
   function goBack() {
     navigate(-1);
@@ -18,24 +19,7 @@ const MainHeader = ({ type }) => {
             <div>코드허브 피드</div>
             <img src={searchIcon} alt="돋보기"></img>
           </>
-<<<<<<< HEAD
-        ) : 
-        type === 'save' ? (
-          <>
-            <img src={backIcon} alt="뒤로가기"></img>
-            <SSaveBtn>저장</SSaveBtn>
-          </>
-        ) :
-        type === 'upload' ? (
-          <>
-            <img src={backIcon} alt="뒤로가기"></img>
-            <SSaveBtn>업로드</SSaveBtn>
-          </>
-        ) :
-        (
-=======
         ) : type === 'search' ? (
->>>>>>> a6b5bc3fb350dad087b1f5c7fa42dc688ef0c0a1
           <>
             <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
             <SSearch type="text" placeholder="Search" />
@@ -45,10 +29,15 @@ const MainHeader = ({ type }) => {
             <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
             <img src={searchIcon} alt="돋보기"></img>
           </>
+        ) : type === 'save' ? (
+          <>
+            <img src={backIcon} alt="뒤로가기"></img>
+            <SSaveBtn>저장</SSaveBtn>
+          </>
         ) : type === 'upload' ? (
           <>
-            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
-            <img src={searchIcon} alt="돋보기"></img>
+            <img src={backIcon} alt="뒤로가기"></img>
+            <SSaveBtn onClick={handleUploadPost}>업로드</SSaveBtn>
           </>
         ) : (
           <>에러</>

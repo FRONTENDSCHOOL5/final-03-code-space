@@ -5,24 +5,17 @@ import Input from '../Components/Common/Input';
 
 const ProductPage = () => {
   return (
-  <SMain>
+  <>
     <MainHeader type="save"/>
     <SImgBg></SImgBg>
     <Input placeholder="2~15자 이내여야 합니다." label="상품명" />
     <Input placeholder="숫자만 입력 가능합니다." label="가격" />
     <Input placeholder="URL을 입력해 주세요." label="판매 링크" />
-  </SMain>
+  </>
   );
 };
 
 export default ProductPage;
-
-const SMain = styled.div`
-  max-width: 390px;
-  margin: 0 auto;
-  background-color: var(--black);
-  height: 100vh;
-`;
 
 const SImgBg = styled.div`
   margin: 34px;

@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import BottomNav from '../Components/Common/BottomNav';
-
-const FeedPage = () => {
-  return (
-    <div>
-      피드
-      <BottomNav />
-    </div>
-  );
-};
-
-export default FeedPage;
-=======
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
@@ -63,4 +48,3 @@ const STagLayout = styled.div`
   gap: 10px;
   padding: 6px 20px;
 `;
->>>>>>> a6b5bc3fb350dad087b1f5c7fa42dc688ef0c0a1

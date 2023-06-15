@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-
-const LoginPage = () => {
-  return <div></div>;
-=======
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -71,7 +65,6 @@ const LoginPage = () => {
       showErrorMessage={showErrorMessage}
     />
   );
->>>>>>> a6b5bc3fb350dad087b1f5c7fa42dc688ef0c0a1
 };
 
 export default LoginPage;
