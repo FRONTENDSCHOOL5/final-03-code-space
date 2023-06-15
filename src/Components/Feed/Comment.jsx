@@ -16,7 +16,7 @@ const Comment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetc
   }
 
   return (
-    <>
+    <SCommentListLayout>
       <FetchComment
         fetchType="get"
         postID={feedList.id}
@@ -43,11 +43,15 @@ const Comment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetc
       ) : (
         <div>로딩중...</div>
       )}
-    </>
+    </SCommentListLayout>
   );
 };
 
 export default Comment;
+
+const SCommentListLayout = styled.div`
+  padding-bottom: 50px;
+`;
 const SCommentLayout = styled.div`
   display: flex;
   color: var(--white);
