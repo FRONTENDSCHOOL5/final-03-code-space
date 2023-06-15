@@ -6,7 +6,6 @@ import { extractString } from './extractString';
 import {
   SFeedCard,
   STitle,
-  SContent,
   SUserName,
   SAccountname,
   SAuthor,
@@ -22,8 +21,7 @@ import {
 
 import iconHeart from '../../assets/icons/heart.svg';
 import iconComment from '../../assets/icons/chat-green.svg';
-import profileImg from '../../assets/default-profile-image.svg';
-const APIDefaultImage = 'http://146.56.183.55:5050/Ellipse.png';
+import { profileImg, APIDefaultImage } from './COMMON';
 
 const Post = ({ isFetchData, FeedList }) => {
   const navigate = useNavigate();
@@ -77,7 +75,6 @@ const Post = ({ isFetchData, FeedList }) => {
                       {item.comments.length}
                     </SReactionCount>
                   </SReactionContent>
-
                   <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>
                 </SReactionContainer>
               </SFeedCard>
