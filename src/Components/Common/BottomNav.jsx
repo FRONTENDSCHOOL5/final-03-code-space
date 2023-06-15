@@ -18,6 +18,9 @@ export default function BottomNav() {
   const setBottomNavIndexState = useSetRecoilState(bottomNavIndex);
 
   const handleClick = index => {
+    if (index === 2) {
+      return;
+    }
     setBottomNavIndexState(index);
   };
 
