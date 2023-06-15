@@ -18,3 +18,7 @@ export const bottomNavIndex = atom({
   key: 'bottomNavIndex',
   default: 0,
 });
+export const isfeedFetchToggle = atom({
+  key: 'isfeedFetchToggle',
+  default: false,
+});

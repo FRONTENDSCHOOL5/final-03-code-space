@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { extractString } from '../Components/Feed/extractString';
 import iconHeart from '../assets/icons/heart.svg';
 import iconComment from '../assets/icons/chat-green.svg';
-import profileImg from '../assets/default-profile-image.svg';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MainHeader from '../Components/Common/MainHeader';
 import Comment from '../Components/Feed/Comment';
@@ -24,9 +23,7 @@ import {
   SDetailFeedCard,
 } from '../Styles/FeedStyle/PostStyle';
 import WriteComment from '../Components/Feed/WriteComment';
-import FetchComment from '../Components/Feed/FetchComment';
-
-const APIDefaultImage = 'http://146.56.183.55:5050/Ellipse.png';
+import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
 
 const FeedDetailPage = () => {
   const navigate = useNavigate();
@@ -38,11 +35,7 @@ const FeedDetailPage = () => {
 
   const [commentList, setCommentList] = useState({});
   const [isFetchData, setIsFetchData] = useState(false);
-
-  const commentArray = [];
-  feedList.comments.map(comment => {
-    commentArray.push(comment);
-  });
+  const [reactionCount, setReactionCount] = useState();
 
   function goProfile(item) {
     navigate('/myprofile', { state: item });
@@ -73,17 +66,18 @@ const FeedDetailPage = () => {
           <SReactionContent>
             <SReactionCount>
               <SHeartImg src={iconHeart} alt="하트" />
-              {feedList.heartCount}
+              {reactionCount?.post.heartCount}
             </SReactionCount>
             <SReactionCount>
               <SHeartImg src={iconComment} alt="댓글" />
-              {feedList.comments.length}
+              {reactionCount?.post.comments.length}
             </SReactionCount>
           </SReactionContent>
 
           <SAccountname>{feedList.createdAt.slice(0, 10)}</SAccountname>
         </SReactionContainer>
       </SDetailFeedCard>
+
       <Comment
         feedList={feedList}
         commentList={commentList}
@@ -97,6 +91,7 @@ const FeedDetailPage = () => {
         setCommentList={setCommentList}
         isFetchData={isFetchData}
         setIsFetchData={setIsFetchData}
+        setReactionCount={setReactionCount}
       />
     </>
   );
