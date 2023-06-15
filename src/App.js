@@ -13,6 +13,8 @@ import FollowingPage from './Pages/FollowingPage';
 import MyProfilePage from './Pages/MyProfilePage';
 import SearchPage from './Pages/SearchPage';
 import Profile from './Components/Common/Profile';
+import FeedDetailPage from './Pages/FeedDetailPage';
+import Modal from './Components/Common/Modal';
 import { SMainLayout } from './Styles/MainLayoutStyle';
 
 function App() {
