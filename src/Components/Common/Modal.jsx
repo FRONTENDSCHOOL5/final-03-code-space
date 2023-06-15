@@ -1,20 +1,43 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
+import { useState, useEffect } from 'react';
 
-const Modal = ({ title, loginSubmit, userEmail, userPassword, inputHandler, showErrorMessage}) => {
+const Modal = ({
+  title,
+  LoginSubmit,
+  SignupSubmit,
+  userEmail,
+  userPassword,
+  inputHandler,
+  LoginError,
+  isPasswordValid,
+  successRes,
+}) => {
   const isFormValid = userEmail !== '' && userPassword !== '';
 
-  const handleLoginSubmit = e => {
+  const LoginErrorMessage = title === '로그인' && LoginError ? '*이메일 또는 비밀번호가 일치하지 않습니다.' : '';
+
+  const PwErrorMessage = title === '이메일로 회원가입' && isPasswordValid ? '' : '*비밀번호는 6자리 이상이어야 합니다.';
+
+  const [blur, setBlur] = useState(false);
+  const onBlur = () => setBlur(true);
+
+  const handleSubmit = e => {
     e.preventDefault();
-      loginSubmit(e);
-     
+    if (title === '이메일로 회원가입') {
+      console.log('회원가입 submit 실행');
+      SignupSubmit(e);
+    } else {
+      console.log('로그인 submit 실행');
+      LoginSubmit(e);
+    }
   };
 
   return (
     <SModal>
       <SModalTitle>{title}</SModalTitle>
-      <SForm onSubmit={handleLoginSubmit}>
+      <SForm onSubmit={handleSubmit}>
         <SFormWrap className="EmailForm">
           <label htmlFor="user-email">이메일</label>
           <SInput
@@ -23,7 +46,9 @@ const Modal = ({ title, loginSubmit, userEmail, userPassword, inputHandler, show
             id="user-email"
             value={userEmail}
             onChange={inputHandler}
+            onBlur={onBlur}
           />
+          <SErrorMessage>{successRes}</SErrorMessage>
         </SFormWrap>
 
         <SFormWrap className="PwForm">
@@ -34,12 +59,15 @@ const Modal = ({ title, loginSubmit, userEmail, userPassword, inputHandler, show
             placeholder={title === '이메일로 회원가입' ? '비밀번호를 설정해주세요' : ''}
             value={userPassword}
             onChange={inputHandler}
+            onBlur={onBlur}
           />
-          {showErrorMessage && <SErrorMessage>*이메일 또는 비밀번호가 일치하지 않습니다.</SErrorMessage>}
+          {LoginError && <SErrorMessage>{LoginErrorMessage}</SErrorMessage>}
+
+          {blur && !isPasswordValid ? <SErrorMessage>{PwErrorMessage}</SErrorMessage> : null}
         </SFormWrap>
         <SBtnBox>
           <Button type="submit" disabled={!isFormValid}>
-            로그인
+            {title === '이메일로 회원가입' ? '다음' : '로그인'}
           </Button>
         </SBtnBox>
       </SForm>

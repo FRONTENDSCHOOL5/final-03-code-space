@@ -12,6 +12,7 @@ import FollowPage from './Pages/FollowPage';
 import FollowingPage from './Pages/FollowingPage';
 import MyProfilePage from './Pages/MyProfilePage';
 import SearchPage from './Pages/SearchPage';
+import Profile from './Components/Common/Profile';
 import FeedDetailPage from './Pages/FeedDetailPage';
 import Modal from './Components/Common/Modal';
 import { SMainLayout } from './Styles/MainLayoutStyle';
@@ -21,25 +22,21 @@ function App() {
     <div>
       <GlobalStyle />
       <SMainLayout>
-        <SMainLayout>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/feed" element={<FeedPage />} />
-            <Route path="/feeddetail" element={<FeedDetailPage />} />
-            <Route path="/search" element={<SearchPage />} />
-            <Route path="/profile" element={<ProfileSetPage />} />
-            <Route path="/myprofile" element={<MyProfilePage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/messagelist" element={<MessageListPage />} />
-            <Route path="/message" element={<MessagePage />} />
-            <Route path="/post" element={<PostPage />} />
-            <Route path="/follow" element={<FollowPage />} />
-            <Route path="/following" element={<FollowingPage />} />
-            <Route path="/Modal" element={<Modal />} />
-          </Routes>
-          /
-        </SMainLayout>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/feed" element={<FeedPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/profile" element={<ProfileSetPage />} />
+          <Route path="/myprofile" element={<MyProfilePage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/messagelist" element={<MessageListPage />} />
+          <Route path="/message" element={<MessagePage />} />
+          <Route path="/post" element={<PostPage />} />
+          <Route path="/follow" element={<FollowPage />} />
+          <Route path="/following" element={<FollowingPage />} />
+          <Route path="/profilecom" element={<Profile />} />
+        </Routes>
       </SMainLayout>
     </div>
   );
