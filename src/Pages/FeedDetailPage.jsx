@@ -4,12 +4,11 @@ import { extractString } from '../Components/Feed/extractString';
 import iconHeart from '../assets/icons/heart.svg';
 import iconComment from '../assets/icons/chat-green.svg';
 import profileImg from '../assets/default-profile-image.svg';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import MainHeader from '../Components/Common/MainHeader';
 import Comment from '../Components/Feed/Comment';
 import BottomNav from '../Components/Common/BottomNav';
 import {
-  SFeedCard,
   STitle,
   SContent,
   SUserName,
@@ -22,6 +21,7 @@ import {
   SReactionContainer,
   SReactionContent,
   SReactionCount,
+  SDetailFeedCard,
 } from '../Styles/FeedStyle/PostStyle';
 import WriteComment from '../Components/Feed/WriteComment';
 import FetchComment from '../Components/Feed/FetchComment';
@@ -29,6 +29,7 @@ import FetchComment from '../Components/Feed/FetchComment';
 const APIDefaultImage = 'http://146.56.183.55:5050/Ellipse.png';
 
 const FeedDetailPage = () => {
+  const navigate = useNavigate();
   const location = useLocation();
 
   const feedList = location.state.item;
@@ -43,15 +44,19 @@ const FeedDetailPage = () => {
     commentArray.push(comment);
   });
 
+  function goProfile(item) {
+    navigate('/myprofile', { state: item });
+  }
+
   return (
     <>
       <MainHeader type="profile" />
-      <SFeedCard>
+      <SDetailFeedCard>
         <SAuthor>
           {feedList.author.image === APIDefaultImage ? (
-            <SProfileImg src={profileImg} alt="프사" />
+            <SProfileImg src={profileImg} alt="프사" onClick={() => goProfile(feedList.author)} />
           ) : (
-            <SProfileImg src={feedList.author.image} alt="프사" />
+            <SProfileImg src={feedList.author.image} alt="프사" onClick={() => goProfile(feedList.author)} />
           )}
           <STitleContainer>
             <STitle>{extracted}</STitle>
@@ -78,7 +83,7 @@ const FeedDetailPage = () => {
 
           <SAccountname>{feedList.createdAt.slice(0, 10)}</SAccountname>
         </SReactionContainer>
-      </SFeedCard>
+      </SDetailFeedCard>
       <Comment
         feedList={feedList}
         commentList={commentList}
@@ -86,10 +91,6 @@ const FeedDetailPage = () => {
         isFetchData={isFetchData}
         setIsFetchData={setIsFetchData}
       />
-      {/* <div>{FetchComment(feedList.id).content}</div> */}
-      <div>{/* <img src={feedList.}/> */}</div>
-      {/* <FetchComment postID={feedList.id} setIsFetchData={setIsFetchData} setCommentList={setCommentList} /> */}
-      {/* {isFetchData ? <div>{commentList.map(comment => comment.content)}</div> : <div>실패</div>} */}
       <WriteComment
         feedList={feedList}
         commentList={commentList}

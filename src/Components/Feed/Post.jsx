@@ -1,8 +1,8 @@
 import React from 'react';
+
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { extractString } from './extractString';
-
 import {
   SFeedCard,
   STitle,
@@ -29,6 +29,9 @@ const Post = ({ isFetchData, FeedList }) => {
   function goFeedDetail(item, extracted, remaining) {
     navigate('/feeddetail', { state: { item, extracted, remaining } });
   }
+  function goProfile(item) {
+    navigate('/myprofile', { state: item });
+  }
 
   return (
     <>
@@ -44,14 +47,14 @@ const Post = ({ isFetchData, FeedList }) => {
             }
             const { extracted, remaining } = extractedData;
             return (
-              <SFeedCard key={item.id} onClick={() => goFeedDetail(item, extracted, remaining)}>
+              <SFeedCard key={item.id}>
                 <SAuthor>
                   {item.author.image === APIDefaultImage ? (
-                    <SProfileImg src={profileImg} alt="프사" />
+                    <SProfileImg src={profileImg} alt="프사" onClick={() => goProfile(item.author)} />
                   ) : (
-                    <SProfileImg src={item.author.image} alt="프사" />
+                    <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
                   )}
-                  <STitleContainer>
+                  <STitleContainer onClick={() => goFeedDetail(item, extracted, remaining)}>
                     <STitle>{extracted}</STitle>
                     <SAuthorInfo>
                       <SUserName>{item.author.username}</SUserName>
@@ -60,10 +63,10 @@ const Post = ({ isFetchData, FeedList }) => {
                   </STitleContainer>
                 </SAuthor>
                 <div>
-                  <SContent>{remaining}</SContent>
+                  <SContent onClick={() => goFeedDetail(item, extracted, remaining)}>{remaining}</SContent>
                 </div>
                 <SReactionContainer>
-                  <SReactionContent>
+                  <SReactionContent onClick={() => goFeedDetail(item, extracted, remaining)}>
                     <SReactionCount>
                       <SHeartImg src={iconHeart} alt="하트" />
                       {item.heartCount}

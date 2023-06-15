@@ -2,15 +2,19 @@ import React, { useState, useEffect } from 'react';
 import FetchComment from './FetchComment';
 import styled from 'styled-components';
 import elapsedTime from './elapsedTime';
+import { useNavigate } from 'react-router-dom';
 
 const Comment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetchData }) => {
-  useEffect(() => {
-    console.log('get실행');
-  }, [isFetchData]);
   useEffect(() => {
     setIsFetchData(false); // 컴포넌트가 리렌더링될 때마다 데이터를 다시 불러오기 위해 isFetchData 상태를 false로 설정
   }, []);
   console.log(commentList);
+  const navigate = useNavigate();
+
+  function goProfile(item) {
+    navigate('/myprofile', { state: item });
+  }
+
   return (
     <>
       <FetchComment
@@ -24,7 +28,7 @@ const Comment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetc
           {commentList.map(comment => {
             return (
               <SCommentLayout key={comment.id}>
-                <SProfileImg src={comment.author.image} alt="프사" />
+                <SProfileImg src={comment.author.image} alt="프사" onClick={() => goProfile(comment.author)} />
                 <SComment>
                   <SUsername>
                     <div>{comment.author.username}</div>
