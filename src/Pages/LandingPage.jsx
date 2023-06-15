@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import Logo from '../assets/img/icon-logo.svg';
 import Splash from '../assets/img/splash.png';
-import '../Styles/LandingStyle/LandingPage.css';
 import LoginPage from './LoginPage';
 import { useSetRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
