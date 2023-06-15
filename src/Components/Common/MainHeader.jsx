@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import backIcon from '../../assets/icon-arrow-left.svg';
 import searchIcon from '../../assets/icon-search.svg';
 import Button from './Button';
+import { useNavigate } from 'react-router-dom';
+
 const MainHeader = ({ type }) => {
+  const navigate = useNavigate();
+  function goBack() {
+    navigate(-1);
+  }
   return (
     <>
       <SLayout>
@@ -12,6 +18,7 @@ const MainHeader = ({ type }) => {
             <div>코드허브 피드</div>
             <img src={searchIcon} alt="돋보기"></img>
           </>
+<<<<<<< HEAD
         ) : 
         type === 'save' ? (
           <>
@@ -26,10 +33,25 @@ const MainHeader = ({ type }) => {
           </>
         ) :
         (
+=======
+        ) : type === 'search' ? (
+>>>>>>> a6b5bc3fb350dad087b1f5c7fa42dc688ef0c0a1
           <>
-            <img src={backIcon} alt="뒤로가기"></img>
+            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
             <SSearch type="text" placeholder="Search" />
           </>
+        ) : type === 'profile' ? (
+          <>
+            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
+            <img src={searchIcon} alt="돋보기"></img>
+          </>
+        ) : type === 'upload' ? (
+          <>
+            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
+            <img src={searchIcon} alt="돋보기"></img>
+          </>
+        ) : (
+          <>에러</>
         )}
       </SLayout>
     </>
@@ -43,9 +65,9 @@ const SLayout = styled.div`
   max-width: 390px;
   max-height: 48px;
   margin: 0 auto;
-  border-bottom: 1px solid #767676;
-  background-color: #1e1e1e;
-  color: #f8f8f8;
+  border-bottom: 1px solid var(--darkgray);
+  background-color: var(--black);
+  color: var(--white);
   padding: 15px;
   box-sizing: border-box;
   font-family: var(--title-font);

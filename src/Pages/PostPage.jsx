@@ -1,4 +1,5 @@
 import React from 'react';
+<<<<<<< HEAD
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import Dropdown from '../Components/Common/Dropdown';
@@ -16,10 +17,23 @@ const PostPage = () => {
       <SPostContent placeholder="게시글 입력하기..."></SPostContent>
       <SUploadImgBtn></SUploadImgBtn>
   </SMain>
+=======
+import BottomNav from '../Components/Common/BottomNav';
+import MainHeader from '../Components/Common/MainHeader';
+
+const PostPage = () => {
+  return (
+    <div>
+      <MainHeader type="upload" />
+      <div></div>
+      <BottomNav />
+    </div>
+>>>>>>> a6b5bc3fb350dad087b1f5c7fa42dc688ef0c0a1
   );
 };
 
 export default PostPage;
+<<<<<<< HEAD
 
 const SMain = styled.div`
   max-width: 390px;
@@ -78,3 +92,5 @@ const SUploadImgBtn = styled.div`
   border-radius: 50%;
   background-image: url(${UploadImg});
 `;
+=======
+>>>>>>> a6b5bc3fb350dad087b1f5c7fa42dc688ef0c0a1

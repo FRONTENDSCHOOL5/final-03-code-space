@@ -3,15 +3,16 @@ import styled from 'styled-components';
 
 export default function Input(props) {
   const label = props.label;
+  const LabelHtmlFor = props.LabelHtmlFor;
   return (
     <SInputForm>
-      <label htmlFor="">{label}</label>
+      <label htmlFor={LabelHtmlFor}>{label}</label>
       <SInputStyle {...props} />
     </SInputForm>
   );
 }
 
-const SInputForm = styled.form`
+const SInputForm = styled.div`
   display: flex;
   flex-direction: column;
   color: var(--lightgray);
