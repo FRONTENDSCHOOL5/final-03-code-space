@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import backIcon from '../../assets/icon-arrow-left.svg';
 import searchIcon from '../../assets/icon-search.svg';
 import Button from './Button';
+import { useNavigate } from 'react-router-dom';
+
 const MainHeader = ({ type }) => {
+  const navigate = useNavigate();
+  function goBack() {
+    navigate(-1);
+  }
   return (
     <>
       <SLayout>
@@ -14,12 +20,12 @@ const MainHeader = ({ type }) => {
           </>
         ) : type === 'search' ? (
           <>
-            <img src={backIcon} alt="뒤로가기"></img>
+            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
             <SSearch type="text" placeholder="Search" />
           </>
         ) : type === 'profile' ? (
           <>
-            <img src={backIcon} alt="뒤로가기"></img>
+            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
             <img src={searchIcon} alt="돋보기"></img>
           </>
         ) : type === 'save' ? (
