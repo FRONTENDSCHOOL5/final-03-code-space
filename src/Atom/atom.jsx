@@ -26,3 +26,7 @@ export const isfeedFetchToggle = atom({
   key: 'isfeedFetchToggle',
   default: false,
 });
+export const categoryTag = atom({
+  key: 'categoryTag',
+  default: '전체',
+});

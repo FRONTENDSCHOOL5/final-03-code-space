@@ -7,15 +7,23 @@ import TagButton from '../Components/Feed/TagButton';
 import { SMainLayout } from '../Styles/MainLayoutStyle';
 import { useRecoilValue } from 'recoil';
 import { useSetRecoilState } from 'recoil';
-import { headerToggle } from '../Atom/atom';
-
+import { headerToggle, categoryTag } from '../Atom/atom';
+import { extractString } from '../Components/Feed/extractString';
 // 피드 메인 페이지
 const FeedPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [FeedList, setFeedList] = useState([]);
+  const setTagState = useSetRecoilState(categoryTag);
+
   const handleClick = index => {
     setActiveIndex(index);
+    setTagState(tagItem[index]);
   };
-  const tagItem = ['#전체', '#스터디 모집', '#질문있어요!', '#자유게시판'];
+  useEffect(() => {
+    setTagState(tagItem[0]);
+  }, []);
+
+  const tagItem = ['전체', '스터디 모집', '질문있어요!', '자유게시판'];
 
   const headerToggleState = useRecoilValue(headerToggle);
 
@@ -26,10 +34,17 @@ const FeedPage = () => {
         <>
           <STagLayout>
             {tagItem.map((item, index) => (
-              <TagButton key={index} text={item} active={index === activeIndex} onClick={() => handleClick(index)} />
+              <TagButton
+                FeedList={FeedList}
+                setFeedList={setFeedList}
+                key={index}
+                text={'#' + item}
+                active={index === activeIndex}
+                onClick={() => handleClick(index)}
+              />
             ))}
           </STagLayout>
-          <FetchFeed />
+          <FetchFeed setFeedList={setFeedList} FeedList={FeedList} />
         </>
       ) : (
         <div>검색창</div>

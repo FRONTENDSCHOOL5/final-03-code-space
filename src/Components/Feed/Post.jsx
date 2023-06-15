@@ -22,11 +22,15 @@ import {
 import iconHeart from '../../assets/icons/heart.svg';
 import iconComment from '../../assets/icons/chat-green.svg';
 import { profileImg, APIDefaultImage } from './COMMON';
+import { useRecoilValue } from 'recoil';
+import { categoryTag } from '../../Atom/atom';
 
 const Post = ({ isFetchData, FeedList }) => {
   const navigate = useNavigate();
-  function goFeedDetail(item, extracted, remaining) {
-    navigate('/feeddetail', { state: { item, extracted, remaining } });
+  const tagState = useRecoilValue(categoryTag);
+
+  function goFeedDetail(item, title, content) {
+    navigate('/feeddetail', { state: { item, title, content } });
   }
   function goProfile(item) {
     navigate('/myprofile', { state: item });
@@ -39,12 +43,29 @@ const Post = ({ isFetchData, FeedList }) => {
       ) : (
         <div>
           {FeedList.map(item => {
+            let title;
+            let content;
             const extractedData = extractString(item.content, 'title');
-            console.log(extractedData);
             if (extractedData === null) {
-              return null; // 추출된 값이 없는 경우 해당 항목을 건너뜁니다.
+              return null;
             }
             const { extracted, remaining } = extractedData;
+
+            const categoryData = extractString(remaining, 'category');
+            if (categoryData === null) {
+              return null;
+            }
+            const category = categoryData.extracted;
+            if (tagState === '전체') {
+              title = extracted;
+              content = categoryData.remaining;
+            } else if (tagState === category) {
+              title = extracted;
+              content = categoryData.remaining;
+            } else {
+              return null;
+            }
+
             return (
               <SFeedCard key={item.id}>
                 <SAuthor>
@@ -53,8 +74,8 @@ const Post = ({ isFetchData, FeedList }) => {
                   ) : (
                     <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
                   )}
-                  <STitleContainer onClick={() => goFeedDetail(item, extracted, remaining)}>
-                    <STitle>{extracted}</STitle>
+                  <STitleContainer onClick={() => goFeedDetail(item, title, content)}>
+                    <STitle>{title}</STitle>
                     <SAuthorInfo>
                       <SUserName>{item.author.username}</SUserName>
                       <SAccountname>@{item.author.accountname}</SAccountname>
@@ -62,10 +83,10 @@ const Post = ({ isFetchData, FeedList }) => {
                   </STitleContainer>
                 </SAuthor>
                 <div>
-                  <SMainContent onClick={() => goFeedDetail(item, extracted, remaining)}>{remaining}</SMainContent>
+                  <SMainContent onClick={() => goFeedDetail(item, title, content)}>{content}</SMainContent>
                 </div>
                 <SReactionContainer>
-                  <SReactionContent onClick={() => goFeedDetail(item, extracted, remaining)}>
+                  <SReactionContent onClick={() => goFeedDetail(item, title, content)}>
                     <SReactionCount>
                       <SHeartImg src={iconHeart} alt="하트" />
                       {item.heartCount}

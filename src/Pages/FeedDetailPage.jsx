@@ -31,8 +31,8 @@ const FeedDetailPage = () => {
   const location = useLocation();
 
   const feedList = location.state.item;
-  const extracted = location.state.extracted;
-  const remaining = location.state.remaining;
+  const title = location.state.title;
+  const content = location.state.content;
 
   const [commentList, setCommentList] = useState({});
   const [isFetchData, setIsFetchData] = useState(false);
@@ -53,7 +53,7 @@ const FeedDetailPage = () => {
             <SProfileImg src={feedList.author.image} alt="프사" onClick={() => goProfile(feedList.author)} />
           )}
           <STitleContainer>
-            <STitle>{extracted}</STitle>
+            <STitle>{title}</STitle>
             <SAuthorInfo>
               <SUserName>{feedList.author.username}</SUserName>
               <SAccountname>@{feedList.author.accountname}</SAccountname>
@@ -61,7 +61,7 @@ const FeedDetailPage = () => {
           </STitleContainer>
         </SAuthor>
         <div>
-          <SContent>{remaining}</SContent>
+          <SContent>{content}</SContent>
           {!feedList.image ? null : <SPostImage src={feedList.image} alt="feed" />}
         </div>
         <SReactionContainer>
