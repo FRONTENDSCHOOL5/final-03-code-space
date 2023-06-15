@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
-import { useState, useEffect } from 'react';
 
 const Modal = ({
   title,
@@ -19,9 +18,6 @@ const Modal = ({
   const LoginErrorMessage = title === '로그인' && LoginError ? '*이메일 또는 비밀번호가 일치하지 않습니다.' : '';
 
   const PwErrorMessage = title === '이메일로 회원가입' && isPasswordValid ? '' : '*비밀번호는 6자리 이상이어야 합니다.';
-
-  const [blur, setBlur] = useState(false);
-  const onBlur = () => setBlur(true);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -46,7 +42,6 @@ const Modal = ({
             id="user-email"
             value={userEmail}
             onChange={inputHandler}
-            onBlur={onBlur}
           />
           <SErrorMessage>{successRes}</SErrorMessage>
         </SFormWrap>
@@ -59,11 +54,10 @@ const Modal = ({
             placeholder={title === '이메일로 회원가입' ? '비밀번호를 설정해주세요' : ''}
             value={userPassword}
             onChange={inputHandler}
-            onBlur={onBlur}
           />
           {LoginError && <SErrorMessage>{LoginErrorMessage}</SErrorMessage>}
 
-          {blur && !isPasswordValid ? <SErrorMessage>{PwErrorMessage}</SErrorMessage> : null}
+          {!isPasswordValid ? <SErrorMessage>{PwErrorMessage}</SErrorMessage> : null}
         </SFormWrap>
         <SBtnBox>
           <Button type="submit" disabled={!isFormValid}>
