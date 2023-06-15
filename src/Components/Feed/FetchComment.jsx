@@ -25,7 +25,7 @@ const FetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, input
       console.log(CommentPOST);
       const response = await instance.get(CommentPOST);
       console.log(response.data);
-      setCommentList(response.data.comments);
+      setCommentList(response.data.comments.reverse());
       setIsFetchData(true);
     } catch (error) {
       console.error(error);
