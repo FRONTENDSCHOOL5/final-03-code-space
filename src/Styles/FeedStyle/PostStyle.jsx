@@ -99,6 +99,10 @@ const SReactionCount = styled.div`
   align-items: center;
   gap: 3px;
 `;
+const SPostImage = styled.img`
+  max-width: 390px;
+  width: 100%;
+`;
 export {
   SFeedCard,
   STitle,
@@ -115,4 +119,5 @@ export {
   SReactionCount,
   SDetailFeedCard,
   SMainContent,
+  SPostImage,
 };
