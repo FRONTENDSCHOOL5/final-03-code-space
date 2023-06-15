@@ -62,7 +62,7 @@ const FeedDetailPage = () => {
         </SAuthor>
         <div>
           <SContent>{remaining}</SContent>
-          <SPostImage src={feedList.image} alt="feed" />
+          {!feedList.image ? null : <SPostImage src={feedList.image} alt="feed" />}
         </div>
         <SReactionContainer>
           <SReactionContent>
