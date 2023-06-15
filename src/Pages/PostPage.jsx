@@ -9,6 +9,7 @@ const PostPage = () => {
   const url = "https://api.mandarin.weniv.co.kr/";
   const authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
 
+  const contentInput = useRef();
   const imgInput = useRef();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +37,11 @@ const PostPage = () => {
   function writePost(e) {
     setContent(e.target.value);
   }
+
+  // 게시글 textarea 자동 높이
+  const handleResizeHeight = useCallback(() => {
+    contentInput.current.style.height = contentInput.current.scrollHeight + "px";
+  }, []);
 
   // 카테고리, 제목, 게시글 보내기
   const handleUploadPost = async (e) => {
@@ -127,7 +133,7 @@ const PostPage = () => {
         </DropdownWrapper>
         <SContentTitle placeholder="제목" onChange={writeTitle}/>
       </STitle>
-      <SPostContent placeholder="게시글 입력하기..." onChange={writePost}></SPostContent>
+      <SPostContent placeholder="게시글 입력하기..." ref={contentInput} onInput={handleResizeHeight} onChange={writePost}></SPostContent>
       {imgAddPreview()}
       <SUploadImgBtn onClick={handleClick}>
         <SInputImg type="file" accept="image/jpg, image/jpeg, image/png" multiple ref={imgInput} onChange={handleUploadImg}></SInputImg>
