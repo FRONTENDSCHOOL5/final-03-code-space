@@ -35,22 +35,33 @@ export default function ProductList() {
     }
   }
 
-  return (
-    <SLayout>
-      <SProductListTitle>판매 중인 상품</SProductListTitle>
-      {/* TODO: 갯수만큼 map으로 뿌려주기 */}
-      <SProductList>
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-      </SProductList>
-    </SLayout>
-  );
+  if (productData.length === 0) {
+    // 상품이 없을 때
+    return;
+  } else if (productData.length > 0) {
+    // 상품이 있을 때
+    return (
+      <SLayout>
+        <SProductListTitle>판매 중인 상품</SProductListTitle>
+        {/* 상품 갯수만큼 상품카드 넣어주기 */}
+        <SProductList>
+          {productData.map(product => {
+            <ProductCard
+              key={product.id}
+              itemName={product.itemName}
+              price={product.price}
+              itemImg={product.itemImage}
+            />;
+          })}
+        </SProductList>
+      </SLayout>
+    );
+  }
 }
 
 const SLayout = styled.div`
   box-shadow: inset 0px 0px 10px red;
-  padding-left: 16px;
+  padding: 21px 0 20px 16px;
 `;
 
 const SProductList = styled.div`
