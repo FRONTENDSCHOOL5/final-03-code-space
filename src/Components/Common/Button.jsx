@@ -26,6 +26,6 @@ const SButton = styled.button`
   cursor: pointer;
   &:hover {
     transition: all 0.3s;
-    background-color: var(--darkgray);
+    background-color: var(--secondary-color);
   }
 `;

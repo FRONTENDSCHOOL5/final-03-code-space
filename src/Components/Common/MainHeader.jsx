@@ -5,7 +5,8 @@ import searchIcon from '../../assets/icon-search.svg';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
 
-const MainHeader = ({ type }) => {
+
+const MainHeader = ({ type, handleUploadPost}) => {
   const navigate = useNavigate();
   function goBack() {
     navigate(-1);
@@ -28,10 +29,15 @@ const MainHeader = ({ type }) => {
             <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
             <img src={searchIcon} alt="돋보기"></img>
           </>
+        ) : type === 'save' ? (
+          <>
+            <img src={backIcon} alt="뒤로가기"></img>
+            <SSaveBtn>저장</SSaveBtn>
+          </>
         ) : type === 'upload' ? (
           <>
-            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
-            <img src={searchIcon} alt="돋보기"></img>
+            <img src={backIcon} alt="뒤로가기"></img>
+            <SSaveBtn onClick={handleUploadPost}>업로드</SSaveBtn>
           </>
         ) : (
           <>에러</>
@@ -57,6 +63,7 @@ const SLayout = styled.div`
   font-weight: bold;
   align-items: center;
 `;
+
 const SSearch = styled.input`
   display: flex;
   flex: 1;
@@ -66,4 +73,12 @@ const SSearch = styled.input`
   margin-left: 10px;
   border: none;
   box-sizing: border-box;
+`;
+
+const SSaveBtn = styled(Button)`
+  width: 90px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
