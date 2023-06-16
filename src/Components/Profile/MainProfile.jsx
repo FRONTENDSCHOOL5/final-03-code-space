@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { setAccountName } from '../../Atom/atom';
 import { Link } from 'react-router-dom';
@@ -7,13 +7,16 @@ import MainProfileBtns from './MainProfileBtns';
 
 export default function MainProfile({ profile }) {
   const accountName = useRecoilValue(setAccountName);
+  const [followerCount, setFollowerCount] = useState(profile.followerCount);
+
   console.log(profile);
+  console.log(followerCount);
 
   return (
     <SProfileLayout>
       <SProfileImgBox>
         <SFollowLink to="/follow">
-          <strong>{profile.followerCount}</strong>
+          <strong>{followerCount}</strong>
           <p>followers</p>
         </SFollowLink>
         <img src={profile.image} alt="" />
@@ -29,7 +32,12 @@ export default function MainProfile({ profile }) {
         <p>{profile.intro}</p>
       </SProfileInfo>
 
-      <MainProfileBtns isMyProfile={profile.accountname === accountName} />
+      <MainProfileBtns
+        accountName={profile.accountname}
+        isMyProfile={profile.accountname === accountName}
+        setFollowerCount={setFollowerCount}
+        followerCount={followerCount}
+      />
     </SProfileLayout>
   );
 }
