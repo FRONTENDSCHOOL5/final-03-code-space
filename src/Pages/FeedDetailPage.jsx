@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { extractString } from '../Components/Feed/extractString';
 import iconHeart from '../assets/icons/heart.svg';
+import iconFillHeart from '../assets/icons/fill-heart.svg';
 import iconComment from '../assets/icons/chat-green.svg';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MainHeader from '../Components/Common/MainHeader';
 import Comment from '../Components/Feed/Comment';
 import BottomNav from '../Components/Common/BottomNav';
+import { PostHeart } from '../Components/Feed/FetchComment';
 import {
   STitle,
   SContent,
@@ -25,6 +27,9 @@ import {
 } from '../Styles/FeedStyle/PostStyle';
 import WriteComment from '../Components/Feed/WriteComment';
 import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
+import FetchComment from '../Components/Feed/FetchComment';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { setToken, isfeedFetchToggle } from '../Atom/atom';
 
 const FeedDetailPage = () => {
   const navigate = useNavigate();
@@ -38,10 +43,14 @@ const FeedDetailPage = () => {
   const [isFetchData, setIsFetchData] = useState(false);
   const [reactionCount, setReactionCount] = useState();
 
+  const isToken = useRecoilValue(setToken);
+
+  console.log(feedList);
+
   function goProfile(item) {
     navigate('/myprofile', { state: item });
   }
-
+  console.log(reactionCount);
   return (
     <>
       <MainHeader type="profile" />
@@ -67,7 +76,19 @@ const FeedDetailPage = () => {
         <SReactionContainer>
           <SReactionContent>
             <SReactionCount>
-              <SHeartImg src={iconHeart} alt="하트" />
+              {reactionCount?.post.hearted ? (
+                <SHeartImg
+                  src={iconFillHeart}
+                  alt="하트"
+                  onClick={() => PostHeart(feedList.id, reactionCount?.post.hearted, setReactionCount)}
+                />
+              ) : (
+                <SHeartImg
+                  src={iconHeart}
+                  alt="하트"
+                  onClick={() => PostHeart(feedList.id, reactionCount?.post.hearted, setReactionCount)}
+                />
+              )}
               {reactionCount?.post.heartCount}
             </SReactionCount>
             <SReactionCount>
