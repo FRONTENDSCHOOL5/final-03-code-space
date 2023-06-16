@@ -32,5 +32,5 @@ export const categoryTag = atom({
 });
 export const categoryTagIndex = atom({
   key: 'categoryTagState',
-  default: '0',
+  default: 0,
 });
