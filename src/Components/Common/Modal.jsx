@@ -1,6 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import Button from './Button';
+import { useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
+import { isLandingEnter } from '../../Atom/atom';
 
 const Modal = ({
   title,
@@ -14,6 +17,7 @@ const Modal = ({
   successRes,
 }) => {
   const isFormValid = userEmail !== '' && userPassword !== '';
+  const isLandingEnteState = useRecoilValue(isLandingEnter);
 
   const LoginErrorMessage = title === '로그인' && LoginError ? '*이메일 또는 비밀번호가 일치하지 않습니다.' : '';
 
@@ -31,55 +35,66 @@ const Modal = ({
   };
 
   return (
-    <SModal>
-      <SModalTitle>{title}</SModalTitle>
-      <SForm onSubmit={handleSubmit}>
-        <SFormWrap className="EmailForm">
-          <label htmlFor="user-email">이메일</label>
+    <>
+      {!isLandingEnteState ? (
+        <SModal>
+          <SModalTitle>{title}</SModalTitle>
+          <SForm onSubmit={handleSubmit}>
+            <SFormWrap className="EmailForm">
+              <label htmlFor="user-email">이메일</label>
           {title === '이메일로 회원가입' ? (
-            <SInput
-              type="email"
-              placeholder={'이메일 주소를 입력해주세요'}
-              id="user-email"
-              value={userEmail}
-              onChange={inputHandler}
+                <SInput
+                  type="email"
+                  placeholder={'이메일 주소를 입력해주세요'}
+                  id="user-email"
+                  value={userEmail}
+                  onChange={inputHandler}
               onBlur={() => SignupSubmit(userEmail)}
-            />
+                />
           ) : (
             <SInput type="email" id="user-email" value={userEmail} onChange={inputHandler} />
           )}
           {successRes === '이미 가입된 이메일 주소 입니다.' ? <SErrorMessage>{successRes}</SErrorMessage> : null}
-        </SFormWrap>
+            </SFormWrap>
 
-        <SFormWrap className="PwForm">
-          <label htmlFor="user-pw">비밀번호</label>
-          <SInput
-            type="password"
-            id="user-password"
-            placeholder={title === '이메일로 회원가입' ? '비밀번호를 설정해주세요' : ''}
-            value={userPassword}
-            onChange={inputHandler}
+            <SFormWrap className="PwForm">
+              <label htmlFor="user-pw">비밀번호</label>
+              <SInput
+                type="password"
+                id="user-password"
+                placeholder={title === '이메일로 회원가입' ? '비밀번호를 설정해주세요' : ''}
+                value={userPassword}
+                onChange={inputHandler}
             disabled={successRes === '이미 가입된 이메일 주소 입니다.'}
             className={successRes === '이미 가입된 이메일 주소 입니다.' ? 'disabled' : ''}
-          />
-          {LoginError && <SErrorMessage>{LoginErrorMessage}</SErrorMessage>}
+              />
+              {LoginError && <SErrorMessage>{LoginErrorMessage}</SErrorMessage>}
 
           {!isPasswordValid && successRes !== '이미 가입된 이메일 주소 입니다.' ? (
             <SErrorMessage>{PwErrorMessage}</SErrorMessage>
           ) : null}
-        </SFormWrap>
+            </SFormWrap>
 
-        <SBtnBox>
-          <Button type="submit" disabled={!isFormValid}>
-            {title === '이메일로 회원가입' ? '다음' : '로그인'}
-          </Button>
-        </SBtnBox>
-      </SForm>
-    </SModal>
+            <SBtnBox>
+              <Button type="submit" disabled={!isFormValid}>
+                {title === '이메일로 회원가입' ? '다음' : '로그인'}
+              </Button>
+            </SBtnBox>
+          </SForm>
+        </SModal>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 
 export default Modal;
+
+const modalfadeOut = keyframes`
+  0% {  top: 100%;  }
+  100% {  top: 40%;  }
+`;
 
 const SModal = styled.article`
   width: 100%;
@@ -88,7 +103,10 @@ const SModal = styled.article`
   background-color: var(--modal-gray);
   border-radius: 47px 47px 0 0;
   position: fixed;
-  top: 50%;
+  top: 40%;
+
+  /* transition: all 2s; */
+  animation: ${({ isLandingEnterState }) => (isLandingEnterState ? 'none' : modalfadeOut)} 1.4s ease-in;
 
   ::before {
     content: '';

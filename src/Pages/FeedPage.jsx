@@ -5,7 +5,6 @@ import BottomNav from '../Components/Common/BottomNav';
 import FetchFeed from '../Components/Feed/FetchFeed';
 import TagButton from '../Components/Feed/TagButton';
 import { SMainLayout } from '../Styles/MainLayoutStyle';
-
 import { useRecoilValue } from 'recoil';
 import { useSetRecoilState } from 'recoil';
 import { headerToggle } from '../Atom/atom';
@@ -21,7 +20,7 @@ const FeedPage = () => {
   const headerToggleState = useRecoilValue(headerToggle);
 
   return (
-    <>
+    <SFeedLayout>
       <MainHeader type="feed" />
       {headerToggleState === 'feed' ? (
         <>
@@ -36,7 +35,7 @@ const FeedPage = () => {
         <div>검색창</div>
       )}
       <BottomNav />
-    </>
+    </SFeedLayout>
   );
 };
 export default FeedPage;
@@ -47,4 +46,7 @@ const STagLayout = styled.div`
   display: flex;
   gap: 10px;
   padding: 6px 20px;
+`;
+const SFeedLayout = styled(SMainLayout)`
+  padding-bottom: 70px;
 `;

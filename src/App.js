@@ -25,6 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/feed" element={<FeedPage />} />
+          <Route path="/feeddetail" element={<FeedDetailPage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/profile" element={<ProfileSetPage />} />
           <Route path="/myprofile" element={<MyProfilePage />} />
@@ -35,7 +36,7 @@ function App() {
           <Route path="/post" element={<PostPage />} />
           <Route path="/follow" element={<FollowPage />} />
           <Route path="/following" element={<FollowingPage />} />
-          <Route path="/profilecom" element={<Profile />} />
+          <Route path="/Modal" element={<Modal />} />
         </Routes>
       </SMainLayout>
     </div>
