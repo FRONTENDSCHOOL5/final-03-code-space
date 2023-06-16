@@ -36,15 +36,19 @@ const Modal = ({
       <SForm onSubmit={handleSubmit}>
         <SFormWrap className="EmailForm">
           <label htmlFor="user-email">이메일</label>
-          <SInput
-            type="email"
-            placeholder={title === '이메일로 회원가입' ? '이메일 주소를 입력해주세요' : ''}
-            id="user-email"
-            value={userEmail}
-            onChange={inputHandler}
-            onBlur={() => SignupSubmit(userEmail)}
-          />
-          <SErrorMessage>{successRes}</SErrorMessage>
+          {title === '이메일로 회원가입' ? (
+            <SInput
+              type="email"
+              placeholder={'이메일 주소를 입력해주세요'}
+              id="user-email"
+              value={userEmail}
+              onChange={inputHandler}
+              onBlur={() => SignupSubmit(userEmail)}
+            />
+          ) : (
+            <SInput type="email" id="user-email" value={userEmail} onChange={inputHandler} />
+          )}
+          {successRes === '이미 가입된 이메일 주소 입니다.' ? <SErrorMessage>{successRes}</SErrorMessage> : null}
         </SFormWrap>
 
         <SFormWrap className="PwForm">
@@ -55,11 +59,16 @@ const Modal = ({
             placeholder={title === '이메일로 회원가입' ? '비밀번호를 설정해주세요' : ''}
             value={userPassword}
             onChange={inputHandler}
+            disabled={successRes === '이미 가입된 이메일 주소 입니다.'}
+            className={successRes === '이미 가입된 이메일 주소 입니다.' ? 'disabled' : ''}
           />
           {LoginError && <SErrorMessage>{LoginErrorMessage}</SErrorMessage>}
 
-          {!isPasswordValid ? <SErrorMessage>{PwErrorMessage}</SErrorMessage> : null}
+          {!isPasswordValid && successRes !== '이미 가입된 이메일 주소 입니다.' ? (
+            <SErrorMessage>{PwErrorMessage}</SErrorMessage>
+          ) : null}
         </SFormWrap>
+
         <SBtnBox>
           <Button type="submit" disabled={!isFormValid}>
             {title === '이메일로 회원가입' ? '다음' : '로그인'}
@@ -115,6 +124,7 @@ const SFormWrap = styled.div`
     color: #767676;
   }
 `;
+
 const SInput = styled.input`
   background-color: var(--modal-gray);
   border: none;
@@ -129,6 +139,11 @@ const SInput = styled.input`
   }
   &::placeholder {
     color: var(--gray);
+  }
+
+  &.disabled {
+    background-color: var(--disabled-gray);
+    color: var(--disabled-text);
   }
 `;
 

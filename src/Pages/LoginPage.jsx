@@ -10,6 +10,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
 
   const setTokenAtom = useSetRecoilState(setToken);
 
@@ -59,6 +60,7 @@ const LoginPage = () => {
       userEmail={userEmail}
       userPassword={userPassword}
       inputHandler={inputHandler}
+      isPasswordValid={isPasswordValid}
       LoginError={LoginError}
     />
   );
