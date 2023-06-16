@@ -30,3 +30,7 @@ export const categoryTag = atom({
   key: 'categoryTag',
   default: '전체',
 });
+export const categoryTagIndex = atom({
+  key: 'categoryTagState',
+  default: '0',
+});
