@@ -43,6 +43,6 @@ const SButton = styled.button`
 
   &:hover {
     transition: all 0.3s;
-    background-color: var(--darkgray);
+    background-color: var(--secondary-color);
   }
 `;
