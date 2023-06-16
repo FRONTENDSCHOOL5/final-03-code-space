@@ -4,6 +4,7 @@ import Button from './Button';
 import { useSetRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
 import { isLandingEnter } from '../../Atom/atom';
+import { Link } from 'react-router-dom';
 
 const Modal = ({
   title,
@@ -80,7 +81,12 @@ const Modal = ({
                 {title === '이메일로 회원가입' ? '다음' : '로그인'}
               </Button>
             </SBtnBox>
-          </SForm>
+            {title === '로그인' && (
+        <SLink>
+          <Link to="/signup">이메일로 회원가입</Link>
+        </SLink>
+      )}
+      </SForm>
         </SModal>
       ) : (
         <></>
@@ -178,3 +184,14 @@ const SBtnBox = styled.div`
     background-color: var(--secondary-color);
   }
 `;
+
+const SLink = styled.div`
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+
+  a {
+    color: #767676;
+  }
+`;
+
