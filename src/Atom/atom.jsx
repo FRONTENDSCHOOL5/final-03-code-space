@@ -10,6 +10,12 @@ export const setToken = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const setAccountName = atom({
+  key: 'accountName',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
 export const headerToggle = atom({
   key: 'headerToggle',
   default: 'feed',

@@ -4,9 +4,10 @@ import axios from 'axios';
 import Modal from '../Components/Common/Modal';
 
 import { useSetRecoilState } from 'recoil';
-import { useRecoilValue } from 'recoil';
+// import { useRecoilValue } from 'recoil';
 
 import { setToken } from '../Atom/atom';
+import { setAccountName } from '../Atom/atom';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -14,7 +15,8 @@ const LoginPage = () => {
   const [userPassword, setUserPassword] = useState('');
 
   const setTokenAtom = useSetRecoilState(setToken);
-  const isToken = useRecoilValue(setToken);
+  const setAccountNameAtom = useSetRecoilState(setAccountName);
+  // const isToken = useRecoilValue(setToken);
 
   const [showErrorMessage, setShowErrorMessage] = useState(false);
 
@@ -48,6 +50,7 @@ const LoginPage = () => {
       const userData = response.data.user;
       console.log(userData.token);
       setTokenAtom(userData.token);
+      setAccountNameAtom(userData.accountname);
       navigate('/feed'); // 로그인 성공 시 main 피드로 이동
     } catch (error) {
       setShowErrorMessage(true);
