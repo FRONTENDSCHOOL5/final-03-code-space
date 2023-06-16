@@ -1,9 +1,14 @@
-// import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useRecoilValue } from 'recoil';
+import { setAccountName } from '../../Atom/atom';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '../Common/Button';
+import MainProfileBtns from './MainProfileBtns';
 
 export default function MainProfile({ profile }) {
+  const accountName = useRecoilValue(setAccountName);
+  console.log(profile);
+
   return (
     <SProfileLayout>
       <SProfileImgBox>
@@ -24,14 +29,7 @@ export default function MainProfile({ profile }) {
         <p>{profile.intro}</p>
       </SProfileInfo>
 
-      <SBtnBox>
-        <Button width="120px" myProfileBtn={true}>
-          <Link to="/profile">프로필 수정</Link>
-        </Button>
-        <Button width="100px" myProfileBtn={true}>
-          <Link to="/product">상품 등록</Link>
-        </Button>
-      </SBtnBox>
+      <MainProfileBtns isMyProfile={profile.accountname === accountName} />
     </SProfileLayout>
   );
 }
@@ -97,14 +95,5 @@ const SProfileInfo = styled.div`
     font-size: 14px;
     line-height: 19px;
     color: var(--gray);
-  }
-`;
-
-const SBtnBox = styled.div`
-  box-shadow: inset 0 0 20px red;
-  text-align: center;
-
-  button:first-child {
-    margin-right: 12px;
   }
 `;
