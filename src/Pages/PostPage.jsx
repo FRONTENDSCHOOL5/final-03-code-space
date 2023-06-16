@@ -1,14 +1,19 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
-import uploadImg from '../assets/icons/uploadImg.svg'
-import delImg from '../assets/icons/del.svg'
+import uploadImg from '../assets/icons/uploadImg.svg';
+import delImg from '../assets/icons/del.svg';
 import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { setToken } from '../Atom/atom';
 
 const PostPage = () => {
-  const url = "https://api.mandarin.weniv.co.kr/";
-  const authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
+  const url = 'https://api.mandarin.weniv.co.kr/';
+  const authorization =
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
 
+  const isToken = useRecoilValue(setToken);
+  console.log(isToken);
   const contentInput = useRef();
   const imgInput = useRef();
 
@@ -33,112 +38,120 @@ const PostPage = () => {
     setTitle(e.target.value);
   }
 
-  // 게시글 
+  // 게시글
   function writePost(e) {
     setContent(e.target.value);
   }
 
   // 게시글 textarea 자동 높이
   const handleResizeHeight = useCallback(() => {
-    contentInput.current.style.height = contentInput.current.scrollHeight + "px";
+    contentInput.current.style.height = contentInput.current.scrollHeight + 'px';
   }, []);
 
   // 카테고리, 제목, 게시글 보내기
-  const handleUploadPost = async (e) => {
-    const imgUrl = imgAddList[0].url
+  const handleUploadPost = async e => {
+    const imgUrl = imgAddList[0].url;
     const image = url + imgUrl;
 
     const config = {
-      headers:{"Authorization" : authorization,
-      "Content-type" : "application/json"}
-    }
+      headers: { Authorization: 'Bearer ' + isToken, 'Content-type': 'application/json' },
+    };
 
     try {
-      const response = await axios.post(url+"post", {
-        "post": {
-          "content":`\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"${content}`,
-          "image": image // 이미지 url
-        }
-      }, config)
+      const response = await axios.post(
+        url + 'post',
+        {
+          post: {
+            content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"${content}`,
+            image: image, // 이미지 url
+          },
+        },
+        config,
+      );
       console.log(response);
-    } catch(error){
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   // 이미지 업로드 버튼 클릭시 파일 선택 가능
   const handleClick = () => {
     imgInput.current.click();
-  }
-
+  };
 
   // 이미지 서버 업로드
-  const handleUploadImg = async (e) => {
+  const handleUploadImg = async e => {
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append('image', file);
 
     const config = {
-      headers:{'Content-Type': 'multipart/form-data',}
+      headers: { 'Content-Type': 'multipart/form-data' },
     };
 
     try {
-      const response = await axios.post(url+"image/uploadfiles/", formData, config).then(alert("업로드완료!"));
+      const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(alert('업로드완료!'));
       const uploadedImageUrl = response.data[0].filename;
       console.log(uploadedImageUrl);
       setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
       console.log(response);
-    }catch (error) {
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   // 이미지 미리보기
   const imgAddPreview = () => {
-    return(
+    return (
       <SImgContainer>
         {imgAddList.map((img, index) => {
           const imgWidth = imgAddList.length === 1 ? '350px' : '100px';
           const imgMargin = imgAddList.length === 1 ? '20px' : '10px';
-          return(
+          return (
             <SImgBox key={index}>
-              <SDelBtn onClick={()=> onRemoveAdd(img.url)}/>
-              <SPreviewImg src={url+img.url} style={{width: imgWidth, margin: imgMargin}}/>
+              <SDelBtn onClick={() => onRemoveAdd(img.url)} />
+              <SPreviewImg src={url + img.url} style={{ width: imgWidth, margin: imgMargin }} />
             </SImgBox>
-            )
-          })
-        }
+          );
+        })}
       </SImgContainer>
-    )
+    );
   };
 
   // 이미지 삭제
-  const onRemoveAdd = (deleteUrl) => {
+  const onRemoveAdd = deleteUrl => {
     setImgAddList(imgAddList.filter(img => img.url !== deleteUrl));
-  }
+  };
 
-  return(
+  return (
     <>
-      <MainHeader type="upload" handleUploadPost={handleUploadPost}/>
+      <MainHeader type="upload" handleUploadPost={handleUploadPost} />
       <STitle>
         <DropdownWrapper>
-          <DropdownButton onClick={toggleDropdown}>
-            {selectedItem ? selectedItem : '▼ 카테고리'}
-          </DropdownButton>
+          <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '▼ 카테고리'}</DropdownButton>
           <DropdownContent isOpen={isOpen}>
             <DropdownItem onClick={() => handleItemClick('질문있어요!')}>질문있어요!</DropdownItem>
             <DropdownItem onClick={() => handleItemClick('스터디 모집')}>스터디 모집</DropdownItem>
             <DropdownItem onClick={() => handleItemClick('자유게시판')}>자유게시판</DropdownItem>
           </DropdownContent>
         </DropdownWrapper>
-        <SContentTitle placeholder="제목" onChange={writeTitle}/>
+        <SContentTitle placeholder="제목" onChange={writeTitle} />
       </STitle>
-      <SPostContent placeholder="게시글 입력하기..." ref={contentInput} onInput={handleResizeHeight} onChange={writePost}></SPostContent>
+      <SPostContent
+        placeholder="게시글 입력하기..."
+        ref={contentInput}
+        onInput={handleResizeHeight}
+        onChange={writePost}></SPostContent>
       {imgAddPreview()}
       <SUploadImgBtn onClick={handleClick}>
-        <SInputImg type="file" accept="image/jpg, image/jpeg, image/png" multiple ref={imgInput} onChange={handleUploadImg}></SInputImg>
-    </SUploadImgBtn>
-  </>
+        <SInputImg
+          type="file"
+          accept="image/jpg, image/jpeg, image/png"
+          multiple
+          ref={imgInput}
+          onChange={handleUploadImg}></SInputImg>
+      </SUploadImgBtn>
+    </>
   );
 };
 
