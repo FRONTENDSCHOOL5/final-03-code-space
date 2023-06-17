@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 const Modal = ({
   title,
   LoginSubmit,
-  SignupSubmit,
+  ValidSubmit,
   userEmail,
   userPassword,
   inputHandler,
@@ -27,8 +27,8 @@ const Modal = ({
   const handleSubmit = e => {
     e.preventDefault();
     if (title === '이메일로 회원가입') {
-      console.log('회원가입 submit 실행');
-      SignupSubmit(e);
+      console.log('이메일 검증 submit 실행');
+      ValidSubmit(e);
     } else {
       console.log('로그인 submit 실행');
       LoginSubmit(e);
@@ -50,7 +50,7 @@ const Modal = ({
                   id="user-email"
                   value={userEmail}
                   onChange={inputHandler}
-              onBlur={() => SignupSubmit(userEmail)}
+              onBlur={() => ValidSubmit(userEmail)}
                 />
           ) : (
             <SInput type="email" id="user-email" value={userEmail} onChange={inputHandler} />

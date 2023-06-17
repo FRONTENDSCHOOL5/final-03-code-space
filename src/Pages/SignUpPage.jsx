@@ -18,7 +18,7 @@ const SignUpPage = () => {
     }
   };
 
-  const SignupSubmit = async e => {
+  const ValidSubmit = async e => {
     // e.preventDefault();
 
     if (userPassword.length < 6) {
@@ -59,7 +59,7 @@ const SignUpPage = () => {
   return (
     <Modal
       title="이메일로 회원가입"
-      SignupSubmit={SignupSubmit}
+      ValidSubmit={ValidSubmit}
       userEmail={userEmail}
       userPassword={userPassword}
       inputHandler={inputHandler}
