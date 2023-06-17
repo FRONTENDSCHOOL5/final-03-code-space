@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { ReactComponent as ProfileIcon } from '../../assets/icons/profileicon.svg';
@@ -7,13 +7,23 @@ import Input from './Input';
 
 const DEFAULT_PROFILE_IMAGE = ProfileIcon;
 
-export default function Profile() {
+export default function Profile({onFormValidityChange}) {
   const [profileImage, setProfileImage] = useState(null);
+  const [username, setUsername] = useState('');
+  const [accountId, setAccountId] = useState('');
+  const [accountMessage, setAccountMessage] = useState('')
+  const [Intro, setIntro] = useState('');
+
+  useEffect(() => {
+    const isValid = username !== '' && accountId !== '';
+    onFormValidityChange(isValid);
+  }, [username, accountId, onFormValidityChange]); // username과 accountId가 입력됐는지
 
   const handleImageUpload = async e => {
     const formData = new FormData();
     const imageFile = e.target.files[0];
     formData.append('image', imageFile);
+
 
     try {
       const response = await axios.post('https://api.mandarin.weniv.co.kr/image/uploadfile', formData);
@@ -23,7 +33,56 @@ export default function Profile() {
       console.error('Error uploading image:', error);
     }
   };
+  
+  const handleUsernameChange = (e) => {
+    const value = e.target.value;
+    if (value.length <= 10) {
+      setUsername(value.slice(0, 10));
+    }
+  };
 
+  const handleAccountIdChange = (e) => {
+    const value = e.target.value;
+    const sanitizedValue = value.replace(/[^a-zA-Z0-9._]/g, "");
+  
+    setAccountId(sanitizedValue);
+  
+    if (sanitizedValue !== value) {
+      e.target.value = sanitizedValue;
+    }
+  };
+  
+  const handleAccountIdBlur = async () => {
+    const url = 'https://api.mandarin.weniv.co.kr';
+    try {
+      const response = await axios.post(
+        url + '/user/accountnamevalid',
+        {
+          user: {
+            accountname: accountId,
+          },
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+  
+      console.log(response.data.message);
+      setAccountMessage(response.data.message); 
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  
+
+  const handleIntroChange = e => {
+    setIntro(e.target.value);
+  };
+
+  
   return (
     <Container>
       <CenteredDiv>
@@ -43,9 +102,26 @@ export default function Profile() {
           <input id="profile-image" type="file" accept="image/*" onChange={handleImageUpload} hidden />
         </MarginDiv>
       </CenteredDiv>
-      <Input placeholder="2~10자 이내여야 합니다." label="사용자 이름" />
-      <Input placeholder="영문, 숫자, 특수문자(.), (_)만 사용 가능합니다." label="계정 ID" />
-      <Input placeholder="자신과 판매할 상품에 대해 소개해주세요." label="소개" />
+      <Input
+        placeholder="2~10자 이내여야 합니다."
+        label="사용자 이름"
+        value={username}
+        onChange={handleUsernameChange}
+      />
+      <Input
+        placeholder="영문, 숫자, 특수문자(.), (_)만 사용 가능합니다."
+        label="계정 ID"
+        value={accountId}
+        onChange={handleAccountIdChange}
+        onBlur={handleAccountIdBlur}
+      />
+      <SAccountMessage>{accountMessage}</SAccountMessage>
+      <Input
+        placeholder="자신과 판매할 상품에 대해 소개해주세요."
+        label="소개"
+        value={Intro}
+        onChange={handleIntroChange}
+      />
     </Container>
   );
 }
@@ -75,7 +151,7 @@ const StyledUploadImg = styled.label`
   position: absolute;
   bottom: 0;
   right: 0;
-  width:40px;
+  width: 40px;
   height: 40px;
   cursor: pointer;
 `;
@@ -102,4 +178,10 @@ const DefaultProfileImageWrapper = styled.div`
   border-radius: 50%;
   background-color: lightgray;
 `;
+
+const SAccountMessage = styled.p `
+  color: #eb5757;
+  font-size: 12px;
+  margin-top: 5px;
+  `
 
