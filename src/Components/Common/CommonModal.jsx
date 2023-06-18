@@ -2,11 +2,9 @@ import React, { useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isConfigModal, setToken } from '../../Atom/atom';
-const CommonModal = () => {
+const CommonModal = ({ deleteFeed }) => {
   const modalRef = useRef(null);
   const setIsConfigModal = useSetRecoilState(isConfigModal);
-  const isToken = useRecoilValue(setToken);
-  console.log(isToken);
 
   const handleClickOutside = event => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -17,7 +15,7 @@ const CommonModal = () => {
     <SBackground onClick={handleClickOutside}>
       <SModal ref={modalRef}>
         <SContents>
-          <div>삭제</div>
+          <div onClick={() => deleteFeed()}>삭제</div>
           <div>수정</div>
         </SContents>
       </SModal>
@@ -33,7 +31,7 @@ const SContents = styled.div`
   justify-content: space-between;
   color: var(--white);
   margin-top: 50px;
-  gap: 20px;
+  gap: 40px;
   div {
     width: 40%;
     text-align: center;

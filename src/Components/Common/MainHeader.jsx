@@ -27,7 +27,7 @@ const MainHeader = ({ type, handleUploadPost }) => {
         ) : type === 'profile' ? (
           <>
             <img src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></img>
-            <img src={configIcon} alt="설정창" onClick={() => setIsConfigModal(!IsConfigModal)}></img>
+            <img src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></img>
           </>
         ) : type === 'save' ? (
           <>

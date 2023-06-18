@@ -46,11 +46,21 @@ const FeedDetailPage = () => {
 
   const isModalState = useRecoilValue(isConfigModal);
 
-  const { postHeart } = useFetchComment({ postID: feedList.id });
+  const { postHeart, deletePost } = useFetchComment({ postID: feedList.id });
 
   function goProfile(item) {
     navigate('/myprofile', { state: item });
   }
+  async function deleteFeed() {
+    await deletePost(); // deletePost 함수의 비동기 작업 완료까지 기다림
+    alert('삭제되었습니다!');
+    navigate('/feed');
+  }
+
+  const setIsConfigModal = useSetRecoilState(isConfigModal);
+  useEffect(() => {
+    setIsConfigModal(false);
+  }, []);
   return (
     <>
       <MainHeader type="profile" />
@@ -116,7 +126,7 @@ const FeedDetailPage = () => {
         setIsFetchData={setIsFetchData}
         setReactionCount={setReactionCount}
       />
-      {isModalState ? <CommonModal /> : <></>}
+      {isModalState ? <CommonModal deleteFeed={deleteFeed} /> : <></>}
     </>
   );
 };

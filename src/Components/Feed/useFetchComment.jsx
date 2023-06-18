@@ -24,15 +24,18 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
     },
   });
 
-  useEffect(() => {
-    if (fetchType === 'feed') {
-      console.log(fetchType);
-      getFeed();
-    } else if (fetchType === 'comment') {
-      console.log(fetchType);
-      getComment();
+  async function deletePost() {
+    const deletePost = `post/${postID}`;
+
+    try {
+      const response = await POST_instance.delete(deletePost);
+      console.log(response.data);
+      console.log(response.data.message);
+    } catch (error) {
+      console.error(error);
+      alert('잘못된 접근입니다!!!');
     }
-  }, [refreshFeedState]);
+  }
 
   async function getComment() {
     console.log('getComment');
@@ -91,7 +94,7 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
     }
   }
 
-  return { postHeart, getComment, getFeed };
+  return { postHeart, getComment, getFeed, deletePost };
 };
 
 export default useFetchComment;
