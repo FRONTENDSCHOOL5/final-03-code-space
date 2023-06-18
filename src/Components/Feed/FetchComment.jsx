@@ -24,7 +24,7 @@ export const PostHeart = async (postID, hearted, setReactionCount) => {
   let POST_URL = '';
   const HeartPost = `post/${postID}/heart`;
   const UNHeartPost = `post/${postID}/unheart`;
-  const FeedGET = `post/${postID}`;
+  const FeedGET = `post/${postID}/?limit=20`;
 
   if (!hearted) {
     POST_URL = HeartPost;
