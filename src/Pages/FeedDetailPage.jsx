@@ -23,6 +23,7 @@ import {
   SReactionCount,
   SDetailFeedCard,
   SPostImage,
+  SHeartImgDetail,
 } from '../Styles/FeedStyle/PostStyle';
 import WriteComment from '../Components/Feed/WriteComment';
 import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
@@ -87,13 +88,13 @@ const FeedDetailPage = () => {
           <SReactionContent>
             <SReactionCount>
               {reactionCount?.post.hearted ? (
-                <SHeartImg
+                <SHeartImgDetail
                   src={iconFillHeart}
                   alt="하트"
                   onClick={() => postHeart(reactionCount?.post.hearted, setReactionCount)}
                 />
               ) : (
-                <SHeartImg
+                <SHeartImgDetail
                   src={iconHeart}
                   alt="하트"
                   onClick={() => postHeart(reactionCount?.post.hearted, setReactionCount)}

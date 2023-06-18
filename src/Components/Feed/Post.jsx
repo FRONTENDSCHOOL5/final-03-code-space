@@ -75,7 +75,7 @@ const Post = ({ isFetchData, FeedList }) => {
                     <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
                   )}
                   <STitleContainer onClick={() => goFeedDetail(item, title, content)}>
-                    <STitle>{title}</STitle>
+                    <STitle onClick={() => goFeedDetail(item, title, content)}>{title}</STitle>
                     <SAuthorInfo>
                       <SUserName>{item.author.username}</SUserName>
                       <SAccountname>@{item.author.accountname}</SAccountname>

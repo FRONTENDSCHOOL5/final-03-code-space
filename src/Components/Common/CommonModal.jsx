@@ -31,10 +31,12 @@ const SContents = styled.div`
   justify-content: space-between;
   color: var(--white);
   margin-top: 50px;
-  gap: 40px;
+  gap: 30px;
   div {
     width: 40%;
     text-align: center;
+    padding: 10px;
+    border-radius: 10px;
   }
   div:nth-child(1) {
     color: red;

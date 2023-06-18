@@ -17,26 +17,26 @@ const MainHeader = ({ type, handleUploadPost }) => {
         {type === 'feed' ? (
           <>
             <div>코드스페이스</div>
-            <img src={searchIcon} alt="돋보기" onClick={() => navigate('/search')} />
+            <SBackIcon src={searchIcon} alt="돋보기" onClick={() => navigate('/search')} />
           </>
         ) : type === 'search' ? (
           <>
-            <img src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></img>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
             <SSearch type="text" placeholder="Search" />
           </>
         ) : type === 'profile' ? (
           <>
-            <img src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></img>
-            <img src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></img>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <SBackIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SBackIcon>
           </>
         ) : type === 'save' ? (
           <>
-            <img src={backIcon} alt="뒤로가기"></img>
+            <SBackIcon src={backIcon} alt="뒤로가기"></SBackIcon>
             <SSaveBtn>저장</SSaveBtn>
           </>
         ) : type === 'upload' ? (
           <>
-            <img src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></img>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
             <SSaveBtn onClick={handleUploadPost}>업로드</SSaveBtn>
           </>
         ) : (
@@ -81,4 +81,9 @@ const SSaveBtn = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+const SBackIcon = styled.img`
+  &:hover {
+    scale: 1.1;
+  }
 `;

@@ -80,6 +80,16 @@ const SHeartImg = styled.img`
   height: 100%;
   fill: var(--point-color);
 `;
+const SHeartImgDetail = styled.img`
+  max-width: 15px;
+  max-height: 15px;
+  width: 100%;
+  height: 100%;
+  fill: var(--point-color);
+  &:hover {
+    scale: 1.2;
+  }
+`;
 const SReactionContainer = styled.div`
   display: flex;
   color: var(--lightgray);
@@ -120,4 +130,5 @@ export {
   SDetailFeedCard,
   SMainContent,
   SPostImage,
+  SHeartImgDetail,
 };
