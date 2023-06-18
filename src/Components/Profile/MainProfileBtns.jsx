@@ -9,13 +9,12 @@ import { setToken } from '../../Atom/atom';
 import { setIsFollowed } from '../../Atom/atom';
 import axios from 'axios';
 
-export default function MainProfileBtns({ accountName, isMyProfile, setFollowerCount, followerCount }) {
+export default function MainProfileBtns({ accountName, isMyProfile, setFollowerCount }) {
   const [isSubscribed, setIsSubscribed] = useRecoilState(setIsFollowed);
-  //   const [followerCount, setFollowerCount] = useState(2890);
   const token = useRecoilValue(setToken);
   const URL = 'https://api.mandarin.weniv.co.kr';
 
-  console.log(followerCount);
+  // console.log(followerCount);
 
   async function handleClick() {
     if (isSubscribed === false) {
@@ -50,8 +49,7 @@ export default function MainProfileBtns({ accountName, isMyProfile, setFollowerC
           },
         });
         setFollowerCount(response.data.profile.followerCount);
-
-        // console.log(response);
+        console.log(response.data.profile.followerCount);
       } catch (error) {
         console.log(error);
       }

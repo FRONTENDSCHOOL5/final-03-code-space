@@ -1,22 +1,54 @@
-import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { setAccountName } from '../../Atom/atom';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MainProfileBtns from './MainProfileBtns';
+import axios from 'axios';
+import { setToken } from '../../Atom/atom';
 
 export default function MainProfile({ profile }) {
+  const token = useRecoilValue(setToken);
   const accountName = useRecoilValue(setAccountName);
+
   const [followerCount, setFollowerCount] = useState(profile.followerCount);
+  const [followerCountRender, setFollowerCountRender] = useState(profile.followerCount);
 
   console.log(profile);
+  console.log(profile.accountname);
+  console.log(profile.followerCount);
   console.log(followerCount);
+  console.log(followerCountRender);
+
+  useEffect(() => {
+    getUserData();
+  }, [followerCount]);
+
+  async function getUserData() {
+    const URL = 'https://api.mandarin.weniv.co.kr';
+    const reqPath = `/profile/${profile.accountname}`;
+
+    try {
+      const response = await axios.get(URL + reqPath, {
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      console.log(response.data.profile);
+      setFollowerCount(response.data.profile.followerCount);
+      setFollowerCountRender(response.data.profile.followerCount);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <SProfileLayout>
       <SProfileImgBox>
         <SFollowLink to="/follow">
-          <strong>{followerCount}</strong>
+          <strong>{followerCountRender}</strong>
           <p>followers</p>
         </SFollowLink>
         <img src={profile.image} alt="" />
@@ -36,7 +68,7 @@ export default function MainProfile({ profile }) {
         accountName={profile.accountname}
         isMyProfile={profile.accountname === accountName}
         setFollowerCount={setFollowerCount}
-        followerCount={followerCount}
+        // followerCount={followerCount}
       />
     </SProfileLayout>
   );
