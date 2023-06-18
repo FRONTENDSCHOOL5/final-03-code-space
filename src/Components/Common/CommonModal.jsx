@@ -2,10 +2,12 @@ import React, { useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isConfigModal, setToken } from '../../Atom/atom';
-const CommonModal = ({ deleteFeed }) => {
+import { useNavigate } from 'react-router-dom';
+const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit }) => {
   const modalRef = useRef(null);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   const setIsConfigModal = useSetRecoilState(isConfigModal);
+  const navigate = useNavigate();
   const handleClickOutside = event => {
     const target = event.target;
     if (target.classList.contains('confirm-title')) {
@@ -15,12 +17,18 @@ const CommonModal = ({ deleteFeed }) => {
       setIsConfigModal(false);
     }
   };
+  setIsEdit(true);
+
+  function goEdit() {
+    console.log(isEdit);
+    navigate('/post', { state: { isEdit, ...feedList } });
+  }
   return (
     <SBackground onClick={handleClickOutside}>
       <SModal ref={modalRef}>
         <SContents>
           <div onClick={() => setIsConfirmModal(true)}>삭제</div>
-          <div>수정</div>
+          <div onClick={() => goEdit()}>수정</div>
         </SContents>
       </SModal>
       {isConfirmModal && (

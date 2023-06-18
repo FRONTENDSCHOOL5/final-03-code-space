@@ -6,7 +6,7 @@ import FetchFeed from '../Components/Feed/FetchFeed';
 import TagButton from '../Components/Feed/TagButton';
 import { SMainLayout } from '../Styles/MainLayoutStyle';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { headerToggle, categoryTag, categoryTagIndex } from '../Atom/atom';
+import { headerToggle, categoryTag, categoryTagIndex, isEditCheck } from '../Atom/atom';
 import { extractString } from '../Components/Feed/extractString';
 import SearchPage from './SearchPage';
 // 피드 메인 페이지
@@ -16,6 +16,7 @@ const FeedPage = () => {
   const setTagState = useSetRecoilState(categoryTag);
   const setTagIndexState = useSetRecoilState(categoryTagIndex);
   const TagIndexState = useRecoilValue(categoryTagIndex);
+  const setIsEditCheck = useSetRecoilState(isEditCheck);
 
   const handleClick = index => {
     setActiveIndex(index);
@@ -25,6 +26,7 @@ const FeedPage = () => {
   useEffect(() => {
     setActiveIndex(TagIndexState);
     setTagState(tagItem[TagIndexState]);
+    setIsEditCheck(false);
   }, []);
 
   const tagItem = ['전체', '스터디 모집', '질문있어요!', '자유게시판'];

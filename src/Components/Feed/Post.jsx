@@ -23,18 +23,16 @@ import iconHeart from '../../assets/icons/heart.svg';
 import iconComment from '../../assets/icons/chat-green.svg';
 import { profileImg, APIDefaultImage } from './COMMON';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { categoryTag, searchFeedList } from '../../Atom/atom';
+import { categoryTag, searchFeedList, isEditCheck } from '../../Atom/atom';
 
 const Post = ({ isFetchData, FeedList, allFeed }) => {
-  console.log(allFeed);
-  console.log(FeedList);
   const setFeedListState = useSetRecoilState(searchFeedList);
   const feedListState = useRecoilValue(searchFeedList);
   const navigate = useNavigate();
   const tagState = useRecoilValue(categoryTag);
 
-  function goFeedDetail(item, title, content) {
-    navigate('/feeddetail', { state: { item, title, content } });
+  function goFeedDetail(item, title, content, category) {
+    navigate('/feeddetail', { state: { feedList: { item, title, content, category } } });
   }
   function goProfile(item) {
     navigate('/myprofile', { state: item });
@@ -103,8 +101,8 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
                   ) : (
                     <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
                   )}
-                  <STitleContainer onClick={() => goFeedDetail(item, title, content)}>
-                    <STitle onClick={() => goFeedDetail(item, title, content)}>{title}</STitle>
+                  <STitleContainer onClick={() => goFeedDetail(item, title, content, category)}>
+                    <STitle onClick={() => goFeedDetail(item, title, content, category)}>{title}</STitle>
                     <SAuthorInfo>
                       <SUserName>{item.author.username}</SUserName>
                       <SAccountname>@{item.author.accountname}</SAccountname>
@@ -112,10 +110,10 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
                   </STitleContainer>
                 </SAuthor>
                 <div>
-                  <SMainContent onClick={() => goFeedDetail(item, title, content)}>{content}</SMainContent>
+                  <SMainContent onClick={() => goFeedDetail(item, title, content, category)}>{content}</SMainContent>
                 </div>
                 <SReactionContainer>
-                  <SReactionContent onClick={() => goFeedDetail(item, title, content)}>
+                  <SReactionContent onClick={() => goFeedDetail(item, title, content, category)}>
                     <SReactionCount>
                       <SHeartImg src={iconHeart} alt="하트" />
                       {item.heartCount}

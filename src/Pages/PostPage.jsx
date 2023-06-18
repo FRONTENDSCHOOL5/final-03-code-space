@@ -1,11 +1,13 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg';
 import delImg from '../assets/icons/del.svg';
 import axios from 'axios';
-import { useRecoilValue } from 'recoil';
 import { setToken } from '../Atom/atom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { isEditCheck } from '../Atom/atom';
 
 const PostPage = () => {
   const url = 'https://api.mandarin.weniv.co.kr/';
@@ -13,7 +15,6 @@ const PostPage = () => {
     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
 
   const isToken = useRecoilValue(setToken);
-  console.log(isToken);
   const contentInput = useRef();
   const imgInput = useRef();
 
@@ -23,24 +24,47 @@ const PostPage = () => {
   const [content, setContent] = useState('');
   const [imgAddList, setImgAddList] = useState([]);
 
+  const setIsEditCheck = useSetRecoilState(isEditCheck);
+  const IsEditCheck = useRecoilValue(isEditCheck);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isEdit = location.state?.isEdit;
+  const feedList = location.state?.feedList;
+  const feedContent = location.state?.feedList;
+
+  const [contentTitleEdit, setContentTitleEdit] = useState(isEdit ? feedList.title : '');
+  const [contentEdit, setContentEdit] = useState(isEdit ? feedList.content : '');
+
+  useEffect(() => {
+    console.log(isEdit);
+    if (IsEditCheck) {
+      // navigate('/feed');
+    }
+    if (isEdit) {
+      handleItemClick(feedList.category);
+      setImgAddList(feedList.item.image);
+    }
+  }, []);
   // 카테고리 드롭다운
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   const handleItemClick = item => {
+    console.log(item);
     setSelectedItem(item);
     setIsOpen(false);
   };
 
   // 제목
   function writeTitle(e) {
-    setTitle(e.target.value);
+    setContentTitleEdit(e.target.value);
   }
 
   // 게시글
   function writePost(e) {
-    setContent(e.target.value);
+    setContentEdit(e.target.value);
   }
 
   // 게시글 textarea 자동 높이
@@ -56,21 +80,43 @@ const PostPage = () => {
     const config = {
       headers: { Authorization: 'Bearer ' + isToken, 'Content-type': 'application/json' },
     };
-
-    try {
-      const response = await axios.post(
-        url + 'post',
-        {
-          post: {
-            content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"${content}`,
-            image: image, // 이미지 url
+    if (isEdit) {
+      const image = feedList.item.image;
+      try {
+        console.log(title, content);
+        const response = await axios.put(
+          url + `post/${feedList.item.id}`,
+          {
+            post: {
+              content: `\\\"title:${contentTitleEdit}\\\"\\\"category:${selectedItem}\\\"${contentEdit}`,
+              image: image, // 이미지 url
+            },
           },
-        },
-        config,
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+          config,
+        );
+
+        console.log(response.data.post);
+        setIsEditCheck(true);
+        navigate('/feeddetail', { state: { ...location.state, edit: response.data.post } });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const response = await axios.post(
+          url + 'post',
+          {
+            post: {
+              content: `\\\"title:${contentTitleEdit}\\\"\\\"category:${selectedItem}\\\"${contentEdit}`,
+              image: image, // 이미지 url
+            },
+          },
+          config,
+        );
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -82,13 +128,13 @@ const PostPage = () => {
   // 이미지 서버 업로드
   const handleUploadImg = async e => {
     const file = e.target.files[0];
+    console.log(file);
     const formData = new FormData();
     formData.append('image', file);
 
     const config = {
       headers: { 'Content-Type': 'multipart/form-data' },
     };
-
     try {
       const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(alert('업로드완료!'));
       const uploadedImageUrl = response.data[0].filename;
@@ -102,18 +148,26 @@ const PostPage = () => {
 
   // 이미지 미리보기
   const imgAddPreview = () => {
+    console.log(imgAddList);
+    const imgWidth = imgAddList.length === 1 || isEdit ? '350px' : '100px';
+    const imgMargin = imgAddList.length === 1 || isEdit ? '20px' : '10px';
     return (
       <SImgContainer>
-        {imgAddList.map((img, index) => {
-          const imgWidth = imgAddList.length === 1 ? '350px' : '100px';
-          const imgMargin = imgAddList.length === 1 ? '20px' : '10px';
-          return (
-            <SImgBox key={index}>
-              <SDelBtn onClick={() => onRemoveAdd(img.url)} />
-              <SPreviewImg src={url + img.url} style={{ width: imgWidth, margin: imgMargin }} />
-            </SImgBox>
-          );
-        })}
+        {isEdit ? (
+          <SImgBox key={feedList.item.id}>
+            <SDelBtn onClick={() => onRemoveAdd(imgAddList)} />
+            <SPreviewImg src={imgAddList} style={{ width: imgWidth, margin: imgMargin }} />
+          </SImgBox>
+        ) : (
+          imgAddList.map((img, index) => {
+            return (
+              <SImgBox key={index}>
+                <SDelBtn onClick={() => onRemoveAdd(img.url)} />
+                <SPreviewImg src={url + img.url} style={{ width: imgWidth, margin: imgMargin }} />
+              </SImgBox>
+            );
+          })
+        )}
       </SImgContainer>
     );
   };
@@ -135,13 +189,27 @@ const PostPage = () => {
             <DropdownItem onClick={() => handleItemClick('자유게시판')}>자유게시판</DropdownItem>
           </DropdownContent>
         </DropdownWrapper>
-        <SContentTitle placeholder="제목" onChange={writeTitle} />
+        {isEdit ? (
+          <SContentTitle placeholder="제목" onChange={writeTitle} value={contentTitleEdit} />
+        ) : (
+          <SContentTitle placeholder="제목" onChange={writeTitle} />
+        )}
       </STitle>
-      <SPostContent
-        placeholder="게시글 입력하기..."
-        ref={contentInput}
-        onInput={handleResizeHeight}
-        onChange={writePost}></SPostContent>
+      {isEdit ? (
+        <SPostContent
+          placeholder="게시글 입력하기..."
+          ref={contentInput}
+          onInput={handleResizeHeight}
+          onChange={writePost}
+          value={contentEdit}></SPostContent>
+      ) : (
+        <SPostContent
+          placeholder="게시글 입력하기..."
+          ref={contentInput}
+          onInput={handleResizeHeight}
+          onChange={writePost}></SPostContent>
+      )}
+
       {imgAddPreview()}
       <SUploadImgBtn onClick={handleClick}>
         <SInputImg

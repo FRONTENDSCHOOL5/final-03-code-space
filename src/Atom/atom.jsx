@@ -9,6 +9,11 @@ export const setToken = atom({
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
+export const searchFeedList = atom({
+  key: 'FeedList',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
 
 export const headerToggle = atom({
   key: 'headerToggle',
@@ -38,8 +43,7 @@ export const isConfigModal = atom({
   key: 'isConfigModal',
   default: false,
 });
-export const searchFeedList = atom({
-  key: 'FeedList',
-  default: [],
-  effects_UNSTABLE: [persistAtom],
+export const isEditCheck = atom({
+  key: 'isEditCheck',
+  default: false,
 });
