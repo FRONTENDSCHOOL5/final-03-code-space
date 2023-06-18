@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BottomNav from '../Components/Common/BottomNav';
 import MainHeader from '../Components/Common/MainHeader';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -28,8 +28,13 @@ const SearchPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setSearchResults(feedList);
+  }, []);
+
   const handleSearch = event => {
     const searchContent = event.target.value;
+    console.log(searchContent);
     const results = feedList.filter(post => post.contents?.includes(searchContent));
     setSearchResults(results);
   };
