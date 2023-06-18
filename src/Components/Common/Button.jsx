@@ -30,7 +30,7 @@ const SButton = styled.button`
     css`
       background-color: transparent;
       color: #cacaca;
-      border: 1px solid #6f6f6f;
+      box-shadow: 0px 0px 0px 1px var(--border-gray);
     `}
 
   ${props =>
@@ -38,7 +38,7 @@ const SButton = styled.button`
     css`
       background-color: transparent;
       color: #cacaca;
-      border: 1px solid #6f6f6f;
+      box-shadow: 0px 0px 0px 1px var(--border-gray);
     `}
 
   &:hover {
