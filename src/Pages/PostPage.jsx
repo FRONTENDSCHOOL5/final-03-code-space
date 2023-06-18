@@ -21,13 +21,12 @@ const PostPage = () => {
 
   useEffect(() => {
     if(title !== '' &&
-    content !== '' &&
-    imgAddList.length > 0 ){
+    content !== ''){
       setIsSaveEnabled(true);
     } else {
       setIsSaveEnabled(false);
     }
-  }, [title, content, imgAddList]);
+  }, [title, content]);
 
   // 카테고리 드롭다운
   const toggleDropdown = () => {
@@ -64,16 +63,30 @@ const PostPage = () => {
       "Content-type" : "application/json"}
     }
 
-    try {
-      const response = await axios.post(url+"post", {
-        "post": {
-          "content":`\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"${content}`,
-          "image": image // 이미지 url
-        }
-      }, config)
-      console.log(response);
-    } catch(error){
-      console.log(error);
+    if(imgAddList.length > 0){
+      try {
+        const response = await axios.post(url+"post", {
+          "post": {
+            "content":`\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"${content}`,
+            "image": image // 이미지 url
+          }
+        }, config)
+        console.log(response);
+      } catch(error){
+        console.log(error);
+      }
+    } else {
+      try {
+        const response = await axios.post(url+"post", {
+          "post": {
+            "content":`\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"${content}`,
+            "image": `""`
+          }
+        }, config)
+        console.log(response);
+      } catch(error){
+        console.log(error);
+      }
     }
   }
 

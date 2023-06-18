@@ -11,7 +11,7 @@ import { useSetRecoilState } from 'recoil';
 import { bottomNavIndex } from '../../Atom/atom';
 
 export default function BottomNav() {
-  const navItems = ['feed', 'message', 'post', 'myprofile'];
+  const navItems = ['feed', 'messagelist', 'post', 'myprofile'];
   const imgs = [homeIcon, chatIcon, postIcon, profileIcon];
 
   const bottomNavIndexState = useRecoilValue(bottomNavIndex);
@@ -47,7 +47,7 @@ const LinkBtn = ({ src, text, active, onClick, url }) => {
       <p className={active ? 'active' : ''}>
         {text === 'feed'
           ? '홈'
-          : '홈' && text === 'message'
+          : '홈' && text === 'messagelist'
           ? '채팅'
           : '채팅' && text === 'post'
           ? '게시글작성'

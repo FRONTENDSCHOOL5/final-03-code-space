@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import backIcon from '../../assets/icon-arrow-left.svg';
 import searchIcon from '../../assets/icon-search.svg';
+import moreIcon from '../../assets/icons/more.svg'
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
 
@@ -39,6 +40,11 @@ const MainHeader = ({ type, handleUploadPost}) => {
             <img src={backIcon} alt="뒤로가기"></img>
             <SSaveBtn onClick={handleUploadPost}>업로드</SSaveBtn>
           </>
+        ) : type === 'more' ? (
+        <>
+          <img src={backIcon} alt="뒤로가기"></img>
+          <img src={moreIcon} alt="더보기"></img>
+        </>
         ) : (
           <>에러</>
         )}
