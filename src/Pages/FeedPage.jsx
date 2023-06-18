@@ -63,6 +63,7 @@ const STagLayout = styled.div`
   display: flex;
   gap: 10px;
   padding: 6px 20px;
+  border-bottom: 1px solid var(--border-gray);
 `;
 const SFeedLayout = styled(SMainLayout)`
   padding-bottom: 70px;

@@ -87,6 +87,7 @@ const SContents = styled.div`
   }
   div:nth-child(1) {
     color: red;
+    font-weight: bold;
   }
   div:hover {
     background-color: var(--gray);

@@ -38,7 +38,8 @@ const SAccountname = styled.div`
 const SFeedCard = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--darkgray);
+  border-bottom: 1px solid var(--darkgray);
+
   padding: 20px;
   box-sizing: border-box;
   cursor: pointer;
@@ -46,7 +47,7 @@ const SFeedCard = styled.div`
 const SDetailFeedCard = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--darkgray);
+  border-bottom: 1px solid var(--darkgray);
   padding: 20px;
   box-sizing: border-box;
 `;

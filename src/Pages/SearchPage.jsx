@@ -70,7 +70,7 @@ const SearchPage = () => {
                       item.title.split(new RegExp(`(${searchContent})`, 'gi')).map((part, index) => (
                         <span
                           key={index}
-                          style={part.toLowerCase() === searchContent.toLowerCase() ? { color: 'red' } : {}}>
+                          style={part.toLowerCase() === searchContent.toLowerCase() ? { color: '#2bae66' } : {}}>
                           {part}
                         </span>
                       ))}
@@ -87,7 +87,7 @@ const SearchPage = () => {
                     item.contents.split(new RegExp(`(${searchContent})`, 'gi')).map((part, index) => (
                       <span
                         key={index}
-                        style={part.toLowerCase() === searchContent.toLowerCase() ? { color: 'red' } : {}}>
+                        style={part.toLowerCase() === searchContent.toLowerCase() ? { color: '#2bae66' } : {}}>
                         {part}
                       </span>
                     ))}

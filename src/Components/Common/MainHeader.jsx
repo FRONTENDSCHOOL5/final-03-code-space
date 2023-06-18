@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import backIcon from '../../assets/icon-arrow-left.svg';
 import searchIcon from '../../assets/icon-search.svg';
@@ -10,7 +10,22 @@ import { isConfigModal } from '../../Atom/atom';
 const MainHeader = ({ type, handleUploadPost, handleSearch }) => {
   const navigate = useNavigate();
   const setIsConfigModal = useSetRecoilState(isConfigModal);
-  const IsConfigModal = useRecoilValue(isConfigModal);
+  const inputRef = useRef(null);
+  useEffect(() => {
+    if (type === 'search') {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
+  const handleInputFocus = () => {
+    setIsInputFocused(true);
+  };
+
+  const handleInputBlur = () => {
+    setIsInputFocused(false);
+  };
   return (
     <>
       <SLayout>
@@ -22,7 +37,15 @@ const MainHeader = ({ type, handleUploadPost, handleSearch }) => {
         ) : type === 'search' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SSearch type="text" placeholder="Search" onChange={event => handleSearch(event)} />
+            <SSearch
+              type="text"
+              ref={inputRef}
+              placeholder="검색어를 입력하세요!"
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+              isFocused={isInputFocused}
+              onChange={event => handleSearch(event)}
+            />
           </>
         ) : type === 'profile' ? (
           <>
@@ -73,6 +96,9 @@ const SSearch = styled.input`
   margin-left: 10px;
   border: none;
   box-sizing: border-box;
+  border: 2px solid ${props => (props.isFocused ? 'var(--point-color)' : 'var(--black)')};
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
 `;
 
 const SSaveBtn = styled(Button)`
