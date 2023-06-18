@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import backIcon from '../../assets/icon-arrow-left.svg';
 import searchIcon from '../../assets/icon-search.svg';
 import Button from './Button';
+import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
 
 const MainHeader = ({ type, handleUploadPost }) => {
@@ -29,7 +30,7 @@ const MainHeader = ({ type, handleUploadPost }) => {
         ) : type === 'profile' ? (
           <>
             <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
-            <img src={searchIcon} alt="돋보기"></img>
+            <img src={configIcon} alt="돋보기"></img>
           </>
         ) : type === 'save' ? (
           <>
