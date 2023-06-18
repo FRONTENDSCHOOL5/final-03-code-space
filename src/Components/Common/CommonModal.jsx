@@ -1,13 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isConfigModal, setToken } from '../../Atom/atom';
 const CommonModal = ({ deleteFeed }) => {
   const modalRef = useRef(null);
+  const [isConfirmModal, setIsConfirmModal] = useState(false);
   const setIsConfigModal = useSetRecoilState(isConfigModal);
-
   const handleClickOutside = event => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
+    const target = event.target;
+    if (target.classList.contains('confirm-title')) {
+      return;
+    }
+    if (modalRef.current && !modalRef.current.contains(target)) {
       setIsConfigModal(false);
     }
   };
@@ -15,20 +19,63 @@ const CommonModal = ({ deleteFeed }) => {
     <SBackground onClick={handleClickOutside}>
       <SModal ref={modalRef}>
         <SContents>
-          <div onClick={() => deleteFeed()}>삭제</div>
+          <div onClick={() => setIsConfirmModal(true)}>삭제</div>
           <div>수정</div>
         </SContents>
       </SModal>
+      {isConfirmModal && (
+        <SConfirmModal>
+          <SConfirmTitle className="confirm-title">게시글을 삭제할까요?</SConfirmTitle>
+          <SConfirmContents>
+            <SConfirmContent>취소</SConfirmContent>
+            <div onClick={() => deleteFeed()}>삭제</div>
+          </SConfirmContents>
+        </SConfirmModal>
+      )}
     </SBackground>
   );
 };
 
 export default CommonModal;
+const SConfirmModal = styled.div`
+  background-color: var(--black);
+  width: 250px;
+  text-align: center;
+  border-radius: 10px;
+  color: var(--white);
+`;
+const SConfirmTitle = styled.div`
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--border-gray);
+`;
+const SConfirmContents = styled.div`
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  div {
+    flex: 1;
+    height: 100%;
+    padding: 15px;
+    &:hover {
+      background-color: var(--gray);
+    }
+  }
+  div:nth-child(1) {
+    border-bottom-left-radius: 10px;
+  }
+  div:nth-child(2) {
+    color: red;
+    border-bottom-right-radius: 10px;
+  }
+`;
+const SConfirmContent = styled.div`
+  border-right: 1px solid var(--border-gray);
+`;
+
 const SContents = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   color: var(--white);
   margin-top: 50px;
   gap: 30px;
