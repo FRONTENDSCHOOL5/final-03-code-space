@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Post from './Post';
 import axios from 'axios';
-import { useRecoilValue } from 'recoil';
 import { setToken, isfeedFetchToggle } from '../../Atom/atom';
 import { MainAccountToken } from './COMMON';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { searchFeedList } from '../../Atom/atom';
 
 // 피드 fetching, 게시글생성
 const FetchFeed = ({ setFeedList, FeedList }) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -22,10 +22,13 @@ import {
 import iconHeart from '../../assets/icons/heart.svg';
 import iconComment from '../../assets/icons/chat-green.svg';
 import { profileImg, APIDefaultImage } from './COMMON';
-import { useRecoilValue } from 'recoil';
-import { categoryTag } from '../../Atom/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { categoryTag, searchFeedList } from '../../Atom/atom';
 
 const Post = ({ isFetchData, FeedList }) => {
+  console.log(FeedList);
+  const setFeedListState = useSetRecoilState(searchFeedList);
+  const feedListState = useRecoilValue(searchFeedList);
   const navigate = useNavigate();
   const tagState = useRecoilValue(categoryTag);
 
@@ -35,7 +38,37 @@ const Post = ({ isFetchData, FeedList }) => {
   function goProfile(item) {
     navigate('/myprofile', { state: item });
   }
+  useEffect(() => {
+    setFeedFunction();
+  }, [FeedList]);
 
+  const setFeedFunction = () => {
+    const updatedFeedList = FeedList.map(item => {
+      let title;
+      let contents;
+      const extractedData = extractString(item.content, 'title');
+      if (extractedData === null) {
+        return item;
+      }
+      const { extracted, remaining } = extractedData;
+
+      const categoryData = extractString(remaining, 'category');
+      if (categoryData === null) {
+        return item;
+      }
+      title = extracted;
+      contents = categoryData.remaining;
+
+      return {
+        ...item,
+        title,
+        contents,
+      };
+    });
+
+    setFeedListState(updatedFeedList);
+    console.log(feedListState);
+  };
   return (
     <>
       {isFetchData === false ? (
@@ -65,7 +98,6 @@ const Post = ({ isFetchData, FeedList }) => {
             } else {
               return null;
             }
-
             return (
               <SFeedCard key={item.id}>
                 <SAuthor>

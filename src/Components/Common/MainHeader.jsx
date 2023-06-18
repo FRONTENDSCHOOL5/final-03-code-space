@@ -7,7 +7,7 @@ import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isConfigModal } from '../../Atom/atom';
-const MainHeader = ({ type, handleUploadPost }) => {
+const MainHeader = ({ type, handleUploadPost, handleSearch }) => {
   const navigate = useNavigate();
   const setIsConfigModal = useSetRecoilState(isConfigModal);
   const IsConfigModal = useRecoilValue(isConfigModal);
@@ -22,7 +22,7 @@ const MainHeader = ({ type, handleUploadPost }) => {
         ) : type === 'search' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SSearch type="text" placeholder="Search" />
+            <SSearch type="text" placeholder="Search" onChange={event => handleSearch(event)} />
           </>
         ) : type === 'profile' ? (
           <>

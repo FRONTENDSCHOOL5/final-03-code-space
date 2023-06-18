@@ -38,3 +38,8 @@ export const isConfigModal = atom({
   key: 'isConfigModal',
   default: false,
 });
+export const searchFeedList = atom({
+  key: 'FeedList',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
