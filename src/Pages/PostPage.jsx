@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg'
@@ -17,6 +17,17 @@ const PostPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imgAddList, setImgAddList] = useState([]);
+  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
+
+  useEffect(() => {
+    if(title !== '' &&
+    content !== '' &&
+    imgAddList.length > 0 ){
+      setIsSaveEnabled(true);
+    } else {
+      setIsSaveEnabled(false);
+    }
+  }, [title, content, imgAddList]);
 
   // 카테고리 드롭다운
   const toggleDropdown = () => {
@@ -119,7 +130,7 @@ const PostPage = () => {
 
   return(
     <>
-      <MainHeader type="upload" handleUploadPost={handleUploadPost}/>
+      <MainHeader type="upload" handleUploadPost={isSaveEnabled ? handleUploadPost : null}/>
       <STitle>
         <DropdownWrapper>
           <DropdownButton onClick={toggleDropdown}>
