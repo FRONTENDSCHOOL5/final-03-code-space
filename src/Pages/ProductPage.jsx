@@ -17,6 +17,20 @@ const ProductPage = () => {
   const[productPrice, setProductPrice] = useState('');
   const[commaProductPrice, setCommaProductPrice] = useState('');
   const[saleUrl, setSaleURl] = useState('');
+  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
+
+  useEffect(() => {
+    if (
+      productName !== '' &&
+      productPrice !== '' &&
+      saleUrl !== '' &&
+      uploadedImageUrl !== ''
+    ) {
+      setIsSaveEnabled(true);
+    } else {
+      setIsSaveEnabled(false);
+    }
+  }, [productName, productPrice, saleUrl, uploadedImageUrl]);
 
    // 이미지 업로드 버튼 클릭시 파일 선택 가능
   const handleClick = () => {
@@ -47,7 +61,9 @@ const ProductPage = () => {
 
   // 상품명
   function writeProductName(e){
-    setProductName(e.target.value)
+    const productName = e.target.value;
+    const trimProductName = productName.slice(0, 15);
+    setProductName(trimProductName)
   }
 
   // 상품가격 1000 단위로 콤마
@@ -69,6 +85,12 @@ const ProductPage = () => {
     const imgUrl = imgAddList[0].url
     const image = url + imgUrl;
     const removedCommaPrice = productPrice.replace(/,/g, '');
+
+    if (productName.length === 1) {
+      // 한 글자인 경우 저장을 막음
+      alert("상품명을 2~15자 이내로 작성해주세요.")
+      return;
+    }
 
     const config = {
       headers:{"Authorization" : authorization,
@@ -92,7 +114,7 @@ const ProductPage = () => {
 
   return (
     <>
-      <MainHeader type="save" handleUploadProduct={handleUploadProduct}/>
+      <MainHeader type="save" handleUploadProduct={isSaveEnabled ? handleUploadProduct : null}/>
       <SImgWrap>
         <SImgBg imageUrl={uploadedImageUrl}>
           <SUploadImgBtn onClick={handleClick}>
@@ -100,7 +122,7 @@ const ProductPage = () => {
           </SUploadImgBtn>
         </SImgBg>
       </SImgWrap>
-      <Input placeholder="2~15자 이내여야 합니다." label="상품명" onChange={writeProductName}/>
+      <Input placeholder="2~15자 이내여야 합니다." label="상품명" onChange={writeProductName} minLength={2} maxLength={15}/>
       <Input placeholder="숫자만 입력 가능합니다." label="가격" onChange={writeProductPrice} value={commaProductPrice} onkeyup="inputNumberFormat(this)"/>
       <Input type="url" placeholder="URL을 입력해 주세요." label="판매 링크" onChange={writeSaleUrl}/>
     </>
