@@ -10,13 +10,16 @@ const MainHeader = ({ type, handleUploadPost }) => {
   function goBack() {
     navigate(-1);
   }
+  function goSearch() {
+    navigate('/search');
+  }
   return (
     <>
       <SLayout>
         {type === 'feed' ? (
           <>
             <div>코드스페이스</div>
-            <img src={searchIcon} alt="돋보기"></img>
+            <img src={searchIcon} alt="돋보기" onClick={goSearch} />
           </>
         ) : type === 'search' ? (
           <>

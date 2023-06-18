@@ -9,6 +9,7 @@ import { useRecoilValue } from 'recoil';
 import { useSetRecoilState } from 'recoil';
 import { headerToggle, categoryTag, categoryTagIndex } from '../Atom/atom';
 import { extractString } from '../Components/Feed/extractString';
+import SearchPage from './SearchPage';
 // 피드 메인 페이지
 const FeedPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -33,9 +34,9 @@ const FeedPage = () => {
 
   return (
     <SFeedLayout>
-      <MainHeader type="feed" />
       {headerToggleState === 'feed' ? (
         <>
+          <MainHeader type="feed" />
           <STagLayout>
             {tagItem.map((item, index) => (
               <TagButton
@@ -51,7 +52,10 @@ const FeedPage = () => {
           <FetchFeed setFeedList={setFeedList} FeedList={FeedList} />
         </>
       ) : (
-        <div>검색창</div>
+        <>
+          <MainHeader type="search" />
+          <SearchPage />
+        </>
       )}
       <BottomNav />
     </SFeedLayout>
