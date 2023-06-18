@@ -6,7 +6,7 @@ import Button from './Button';
 import { useNavigate } from 'react-router-dom';
 
 
-const MainHeader = ({ type, handleUploadPost}) => {
+const MainHeader = ({ type, handleUploadPost, handleUploadProduct}) => {
   const navigate = useNavigate();
   function goBack() {
     navigate(-1);
@@ -32,7 +32,7 @@ const MainHeader = ({ type, handleUploadPost}) => {
         ) : type === 'save' ? (
           <>
             <img src={backIcon} alt="뒤로가기"></img>
-            <SSaveBtn>저장</SSaveBtn>
+            <SSaveBtn onClick={handleUploadProduct}>저장</SSaveBtn>
           </>
         ) : type === 'upload' ? (
           <>
