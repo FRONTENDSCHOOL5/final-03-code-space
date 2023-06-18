@@ -8,7 +8,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import MainHeader from '../Components/Common/MainHeader';
 import Comment from '../Components/Feed/Comment';
 import BottomNav from '../Components/Common/BottomNav';
-import { PostHeart } from '../Components/Feed/FetchComment';
 import {
   STitle,
   SContent,
@@ -27,10 +26,10 @@ import {
 } from '../Styles/FeedStyle/PostStyle';
 import WriteComment from '../Components/Feed/WriteComment';
 import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
-import FetchComment from '../Components/Feed/FetchComment';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { setToken, isfeedFetchToggle } from '../Atom/atom';
-
+import { setToken, isfeedFetchToggle, isConfigModal } from '../Atom/atom';
+import CommonModal from '../Components/Common/CommonModal';
+import useFetchComment from '../Components/Feed/useFetchComment';
 const FeedDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,12 +44,13 @@ const FeedDetailPage = () => {
 
   const isToken = useRecoilValue(setToken);
 
-  console.log(feedList);
+  const isModalState = useRecoilValue(isConfigModal);
+
+  const { postHeart } = useFetchComment({ postID: feedList.id });
 
   function goProfile(item) {
     navigate('/myprofile', { state: item });
   }
-  console.log(reactionCount);
   return (
     <>
       <MainHeader type="profile" />
@@ -80,13 +80,13 @@ const FeedDetailPage = () => {
                 <SHeartImg
                   src={iconFillHeart}
                   alt="하트"
-                  onClick={() => PostHeart(feedList.id, reactionCount?.post.hearted, setReactionCount)}
+                  onClick={() => postHeart(reactionCount?.post.hearted, setReactionCount)}
                 />
               ) : (
                 <SHeartImg
                   src={iconHeart}
                   alt="하트"
-                  onClick={() => PostHeart(feedList.id, reactionCount?.post.hearted, setReactionCount)}
+                  onClick={() => postHeart(reactionCount?.post.hearted, setReactionCount)}
                 />
               )}
               {reactionCount?.post.heartCount}
@@ -116,6 +116,7 @@ const FeedDetailPage = () => {
         setIsFetchData={setIsFetchData}
         setReactionCount={setReactionCount}
       />
+      {isModalState ? <CommonModal /> : <></>}
     </>
   );
 };

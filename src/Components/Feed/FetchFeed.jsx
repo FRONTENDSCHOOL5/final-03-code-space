@@ -3,18 +3,19 @@ import Post from './Post';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { setToken, isfeedFetchToggle } from '../../Atom/atom';
+import { MainAccountToken } from './COMMON';
 
 // 피드 fetching, 게시글생성
 const FetchFeed = ({ setFeedList, FeedList }) => {
   const URL = 'https://api.mandarin.weniv.co.kr/';
   const FollowingPOST = 'post/feed/?limit=50';
   const isToken = useRecoilValue(setToken);
-  const Authorization =
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
+  const Authorization = MainAccountToken;
 
   const [isFetchData, setIsFetchData] = useState(false);
 
   useEffect(() => {
+    console.log('여기 아니지?');
     getFeed();
   }, []);
 

@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { setToken, isfeedFetchToggle } from '../../Atom/atom';
 import { profileImg, APIDefaultImage } from './COMMON';
-import FetchComment from './FetchComment';
-
+import useFetchComment from './useFetchComment';
 const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetchData, setReactionCount }) => {
   const [inputComment, setInputComment] = useState('');
   const isToken = useRecoilValue(setToken);
   const refreshFeedState = useRecoilValue(isfeedFetchToggle);
   const refreshFeed = useSetRecoilState(isfeedFetchToggle);
 
+  const { getFeed } = useFetchComment({
+    postID: feedList.id,
+  });
+  useEffect(() => {
+    getFeed(setReactionCount); // 컴포넌트가 마운트될 때 FetchDetailFeed 실행
+  }, [isFetchData]);
   const handleAddComment = async () => {
     const URL = 'https://api.mandarin.weniv.co.kr/';
     const CommentPOST = `post/${feedList.id}/comments`;
@@ -47,13 +52,13 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
 
   return (
     <>
-      <FetchComment
+      {/* <FetchComment
         fetchType="feed"
         postID={feedList.id}
         setIsFetchData={setIsFetchData}
         setCommentList={setCommentList}
         setReactionCount={setReactionCount}
-      />
+      /> */}
 
       <SNavLayout>
         {/* <SCommentProfileImg src={profileImg} alt="" /> */}
