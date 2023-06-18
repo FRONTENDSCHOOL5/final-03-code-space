@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Modal from '../Components/Common/Modal';
+import Profile from '../Components/Common/Profile';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ const SignUpPage = () => {
       console.log(response.data.message);
 
       if (successRes === '사용 가능한 이메일 입니다.') {
-        navigate('/profile');
+        navigate(`/profile`,{state: {userEmail, userPassword}});
       }
     } catch (error) {
       setSuccessRes(error.response.data.message);
@@ -57,15 +58,17 @@ const SignUpPage = () => {
   };
 
   return (
-    <Modal
-      title="이메일로 회원가입"
-      ValidSubmit={ValidSubmit}
-      userEmail={userEmail}
-      userPassword={userPassword}
-      inputHandler={inputHandler}
-      isPasswordValid={isPasswordValid}
-      successRes={successRes}
-    />
+    <>
+      <Modal
+        title="이메일로 회원가입"
+        ValidSubmit={ValidSubmit}
+        userEmail={userEmail}
+        userPassword={userPassword}
+        inputHandler={inputHandler}
+        isPasswordValid={isPasswordValid}
+        successRes={successRes}
+      />
+    </>
   );
 };
 

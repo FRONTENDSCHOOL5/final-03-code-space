@@ -7,11 +7,11 @@ import Input from './Input';
 
 const DEFAULT_PROFILE_IMAGE = ProfileIcon;
 
-export default function Profile({onFormValidityChange}) {
+export default function Profile({ onFormValidityChange, userInfo, setUserInfoValue }) {
   const [profileImage, setProfileImage] = useState(null);
   const [username, setUsername] = useState('');
   const [accountId, setAccountId] = useState('');
-  const [accountMessage, setAccountMessage] = useState('')
+  const [accountMessage, setAccountMessage] = useState('');
   const [Intro, setIntro] = useState('');
 
   useEffect(() => {
@@ -23,35 +23,33 @@ export default function Profile({onFormValidityChange}) {
     const formData = new FormData();
     const imageFile = e.target.files[0];
     formData.append('image', imageFile);
-
+    console.log(imageFile);
 
     try {
       const response = await axios.post('https://api.mandarin.weniv.co.kr/image/uploadfile', formData);
       const imageUrl = 'https://api.mandarin.weniv.co.kr/' + response.data.filename;
       setProfileImage(imageUrl);
+      setUserInfoValue('profileImage', imageUrl);
     } catch (error) {
       console.error('Error uploading image:', error);
     }
   };
-  
-  const handleUsernameChange = (e) => {
+
+  const handleUsernameChange = e => {
     const value = e.target.value;
     if (value.length <= 10) {
+      setUserInfoValue('username', value);
       setUsername(value.slice(0, 10));
     }
   };
 
-  const handleAccountIdChange = (e) => {
+  const handleAccountIdChange = e => {
     const value = e.target.value;
-    const sanitizedValue = value.replace(/[^a-zA-Z0-9._]/g, "");
-  
+    const sanitizedValue = value.replace(/[^a-zA-Z0-9._]/g, '');
+    setUserInfoValue('accountId', sanitizedValue);
     setAccountId(sanitizedValue);
-  
-    if (sanitizedValue !== value) {
-      e.target.value = sanitizedValue;
-    }
   };
-  
+
   const handleAccountIdBlur = async () => {
     const url = 'https://api.mandarin.weniv.co.kr';
     try {
@@ -66,23 +64,22 @@ export default function Profile({onFormValidityChange}) {
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
-  
+
       console.log(response.data.message);
-      setAccountMessage(response.data.message); 
+      setAccountMessage(response.data.message);
     } catch (error) {
       console.log(error);
     }
   };
-  
-  
 
   const handleIntroChange = e => {
-    setIntro(e.target.value);
+    const value = e.target.value;
+    setUserInfoValue('intro', value);
+    setIntro(value);
   };
 
-  
   return (
     <Container>
       <CenteredDiv>
@@ -179,9 +176,8 @@ const DefaultProfileImageWrapper = styled.div`
   background-color: lightgray;
 `;
 
-const SAccountMessage = styled.p `
+const SAccountMessage = styled.p`
   color: #eb5757;
   font-size: 12px;
   margin-top: 5px;
-  `
-
+`;
