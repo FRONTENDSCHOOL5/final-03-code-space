@@ -22,7 +22,9 @@ export default function MainProfile({ profile }) {
 
   useEffect(() => {
     getUserData();
-  }, [followerCount]);
+  });
+  // followerCount는 내 프로필에는 변화가 없기 때문에 내 프로필을 불러올 때 getUserData()가 실행되지 않음.(전에 값이 들어가거나 undefind)
+  // 내 프로필을 들어갈 때도 getUserData()가 실행되기를 원하기 때문에 이 부분 의존성 배열을 제거(의존성 배열을 뺄 경우 페이지가 로딩될 때마다 실행)
 
   async function getUserData() {
     const URL = 'https://api.mandarin.weniv.co.kr';
