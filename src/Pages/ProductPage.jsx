@@ -15,6 +15,7 @@ const ProductPage = () => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState('');
   const[productName, setProductName] = useState('');
   const[productPrice, setProductPrice] = useState('');
+  const[commaProductPrice, setCommaProductPrice] = useState('');
   const[saleUrl, setSaleURl] = useState('');
 
    // 이미지 업로드 버튼 클릭시 파일 선택 가능
@@ -49,11 +50,13 @@ const ProductPage = () => {
     setProductName(e.target.value)
   }
 
-  // 상품가격
+  // 상품가격 1000 단위로 콤마
   function writeProductPrice(e){
-    setProductPrice(e.target.value);
-    console.log(typeof productPrice);
-    console.log(typeof Number(productPrice));
+    const productPrice = e.target.value;
+    const commaProductPrice = productPrice.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    console.log(productPrice);
+    setProductPrice(productPrice);
+    setCommaProductPrice(commaProductPrice);
   }
 
   // 판매링크
@@ -65,6 +68,7 @@ const ProductPage = () => {
   const handleUploadProduct = async (e) => {
     const imgUrl = imgAddList[0].url
     const image = url + imgUrl;
+    const removedCommaPrice = productPrice.replace(/,/g, '');
 
     const config = {
       headers:{"Authorization" : authorization,
@@ -75,7 +79,7 @@ const ProductPage = () => {
       const response = await axios.post(url+"product", {
         "product":{
           "itemName": productName,
-          "price": Number(productPrice), //1원 이상
+          "price": Number(removedCommaPrice), //1원 이상
           "link": saleUrl,
           "itemImage": image
         }
@@ -97,8 +101,8 @@ const ProductPage = () => {
         </SImgBg>
       </SImgWrap>
       <Input placeholder="2~15자 이내여야 합니다." label="상품명" onChange={writeProductName}/>
-      <Input type="number" placeholder="숫자만 입력 가능합니다." label="가격" onChange={writeProductPrice}/>
-      <Input placeholder="URL을 입력해 주세요." label="판매 링크" onChange={writeSaleUrl}/>
+      <Input placeholder="숫자만 입력 가능합니다." label="가격" onChange={writeProductPrice} value={commaProductPrice} onkeyup="inputNumberFormat(this)"/>
+      <Input type="url" placeholder="URL을 입력해 주세요." label="판매 링크" onChange={writeSaleUrl}/>
     </>
   );
 };
