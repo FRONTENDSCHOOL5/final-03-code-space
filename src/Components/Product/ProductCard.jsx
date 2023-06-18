@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function ProductCard({ key, itemName, price, itemImg }) {
+export default function ProductCard({ id, itemName, price, itemImg }) {
   return (
-    <SProductCard key={key}>
+    <SProductCard id={id}>
       <SImage src={itemImg} alt={itemName} />
       <STitle>{itemName}</STitle>
       <SPrice>{price}원</SPrice>

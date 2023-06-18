@@ -17,7 +17,7 @@ export default function ProductList({ profile }) {
 
   useEffect(() => {
     getUserData();
-  }, []);
+  }, [reqPath]);
 
   async function getUserData() {
     try {
@@ -32,12 +32,14 @@ export default function ProductList({ profile }) {
       console.log(response.data);
       console.log(response.data.product);
 
-      const productData = response.data.product;
-      setProductData(productData);
+      // const productData = ;
+      setProductData(response.data.product);
     } catch (error) {
       console.log(error);
     }
   }
+
+  console.log(productData);
 
   if (productData.length === 0) {
     // 상품이 없을 때
@@ -53,6 +55,7 @@ export default function ProductList({ profile }) {
             return (
               <ProductCard
                 key={product.id}
+                id={product.id}
                 itemName={product.itemName}
                 price={product.price}
                 itemImg={product.itemImage}
@@ -73,8 +76,14 @@ const SLayout = styled.div`
 const SProductList = styled.div`
   display: flex;
   gap: 10px;
-  overflow: hidden;
+  /* overflow: hidden; */
+  flex-wrap: nowrap;
+  overflow-x: auto;
   box-shadow: inset 0px 0px 10px red;
+
+  div {
+    flex-shrink: 0;
+  }
 `;
 
 const SProductListTitle = styled.h2`
