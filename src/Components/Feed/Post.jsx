@@ -25,7 +25,8 @@ import { profileImg, APIDefaultImage } from './COMMON';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { categoryTag, searchFeedList } from '../../Atom/atom';
 
-const Post = ({ isFetchData, FeedList }) => {
+const Post = ({ isFetchData, FeedList, allFeed }) => {
+  console.log(allFeed);
   console.log(FeedList);
   const setFeedListState = useSetRecoilState(searchFeedList);
   const feedListState = useRecoilValue(searchFeedList);
@@ -38,12 +39,13 @@ const Post = ({ isFetchData, FeedList }) => {
   function goProfile(item) {
     navigate('/myprofile', { state: item });
   }
+
   useEffect(() => {
     setFeedFunction();
-  }, [FeedList]);
+  }, [allFeed]); // isFetchData 상태도 감시
 
   const setFeedFunction = () => {
-    const updatedFeedList = FeedList.map(item => {
+    const updatedFeedList = allFeed.map(item => {
       let title;
       let contents;
       const extractedData = extractString(item.content, 'title');
@@ -67,7 +69,6 @@ const Post = ({ isFetchData, FeedList }) => {
     });
 
     setFeedListState(updatedFeedList);
-    console.log(feedListState);
   };
   return (
     <>
@@ -75,7 +76,7 @@ const Post = ({ isFetchData, FeedList }) => {
         <div>로딩중....</div>
       ) : (
         <div>
-          {FeedList.map(item => {
+          {(tagState === '전체' ? FeedList : allFeed).map(item => {
             let title;
             let content;
             const extractedData = extractString(item.content, 'title');
@@ -89,15 +90,11 @@ const Post = ({ isFetchData, FeedList }) => {
               return null;
             }
             const category = categoryData.extracted;
-            if (tagState === '전체') {
-              title = extracted;
-              content = categoryData.remaining;
-            } else if (tagState === category) {
-              title = extracted;
-              content = categoryData.remaining;
-            } else {
+            if (tagState !== '전체' && tagState !== category) {
               return null;
             }
+            title = extracted;
+            content = categoryData.remaining;
             return (
               <SFeedCard key={item.id}>
                 <SAuthor>
