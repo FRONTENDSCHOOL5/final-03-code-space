@@ -28,9 +28,9 @@ import {
 import WriteComment from '../Components/Feed/WriteComment';
 import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { setToken, isfeedFetchToggle, isConfigModal } from '../Atom/atom';
+import { setToken, isConfigModal } from '../Atom/atom';
 import CommonModal from '../Components/Common/CommonModal';
-import useFetchComment from '../Components/Feed/useFetchComment';
+import useFetchComment from '../Hooks/useFetchComment';
 const FeedDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();

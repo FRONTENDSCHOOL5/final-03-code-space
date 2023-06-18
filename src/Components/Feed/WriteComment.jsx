@@ -4,7 +4,8 @@ import axios from 'axios';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { setToken, isfeedFetchToggle } from '../../Atom/atom';
 import { profileImg, APIDefaultImage } from './COMMON';
-import useFetchComment from './useFetchComment';
+import useFetchComment from '../../Hooks/useFetchComment';
+
 const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetchData, setReactionCount }) => {
   const [inputComment, setInputComment] = useState('');
   const isToken = useRecoilValue(setToken);

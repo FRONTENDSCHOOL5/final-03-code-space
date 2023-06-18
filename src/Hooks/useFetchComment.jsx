@@ -1,20 +1,11 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
-import { isfeedFetchToggle, setToken } from '../../Atom/atom';
-import { MainAccountToken, BASEURL } from './COMMON';
+import { isfeedFetchToggle, setToken } from '../Atom/atom';
+import { MainAccountToken, BASEURL } from '../Components/Feed/COMMON';
 
 const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) => {
   const UserToken = useRecoilValue(setToken);
-  const refreshFeedState = useRecoilValue(isfeedFetchToggle);
-
-  const instance = axios.create({
-    baseURL: BASEURL,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: MainAccountToken,
-    },
-  });
 
   const POST_instance = axios.create({
     baseURL: BASEURL,
@@ -26,9 +17,19 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
 
   async function deletePost() {
     const deletePost = `post/${postID}`;
-
     try {
       const response = await POST_instance.delete(deletePost);
+      console.log(response.data);
+      console.log(response.data.message);
+    } catch (error) {
+      console.error(error);
+      alert('잘못된 접근입니다!!!');
+    }
+  }
+  async function editPost() {
+    const editPost = `post/${postID}`;
+    try {
+      const response = await POST_instance.put(editPost);
       console.log(response.data);
       console.log(response.data.message);
     } catch (error) {
@@ -42,7 +43,7 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
     const CommentPOST = `post/${postID}/comments`;
 
     try {
-      const response = await instance.get(CommentPOST);
+      const response = await POST_instance.get(CommentPOST);
       console.log(response.data);
       setCommentList(response.data.comments.reverse());
       setIsFetchData(true);
@@ -52,7 +53,7 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
   }
 
   async function getFeed(setReactionCount) {
-    const FeedGET = `post/${postID}/?limit=20`;
+    const FeedGET = `post/${postID}/?limit=2`;
 
     console.log('getfeed');
     try {
@@ -69,7 +70,6 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
     let POST_URL = '';
     const HeartPost = `post/${postID}/heart`;
     const UNHeartPost = `post/${postID}/unheart`;
-    const FeedGET = `post/${postID}/?limit=20`;
 
     if (!hearted) {
       POST_URL = HeartPost;
@@ -94,7 +94,7 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
     }
   }
 
-  return { postHeart, getComment, getFeed, deletePost };
+  return { postHeart, getComment, getFeed, deletePost, editPost };
 };
 
 export default useFetchComment;
