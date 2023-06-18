@@ -49,7 +49,7 @@ const SignUpPage = () => {
       console.log(response.data.message);
 
       if (successRes === '사용 가능한 이메일 입니다.') {
-        navigate(`/profile`,{state: {userEmail, userPassword}});
+        navigate(`/profile`, { state: { userEmail, userPassword } });
       }
     } catch (error) {
       setSuccessRes(error.response.data.message);
