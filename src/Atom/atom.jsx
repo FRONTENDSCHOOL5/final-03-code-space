@@ -34,3 +34,7 @@ export const categoryTagIndex = atom({
   key: 'categoryTagState',
   default: 0,
 });
+export const isConfigModal = atom({
+  key: 'isConfigModal',
+  default: false,
+});

@@ -5,32 +5,29 @@ import searchIcon from '../../assets/icon-search.svg';
 import Button from './Button';
 import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
-
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { isConfigModal } from '../../Atom/atom';
 const MainHeader = ({ type, handleUploadPost }) => {
   const navigate = useNavigate();
-  function goBack() {
-    navigate(-1);
-  }
-  function goSearch() {
-    navigate('/search');
-  }
+  const setIsConfigModal = useSetRecoilState(isConfigModal);
+  const IsConfigModal = useRecoilValue(isConfigModal);
   return (
     <>
       <SLayout>
         {type === 'feed' ? (
           <>
             <div>코드스페이스</div>
-            <img src={searchIcon} alt="돋보기" onClick={goSearch} />
+            <img src={searchIcon} alt="돋보기" onClick={() => navigate('/search')} />
           </>
         ) : type === 'search' ? (
           <>
-            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
+            <img src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></img>
             <SSearch type="text" placeholder="Search" />
           </>
         ) : type === 'profile' ? (
           <>
-            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
-            <img src={configIcon} alt="돋보기"></img>
+            <img src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></img>
+            <img src={configIcon} alt="설정창" onClick={() => setIsConfigModal(!IsConfigModal)}></img>
           </>
         ) : type === 'save' ? (
           <>
@@ -39,7 +36,7 @@ const MainHeader = ({ type, handleUploadPost }) => {
           </>
         ) : type === 'upload' ? (
           <>
-            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
+            <img src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></img>
             <SSaveBtn onClick={handleUploadPost}>업로드</SSaveBtn>
           </>
         ) : (
