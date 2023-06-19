@@ -38,7 +38,7 @@ const FeedDetailPage = () => {
   const feedContent = location.state.feedList.content;
   const category = location.state.feedList.category;
   const editFeed = location.state.edit;
-  console.log(feedContent);
+  console.log(location.state);
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -72,7 +72,6 @@ const FeedDetailPage = () => {
     if (!isEditCheckState) {
       return;
     }
-    console.log(isEditCheckState);
     setFeedFunction(editFeed);
   }, [isEditCheckState]);
   const setFeedFunction = editFeed => {
@@ -89,12 +88,10 @@ const FeedDetailPage = () => {
     setTitle(extracted);
     setContent(categoryData.remaining);
   };
-  console.log(feedTitle);
-  console.log(title);
 
   return (
     <>
-      <MainHeader type="detail" />
+      {location.state.feedList.isSearch ? <MainHeader type="search-detail" /> : <MainHeader type="detail" />}
       <SDetailFeedCard>
         <SAuthor>
           {feedList.author.image === APIDefaultImage ? (
@@ -103,7 +100,7 @@ const FeedDetailPage = () => {
             <SProfileImg src={feedList.author.image} alt="프사" onClick={() => goProfile(feedList.author)} />
           )}
           <STitleContainer>
-            {title === '' ? <SContent>{feedTitle}</SContent> : <SContent>{title}</SContent>}
+            {title === '' ? <STitle>{feedTitle}</STitle> : <STitle>{title}</STitle>}
 
             <SAuthorInfo>
               <SUserName>{feedList.author.username}</SUserName>

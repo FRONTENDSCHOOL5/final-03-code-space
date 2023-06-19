@@ -57,6 +57,11 @@ const MainHeader = ({ type, handleUploadPost, handleSearch }) => {
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
             <SBackIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SBackIcon>
           </>
+        ) : type === 'search-detail' ? (
+          <>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <SBackIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SBackIcon>
+          </>
         ) : type === 'save' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기"></SBackIcon>
