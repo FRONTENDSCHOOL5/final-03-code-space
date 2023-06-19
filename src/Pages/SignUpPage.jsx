@@ -20,12 +20,9 @@ const SignUpPage = () => {
   };
 
   const ValidSubmit = async e => {
-    // e.preventDefault();
 
     if (userPassword.length < 6) {
       setIsPasswordValid(false);
-    } else {
-      setIsPasswordValid(true);
     }
 
     const url = 'https://api.mandarin.weniv.co.kr';
