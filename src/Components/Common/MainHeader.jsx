@@ -1,42 +1,76 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import backIcon from '../../assets/icon-arrow-left.svg';
 import searchIcon from '../../assets/icon-search.svg';
 import Button from './Button';
+import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
-
-
-const MainHeader = ({ type, handleUploadPost}) => {
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { isConfigModal } from '../../Atom/atom';
+const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue }) => {
   const navigate = useNavigate();
-  function goBack() {
-    navigate(-1);
-  }
+  const setIsConfigModal = useSetRecoilState(isConfigModal);
+  const inputRef = useRef(null);
+  useEffect(() => {
+    if (type === 'search') {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
+  const handleInputFocus = () => {
+    setIsInputFocused(true);
+  };
+
+  const handleInputBlur = () => {
+    setIsInputFocused(false);
+  };
   return (
     <>
       <SLayout>
         {type === 'feed' ? (
           <>
-            <div>코드허브 피드</div>
-            <img src={searchIcon} alt="돋보기"></img>
+            <div>코드스페이스</div>
+            <SBackIcon src={searchIcon} alt="돋보기" onClick={() => navigate('/search')} />
           </>
         ) : type === 'search' ? (
           <>
-            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
-            <SSearch type="text" placeholder="Search" />
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
+            <SSearch
+              type="text"
+              ref={inputRef}
+              placeholder="검색어를 입력하세요!"
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+              isFocused={isInputFocused}
+              value={searchValue} // 검색어 값 추가
+              onChange={event => handleSearch(event)}
+            />
           </>
         ) : type === 'profile' ? (
           <>
-            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
-            <img src={searchIcon} alt="돋보기"></img>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <SBackIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SBackIcon>
+          </>
+        ) : type === 'detail' ? (
+          <>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
+            <SBackIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SBackIcon>
+          </>
+        ) : type === 'search-detail' ? (
+          <>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <SBackIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SBackIcon>
           </>
         ) : type === 'save' ? (
           <>
-            <img src={backIcon} alt="뒤로가기"></img>
+            <SBackIcon src={backIcon} alt="뒤로가기"></SBackIcon>
             <SSaveBtn>저장</SSaveBtn>
           </>
         ) : type === 'upload' ? (
           <>
-            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
             <SSaveBtn onClick={handleUploadPost}>업로드</SSaveBtn>
           </>
         ) : (
@@ -73,6 +107,9 @@ const SSearch = styled.input`
   margin-left: 10px;
   border: none;
   box-sizing: border-box;
+  border: 2px solid ${props => (props.isFocused ? 'var(--point-color)' : 'var(--black)')};
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
 `;
 
 const SSaveBtn = styled(Button)`
@@ -81,4 +118,9 @@ const SSaveBtn = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+const SBackIcon = styled.img`
+  &:hover {
+    scale: 1.1;
+  }
 `;

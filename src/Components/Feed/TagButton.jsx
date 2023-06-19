@@ -20,5 +20,9 @@ const STagButton = styled.div`
   &.active {
     color: var(--white);
     background-color: var(--point-color);
+    border: 1px solid var(--point-color);
+  }
+  &:hover {
+    scale: 1.05;
   }
 `;

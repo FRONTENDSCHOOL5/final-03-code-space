@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import profileImg from '../../assets/default-profile-image.svg';
-import FetchComment from './FetchComment';
 import axios from 'axios';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { setToken, isfeedFetchToggle } from '../../Atom/atom';
+import { profileImg, APIDefaultImage } from './COMMON';
+import useFetchComment from '../../Hooks/useFetchComment';
 
-const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetchData }) => {
+const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetchData, setReactionCount }) => {
   const [inputComment, setInputComment] = useState('');
+  const isToken = useRecoilValue(setToken);
+  const refreshFeedState = useRecoilValue(isfeedFetchToggle);
+  const refreshFeed = useSetRecoilState(isfeedFetchToggle);
 
+  const { getFeed } = useFetchComment({
+    postID: feedList.id,
+  });
+  useEffect(() => {
+    getFeed(setReactionCount); // 컴포넌트가 마운트될 때 FetchDetailFeed 실행
+  }, [isFetchData]);
   const handleAddComment = async () => {
     const URL = 'https://api.mandarin.weniv.co.kr/';
     const CommentPOST = `post/${feedList.id}/comments`;
-    const Authorization =
-      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
+    const Authorization = 'Bearer ' + isToken;
 
     const instance = axios.create({
       baseURL: URL,
@@ -32,6 +42,7 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
       // 댓글 작성 후, 새로운 댓글을 commentList에 추가하고 isFetchData를 true로 설정하여 댓글 목록을 다시 불러옴
       setCommentList(prevCommentList => [...prevCommentList, response.data.comment]);
       setIsFetchData(true);
+      refreshFeed(!refreshFeedState);
 
       // 입력 필드 초기화
       setInputComment('');
@@ -41,16 +52,31 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
   };
 
   return (
-    <SNavLayout>
-      <SCommentProfileImg src={profileImg} alt="" />
-      <SInputComment
-        onChange={e => setInputComment(e.target.value)}
-        value={inputComment}
-        type="text"
-        placeholder="댓글 작성하기"
-      />
-      <div onClick={handleAddComment}>게시</div>
-    </SNavLayout>
+    <>
+      {/* <FetchComment
+        fetchType="feed"
+        postID={feedList.id}
+        setIsFetchData={setIsFetchData}
+        setCommentList={setCommentList}
+        setReactionCount={setReactionCount}
+      /> */}
+
+      <SNavLayout>
+        {/* <SCommentProfileImg src={profileImg} alt="" /> */}
+        {feedList.author.image === APIDefaultImage ? (
+          <SCommentProfileImg src={profileImg} alt="프사" />
+        ) : (
+          <SCommentProfileImg src={feedList.author.image} alt="프사" />
+        )}
+        <SInputComment
+          onChange={e => setInputComment(e.target.value)}
+          value={inputComment}
+          type="text"
+          placeholder="댓글 작성하기"
+        />
+        <div onClick={handleAddComment}>게시</div>
+      </SNavLayout>
+    </>
   );
 };
 
