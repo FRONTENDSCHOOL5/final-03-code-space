@@ -26,7 +26,11 @@ export let setIsFollowed = atom({
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
-
+export const scrollPositionAtom = atom({
+  key: 'scrollPositionAtom',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
 export const headerToggle = atom({
   key: 'headerToggle',
   default: 'feed',
@@ -62,4 +66,9 @@ export const isEditCheck = atom({
 export const searchQuery = atom({
   key: 'searchQuery',
   default: '',
+});
+
+export const isInitialLoadAtom = atom({
+  key: 'isInitialLoadAtom',
+  default: true,
 });
