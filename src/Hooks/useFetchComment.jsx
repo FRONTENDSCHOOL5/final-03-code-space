@@ -39,12 +39,10 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
   }
 
   async function getComment() {
-    console.log('getComment');
     const CommentPOST = `post/${postID}/comments`;
 
     try {
       const response = await POST_instance.get(CommentPOST);
-      console.log(response.data);
       setCommentList(response.data.comments.reverse());
       setIsFetchData(true);
     } catch (error) {
@@ -55,10 +53,8 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
   async function getFeed(setReactionCount) {
     const FeedGET = `post/${postID}/?limit=2`;
 
-    console.log('getfeed');
     try {
       const response = await POST_instance.get(FeedGET);
-      console.log(response.data);
       setReactionCount(response.data);
     } catch (error) {
       console.error(error);

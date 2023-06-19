@@ -20,7 +20,6 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit }) => {
   setIsEdit(true);
 
   function goEdit() {
-    console.log(isEdit);
     navigate('/post', { state: { isEdit, ...feedList } });
   }
   return (

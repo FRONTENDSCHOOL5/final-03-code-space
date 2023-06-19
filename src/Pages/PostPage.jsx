@@ -37,9 +37,7 @@ const PostPage = () => {
   const [contentEdit, setContentEdit] = useState(isEdit ? feedList.content : '');
 
   useEffect(() => {
-    console.log(isEdit);
     if (IsEditCheck) {
-      // navigate('/feed');
     }
     if (isEdit) {
       handleItemClick(feedList.category);
@@ -114,6 +112,7 @@ const PostPage = () => {
           config,
         );
         console.log(response);
+        navigate('/feed');
       } catch (error) {
         console.log(error);
       }
