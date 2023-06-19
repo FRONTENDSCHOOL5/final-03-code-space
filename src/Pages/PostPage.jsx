@@ -115,7 +115,7 @@ const PostPage = () => {
     return(
       <SImgContainer>
         {imgAddList.map((img, index) => {
-          const imgWidth = imgAddList.length === 1 ? '350px' : '100px';
+          const imgWidth = imgAddList.length === 1 ? '350px' : imgAddList.length === 2 ? '170px' :'110px';
           const imgMargin = imgAddList.length === 1 ? '20px' : '10px';
           return(
             <SImgBox key={index}>
