@@ -132,7 +132,7 @@ const FeedDetailPage = () => {
             </SReactionCount>
             <SReactionCount>
               <SHeartImg src={iconComment} alt="댓글" />
-              {reactionCount?.post.comments.length}
+              {reactionCount?.post.commentCount}
             </SReactionCount>
           </SReactionContent>
 

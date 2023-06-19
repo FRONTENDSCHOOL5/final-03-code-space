@@ -6,7 +6,6 @@ import { APIDefaultImage, profileImg } from './COMMON';
 import useFetchComment from '../../Hooks/useFetchComment';
 const Comment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetchData }) => {
   // useEffect(() => {
-  //   setIsFetchData(false); // 컴포넌트가 리렌더링될 때마다 데이터를 다시 불러오기 위해 isFetchData 상태를 false로 설정
   // }, []);
   const navigate = useNavigate();
 
@@ -21,6 +20,8 @@ const Comment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetc
     setCommentList,
   });
   useEffect(() => {
+    setIsFetchData(false); // 컴포넌트가 리렌더링될 때마다 데이터를 다시 불러오기 위해 isFetchData 상태를 false로 설정
+
     getComment(); // 컴포넌트가 마운트될 때 FetchDetailFeed 실행
   }, []);
 

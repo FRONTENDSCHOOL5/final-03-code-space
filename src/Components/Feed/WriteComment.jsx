@@ -43,6 +43,7 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
       setCommentList(prevCommentList => [...prevCommentList, response.data.comment]);
       setIsFetchData(true);
       refreshFeed(!refreshFeedState);
+      getFeed(setReactionCount); // 컴포넌트가 마운트될 때 FetchDetailFeed 실행
 
       // 입력 필드 초기화
       setInputComment('');
@@ -53,14 +54,6 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
 
   return (
     <>
-      {/* <FetchComment
-        fetchType="feed"
-        postID={feedList.id}
-        setIsFetchData={setIsFetchData}
-        setCommentList={setCommentList}
-        setReactionCount={setReactionCount}
-      /> */}
-
       <SNavLayout>
         {/* <SCommentProfileImg src={profileImg} alt="" /> */}
         {feedList.author.image === APIDefaultImage ? (
