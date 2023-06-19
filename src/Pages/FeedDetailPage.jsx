@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { extractString } from '../Components/Feed/extractString';
 import iconHeart from '../assets/icons/heart.svg';
+import iconFillHeart from '../assets/icons/fill-heart.svg';
 import iconComment from '../assets/icons/chat-green.svg';
-import profileImg from '../assets/default-profile-image.svg';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MainHeader from '../Components/Common/MainHeader';
 import Comment from '../Components/Feed/Comment';
-import BottomNav from '../Components/Common/BottomNav';
 import {
   STitle,
   SContent,
@@ -22,35 +19,79 @@ import {
   SReactionContent,
   SReactionCount,
   SDetailFeedCard,
+  SPostImage,
+  SHeartImgDetail,
 } from '../Styles/FeedStyle/PostStyle';
 import WriteComment from '../Components/Feed/WriteComment';
-import FetchComment from '../Components/Feed/FetchComment';
-
-const APIDefaultImage = 'http://146.56.183.55:5050/Ellipse.png';
-
+import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { setToken, isConfigModal, isEditCheck } from '../Atom/atom';
+import CommonModal from '../Components/Common/CommonModal';
+import useFetchComment from '../Hooks/useFetchComment';
+import { extractString } from '../Components/Feed/extractString';
 const FeedDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const feedList = location.state.item;
-  const extracted = location.state.extracted;
-  const remaining = location.state.remaining;
+  const feedList = location.state.feedList.item;
+  const feedTitle = location.state.feedList.title;
+  const feedContent = location.state.feedList.content;
+  const category = location.state.feedList.category;
+  const editFeed = location.state.edit;
+  console.log(location.state);
+
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
 
   const [commentList, setCommentList] = useState({});
   const [isFetchData, setIsFetchData] = useState(false);
+  const [reactionCount, setReactionCount] = useState();
+  const [isEdit, setIsEdit] = useState(true);
 
-  const commentArray = [];
-  feedList.comments.map(comment => {
-    commentArray.push(comment);
-  });
+  const isModalState = useRecoilValue(isConfigModal);
+  const isEditCheckState = useRecoilValue(isEditCheck);
+
+  const { postHeart, deletePost } = useFetchComment({ postID: feedList.id });
 
   function goProfile(item) {
     navigate('/myprofile', { state: item });
   }
+  async function deleteFeed() {
+    await deletePost(); // deletePost 함수의 비동기 작업 완료까지 기다림
+    alert('삭제되었습니다!');
+    navigate('/feed');
+  }
+
+  const setIsConfigModal = useSetRecoilState(isConfigModal);
+
+  useEffect(() => {
+    setIsConfigModal(false); //모달체크
+    setIsEdit(false); //수정체크
+  }, []);
+  useEffect(() => {
+    if (!isEditCheckState) {
+      return;
+    }
+    setFeedFunction(editFeed);
+  }, [isEditCheckState]);
+  const setFeedFunction = editFeed => {
+    const extractedData = extractString(editFeed.content, 'title');
+    if (extractedData === null) {
+      return editFeed;
+    }
+    const { extracted, remaining } = extractedData;
+
+    const categoryData = extractString(remaining, 'category');
+    if (categoryData === null) {
+      return editFeed;
+    }
+    setTitle(extracted);
+    setContent(categoryData.remaining);
+  };
 
   return (
     <>
-      <MainHeader type="profile" />
+      {location.state.feedList.isSearch ? <MainHeader type="search-detail" /> : <MainHeader type="detail" />}
       <SDetailFeedCard>
         <SAuthor>
           {feedList.author.image === APIDefaultImage ? (
@@ -59,7 +100,8 @@ const FeedDetailPage = () => {
             <SProfileImg src={feedList.author.image} alt="프사" onClick={() => goProfile(feedList.author)} />
           )}
           <STitleContainer>
-            <STitle>{extracted}</STitle>
+            {title === '' ? <STitle>{feedTitle}</STitle> : <STitle>{title}</STitle>}
+
             <SAuthorInfo>
               <SUserName>{feedList.author.username}</SUserName>
               <SAccountname>@{feedList.author.accountname}</SAccountname>
@@ -67,17 +109,30 @@ const FeedDetailPage = () => {
           </STitleContainer>
         </SAuthor>
         <div>
-          <SContent>{remaining}</SContent>
+          {content === '' ? <SContent>{feedContent}</SContent> : <SContent>{content}</SContent>}
+          {!feedList.image ? null : <SPostImage src={feedList.image} alt="feed" />}
         </div>
         <SReactionContainer>
           <SReactionContent>
             <SReactionCount>
-              <SHeartImg src={iconHeart} alt="하트" />
-              {feedList.heartCount}
+              {reactionCount?.post.hearted ? (
+                <SHeartImgDetail
+                  src={iconFillHeart}
+                  alt="하트"
+                  onClick={() => postHeart(reactionCount?.post.hearted, setReactionCount)}
+                />
+              ) : (
+                <SHeartImgDetail
+                  src={iconHeart}
+                  alt="하트"
+                  onClick={() => postHeart(reactionCount?.post.hearted, setReactionCount)}
+                />
+              )}
+              {reactionCount?.post.heartCount}
             </SReactionCount>
             <SReactionCount>
               <SHeartImg src={iconComment} alt="댓글" />
-              {feedList.comments.length}
+              {reactionCount?.post.comments.length}
             </SReactionCount>
           </SReactionContent>
 
@@ -97,7 +152,13 @@ const FeedDetailPage = () => {
         setCommentList={setCommentList}
         isFetchData={isFetchData}
         setIsFetchData={setIsFetchData}
+        setReactionCount={setReactionCount}
       />
+      {isModalState ? (
+        <CommonModal deleteFeed={deleteFeed} feedList={location.state} isEdit={isEdit} setIsEdit={setIsEdit} />
+      ) : (
+        <></>
+      )}
     </>
   );
 };

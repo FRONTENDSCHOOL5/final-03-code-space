@@ -5,6 +5,7 @@ import Profile from '../Components/Common/Profile';
 import Button from '../Components/Common/Button';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
+import useMainAccountFollow from '../Hooks/useMainAccountFollow';
 
 const ProfileSetPage = ({ userEmail, userPassword }) => {
   const [isFormValid, setIsFormValid] = useState(false);
@@ -13,6 +14,8 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
   const location = useLocation();
   const userLoginInfo = location.state;
   console.log(userLoginInfo);
+
+  const { followingAcount } = useMainAccountFollow();
 
   const setUserInfoValue = (key, value) => {
     setUserInfo(prevUserInfo => ({
@@ -52,7 +55,8 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
       console.log('User profile created:', response.data);
 
       if (response.data.message === '회원가입 성공') {
-        navigate('/login');
+        navigate('/login'); 
+        followingAcount(userInfo.accountId);
       }
     } catch (error) {
       console.error('Error creating user profile:', error);

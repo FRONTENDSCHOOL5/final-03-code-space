@@ -9,6 +9,11 @@ export const setToken = atom({
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
+export const searchFeedList = atom({
+  key: 'FeedList',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
 
 export const headerToggle = atom({
   key: 'headerToggle',
@@ -21,4 +26,28 @@ export const bottomNavIndex = atom({
 export const isLandingEnter = atom({
   key: 'isLandingEnter',
   default: true,
+});
+export const isfeedFetchToggle = atom({
+  key: 'isfeedFetchToggle',
+  default: false,
+});
+export const categoryTag = atom({
+  key: 'categoryTag',
+  default: '전체',
+});
+export const categoryTagIndex = atom({
+  key: 'categoryTagState',
+  default: 0,
+});
+export const isConfigModal = atom({
+  key: 'isConfigModal',
+  default: false,
+});
+export const isEditCheck = atom({
+  key: 'isEditCheck',
+  default: false,
+});
+export const searchQuery = atom({
+  key: 'searchQuery',
+  default: '',
 });
