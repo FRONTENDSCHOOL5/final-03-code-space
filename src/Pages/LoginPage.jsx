@@ -5,6 +5,7 @@ import Modal from '../Components/Common/Modal';
 
 import { useSetRecoilState } from 'recoil';
 import { setToken } from '../Atom/atom';
+import { setAccountName } from '../Atom/atom';
 
 const LoginPage = () => {
   const navigate = useNavigate();
