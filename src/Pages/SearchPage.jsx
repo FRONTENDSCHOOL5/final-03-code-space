@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import BottomNav from '../Components/Common/BottomNav';
 import MainHeader from '../Components/Common/MainHeader';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { searchFeedList } from '../Atom/atom';
+import { searchFeedList, searchQuery } from '../Atom/atom';
 import styled from 'styled-components';
 import { profileImg, APIDefaultImage } from '../Components/Feed/COMMON';
 import iconHeart from '../assets/icons/heart.svg';
 import iconComment from '../assets/icons/chat-green.svg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SMainLayout } from '../Styles/MainLayoutStyle';
-
 import {
   SFeedCard,
   STitle,
@@ -27,9 +26,11 @@ import {
 } from '../Styles/FeedStyle/PostStyle';
 const SearchPage = () => {
   const feedList = useRecoilValue(searchFeedList);
+  const query = useRecoilValue(searchQuery);
   const [searchResults, setSearchResults] = useState([]);
-  const [searchContent, setSearchContent] = useState('');
+  const [searchContent, setSearchContent] = useState(query);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     setSearchResults(feedList);
@@ -41,19 +42,33 @@ const SearchPage = () => {
     const regex = new RegExp(searchContent, 'gi');
     const results = feedList.filter(post => regex.test(post.title) || regex.test(post.contents));
     setSearchResults(results);
+
+    // 검색어를 쿼리 파라미터로 추가하여 디테일 페이지에서 검색 페이지로 돌아왔을 때 검색어를 유지할 수 있도록 함
+    setSearchParams({ query: searchContent });
   };
 
   function goFeedDetail(item, title, content) {
-    navigate('/feeddetail', { state: { item, title, content } });
+    navigate('/feeddetail', { state: { feedList: { item, title, content, isSearch: true } } });
   }
+
   function goProfile(item) {
     navigate('/myprofile', { state: item });
   }
 
-  console.log(feedList);
+  // 검색어가 쿼리 파라미터로 전달되었을 경우, 검색어를 초기값으로 설정
+  useEffect(() => {
+    const query = searchParams.get('query');
+
+    if (query) {
+      setSearchContent(query);
+      const regex = new RegExp(query, 'gi');
+      const results = feedList.filter(post => regex.test(post.title) || regex.test(post.contents));
+      setSearchResults(results);
+    }
+  }, [feedList, searchParams]);
   return (
     <SFeedLayout>
-      <MainHeader type="search" handleSearch={handleSearch} />
+      <MainHeader type="search" handleSearch={handleSearch} searchValue={searchContent} />
       <ul>
         {searchResults.map(item => (
           <>
@@ -116,6 +131,7 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
+
 const SFeedLayout = styled(SMainLayout)`
   padding-bottom: 70px;
 `;

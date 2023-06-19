@@ -47,3 +47,7 @@ export const isEditCheck = atom({
   key: 'isEditCheck',
   default: false,
 });
+export const searchQuery = atom({
+  key: 'searchQuery',
+  default: '',
+});

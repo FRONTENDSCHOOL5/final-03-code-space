@@ -7,7 +7,7 @@ import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isConfigModal } from '../../Atom/atom';
-const MainHeader = ({ type, handleUploadPost, handleSearch }) => {
+const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue }) => {
   const navigate = useNavigate();
   const setIsConfigModal = useSetRecoilState(isConfigModal);
   const inputRef = useRef(null);
@@ -36,7 +36,7 @@ const MainHeader = ({ type, handleUploadPost, handleSearch }) => {
           </>
         ) : type === 'search' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
             <SSearch
               type="text"
               ref={inputRef}
@@ -44,6 +44,7 @@ const MainHeader = ({ type, handleUploadPost, handleSearch }) => {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               isFocused={isInputFocused}
+              value={searchValue} // 검색어 값 추가
               onChange={event => handleSearch(event)}
             />
           </>
