@@ -20,15 +20,16 @@ const SHeader = styled.header`
   text-align: center;
 
   .HeadTitle {
-    color: #f8f8f8;
+    display:block;
+    color:var( --white);
     font-size: 24px;
     font-family: var(--title-font);
+    margin-bottom:20px;
   }
 
   .HeadTxt {
-    color: #cacaca;
+    color:var( --darkgray);
     font-size: 14px;
-    margin-top:-10px;
-    margin-bottom:50px;
+    margin-bottom:30px;
   }
 `;
