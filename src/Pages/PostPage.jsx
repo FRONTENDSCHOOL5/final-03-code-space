@@ -21,8 +21,7 @@ const PostPage = () => {
 
   useEffect(() => {
     if(title !== '' &&
-    content !== '' &&
-    imgAddList.length > 0 ){
+    content !== ''){
       setIsSaveEnabled(true);
     } else {
       setIsSaveEnabled(false);
@@ -56,12 +55,18 @@ const PostPage = () => {
 
   // 카테고리, 제목, 게시글 보내기
   const handleUploadPost = async (e) => {
-    const imgUrl = imgAddList[0].url
-    const image = url + imgUrl;
 
     const config = {
       headers:{"Authorization" : authorization,
       "Content-type" : "application/json"}
+    }
+
+    // 이미지 넣지 않았을 떄
+    let image = ""; // 이미지 변수 초기화
+
+    if (imgAddList.length > 0) {
+      const imgUrl = imgAddList[0].url;
+      image = url + imgUrl;
     }
 
     try {
@@ -75,6 +80,7 @@ const PostPage = () => {
     } catch(error){
       console.log(error);
     }
+
   }
 
   // 이미지 업로드 버튼 클릭시 파일 선택 가능
