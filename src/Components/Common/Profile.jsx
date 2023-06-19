@@ -17,7 +17,7 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
   useEffect(() => {
     const isValid = username !== '' && accountId !== '';
     onFormValidityChange(isValid);
-  }, [username, accountId, onFormValidityChange]); // username과 accountId가 입력됐는지
+  }, [username, accountId, onFormValidityChange]); // username과 accountId가 입력됐는지 유효성 여부 전달
 
   const handleImageUpload = async e => {
     const formData = new FormData();

@@ -26,7 +26,7 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
     setIsFormValid(isValid);
   };
 
-  const navigate = useNavigate(); // Add this line to use the navigate function
+  const navigate = useNavigate(); 
 
   const handleSubmit = async () => {
     const url = 'https://api.mandarin.weniv.co.kr/user';
@@ -52,7 +52,7 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
       console.log('User profile created:', response.data);
 
       if (response.data.message === '회원가입 성공') {
-        navigate('/login'); // Navigate to the login page
+        navigate('/login');
       }
     } catch (error) {
       console.error('Error creating user profile:', error);

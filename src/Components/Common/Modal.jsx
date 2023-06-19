@@ -55,7 +55,7 @@ const Modal = ({
           ) : (
             <SInput type="email" id="user-email" value={userEmail} onChange={inputHandler} />
           )}
-          {successRes === '이미 가입된 이메일 주소 입니다.' ? <SErrorMessage>{successRes}</SErrorMessage> : null}
+          {successRes === '이미 가입된 이메일 주소 입니다.' ? <SErrorMessage>{successRes}</SErrorMessage> : successRes === "사용 가능한 이메일 입니다." ? <SErrorMessage>{successRes}</SErrorMessage> : successRes === "잘못된 이메일 형식입니다." ? <SErrorMessage>{successRes}</SErrorMessage> : null}
             </SFormWrap>
 
             <SFormWrap className="PwForm">
@@ -67,7 +67,6 @@ const Modal = ({
                 value={userPassword}
                 onChange={inputHandler}
             disabled={successRes === '이미 가입된 이메일 주소 입니다.'}
-            className={successRes === '이미 가입된 이메일 주소 입니다.' ? 'disabled' : ''}
               />
               {LoginError && <SErrorMessage>{LoginErrorMessage}</SErrorMessage>}
 
