@@ -112,7 +112,8 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
         onChange={handleAccountIdChange}
         onBlur={handleAccountIdBlur}
       />
-      <SAccountMessage>{accountMessage}</SAccountMessage>
+      {accountMessage === '사용 가능한 계정ID 입니다.' && <SSucessMessage>{accountMessage}</SSucessMessage>}
+      {accountMessage !== '사용 가능한 계정ID 입니다.' && <SAccountMessage>{accountMessage}</SAccountMessage>}
       <Input
         placeholder="자신과 판매할 상품에 대해 소개해주세요."
         label="소개"
@@ -181,3 +182,9 @@ const SAccountMessage = styled.p`
   font-size: 12px;
   margin-top: 5px;
 `;
+
+const SSucessMessage = styled.p`
+  color: var(--point-color);
+  font-size:12px;
+  margin-top:5px;
+`
