@@ -70,60 +70,64 @@ const SearchPage = () => {
     <SFeedLayout>
       <MainHeader type="search" handleSearch={handleSearch} searchValue={searchContent} />
       <ul>
-        {searchResults.map(item => (
-          <>
-            <SFeedCard key={item.id + ' '}>
-              <SAuthor>
-                {item.author.image === APIDefaultImage ? (
-                  <SProfileImg src={profileImg} alt="프사" onClick={() => goProfile(item.author)} />
-                ) : (
-                  <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
-                )}
-                <STitleContainer onClick={() => goFeedDetail(item, item.title, item.contents)}>
-                  <STitle onClick={() => goFeedDetail(item, item.title, item.contents)}>
-                    {item.title &&
-                      item.title.split(new RegExp(`(${searchContent})`, 'gi')).map((part, index) => (
+        {searchContent.length > 0 ? (
+          searchResults.map(item => (
+            <>
+              <SFeedCard key={item.id + ' '}>
+                <SAuthor>
+                  {item.author.image === APIDefaultImage ? (
+                    <SProfileImg src={profileImg} alt="프사" onClick={() => goProfile(item.author)} />
+                  ) : (
+                    <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
+                  )}
+                  <STitleContainer onClick={() => goFeedDetail(item, item.title, item.contents)}>
+                    <STitle onClick={() => goFeedDetail(item, item.title, item.contents)}>
+                      {item.title &&
+                        item.title.split(new RegExp(`(${searchContent})`, 'gi')).map((part, index) => (
+                          <span
+                            key={index}
+                            style={part.toLowerCase() === searchContent.toLowerCase() ? { color: '#2bae66' } : {}}>
+                            {part}
+                          </span>
+                        ))}
+                    </STitle>
+                    <SAuthorInfo>
+                      <SUserName>{item.author.username}</SUserName>
+                      <SAccountname>@{item.author.accountname}</SAccountname>
+                    </SAuthorInfo>
+                  </STitleContainer>
+                </SAuthor>
+                <div>
+                  <SMainContent onClick={() => goFeedDetail(item, item.title, item.contents)}>
+                    {item.contents &&
+                      item.contents.split(new RegExp(`(${searchContent})`, 'gi')).map((part, index) => (
                         <span
                           key={index}
                           style={part.toLowerCase() === searchContent.toLowerCase() ? { color: '#2bae66' } : {}}>
                           {part}
                         </span>
                       ))}
-                  </STitle>
-                  <SAuthorInfo>
-                    <SUserName>{item.author.username}</SUserName>
-                    <SAccountname>@{item.author.accountname}</SAccountname>
-                  </SAuthorInfo>
-                </STitleContainer>
-              </SAuthor>
-              <div>
-                <SMainContent onClick={() => goFeedDetail(item, item.title, item.contents)}>
-                  {item.contents &&
-                    item.contents.split(new RegExp(`(${searchContent})`, 'gi')).map((part, index) => (
-                      <span
-                        key={index}
-                        style={part.toLowerCase() === searchContent.toLowerCase() ? { color: '#2bae66' } : {}}>
-                        {part}
-                      </span>
-                    ))}
-                </SMainContent>
-              </div>
-              <SReactionContainer>
-                <SReactionContent onClick={() => goFeedDetail(item, item.title, item.contents)}>
-                  <SReactionCount>
-                    <SHeartImg src={iconHeart} alt="하트" />
-                    {item.heartCount}
-                  </SReactionCount>
-                  <SReactionCount>
-                    <SHeartImg src={iconComment} alt="댓글" />
-                    {item.comments.length}
-                  </SReactionCount>
-                </SReactionContent>
-                <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>
-              </SReactionContainer>
-            </SFeedCard>
-          </>
-        ))}
+                  </SMainContent>
+                </div>
+                <SReactionContainer>
+                  <SReactionContent onClick={() => goFeedDetail(item, item.title, item.contents)}>
+                    <SReactionCount>
+                      <SHeartImg src={iconHeart} alt="하트" />
+                      {item.heartCount}
+                    </SReactionCount>
+                    <SReactionCount>
+                      <SHeartImg src={iconComment} alt="댓글" />
+                      {item.comments.length}
+                    </SReactionCount>
+                  </SReactionContent>
+                  <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>
+                </SReactionContainer>
+              </SFeedCard>
+            </>
+          ))
+        ) : (
+          <></>
+        )}
       </ul>
       <BottomNav />
     </SFeedLayout>
