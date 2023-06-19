@@ -38,7 +38,8 @@ const SAccountname = styled.div`
 const SFeedCard = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--darkgray);
+  border-bottom: 1px solid var(--darkgray);
+
   padding: 20px;
   box-sizing: border-box;
   cursor: pointer;
@@ -46,7 +47,7 @@ const SFeedCard = styled.div`
 const SDetailFeedCard = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--darkgray);
+  border-bottom: 1px solid var(--darkgray);
   padding: 20px;
   box-sizing: border-box;
 `;
@@ -80,6 +81,16 @@ const SHeartImg = styled.img`
   height: 100%;
   fill: var(--point-color);
 `;
+const SHeartImgDetail = styled.img`
+  max-width: 15px;
+  max-height: 15px;
+  width: 100%;
+  height: 100%;
+  fill: var(--point-color);
+  &:hover {
+    scale: 1.2;
+  }
+`;
 const SReactionContainer = styled.div`
   display: flex;
   color: var(--lightgray);
@@ -99,6 +110,10 @@ const SReactionCount = styled.div`
   align-items: center;
   gap: 3px;
 `;
+const SPostImage = styled.img`
+  max-width: 390px;
+  width: 100%;
+`;
 export {
   SFeedCard,
   STitle,
@@ -115,4 +130,6 @@ export {
   SReactionCount,
   SDetailFeedCard,
   SMainContent,
+  SPostImage,
+  SHeartImgDetail,
 };
