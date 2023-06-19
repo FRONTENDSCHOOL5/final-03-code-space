@@ -30,6 +30,7 @@ export default function MainProfileBtns({ accountName, isfollow, isMyProfile, se
             'Content-type': 'application/json',
           },
         });
+        setIsSubscribed(response.data.profile.isfollow);
         setFollowerCount(response.data.profile.followerCount);
       } catch (error) {
         console.log(error);
@@ -47,6 +48,7 @@ export default function MainProfileBtns({ accountName, isfollow, isMyProfile, se
             'Content-type': 'application/json',
           },
         });
+        setIsSubscribed(response.data.profile.isfollow);
         setFollowerCount(response.data.profile.followerCount);
         console.log(response.data.profile.followerCount);
       } catch (error) {
