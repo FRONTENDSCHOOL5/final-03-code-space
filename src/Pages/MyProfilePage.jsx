@@ -11,6 +11,8 @@ function MyProfile() {
   let profile = location.state;
   // console.log(profile);
   // location으로 가져온 값이 있으면 그 값을, 값이 없다면 MyProfileInfo()값을 profile에 재할당
+  console.log(profile);
+
   profile = profile ? profile : MyProfileInfo();
 
   console.log(profile);

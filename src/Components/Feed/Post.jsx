@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { extractString } from './extractString';
@@ -18,7 +17,6 @@ import {
   SReactionCount,
   SMainContent,
 } from '../../Styles/FeedStyle/PostStyle';
-
 import iconHeart from '../../assets/icons/heart.svg';
 import iconComment from '../../assets/icons/chat-green.svg';
 import { profileImg, APIDefaultImage } from './COMMON';
@@ -31,9 +29,13 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
   const navigate = useNavigate();
   const tagState = useRecoilValue(categoryTag);
 
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const scrollRef = useRef(null);
+
   function goFeedDetail(item, title, content, category) {
     navigate('/feeddetail', { state: { feedList: { item, title, content, category } } });
   }
+
   function goProfile(item) {
     navigate('/myprofile', { state: item });
   }
@@ -41,6 +43,42 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
   useEffect(() => {
     setFeedFunction();
   }, [allFeed]); // isFetchData 상태도 감시
+  console.log(scrollRef.current);
+
+  const saveScrollPosition = () => {
+    if (scrollRef.current) {
+      console.log(scrollPosition);
+
+      setScrollPosition(scrollRef.current.scrollTop);
+    }
+  };
+  useEffect(() => {
+    console.log(scrollRef.current);
+
+    if (scrollRef.current) {
+      console.log(scrollRef.current.scrollTop);
+      setScrollPosition(scrollRef.current.scrollTop);
+    }
+  }, [scrollRef]);
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      saveScrollPosition();
+    };
+
+    const handleLoad = () => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollTop = scrollPosition;
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('load', handleLoad);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('load', handleLoad);
+    };
+  }, []);
 
   const setFeedFunction = () => {
     const updatedFeedList = allFeed.map(item => {
@@ -68,12 +106,13 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
 
     setFeedListState(updatedFeedList);
   };
+
   return (
     <>
       {isFetchData === false ? (
         <div>로딩중....</div>
       ) : (
-        <div>
+        <div ref={scrollRef}>
           {(tagState === '전체' ? FeedList : allFeed).map(item => {
             let title;
             let content;
