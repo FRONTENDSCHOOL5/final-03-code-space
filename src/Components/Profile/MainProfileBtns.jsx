@@ -4,13 +4,12 @@ import iconChat from '../../assets/icons/chat.png';
 import iconShare from '../../assets/icons/share.png';
 import Button from '../Common/Button';
 import { useRecoilValue } from 'recoil';
-import { useRecoilState } from 'recoil';
 import { setToken } from '../../Atom/atom';
-import { setIsFollowed } from '../../Atom/atom';
 import axios from 'axios';
+import { useState } from 'react';
 
-export default function MainProfileBtns({ accountName, isMyProfile, setFollowerCount }) {
-  const [isSubscribed, setIsSubscribed] = useRecoilState(setIsFollowed);
+export default function MainProfileBtns({ accountName, isfollow, isMyProfile, setFollowerCount }) {
+  const [isSubscribed, setIsSubscribed] = useState(isfollow);
   const token = useRecoilValue(setToken);
   const URL = 'https://api.mandarin.weniv.co.kr';
 

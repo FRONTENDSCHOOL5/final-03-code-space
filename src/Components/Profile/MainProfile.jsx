@@ -49,12 +49,12 @@ export default function MainProfile({ profile }) {
   return (
     <SProfileLayout>
       <SProfileImgBox>
-        <SFollowLink to="/follow">
+        <SFollowLink to="/follow" state={{ accountName: profile.accountname }}>
           <strong>{followerCountRender}</strong>
           <p>followers</p>
         </SFollowLink>
         <img src={profile.image} alt="" />
-        <SFollowLink to="/following">
+        <SFollowLink to="/following" state={{ accountName: profile.accountname }}>
           <strong>{profile.followingCount}</strong>
           <p>followings</p>
         </SFollowLink>
@@ -68,6 +68,7 @@ export default function MainProfile({ profile }) {
 
       <MainProfileBtns
         accountName={profile.accountname}
+        isfollow={profile.isfollow}
         isMyProfile={profile.accountname === accountName}
         setFollowerCount={setFollowerCount}
         // followerCount={followerCount}
