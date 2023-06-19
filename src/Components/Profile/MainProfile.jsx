@@ -78,10 +78,10 @@ export default function MainProfile({ profile }) {
 }
 
 const SProfileLayout = styled.section`
-  box-shadow: inset 0 0 20px red;
   background-color: var(--black);
   padding: 30px 16px 26px;
   font-family: var(--default-font);
+  border-bottom: 1px solid #4d4d4d;
 `;
 
 const SProfileImgBox = styled.div`
@@ -89,7 +89,6 @@ const SProfileImgBox = styled.div`
   justify-content: center;
   gap: 41px;
   align-items: center;
-  box-shadow: inset 0 0 20px red;
 
   img {
     width: 110px;

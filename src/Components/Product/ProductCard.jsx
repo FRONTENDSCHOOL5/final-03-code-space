@@ -12,7 +12,6 @@ export default function ProductCard({ id, itemName, price, itemImg }) {
 }
 
 const SProductCard = styled.div`
-  box-shadow: inset 0px 0px 10px red;
   width: 140px;
 `;
 
@@ -21,6 +20,7 @@ const SImage = styled.img`
   height: 90px;
   object-fit: cover;
   border-radius: 8px;
+  border: 0.5px solid #4d4d4d;
 `;
 
 const STitle = styled.p`

@@ -82,7 +82,6 @@ export default function MainProfileBtns({ accountName, isfollow, isMyProfile, se
 }
 
 const SBtnLayout = styled.div`
-  box-shadow: inset 0 0 20px red;
   text-align: center;
 
   button:first-child {
@@ -91,7 +90,6 @@ const SBtnLayout = styled.div`
 `;
 
 const SBtnContainer = styled.div`
-  box-shadow: inset 0 0 20px red;
   display: flex;
   justify-content: center;
   gap: 10px;
