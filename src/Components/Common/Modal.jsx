@@ -4,14 +4,35 @@ import Button from './Button';
 import { useSetRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
 import { isLandingEnter } from '../../Atom/atom';
+import { Link } from 'react-router-dom';
 
-const Modal = ({ title, loginSubmit, userEmail, userPassword, inputHandler, showErrorMessage }) => {
+const Modal = ({
+  title,
+  LoginSubmit,
+  ValidSubmit,
+  userEmail,
+  userPassword,
+  inputHandler,
+  LoginError,
+  isPasswordValid,
+  successRes,
+}) => {
   const isFormValid = userEmail !== '' && userPassword !== '';
   const isLandingEnteState = useRecoilValue(isLandingEnter);
 
-  const handleLoginSubmit = e => {
+  const LoginErrorMessage = title === '로그인' && LoginError ? '*이메일 또는 비밀번호가 일치하지 않습니다.' : '';
+
+  const PwErrorMessage = title === '이메일로 회원가입' && isPasswordValid ? '' : '*비밀번호는 6자리 이상이어야 합니다.';
+
+  const handleSubmit = e => {
     e.preventDefault();
-    loginSubmit(e);
+    if (title === '이메일로 회원가입') {
+      console.log('이메일 검증 submit 실행');
+      ValidSubmit(e);
+    } else {
+      console.log('로그인 submit 실행');
+      LoginSubmit(e);
+    }
   };
 
   return (
@@ -19,16 +40,22 @@ const Modal = ({ title, loginSubmit, userEmail, userPassword, inputHandler, show
       {!isLandingEnteState ? (
         <SModal>
           <SModalTitle>{title}</SModalTitle>
-          <SForm onSubmit={handleLoginSubmit}>
+          <SForm onSubmit={handleSubmit}>
             <SFormWrap className="EmailForm">
               <label htmlFor="user-email">이메일</label>
-              <SInput
-                type="email"
-                placeholder={title === '이메일로 회원가입' ? '이메일 주소를 입력해주세요' : ''}
-                id="user-email"
-                value={userEmail}
-                onChange={inputHandler}
-              />
+          {title === '이메일로 회원가입' ? (
+                <SInput
+                  type="email"
+                  placeholder={'이메일 주소를 입력해주세요'}
+                  id="user-email"
+                  value={userEmail}
+                  onChange={inputHandler}
+              onBlur={() => ValidSubmit(userEmail)}
+                />
+          ) : (
+            <SInput type="email" id="user-email" value={userEmail} onChange={inputHandler} />
+          )}
+          {successRes === '이미 가입된 이메일 주소 입니다.' ? <SErrorMessage>{successRes}</SErrorMessage> : null}
             </SFormWrap>
 
             <SFormWrap className="PwForm">
@@ -39,15 +66,27 @@ const Modal = ({ title, loginSubmit, userEmail, userPassword, inputHandler, show
                 placeholder={title === '이메일로 회원가입' ? '비밀번호를 설정해주세요' : ''}
                 value={userPassword}
                 onChange={inputHandler}
+            disabled={successRes === '이미 가입된 이메일 주소 입니다.'}
+            className={successRes === '이미 가입된 이메일 주소 입니다.' ? 'disabled' : ''}
               />
-              {showErrorMessage && <SErrorMessage>*이메일 또는 비밀번호가 일치하지 않습니다.</SErrorMessage>}
+              {LoginError && <SErrorMessage>{LoginErrorMessage}</SErrorMessage>}
+
+          {!isPasswordValid && successRes !== '이미 가입된 이메일 주소 입니다.' ? (
+            <SErrorMessage>{PwErrorMessage}</SErrorMessage>
+          ) : null}
             </SFormWrap>
+
             <SBtnBox>
               <Button type="submit" disabled={!isFormValid}>
-                로그인
+                {title === '이메일로 회원가입' ? '다음' : '로그인'}
               </Button>
             </SBtnBox>
-          </SForm>
+            {title === '로그인' && (
+        <SLink>
+          <Link to="/signup">이메일로 회원가입</Link>
+        </SLink>
+      )}
+      </SForm>
         </SModal>
       ) : (
         <></>
@@ -109,6 +148,7 @@ const SFormWrap = styled.div`
     color: #767676;
   }
 `;
+
 const SInput = styled.input`
   background-color: var(--modal-gray);
   border: none;
@@ -123,6 +163,11 @@ const SInput = styled.input`
   }
   &::placeholder {
     color: var(--gray);
+  }
+
+  &.disabled {
+    background-color: var(--disabled-gray);
+    color: var(--disabled-text);
   }
 `;
 
@@ -139,3 +184,14 @@ const SBtnBox = styled.div`
     background-color: var(--secondary-color);
   }
 `;
+
+const SLink = styled.div`
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+
+  a {
+    color: #767676;
+  }
+`;
+
