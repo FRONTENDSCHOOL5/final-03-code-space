@@ -23,7 +23,6 @@ const PostPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imgAddList, setImgAddList] = useState([]);
-  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
 
   const setIsEditCheck = useSetRecoilState(isEditCheck);
   const IsEditCheck = useRecoilValue(isEditCheck);
@@ -36,27 +35,25 @@ const PostPage = () => {
 
   const [contentTitleEdit, setContentTitleEdit] = useState(isEdit ? feedList.title : '');
   const [contentEdit, setContentEdit] = useState(isEdit ? feedList.content : '');
+  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
 
   useEffect(() => {
     console.log(isEdit);
-    if (IsEditCheck) {
-      // navigate('/feed');
-    }
+
     if (isEdit) {
       handleItemClick(feedList.category);
       setImgAddList(feedList.item.image);
     }
 
-    // 제목 본문 카테고리가 입력되야 저장 활성화
-    if(title !== '' &&
-    content !== '' && 
+    if(contentTitleEdit !== '' &&
+    contentEdit !== '' && 
     imgAddList.length <= 3){
       setIsSaveEnabled(true);
     } else {
       setIsSaveEnabled(false);
     }
-
-  }, [title, content, imgAddList]);
+    
+  }, [contentTitleEdit, contentEdit,imgAddList]);
 
   // 카테고리 드롭다운
   const toggleDropdown = () => {
@@ -85,12 +82,18 @@ const PostPage = () => {
   }, []);
 
   // 카테고리, 제목, 게시글 보내기
-  const handleUploadPost = async (e) => {
+  const handleUploadPost = async e => {
+
+    // 이미지 넣지 않았을 떄
+    let image = "";// 이미지 변수 초기화 
+
+    // 이미지 3장 이내로 넣었을 때
+    const imgUrls = imgAddList.map((img) => img.url);
+    image = imgUrls.join(',');
+
     const config = {
       headers: { Authorization: 'Bearer ' + isToken, 'Content-type': 'application/json' },
     };
-
-    // 게시글 수정일 때
     if (isEdit) {
       const image = feedList.item.image;
       try {
@@ -113,13 +116,6 @@ const PostPage = () => {
         console.log(error);
       }
     } else {
-      // 이미지 넣지 않았을 떄
-      let image = "";// 이미지 변수 초기화 
-
-      // 이미지 3장 이내로 넣었을 때
-      const imgUrls = imgAddList.map((img) => img.url);
-      image = imgUrls.join(',');
-
       try {
         const response = await axios.post(
           url + 'post',
@@ -158,24 +154,23 @@ const PostPage = () => {
       alert("이미지는 최대 3장까지만 업로드 가능합니다!");
       return;
     }
-    else {
+    else{
       try {
-        const response = await axios.post(url+"image/uploadfiles/", formData, config).then(alert("업로드완료!"));
+        const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(alert('업로드완료!'));
         const uploadedImageUrl = response.data[0].filename;
         console.log(uploadedImageUrl);
         setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
         console.log(response);
-      }catch (error) {
+      } catch (error) {
         console.log(error);
       }
     }
-    console.log(imgAddList.length);
-  }
+  };
 
   // 이미지 미리보기
   const imgAddPreview = () => {
     console.log(imgAddList);
-    const imgWidth = imgAddList.length === 1 || isEdit ? '350px' : '100px';
+    const imgWidth = imgAddList.length === 1 || isEdit ? '350px' : imgAddList.length === 2 || isEdit ? '170px' : '100px';
     const imgMargin = imgAddList.length === 1 || isEdit ? '20px' : '10px';
     return (
       <SImgContainer>
@@ -205,7 +200,7 @@ const PostPage = () => {
 
   return (
     <>
-      <MainHeader type="upload" handleUploadPost={isSaveEnabled ? handleUploadPost : null}/>
+      <MainHeader type="upload" handleUploadPost={isSaveEnabled ? handleUploadPost : null} />
       <STitle>
         <DropdownWrapper>
           <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '▼ 카테고리'}</DropdownButton>
