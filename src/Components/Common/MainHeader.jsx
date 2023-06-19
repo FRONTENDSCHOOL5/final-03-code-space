@@ -36,7 +36,7 @@ const MainHeader = ({ type, handleUploadPost}) => {
           </>
         ) : type === 'upload' ? (
           <>
-            <img src={backIcon} alt="뒤로가기"></img>
+            <img src={backIcon} alt="뒤로가기" onClick={goBack}></img>
             <SSaveBtn onClick={handleUploadPost}>업로드</SSaveBtn>
           </>
         ) : (
