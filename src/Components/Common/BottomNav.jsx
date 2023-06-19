@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import homeIcon from '../../assets/icons/home.svg';
 import chatIcon from '../../assets/icons/chat.svg';
 import postIcon from '../../assets/icons/post.svg';
@@ -9,13 +10,19 @@ import profileIcon from '../../assets/icons/profile.svg';
 import { useRecoilValue } from 'recoil';
 import { useSetRecoilState } from 'recoil';
 import { bottomNavIndex } from '../../Atom/atom';
-
-export default function BottomNav() {
+const BottomNav = () => {
   const navItems = ['feed', 'message', 'post', 'myprofile'];
   const imgs = [homeIcon, chatIcon, postIcon, profileIcon];
-
   const bottomNavIndexState = useRecoilValue(bottomNavIndex);
   const setBottomNavIndexState = useSetRecoilState(bottomNavIndex);
+  const location = useLocation();
+  useEffect(() => {
+    const path = location.pathname.replace('/', ''); // Remove leading '/'
+    const index = navItems.indexOf(path);
+    if (index !== -1) {
+      setBottomNavIndexState(index);
+    }
+  }, [location.pathname, navItems, setBottomNavIndexState]);
 
   const handleClick = index => {
     if (index === 2) {
@@ -41,7 +48,7 @@ export default function BottomNav() {
       </SListStyle>
     </SNavLayout>
   );
-}
+};
 
 const LinkBtn = ({ src, text, active, onClick, url }) => {
   return (
@@ -61,6 +68,8 @@ const LinkBtn = ({ src, text, active, onClick, url }) => {
     </Link>
   );
 };
+
+export default BottomNav;
 const SNavLayout = styled.nav`
   max-width: 390px;
   margin: 0 auto;
