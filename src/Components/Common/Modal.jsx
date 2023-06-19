@@ -25,7 +25,10 @@ const Modal = ({
 
   const LoginErrorMessage = title === '로그인' && LoginError ? '*이메일 또는 비밀번호가 일치하지 않습니다.' : '';
 
-  const PwErrorMessage = title === '이메일로 회원가입' && isPasswordValid ? '' : '*비밀번호는 6자리 이상이어야 합니다.';
+  const PwMessage = title === '이메일로 회원가입' && isPasswordValid && userPassword.length >= 6
+    ? null
+    : '*비밀번호는 6자리 이상이어야 합니다.';
+
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -61,7 +64,7 @@ const Modal = ({
               {successRes === '이미 가입된 이메일 주소 입니다.' ? (
                 <SErrorMessage>{successRes}</SErrorMessage>
               ) : successRes === '사용 가능한 이메일 입니다.' ? (
-                <SErrorMessage>{successRes}</SErrorMessage>
+                <SSucessMessage>{successRes}</SSucessMessage>
               ) : successRes === '잘못된 이메일 형식입니다.' ? (
                 <SErrorMessage>{successRes}</SErrorMessage>
               ) : null}
@@ -78,10 +81,10 @@ const Modal = ({
                 disabled={successRes === '이미 가입된 이메일 주소 입니다.'}
               />
               {LoginError && <SErrorMessage>{LoginErrorMessage}</SErrorMessage>}
-
-              {!isPasswordValid && successRes !== '이미 가입된 이메일 주소 입니다.' ? (
-                <SErrorMessage>{PwErrorMessage}</SErrorMessage>
-              ) : null}
+              
+              {!isPasswordValid && userPassword.length < 6 && successRes !== '이미 가입된 이메일 주소 입니다.' ? (
+                <SErrorMessage>{PwMessage}</SErrorMessage>
+              ) : null} 
             </SFormWrap>
 
             <SBtnBox>
@@ -217,6 +220,12 @@ const SErrorMessage = styled.p`
   font-size: 12px;
   margin-top: 5px;
 `;
+
+const SSucessMessage = styled.p`
+  color: var(--point-color);
+  font-size:12px;
+  margin-top:5px;
+`
 
 const SBtnBox = styled.div`
   button:disabled {
