@@ -45,6 +45,14 @@ const MainHeader = ({ type, handleUploadPost}) => {
           <img src={backIcon} alt="뒤로가기"></img>
           <img src={moreIcon} alt="더보기"></img>
         </>
+        ) : type === 'message' ? (
+          <>
+            <SWrap>
+              <img src={backIcon} alt="뒤로가기"></img>
+              <SNickname>코딩천재</SNickname>
+            </SWrap>
+            <img src={moreIcon} alt="더보기"></img>
+          </>
         ) : (
           <>에러</>
         )}
@@ -87,4 +95,14 @@ const SSaveBtn = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const SWrap = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const SNickname = styled.p`
+  margin-left: 15px;
+  font-size: 14px;
 `;
