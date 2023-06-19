@@ -21,7 +21,8 @@ const PostPage = () => {
 
   useEffect(() => {
     if(title !== '' &&
-    content !== ''){
+    content !== '' && 
+    imgAddList.length <= 3){
       setIsSaveEnabled(true);
     } else {
       setIsSaveEnabled(false);
@@ -62,12 +63,11 @@ const PostPage = () => {
     }
 
     // 이미지 넣지 않았을 떄
-    let image = ""; // 이미지 변수 초기화
+    let image = "";// 이미지 변수 초기화 
 
-    if (imgAddList.length > 0) {
-      const imgUrl = imgAddList[0].url;
-      image = url + imgUrl;
-    }
+    // 이미지 3장 이내로 넣었을 때
+    const imgUrls = imgAddList.map((img) => img.url);
+    image = imgUrls.join(',');
 
     try {
       const response = await axios.post(url+"post", {
@@ -99,15 +99,22 @@ const PostPage = () => {
       headers:{'Content-Type': 'multipart/form-data',}
     };
 
-    try {
-      const response = await axios.post(url+"image/uploadfiles/", formData, config).then(alert("업로드완료!"));
-      const uploadedImageUrl = response.data[0].filename;
-      console.log(uploadedImageUrl);
-      setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
-      console.log(response);
-    }catch (error) {
-      console.log(error);
+    if(imgAddList.length >= 3){
+      alert("이미지는 최대 3장까지만 업로드 가능합니다!");
+      return;
     }
+    else {
+      try {
+        const response = await axios.post(url+"image/uploadfiles/", formData, config).then(alert("업로드완료!"));
+        const uploadedImageUrl = response.data[0].filename;
+        console.log(uploadedImageUrl);
+        setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
+        console.log(response);
+      }catch (error) {
+        console.log(error);
+      }
+    }
+    console.log(imgAddList.length);
   }
 
   // 이미지 미리보기
