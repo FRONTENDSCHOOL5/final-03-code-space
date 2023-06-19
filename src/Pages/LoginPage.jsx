@@ -5,6 +5,7 @@ import Modal from '../Components/Common/Modal';
 
 import { useSetRecoilState } from 'recoil';
 import { setToken } from '../Atom/atom';
+import { setAccountName } from '../Atom/atom';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const LoginPage = () => {
 
   const [LoginError, setLoginError] = useState(false);
 
-  const inputHandler = (e) => {
+  const inputHandler = e => {
     if (e.target.type === 'email') {
       setUserEmail(e.target.value);
     } else if (e.target.type === 'password') {
@@ -46,7 +47,7 @@ const LoginPage = () => {
       const userData = response.data.user;
       console.log(userData.token);
       setTokenAtom(userData.token);
-      navigate('/feed'); 
+      navigate('/feed');
     } catch (error) {
       setLoginError(true);
       console.error(error);
