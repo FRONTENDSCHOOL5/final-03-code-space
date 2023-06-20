@@ -14,6 +14,8 @@ export default function MainProfile({ profile }) {
   const [followerCount, setFollowerCount] = useState(profile.followerCount);
   const [followerCountRender, setFollowerCountRender] = useState(profile.followerCount);
 
+  const [isSubscribed, setIsSubscribed] = useState(profile.isfollow);
+
   console.log(profile);
   console.log(profile.accountname);
   console.log(profile.followerCount);
@@ -39,6 +41,7 @@ export default function MainProfile({ profile }) {
         },
       });
       console.log(response.data.profile);
+      setIsSubscribed(response.data.profile.isfollow);
       setFollowerCount(response.data.profile.followerCount);
       setFollowerCountRender(response.data.profile.followerCount);
     } catch (error) {
@@ -68,7 +71,9 @@ export default function MainProfile({ profile }) {
 
       <MainProfileBtns
         accountName={profile.accountname}
-        isfollow={profile.isfollow}
+        setIsSubscribed={setIsSubscribed}
+        isSubscribed={isSubscribed}
+        // isfollow={profile.isfollow}
         isMyProfile={profile.accountname === accountName}
         setFollowerCount={setFollowerCount}
         // followerCount={followerCount}
