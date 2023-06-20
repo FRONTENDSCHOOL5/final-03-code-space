@@ -45,7 +45,7 @@ export default function FollowPage() {
 
   return (
     <>
-      <MainHeader />
+      <MainHeader type="profile" />
       <SFollowerList>
         {followList.map(follow => {
           console.log(follow);

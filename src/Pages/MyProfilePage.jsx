@@ -19,7 +19,7 @@ function MyProfile() {
   console.log(profile);
   return (
     <SLayout>
-      <MainHeader />
+      <MainHeader type={'profile'} />
       <SContainer>
         <MainProfile profile={profile} />
       </SContainer>
