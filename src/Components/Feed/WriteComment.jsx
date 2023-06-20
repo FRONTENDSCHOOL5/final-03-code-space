@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { setToken, isfeedFetchToggle } from '../../Atom/atom';
+import { setToken, isfeedFetchToggle, loginUserImageAtom } from '../../Atom/atom';
 import { profileImg, APIDefaultImage } from './COMMON';
 import useFetchComment from '../../Hooks/useFetchComment';
 
@@ -11,6 +11,7 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
   const isToken = useRecoilValue(setToken);
   const refreshFeedState = useRecoilValue(isfeedFetchToggle);
   const refreshFeed = useSetRecoilState(isfeedFetchToggle);
+  const LoginUserImage = useRecoilValue(loginUserImageAtom);
 
   const { getFeed } = useFetchComment({
     postID: feedList.id,
@@ -56,10 +57,10 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
     <>
       <SNavLayout>
         {/* <SCommentProfileImg src={profileImg} alt="" /> */}
-        {feedList.author.image === APIDefaultImage ? (
+        {LoginUserImage === APIDefaultImage ? (
           <SCommentProfileImg src={profileImg} alt="프사" />
         ) : (
-          <SCommentProfileImg src={feedList.author.image} alt="프사" />
+          <SCommentProfileImg src={LoginUserImage} alt="프사" />
         )}
         <SInputComment
           onChange={e => setInputComment(e.target.value)}
@@ -67,13 +68,17 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
           type="text"
           placeholder="댓글 작성하기"
         />
-        <div onClick={handleAddComment}>게시</div>
+        <SSubmutBtn onClick={handleAddComment}>게시</SSubmutBtn>
       </SNavLayout>
     </>
   );
 };
 
 export default WriteComment;
+
+const SSubmutBtn = styled.div`
+  cursor: pointer;
+`;
 
 const SNavLayout = styled.nav`
   max-width: 390px;

@@ -72,3 +72,7 @@ export const isInitialLoadAtom = atom({
   key: 'isInitialLoadAtom',
   default: true,
 });
+export const loginUserImageAtom = atom({
+  key: 'loginUserImageAtom',
+  default: '',
+});
