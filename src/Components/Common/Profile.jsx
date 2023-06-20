@@ -15,11 +15,11 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
   const [Intro, setIntro] = useState('');
 
   useEffect(() => {
-    const isValid = username !== '' && accountId !== '';
+    const isValid = username !== '' && accountId !== '' && accountMessage === '사용 가능한 계정ID 입니다.';
     onFormValidityChange(isValid);
-  }, [username, accountId, onFormValidityChange]); // username과 accountId가 입력됐는지
+  }, [username, accountId, accountMessage, onFormValidityChange]);
 
-  const handleImageUpload = async e => {
+  const handleImageUpload = async (e) => {
     const formData = new FormData();
     const imageFile = e.target.files[0];
     formData.append('image', imageFile);
@@ -35,7 +35,7 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
     }
   };
 
-  const handleUsernameChange = e => {
+  const handleUsernameChange = (e) => {
     const value = e.target.value;
     if (value.length <= 10) {
       setUserInfoValue('username', value);
@@ -43,7 +43,7 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
     }
   };
 
-  const handleAccountIdChange = e => {
+  const handleAccountIdChange = (e) => {
     const value = e.target.value;
     const sanitizedValue = value.replace(/[^a-zA-Z0-9._]/g, '');
     setUserInfoValue('accountId', sanitizedValue);
@@ -64,7 +64,7 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
           headers: {
             'Content-Type': 'application/json',
           },
-        },
+        }
       );
 
       console.log(response.data.message);
@@ -74,7 +74,7 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
     }
   };
 
-  const handleIntroChange = e => {
+  const handleIntroChange = (e) => {
     const value = e.target.value;
     setUserInfoValue('intro', value);
     setIntro(value);
@@ -99,12 +99,7 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
           <input id="profile-image" type="file" accept="image/*" onChange={handleImageUpload} hidden />
         </MarginDiv>
       </CenteredDiv>
-      <Input
-        placeholder="2~10자 이내여야 합니다."
-        label="사용자 이름"
-        value={username}
-        onChange={handleUsernameChange}
-      />
+      <Input placeholder="2~10자 이내여야 합니다." label="사용자 이름" value={username} onChange={handleUsernameChange} />
       <Input
         placeholder="영문, 숫자, 특수문자(.), (_)만 사용 가능합니다."
         label="계정 ID"
@@ -112,13 +107,9 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
         onChange={handleAccountIdChange}
         onBlur={handleAccountIdBlur}
       />
-      <SAccountMessage>{accountMessage}</SAccountMessage>
-      <Input
-        placeholder="자신과 판매할 상품에 대해 소개해주세요."
-        label="소개"
-        value={Intro}
-        onChange={handleIntroChange}
-      />
+      {accountMessage === '사용 가능한 계정ID 입니다.' && <SSuccessMessage>{accountMessage}</SSuccessMessage>}
+      {accountMessage !== '사용 가능한 계정ID 입니다.' && <SAccountMessage>{accountMessage}</SAccountMessage>}
+      <Input placeholder="자신과 판매할 상품에 대해 소개해주세요." label="소개" value={Intro} onChange={handleIntroChange} />
     </Container>
   );
 }
@@ -178,6 +169,12 @@ const DefaultProfileImageWrapper = styled.div`
 
 const SAccountMessage = styled.p`
   color: #eb5757;
+  font-size: 12px;
+  margin-top: 5px;
+`;
+
+const SSuccessMessage = styled.p`
+  color: var(--point-color);
   font-size: 12px;
   margin-top: 5px;
 `;
