@@ -36,9 +36,11 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
   function goFeedDetail(item, title, content, category) {
     navigate('/feeddetail', { state: { feedList: { item, title, content, category } } });
   }
-  function goProfile(item) {
+  function goProfile(event, item) {
+    event.stopPropagation();
     navigate('/myprofile', { state: item });
   }
+
   console.log(scrollPosition);
 
   useEffect(() => {
@@ -92,6 +94,7 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
 
     setFeedListState(updatedFeedList);
   };
+
   return (
     <>
       {isFetchData === false ? (
@@ -118,15 +121,15 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
             title = extracted;
             content = categoryData.remaining;
             return (
-              <SFeedCard key={item.id}>
+              <SFeedCard key={item.id} onClick={() => goFeedDetail(item, title, content, category)}>
                 <SAuthor>
                   {item.author.image === APIDefaultImage ? (
-                    <SProfileImg src={profileImg} alt="프사" onClick={() => goProfile(item.author)} />
+                    <SProfileImg src={profileImg} alt="프사" onClick={event => goProfile(event, item.author)} />
                   ) : (
-                    <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
+                    <SProfileImg src={item.author.image} alt="프사" onClick={event => goProfile(event, item.author)} />
                   )}
-                  <STitleContainer onClick={() => goFeedDetail(item, title, content, category)}>
-                    <STitle onClick={() => goFeedDetail(item, title, content, category)}>{title}</STitle>
+                  <STitleContainer>
+                    <STitle>{title}</STitle>
                     <SAuthorInfo>
                       <SUserName>{item.author.username}</SUserName>
                       <SAccountname>@{item.author.accountname}</SAccountname>
@@ -134,10 +137,10 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
                   </STitleContainer>
                 </SAuthor>
                 <div>
-                  <SMainContent onClick={() => goFeedDetail(item, title, content, category)}>{content}</SMainContent>
+                  <SMainContent>{content}</SMainContent>
                 </div>
                 <SReactionContainer>
-                  <SReactionContent onClick={() => goFeedDetail(item, title, content, category)}>
+                  <SReactionContent>
                     <SReactionCount>
                       <SHeartImg src={iconHeart} alt="하트" />
                       <div>{item.heartCount}</div>
