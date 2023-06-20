@@ -69,8 +69,10 @@ export default function ProductList({ profile }) {
 }
 
 const SLayout = styled.div`
-  box-shadow: inset 0px 0px 10px red;
   padding: 21px 0 20px 16px;
+  background-color: var(--black);
+  border-top: 1px solid #4d4d4d;
+  border-bottom: 1px solid #4d4d4d;
 `;
 
 const SProductList = styled.div`
@@ -79,7 +81,6 @@ const SProductList = styled.div`
   /* overflow: hidden; */
   flex-wrap: nowrap;
   overflow-x: auto;
-  box-shadow: inset 0px 0px 10px red;
 
   div {
     flex-shrink: 0;

@@ -14,6 +14,7 @@ const LoginPage = () => {
   const [isPasswordValid, setIsPasswordValid] = useState(true);
 
   const setTokenAtom = useSetRecoilState(setToken);
+  const setAccountNameAtom = useSetRecoilState(setAccountName);
 
   const [LoginError, setLoginError] = useState(false);
 
@@ -47,6 +48,7 @@ const LoginPage = () => {
       const userData = response.data.user;
       console.log(userData.token);
       setTokenAtom(userData.token);
+      setAccountNameAtom(userData.accountname);
       navigate('/feed');
     } catch (error) {
       setLoginError(true);

@@ -6,14 +6,16 @@ import Button from '../Common/Button';
 import { useRecoilValue } from 'recoil';
 import { setToken } from '../../Atom/atom';
 import axios from 'axios';
-import { useState } from 'react';
+// import { useState } from 'react';
 
-export default function MainProfileBtns({ accountName, isfollow, isMyProfile, setFollowerCount }) {
-  const [isSubscribed, setIsSubscribed] = useState(isfollow);
+export default function MainProfileBtns({ accountName, isSubscribed, setIsSubscribed, isMyProfile, setFollowerCount }) {
+  // const [isSubscribed, setIsSubscribed] = useState(isfollow);
   const token = useRecoilValue(setToken);
   const URL = 'https://api.mandarin.weniv.co.kr';
 
-  // console.log(followerCount);
+  // console.log(isfollow);
+  console.log(isSubscribed);
+  // setIsSubscribed(isfollow);
 
   async function handleClick() {
     if (isSubscribed === false) {
@@ -30,6 +32,7 @@ export default function MainProfileBtns({ accountName, isfollow, isMyProfile, se
             'Content-type': 'application/json',
           },
         });
+        setIsSubscribed(response.data.profile.isfollow);
         setFollowerCount(response.data.profile.followerCount);
       } catch (error) {
         console.log(error);
@@ -47,8 +50,9 @@ export default function MainProfileBtns({ accountName, isfollow, isMyProfile, se
             'Content-type': 'application/json',
           },
         });
+        setIsSubscribed(response.data.profile.isfollow);
         setFollowerCount(response.data.profile.followerCount);
-        console.log(response.data.profile.followerCount);
+        // console.log(response.data.profile.followerCount);
       } catch (error) {
         console.log(error);
       }
@@ -80,7 +84,6 @@ export default function MainProfileBtns({ accountName, isfollow, isMyProfile, se
 }
 
 const SBtnLayout = styled.div`
-  box-shadow: inset 0 0 20px red;
   text-align: center;
 
   button:first-child {
@@ -89,7 +92,6 @@ const SBtnLayout = styled.div`
 `;
 
 const SBtnContainer = styled.div`
-  box-shadow: inset 0 0 20px red;
   display: flex;
   justify-content: center;
   gap: 10px;

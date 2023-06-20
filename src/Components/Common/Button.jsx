@@ -25,24 +25,23 @@ const SButton = styled.button`
   box-sizing: border-box;
   cursor: pointer;
 
-  ${props =>
-    props.subscribed &&
-    css`
-      background-color: transparent;
-      color: #cacaca;
-      box-shadow: 0px 0px 0px 1px var(--border-gray);
-    `}
-
-  ${props =>
-    props.myProfileBtn &&
-    css`
-      background-color: transparent;
-      color: #cacaca;
-      box-shadow: 0px 0px 0px 1px var(--border-gray);
-    `}
-
   &:hover {
     transition: all 0.3s;
+    background-color: var(--secondary-color);
+  }
+
+  ${props => props.subscribed && transparentStyle}
+  ${props => props.myProfileBtn && transparentStyle}
+`;
+
+const transparentStyle = css`
+  background-color: transparent;
+  color: #cacaca;
+  box-shadow: 0px 0px 0px 1px var(--border-gray);
+
+  &:hover {
+    transition: all 0.2.5s ease-in-out;
+    color: var(--point-color);
     background-color: var(--secondary-color);
   }
 `;
