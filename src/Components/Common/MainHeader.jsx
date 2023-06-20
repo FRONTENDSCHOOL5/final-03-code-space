@@ -5,15 +5,9 @@ import searchIcon from '../../assets/icon-search.svg';
 import Button from './Button';
 import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-
-
-const MainHeader = ({ type, handleUploadPost, handleUploadProduct}) => {
-=======
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isConfigModal } from '../../Atom/atom';
-const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue }) => {
->>>>>>> e79676ee0ff501dbf40728d3aecbae8854d989b4
+const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleUploadProduct }) => {
   const navigate = useNavigate();
   const setIsConfigModal = useSetRecoilState(isConfigModal);
   const inputRef = useRef(null);
@@ -71,13 +65,8 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue }) => {
           </>
         ) : type === 'save' ? (
           <>
-<<<<<<< HEAD
-            <img src={backIcon} alt="뒤로가기"></img>
-            <SSaveBtn onClick={handleUploadProduct}>저장</SSaveBtn>
-=======
             <SBackIcon src={backIcon} alt="뒤로가기"></SBackIcon>
-            <SSaveBtn>저장</SSaveBtn>
->>>>>>> e79676ee0ff501dbf40728d3aecbae8854d989b4
+            <SSaveBtn onClick={handleUploadProduct}>저장</SSaveBtn>
           </>
         ) : type === 'upload' ? (
           <>
@@ -129,13 +118,10 @@ const SSaveBtn = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
-<<<<<<< HEAD
 `;
-=======
-`;
+
 const SBackIcon = styled.img`
   &:hover {
     scale: 1.1;
   }
 `;
->>>>>>> e79676ee0ff501dbf40728d3aecbae8854d989b4
