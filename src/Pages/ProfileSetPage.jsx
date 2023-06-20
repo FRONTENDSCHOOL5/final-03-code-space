@@ -29,7 +29,7 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
     setIsFormValid(isValid);
   };
 
-  const navigate = useNavigate(); // Add this line to use the navigate function
+  const navigate = useNavigate(); 
 
   const handleSubmit = async () => {
     const url = 'https://api.mandarin.weniv.co.kr/user';
@@ -55,7 +55,7 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
       console.log('User profile created:', response.data);
 
       if (response.data.message === '회원가입 성공') {
-        navigate('/login'); // Navigate to the login page
+        navigate('/login'); 
         followingAcount(userInfo.accountId);
       }
     } catch (error) {
@@ -68,7 +68,7 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
       <ProfileHeader HeadTitle="프로필 설정" HeadTxt="나중에 언제든 변경할 수 있습니다." />
       <Profile onFormValidityChange={handleFormValidity} userInfo={userInfo} setUserInfoValue={setUserInfoValue} />
       <SBtnBox>
-        <Button type="submit" disabled={!isFormValid} onClick={handleSubmit}>
+      <Button type="submit" disabled={!isFormValid && userInfo.accountMessage !== '사용 가능한 계정 ID 입니다.'} onClick={handleSubmit}>
           CodeSpace 시작하기
         </Button>
       </SBtnBox>
