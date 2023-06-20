@@ -75,4 +75,5 @@ export const isInitialLoadAtom = atom({
 export const loginUserImageAtom = atom({
   key: 'loginUserImageAtom',
   default: '',
+  effects_UNSTABLE: [persistAtom],
 });

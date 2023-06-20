@@ -15,7 +15,7 @@ const STagButton = styled.div`
   border: 1px solid var(--darkgray);
   padding: 5px 8px;
   font-size: 12px;
-  color: var(--lightgray);
+  color: var(--gray);
   cursor: pointer;
   &.active {
     color: var(--white);

@@ -64,7 +64,7 @@ const SConfirmContents = styled.div`
     height: 100%;
     padding: 15px;
     &:hover {
-      background-color: var(--gray);
+      background-color: var(--border-gray);
     }
   }
   div:nth-child(1) {
@@ -85,9 +85,9 @@ const SContents = styled.div`
   align-items: center;
   color: var(--white);
   margin-top: 50px;
-  gap: 30px;
+  gap: 20px;
   div {
-    width: 40%;
+    width: 80%;
     text-align: center;
     padding: 10px;
     border-radius: 10px;
@@ -97,7 +97,7 @@ const SContents = styled.div`
     font-weight: bold;
   }
   div:hover {
-    background-color: var(--gray);
+    background-color: var(--border-gray);
   }
 `;
 const SBackground = styled.div`

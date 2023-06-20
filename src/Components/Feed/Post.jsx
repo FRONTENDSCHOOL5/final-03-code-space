@@ -140,11 +140,11 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
                   <SReactionContent onClick={() => goFeedDetail(item, title, content, category)}>
                     <SReactionCount>
                       <SHeartImg src={iconHeart} alt="하트" />
-                      {item.heartCount}
+                      <div>{item.heartCount}</div>
                     </SReactionCount>
                     <SReactionCount>
                       <SHeartImg src={iconComment} alt="댓글" />
-                      {item.comments.length}
+                      <div>{item.comments.length}</div>
                     </SReactionCount>
                   </SReactionContent>
                   <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>

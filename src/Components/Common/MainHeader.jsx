@@ -32,7 +32,7 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleU
         {type === 'feed' ? (
           <>
             <div>코드스페이스</div>
-            <SBackIcon src={searchIcon} alt="돋보기" onClick={() => navigate('/search')} />
+            <SSearchIcon src={searchIcon} alt="돋보기" onClick={() => navigate('/search')} />
           </>
         ) : type === 'search' ? (
           <>
@@ -51,17 +51,17 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleU
         ) : type === 'profile' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SBackIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SBackIcon>
+            <SSettingIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SSettingIcon>
           </>
         ) : type === 'detail' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
-            <SBackIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SBackIcon>
+            <SSettingIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SSettingIcon>
           </>
         ) : type === 'search-detail' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SBackIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SBackIcon>
+            <SSettingIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SSettingIcon>
           </>
         ) : type === 'save' ? (
           <>
@@ -123,5 +123,17 @@ const SSaveBtn = styled(Button)`
 const SBackIcon = styled.img`
   &:hover {
     scale: 1.1;
+  }
+`;
+const SSettingIcon = styled.img`
+  &:hover {
+    scale: 1.1;
+  }
+`;
+const SSearchIcon = styled.img`
+  &:hover {
+    scale: 1.1;
+    fill: var(--point-color);
+    filter: invert(53%) sepia(7%) saturate(4534%) hue-rotate(95deg) brightness(105%) contrast(78%);
   }
 `;
