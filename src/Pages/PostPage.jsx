@@ -35,15 +35,25 @@ const PostPage = () => {
 
   const [contentTitleEdit, setContentTitleEdit] = useState(isEdit ? feedList.title : '');
   const [contentEdit, setContentEdit] = useState(isEdit ? feedList.content : '');
+  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
 
   useEffect(() => {
     if (IsEditCheck) {
     }
+    console.log(isEdit);
+
     if (isEdit) {
       handleItemClick(feedList.category);
       setImgAddList(feedList.item.image);
     }
-  }, []);
+
+    if (contentTitleEdit !== '' && contentEdit !== '' && imgAddList.length <= 3) {
+      setIsSaveEnabled(true);
+    } else {
+      setIsSaveEnabled(false);
+    }
+  }, [contentTitleEdit, contentEdit, imgAddList]);
+
   // 카테고리 드롭다운
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -72,8 +82,12 @@ const PostPage = () => {
 
   // 카테고리, 제목, 게시글 보내기
   const handleUploadPost = async e => {
-    const imgUrl = imgAddList[0].url;
-    const image = url + imgUrl;
+    // 이미지 넣지 않았을 떄
+    let image = ''; // 이미지 변수 초기화
+
+    // 이미지 3장 이내로 넣었을 때
+    const imgUrls = imgAddList.map(img => img.url);
+    image = imgUrls.join(',');
 
     const config = {
       headers: { Authorization: 'Bearer ' + isToken, 'Content-type': 'application/json' },
@@ -134,21 +148,28 @@ const PostPage = () => {
     const config = {
       headers: { 'Content-Type': 'multipart/form-data' },
     };
-    try {
-      const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(alert('업로드완료!'));
-      const uploadedImageUrl = response.data[0].filename;
-      console.log(uploadedImageUrl);
-      setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+
+    if (imgAddList.length >= 3) {
+      alert('이미지는 최대 3장까지만 업로드 가능합니다!');
+      return;
+    } else {
+      try {
+        const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(alert('업로드완료!'));
+        const uploadedImageUrl = response.data[0].filename;
+        console.log(uploadedImageUrl);
+        setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   // 이미지 미리보기
   const imgAddPreview = () => {
     console.log(imgAddList);
-    const imgWidth = imgAddList.length === 1 || isEdit ? '350px' : '100px';
+    const imgWidth =
+      imgAddList.length === 1 || isEdit ? '350px' : imgAddList.length === 2 || isEdit ? '170px' : '100px';
     const imgMargin = imgAddList.length === 1 || isEdit ? '20px' : '10px';
     return (
       <SImgContainer>
@@ -178,7 +199,7 @@ const PostPage = () => {
 
   return (
     <>
-      <MainHeader type="upload" handleUploadPost={handleUploadPost} />
+      <MainHeader type="upload" handleUploadPost={isSaveEnabled ? handleUploadPost : null} />
       <STitle>
         <DropdownWrapper>
           <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '▼ 카테고리'}</DropdownButton>

@@ -7,7 +7,7 @@ import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isConfigModal } from '../../Atom/atom';
-const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue }) => {
+const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleUploadProduct }) => {
   const navigate = useNavigate();
   const setIsConfigModal = useSetRecoilState(isConfigModal);
   const inputRef = useRef(null);
@@ -66,7 +66,7 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue }) => {
         ) : type === 'save' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기"></SBackIcon>
-            <SSaveBtn>저장</SSaveBtn>
+            <SSaveBtn onClick={handleUploadProduct}>저장</SSaveBtn>
           </>
         ) : type === 'upload' ? (
           <>
@@ -119,6 +119,7 @@ const SSaveBtn = styled(Button)`
   justify-content: center;
   align-items: center;
 `;
+
 const SBackIcon = styled.img`
   &:hover {
     scale: 1.1;

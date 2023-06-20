@@ -13,6 +13,8 @@ import FollowingPage from './Pages/FollowingPage';
 import MyProfilePage from './Pages/MyProfilePage';
 import SearchPage from './Pages/SearchPage';
 import FeedDetailPage from './Pages/FeedDetailPage';
+import ProductPage from './Pages/ProductPage';
+import Modal from './Components/Common/Modal';
 import { SMainLayout } from './Styles/MainLayoutStyle';
 
 function App() {
@@ -32,6 +34,7 @@ function App() {
           <Route path="/messagelist" element={<MessageListPage />} />
           <Route path="/message" element={<MessagePage />} />
           <Route path="/post" element={<PostPage />} />
+          <Route path="/product" element={<ProductPage />} />
           <Route path="/follow" element={<FollowPage />} />
           <Route path="/following" element={<FollowingPage />} />
         </Routes>
