@@ -59,13 +59,23 @@ export default function MainProfileBtns({ accountName, isSubscribed, setIsSubscr
     }
   }
 
+  // 공유 버튼 누르면 링크 복사
+  const handleCopyClipBoard = async text => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert('클립보드에 링크가 복사되었어요.');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   if (isMyProfile) {
     return (
       <SBtnLayout>
-        <Button width="120px" myProfileBtn={true}>
+        <Button width="120px" myProfileBtn={true} padding="8px 0">
           <Link to="/profile">프로필 수정</Link>
         </Button>
-        <Button width="100px" myProfileBtn={true}>
+        <Button width="100px" myProfileBtn={true} padding="8px 0">
           <Link to="/product">상품 등록</Link>
         </Button>
       </SBtnLayout>
@@ -74,10 +84,10 @@ export default function MainProfileBtns({ accountName, isSubscribed, setIsSubscr
     return (
       <SBtnContainer>
         <SChatBtn />
-        <Button width="120px" onClick={handleClick} subscribed={isSubscribed}>
+        <Button width="120px" onClick={handleClick} subscribed={isSubscribed} padding="8px 0">
           {isSubscribed ? '언팔로우 ' : '팔로우'}
         </Button>
-        <SShareBtn />
+        <SShareBtn onClick={handleCopyClipBoard} />
       </SBtnContainer>
     );
   }
