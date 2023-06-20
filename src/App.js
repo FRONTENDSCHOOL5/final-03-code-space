@@ -37,7 +37,6 @@ function App() {
           <Route path="/product" element={<ProductPage />} />
           <Route path="/follow" element={<FollowPage />} />
           <Route path="/following" element={<FollowingPage />} />
-          <Route path="/Modal" element={<Modal />} />
         </Routes>
       </SMainLayout>
     </div>
