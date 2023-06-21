@@ -71,7 +71,7 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleU
         ) : type === 'upload' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost}>업로드</SUploadBtn>
+            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost} style={{marginRight:'5px'}}>업로드</SUploadBtn>
           </>
         ) : (
           <>에러</>

@@ -4,6 +4,7 @@ import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg';
 import delImg from '../assets/icons/del.svg';
 import axios from 'axios';
+import TextareaAutosize from 'react-textarea-autosize';
 import { setToken } from '../Atom/atom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -172,21 +173,21 @@ const PostPage = () => {
   // 이미지 미리보기
   const imgAddPreview = () => {
     console.log(imgAddList);
-    const imgWidth = imgAddList.length === 1 || isEdit ? '350px' : imgAddList.length === 2 || isEdit ? '170px' : '100px';
-    const imgMargin = imgAddList.length === 1 || isEdit ? '20px' : '10px';
+    const imgWidth = imgAddList.length === 1 || isEdit ? '350px' : '270px';
+
     return (
       <SImgContainer>
         {isEdit ? (
           <SImgBox key={feedList.item.id}>
             <SDelBtn onClick={() => onRemoveAdd(imgAddList)} />
-            <SPreviewImg src={imgAddList} style={{ width: imgWidth, margin: imgMargin }} />
+            <SPreviewImg src={imgAddList} style={{ width: imgWidth}} />
           </SImgBox>
         ) : (
           imgAddList.map((img, index) => {
             return (
               <SImgBox key={index}>
                 <SDelBtn onClick={() => onRemoveAdd(img.url)} />
-                <SPreviewImg src={img.url} style={{ width: imgWidth, margin: imgMargin }} />
+                <SPreviewImg src={img.url} style={{ width: imgWidth}} />
               </SImgBox>
             );
           })
@@ -233,6 +234,7 @@ const PostPage = () => {
           onChange={writePost}></SPostContent>
       )}
 
+      
       {imgAddPreview()}
       <SUploadImgBtn onClick={handleClick}>
         <SInputImg
@@ -315,7 +317,6 @@ const SPostContent = styled.textarea`
   margin: 0 20px;
   padding: 0;
   width: 350px;
-  /* height: 200px; */
   background-color: var(--black);
   border: none;
   color: var(--white);
@@ -340,7 +341,25 @@ const SInputImg = styled.input`
 `;
 
 const SImgContainer = styled.div`
+  margin: 20px;
   display: flex;
+  gap: 15px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    border-radius: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    height: 10px;
+    background: var(--darkgray);
+    background-clip: padding-box;
+    border: 5px solid transparent;
+    border-radius: 20px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: none;
+    height: 100px;
+  }
 `;
 
 const SImgBox = styled.div`
@@ -354,8 +373,8 @@ const SPreviewImg = styled.img`
 
 const SDelBtn = styled.div`
   position: absolute;
-  top: 30px;
-  right: 30px;
+  top: 0;
+  right: 0;
   width: 30px;
   height: 30px;
   background-image: url(${delImg});
