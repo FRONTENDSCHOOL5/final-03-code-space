@@ -38,7 +38,7 @@ const GlobalStyle = createGlobalStyle`
  
     --nav-icon-color: #adadad;
     --border-gray:#6f6f6f;
-    --modal-gray:#f8f8f8;
+    --modal-darkgray:#29292D;
 
     // font
     --title-font : 'NEXON Lv1 Gothic OTF';

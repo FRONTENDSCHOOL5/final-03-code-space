@@ -147,11 +147,11 @@ const SModal = styled.article`
   width: 100%;
   max-width: 390px;
   height: 100%;
-  background-color: var(--modal-gray);
+  background-color: var(--modal-darkgray);
   border-radius: 47px 47px 0 0;
   position: fixed;
   top: 26%;
-  box-shadow: 0px -40px 15px -15px rgba(240, 9, 9, 0.75);
+  box-shadow: 0px -40px 15px -15px rgb(0, 0, 0, 0.7);
   /* transition: all 2s; */
   animation: ${({ isLandingEnterState }) => (isLandingEnterState ? 'none' : modalfadeOut)} 1.3s ease-in;
 
@@ -169,7 +169,7 @@ const SModal = styled.article`
 `;
 
 const SModalTitle = styled.h1`
-  color: var(--black);
+  color: var(--white);
   text-align: center;
   margin: 45px 0 35px;
   font-size: 24px;
@@ -178,7 +178,9 @@ const SModalTitle = styled.h1`
 const SForm = styled.form`
   padding: 0 50px;
   margin-bottom: 10px;
+  
 `;
+
 
 const SFormWrap = styled.div`
   display: flex;
@@ -187,17 +189,18 @@ const SFormWrap = styled.div`
 
   label {
     font-size: 12px;
-    color: #767676;
+    color: var(--white)
   }
 `;
 
 const SInput = styled.input`
-  background-color: var(--modal-gray);
+  background-color: var(--modal-darkgray);
+
   border: none;
   outline: none;
   border-bottom: 1px solid var(--gray);
   padding: 15px 0;
-  color: var(--black);
+  color: var(--white);
   font-size: 14px;
   &:focus {
     transition: all 0.5s;
@@ -212,6 +215,7 @@ const SInput = styled.input`
     color: var(--disabled-text);
   }
 `;
+
 
 const SErrorMessage = styled.p`
   color: #eb5757;
@@ -254,6 +258,7 @@ const SSnsBtnBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    color:var(--white);
 
     img {
       margin-right: 15px;
@@ -273,3 +278,5 @@ const SSnsBtnBox = styled.div`
     padding-right: 17px;
   }
 `;
+
+

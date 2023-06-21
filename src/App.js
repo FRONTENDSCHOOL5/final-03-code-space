@@ -16,10 +16,11 @@ import FeedDetailPage from './Pages/FeedDetailPage';
 import ProductPage from './Pages/ProductPage';
 import Modal from './Components/Common/Modal';
 import { SMainLayout } from './Styles/MainLayoutStyle';
+import styled from 'styled-components';
 
 function App() {
   return (
-    <div>
+    <Sbackground>
       <GlobalStyle />
       <SMainLayout>
         <Routes>
@@ -39,7 +40,11 @@ function App() {
           <Route path="/following" element={<FollowingPage />} />
         </Routes>
       </SMainLayout>
-    </div>
+    </Sbackground>
   );
 }
 export default App;
+
+const Sbackground = styled.div `
+background-color:var(--black);
+`
