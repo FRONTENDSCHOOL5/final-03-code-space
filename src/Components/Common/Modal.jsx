@@ -178,9 +178,7 @@ const SModalTitle = styled.h1`
 const SForm = styled.form`
   padding: 0 50px;
   margin-bottom: 10px;
-  
 `;
-
 
 const SFormWrap = styled.div`
   display: flex;
@@ -189,7 +187,7 @@ const SFormWrap = styled.div`
 
   label {
     font-size: 12px;
-    color: var(--white)
+    color: var(--white);
   }
 `;
 
@@ -217,14 +215,13 @@ const SInput = styled.input`
 
   /* input 자동입력시 webkit 기반 브라우저 설정 */
 
-  &:-webkit-autofill { 
+  &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px var(--modal-darkgray) inset; /* input 박스 컬러 설정 */
-    -webkit-text-fill-color:var(--white); /* input 텍스트 컬러 설정 */
+    -webkit-text-fill-color: var(--white); /* input 텍스트 컬러 설정 */
     caret-color: var(--white); /* 텍스트 cursor 컬러 설정 */
     transition: background-color 5000s ease-in-out 0s;
   }
 `;
-
 
 const SErrorMessage = styled.p`
   color: #eb5757;
@@ -241,6 +238,24 @@ const SSucessMessage = styled.p`
 const SBtnBox = styled.div`
   button:disabled {
     background-color: var(--secondary-color);
+  }
+
+  @media (min-height: 780px) {
+    button {
+      margin: 10px 0;
+    }
+  }
+
+  @media (min-height: 840px) {
+    button {
+      margin: 20px 0;
+    }
+  }
+
+  @media (min-height: 930px) {
+    button {
+      margin: 20px 0;
+    }
   }
 `;
 
@@ -267,7 +282,7 @@ const SSnsBtnBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    color:var(--white);
+    color: var(--white);
 
     img {
       margin-right: 15px;
@@ -286,6 +301,22 @@ const SSnsBtnBox = styled.div`
     border: 1px solid var(--border-gray);
     padding-right: 17px;
   }
+
+  @media (min-height: 780px) {
+    button[type='button'] {
+      margin-bottom: 20px;
+    }
+  }
+
+  @media (min-height: 840px) {
+    button[type='button'] {
+      margin-bottom: 30px;
+    }
+  }
+
+  @media (min-height: 930px) {
+    button[type='button'] {
+      margin-bottom: 30px;
+    }
+  }
 `;
-
-
