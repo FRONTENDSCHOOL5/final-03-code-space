@@ -151,9 +151,9 @@ const SModal = styled.article`
   border-radius: 47px 47px 0 0;
   position: fixed;
   top: 26%;
-  box-shadow: 0px -40px 22px -17px rgba(240, 9, 9, 0.75);
+  box-shadow: 0px -40px 15px -15px rgba(240, 9, 9, 0.75);
   /* transition: all 2s; */
-  animation: ${({ isLandingEnterState }) => (isLandingEnterState ? 'none' : modalfadeOut)} 1.4s ease-in;
+  animation: ${({ isLandingEnterState }) => (isLandingEnterState ? 'none' : modalfadeOut)} 1.3s ease-in;
 
   ::before {
     content: '';
