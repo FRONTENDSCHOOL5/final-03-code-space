@@ -45,7 +45,8 @@ const PostPage = () => {
       setImgAddList(feedList.item.image);
     }
 
-    if(contentTitleEdit !== '' &&
+    if(selectedItem &&
+    contentTitleEdit !== '' &&
     contentEdit !== '' && 
     imgAddList.length <= 3){
       setIsSaveEnabled(true);
@@ -53,7 +54,7 @@ const PostPage = () => {
       setIsSaveEnabled(false);
     }
     
-  }, [contentTitleEdit, contentEdit,imgAddList]);
+  }, [selectedItem, contentTitleEdit, contentEdit,imgAddList]);
 
   // 카테고리 드롭다운
   const toggleDropdown = () => {
@@ -157,7 +158,7 @@ const PostPage = () => {
     else{
       try {
         const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(alert('업로드완료!'));
-        const uploadedImageUrl = response.data[0].filename;
+        const uploadedImageUrl = url + response.data[0].filename;
         console.log(uploadedImageUrl);
         setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
         console.log(response);
@@ -184,7 +185,7 @@ const PostPage = () => {
             return (
               <SImgBox key={index}>
                 <SDelBtn onClick={() => onRemoveAdd(img.url)} />
-                <SPreviewImg src={url + img.url} style={{ width: imgWidth, margin: imgMargin }} />
+                <SPreviewImg src={img.url} style={{ width: imgWidth, margin: imgMargin }} />
               </SImgBox>
             );
           })
@@ -200,7 +201,7 @@ const PostPage = () => {
 
   return (
     <>
-      <MainHeader type="upload" handleUploadPost={isSaveEnabled ? handleUploadPost : null} />
+      <MainHeader type="upload" buttonDisabled={isSaveEnabled ? false : true} handleUploadPost={isSaveEnabled ? handleUploadPost : null} />
       <STitle>
         <DropdownWrapper>
           <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '▼ 카테고리'}</DropdownButton>
