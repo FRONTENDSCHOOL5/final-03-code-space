@@ -214,6 +214,15 @@ const SInput = styled.input`
     background-color: var(--disabled-gray);
     color: var(--disabled-text);
   }
+
+  /* input 자동입력시 webkit 기반 브라우저 설정 */
+
+  &:-webkit-autofill { 
+    -webkit-box-shadow: 0 0 0 30px var(--modal-darkgray) inset; /* input 박스 컬러 설정 */
+    -webkit-text-fill-color:var(--white); /* input 텍스트 컬러 설정 */
+    caret-color: var(--white); /* 텍스트 cursor 컬러 설정 */
+    transition: background-color 5000s ease-in-out 0s;
+  }
 `;
 
 
