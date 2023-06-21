@@ -47,4 +47,5 @@ export default App;
 
 const Sbackground = styled.div `
 background-color:var(--black);
+min-height: 100vh;
 `
