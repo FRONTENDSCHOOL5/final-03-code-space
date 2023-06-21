@@ -128,9 +128,9 @@ const ProductPage = () => {
           </SUploadImgBtn>
         </SImgBg>
       </SImgWrap>
-      <Input placeholder="2~15자 이내여야 합니다." label="상품명" onChange={writeProductName} minLength={2} maxLength={15}/>
-      <Input placeholder="숫자만 입력 가능합니다." label="가격" onChange={writeProductPrice} value={commaProductPrice} onkeyup="inputNumberFormat(this)"/>
-      <Input placeholder="상품 설명을 입력해주세요." label="판매 설명" onChange={writeSaleUrl}/>
+      <Input placeholder="2~15자 이내여야 합니다." label="상품명" onChange={writeProductName} minLength={2} maxLength={15} style={{fontSize:'16px'}}/>
+      <Input placeholder="숫자만 입력 가능합니다." label="가격" onChange={writeProductPrice} value={commaProductPrice} onkeyup="inputNumberFormat(this)" style={{fontSize:'16px'}}/>
+      <Input placeholder="상품 설명을 입력해주세요." label="판매 설명" onChange={writeSaleUrl} style={{fontSize:'16px'}}/>
     </>
   );
 };
@@ -140,6 +140,7 @@ export default ProductPage;
 const SImgBg = styled.div`
   width: 100%;
   height: 204px;
+  margin: 34px;
   border: 0.5px solid var(--gray);
   border-radius: 10px;
   background-color: var(--lightgray);
@@ -149,20 +150,24 @@ const SImgBg = styled.div`
 `;
 
 const SImgWrap = styled.div`
+  position: relative; /* 부모 요소를 relative로 설정 */
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
-  margin: 34px;
 `;
 
 const SUploadImgBtn = styled.div`
+  position: absolute; /* 절대 위치로 설정 */
+  bottom: 0; /* 바닥에 붙이기 */
+  right: 0; /* 오른쪽에 붙이기 */
   float: right;
-  width: 50px;
-  height: 50px;
-  margin: 15px;
+  width: 60px;
+  height: 60px;
+  margin: 20px;
   border-radius: 50%;
   background-image: url(${uploadImg});
+  background-size: 60px 60px;
   cursor: pointer;
 `;
 

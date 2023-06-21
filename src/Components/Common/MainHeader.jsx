@@ -67,7 +67,7 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleU
         ) : type === 'save' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadProduct}>저장</SUploadBtn>
+            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadProduct} style={{marginRight:'20px'}}>저장</SUploadBtn>
           </>
         ) : type === 'upload' ? (
           <>
