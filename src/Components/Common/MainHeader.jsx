@@ -66,12 +66,12 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleU
           </>
         ) : type === 'save' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기"></SBackIcon>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
             <SUploadBtn disabled={buttonDisabled} onClick={handleUploadProduct}>저장</SUploadBtn>
           </>
         ) : type === 'upload' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/myprofile')}></SBackIcon>
             <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost}>업로드</SUploadBtn>
           </>
         ) : (
