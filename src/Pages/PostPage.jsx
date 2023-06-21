@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import MainHeader from '../Components/Common/MainHeader';
-import uploadImg from '../assets/icons/uploadImg.svg';
-import delImg from '../assets/icons/del.svg';
-import axios from 'axios';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { setToken } from '../Atom/atom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isEditCheck } from '../Atom/atom';
+import TextareaAutosize from 'react-textarea-autosize';
+import styled from 'styled-components';
+import MainHeader from '../Components/Common/MainHeader';
+import uploadImg from '../assets/icons/uploadImg.svg';
+import delImg from '../assets/icons/del.svg';
+import axios from 'axios';
 
 const PostPage = () => {
   const url = 'https://api.mandarin.weniv.co.kr/';
@@ -19,45 +20,37 @@ const PostPage = () => {
   const isToken = useRecoilValue(setToken);
   const contentInput = useRef();
   const imgInput = useRef();
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState('');
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [code, setCode] = useState('');
-  const [imgAddList, setImgAddList] = useState([]);
-
-  const setIsEditCheck = useSetRecoilState(isEditCheck);
-  const IsEditCheck = useRecoilValue(isEditCheck);
-
   const location = useLocation();
   const navigate = useNavigate();
   const isEdit = location.state?.isEdit;
   const feedList = location.state?.feedList;
-  const feedContent = location.state?.feedList;
 
-  const [contentTitleEdit, setContentTitleEdit] = useState(isEdit ? feedList.title : '');
-  const [contentEdit, setContentEdit] = useState(isEdit ? feedList.content : '');
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState('');
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
+  const setIsEditCheck = useSetRecoilState(isEditCheck);
+
+  const [title, setTitle] = useState(isEdit ? feedList.title : '');
+  const [content, setContent] = useState(isEdit ? feedList.content : '');
+  const [code, setCode] = useState(isEdit ? feedList.content : '');
+  const [imgAddList, setImgAddList] = useState([]);
 
   useEffect(() => {
-    console.log(isEdit);
-
     if (isEdit) {
       handleItemClick(feedList.category);
       setImgAddList(feedList.item.image);
     }
 
+    // 필수 내용 다 입력했는지
     if(selectedItem &&
-    contentTitleEdit !== '' &&
-    contentEdit !== '' && 
+    title !== '' &&
+    content !== '' && 
     imgAddList.length <= 3){
       setIsSaveEnabled(true);
     } else {
       setIsSaveEnabled(false);
     }
-    
-  }, [selectedItem, contentTitleEdit, contentEdit,imgAddList]);
+  }, [selectedItem, title, content,imgAddList]);
 
   // 카테고리 드롭다운
   const toggleDropdown = () => {
@@ -65,19 +58,18 @@ const PostPage = () => {
   };
 
   const handleItemClick = item => {
-    console.log(item);
     setSelectedItem(item);
     setIsOpen(false);
   };
 
   // 제목
   function writeTitle(e) {
-    setContentTitleEdit(e.target.value);
+    setTitle(e.target.value);
   }
 
   // 게시글
   function writePost(e) {
-    setContentEdit(e.target.value);
+    setContent(e.target.value);
   }
 
   // 코드
@@ -85,39 +77,33 @@ const PostPage = () => {
     setCode(e.target.value);
   }
 
-  // 게시글 textarea 자동 높이
-  const handleResizeHeight = useCallback(() => {
-    contentInput.current.style.height = contentInput.current.scrollHeight + 'px';
-  }, []);
-
   // 카테고리, 제목, 게시글 보내기
   const handleUploadPost = async e => {
 
     // 이미지 넣지 않았을 떄
-    let image = "";// 이미지 변수 초기화 
+    let image = ""; // 이미지 변수 초기화 
 
-    // 이미지 3장 이내로 넣었을 때
+    // 이미지 3장 이내로 넣었을 때 ','로 각 이미지 구분해줌
     const imgUrls = imgAddList.map((img) => img.url);
     image = imgUrls.join(',');
 
     const config = {
       headers: { Authorization: 'Bearer ' + isToken, 'Content-type': 'application/json' },
     };
+
     if (isEdit) {
       const image = feedList.item.image;
       try {
-        console.log(title, content);
         const response = await axios.put(
           url + `post/${feedList.item.id}`,
           {
             post: {
-              content: `\\\"title:${contentTitleEdit}\\\"\\\"category:${selectedItem}\\\"\\\"${contentEdit}\\\"code:${code}`,
-              image: image, // 이미지 url
+              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"code:${code}`,
+              image: image,
             },
           },
           config,
         );
-
         console.log(response.data.post);
         setIsEditCheck(true);
         navigate('/feeddetail', { state: { ...location.state, edit: response.data.post } });
@@ -130,14 +116,14 @@ const PostPage = () => {
           url + 'post',
           {
             post: {
-              content: `\\\"title:${contentTitleEdit}\\\"\\\"category:${selectedItem}\\\"${contentEdit}\\\"${contentEdit}\\\"code:${code}`,
-              image: image, // 이미지 url
+              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"code:${code}`,
+              image: image,
             },
           },
           config,
         );
         console.log(response);
-        navigate('/feed');
+        navigate('/feed'); // 업로드 후 feed로 이동
       } catch (error) {
         console.log(error);
       }
@@ -152,7 +138,6 @@ const PostPage = () => {
   // 이미지 서버 업로드
   const handleUploadImg = async e => {
     const file = e.target.files[0];
-    console.log(file);
     const formData = new FormData();
     formData.append('image', file);
 
@@ -221,45 +206,49 @@ const PostPage = () => {
           </DropdownContent>
         </DropdownWrapper>
         {isEdit ? (
-          <SContentTitle placeholder="제목" onChange={writeTitle} value={contentTitleEdit} />
+          <SContentTitle placeholder="제목" onChange={writeTitle} value={title} />
         ) : (
           <SContentTitle placeholder="제목" onChange={writeTitle} />
         )}
       </STitle>
       {isEdit ? (
-        <SPostContent
-          placeholder="게시글 입력하기..."
-          ref={contentInput}
-          onInput={handleResizeHeight}
-          onChange={writePost}
-          value={contentEdit}></SPostContent>
-      ) : (
-        <SPostContent
-          placeholder="게시글 입력하기..."
-          ref={contentInput}
-          onInput={handleResizeHeight}
-          onChange={writePost}></SPostContent>
-      )}
-      {isEdit ? (
-        <SPostContent
-          placeholder="코드 입력하기..."
-          ref={contentInput}
-          onInput={handleResizeHeight}
-          onChange={writePost}
-          value={contentEdit}></SPostContent>
-      ) : (
         <div>
+          <SPostContent
+          placeholder="게시글 입력하기..."
+          ref={contentInput}
+          onInput={handleResizeHeight}
+          onChange={writePost}
+          value={content}></SPostContent>
+          <SCodeWrap>
           <SPostContent
             placeholder="코드 입력하기..."
             ref={contentInput}
             onInput={handleResizeHeight}
-            onChange={writeCode}></SPostContent>
-          <div style={{margin:'0 20px'}}><SyntaxHighlighter language="jsx" style={atomDark}>{code}</SyntaxHighlighter></div>
+            onChange={writeCode}/>
+          <SCode>
+            <SyntaxHighlighter language="jsx" style={atomDark}>{code}</SyntaxHighlighter>
+          </SCode>
+        </SCodeWrap>
+        </div>
+      ) : (
+        <div>
+          <SPostContent
+          placeholder="게시글 입력하기..."
+          ref={contentInput}
+          onInput={handleResizeHeight}
+          onChange={writePost}></SPostContent>
+          <SCodeWrap>
+          <SPostContent
+            placeholder="코드 입력하기..."
+            ref={contentInput}
+            onInput={handleResizeHeight}
+            onChange={writeCode}/>
+          <SCode>
+            <SyntaxHighlighter language="jsx" style={atomDark}>{code}</SyntaxHighlighter>
+          </SCode>
+        </SCodeWrap>
         </div>
       )}
-
-
-      
       {imgAddPreview()}
       <SUploadImgBtn onClick={handleClick}>
         <SInputImg
@@ -339,7 +328,7 @@ const SContentTitle = styled.input`
   }
 `;
 
-const SPostContent = styled.textarea`
+const SPostContent = styled(TextareaAutosize)`
   margin: 0 20px;
   padding: 0;
   width: 350px;
@@ -350,6 +339,13 @@ const SPostContent = styled.textarea`
   outline: none;
   font-family: inherit;
   font-size: 16px;
+`;
+
+const SCodeWrap = styled.div`
+`;
+
+const SCode = styled.div`
+  margin: 0 20px;
 `;
 
 const SUploadImgBtn = styled.div`
@@ -389,8 +385,8 @@ const SImgContainer = styled.div`
 `;
 
 const SImgBox = styled.div`
-  flex: 1;
   position: relative;
+  flex: 1;
 `;
 
 const SPreviewImg = styled.img`
