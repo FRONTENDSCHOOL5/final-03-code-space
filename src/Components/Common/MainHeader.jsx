@@ -115,6 +115,7 @@ const SSearch = styled.input`
 const SSaveBtn = styled(Button)`
   width: 90px;
   height: 32px;
+  margin: 16px;
   display: flex;
   justify-content: center;
   align-items: center;

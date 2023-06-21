@@ -124,7 +124,7 @@ const ProductPage = () => {
       </SImgWrap>
       <Input placeholder="2~15자 이내여야 합니다." label="상품명" onChange={writeProductName} minLength={2} maxLength={15}/>
       <Input placeholder="숫자만 입력 가능합니다." label="가격" onChange={writeProductPrice} value={commaProductPrice} onkeyup="inputNumberFormat(this)"/>
-      <Input type="url" placeholder="URL을 입력해 주세요." label="판매 링크" onChange={writeSaleUrl}/>
+      <Input placeholder="상품 설명을 입력해주세요." label="판매 설명" onChange={writeSaleUrl}/>
     </>
   );
 };
@@ -132,8 +132,7 @@ const ProductPage = () => {
 export default ProductPage;
 
 const SImgBg = styled.div`
-  margin: 34px;
-  width: 322px;
+  width: 100%;
   height: 204px;
   border: 0.5px solid var(--gray);
   border-radius: 10px;
@@ -148,14 +147,14 @@ const SImgWrap = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  margin: 34px;
 `;
 
 const SUploadImgBtn = styled.div`
   float: right;
-  bottom: 100px;
   width: 50px;
   height: 50px;
-  margin: 20px;
+  margin: 15px;
   border-radius: 50%;
   background-image: url(${uploadImg});
   cursor: pointer;
