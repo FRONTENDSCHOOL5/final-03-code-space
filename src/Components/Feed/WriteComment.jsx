@@ -56,7 +56,6 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
   return (
     <>
       <SNavLayout>
-        {/* <SCommentProfileImg src={profileImg} alt="" /> */}
         {LoginUserImage === APIDefaultImage ? (
           <SCommentProfileImg src={profileImg} alt="프사" />
         ) : (
@@ -68,7 +67,9 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
           type="text"
           placeholder="댓글 작성하기"
         />
-        <SSubmutBtn onClick={handleAddComment}>게시</SSubmutBtn>
+        <SSubmutBtn onClick={handleAddComment} className={inputComment ? 'active' : ''}>
+          게시
+        </SSubmutBtn>
       </SNavLayout>
     </>
   );
@@ -78,6 +79,9 @@ export default WriteComment;
 
 const SSubmutBtn = styled.div`
   cursor: pointer;
+  &.active {
+    color: var(--point-color);
+  }
 `;
 
 const SNavLayout = styled.nav`
