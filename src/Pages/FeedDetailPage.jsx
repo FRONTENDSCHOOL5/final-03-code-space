@@ -127,7 +127,7 @@ const FeedDetailPage = () => {
         </SAuthor>
         <div>
           {content === '' ? <SContent>{feedContent}</SContent> : <SContent>{content}</SContent>}
-          <Carousel imgArr={imgArr} />
+          {imgArr.length === 0 ? null : <Carousel imgArr={imgArr} />}
         </div>
         <SReactionContainer>
           <SReactionContent>
