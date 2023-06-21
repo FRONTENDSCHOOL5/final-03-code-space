@@ -29,6 +29,8 @@ import { setToken, configModalAtom, isEditCheck } from '../Atom/atom';
 import CommonModal from '../Components/Common/CommonModal';
 import useFetchComment from '../Hooks/useFetchComment';
 import { extractString } from '../Components/Feed/extractString';
+import { extractImageLinks } from '../Components/Feed/extractImage';
+import Carousel from '../Components/Feed/Carousel';
 const FeedDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,6 +50,7 @@ const FeedDetailPage = () => {
   const [reactionCount, setReactionCount] = useState();
   const [isEdit, setIsEdit] = useState(true);
   const [commentId, setCommentId] = useState('');
+  const [imgArr, setImgArr] = useState([]);
 
   const isModalState = useRecoilValue(configModalAtom);
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
@@ -80,6 +83,7 @@ const FeedDetailPage = () => {
   useEffect(() => {
     setconfigModalAtom(''); //모달체크
     setIsEdit(false); //수정체크
+    setImgArr(extractImageLinks(feedList.image));
   }, []);
   useEffect(() => {
     if (!isEditCheckState) {
@@ -123,7 +127,7 @@ const FeedDetailPage = () => {
         </SAuthor>
         <div>
           {content === '' ? <SContent>{feedContent}</SContent> : <SContent>{content}</SContent>}
-          {!feedList.image ? null : <SPostImage src={feedList.image} alt="feed" />}
+          <Carousel imgArr={imgArr} />
         </div>
         <SReactionContainer>
           <SReactionContent>
