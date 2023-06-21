@@ -18,11 +18,13 @@ const FetchFeed = ({ setFeedList, FeedList }) => {
   const [isFetchData, setIsFetchData] = useState(false);
   const [isScrollCheck, setIsScrollCheck] = useState(false);
   const [allFeed, setAllFeed] = useState([]);
+  const [followingFeed, setFollowingFeed] = useState([]);
   useEffect(() => {
     if (limit === 10 && skip === 0) {
       // 최초 렌더링 시에만 실행
       getFeed();
       getFeedAll();
+      getFollowingFeed();
     }
   }, [limit, skip]);
 
@@ -40,6 +42,23 @@ const FetchFeed = ({ setFeedList, FeedList }) => {
       Authorization: Authorization,
     },
   });
+  const following_instance = axios.create({
+    baseURL: URL,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + isToken,
+    },
+  });
+  async function getFollowingFeed() {
+    console.log(isToken);
+
+    try {
+      const response = await following_instance.get(`${FollowingPOST}?limit=999`);
+      setFollowingFeed(response.data.posts);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   async function getFeedAll() {
     try {
@@ -92,7 +111,7 @@ const FetchFeed = ({ setFeedList, FeedList }) => {
 
   return (
     <>
-      <Post isFetchData={isFetchData} FeedList={FeedList} allFeed={allFeed} />
+      <Post isFetchData={isFetchData} FeedList={FeedList} allFeed={allFeed} followingFeed={followingFeed} />
     </>
   );
 };

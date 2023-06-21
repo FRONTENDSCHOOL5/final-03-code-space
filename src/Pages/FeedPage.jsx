@@ -29,7 +29,7 @@ const FeedPage = () => {
     setIsEditCheck(false);
   }, []);
 
-  const tagItem = ['전체', '스터디 모집', '질문있어요!', '자유게시판'];
+  const tagItem = ['전체', '스터디 모집', '질문있어요!', '자유게시판', '팔로잉'];
 
   const headerToggleState = useRecoilValue(headerToggle);
   console.log(FeedList);
@@ -66,6 +66,11 @@ const STagLayout = styled.div`
   gap: 10px;
   padding: 6px 20px;
   border-bottom: 1px solid var(--border-gray);
+  overflow-x: scroll;
+  ::-webkit-scrollbar {
+    width: 2px;
+    height: 0px;
+  } /* 스크롤 바 */
 `;
 const SFeedLayout = styled(SMainLayout)`
   padding-bottom: 70px;

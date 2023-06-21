@@ -25,7 +25,7 @@ import { profileImg, APIDefaultImage } from './COMMON';
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { categoryTag, searchFeedList, isEditCheck, isInitialLoadAtom, scrollPositionAtom } from '../../Atom/atom';
 
-const Post = ({ isFetchData, FeedList, allFeed }) => {
+const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   const setFeedListState = useSetRecoilState(searchFeedList);
   const feedListState = useRecoilValue(searchFeedList);
   const navigate = useNavigate();
@@ -40,8 +40,6 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
     event.stopPropagation();
     navigate('/myprofile', { state: item });
   }
-
-  console.log(scrollPosition);
 
   useEffect(() => {
     if (isFetchData) {
@@ -94,14 +92,13 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
 
     setFeedListState(updatedFeedList);
   };
-
   return (
     <>
       {isFetchData === false ? (
         <div>로딩중....</div>
       ) : (
         <div>
-          {(tagState === '전체' ? FeedList : allFeed).map(item => {
+          {(tagState === '전체' ? FeedList : tagState === '팔로잉' ? followingFeed : allFeed).map(item => {
             let title;
             let content;
             const extractedData = extractString(item.content, 'title');
@@ -115,9 +112,13 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
               return null;
             }
             const category = categoryData.extracted;
-            if (tagState !== '전체' && tagState !== category) {
-              return null;
+
+            if (tagState !== '팔로잉') {
+              if (tagState !== '전체' && tagState !== category) {
+                return null;
+              }
             }
+
             title = extracted;
             content = categoryData.remaining;
             return (
