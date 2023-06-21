@@ -49,8 +49,8 @@ const SLogoImg = styled.img`
   width: 300px;
   display: block;
   transition: all 2s;
-  width: ${({ isLandingEnterState }) => (isLandingEnterState ? '300px' : '250px')};
-  transform: translateY(${({ isLandingEnterState }) => (isLandingEnterState ? 0 : '-45%')});
+  width: ${({ isLandingEnterState }) => (isLandingEnterState ? '300px' : '190px')};
+  transform: translateY(${({ isLandingEnterState }) => (isLandingEnterState ? 0 : '-100%')});
   animation: ${({ isLandingEnterState }) => (isLandingEnterState ? 'none' : logofadeOut)} 0.8s ease-in;
 `;
 const LogoBox = styled.div`
