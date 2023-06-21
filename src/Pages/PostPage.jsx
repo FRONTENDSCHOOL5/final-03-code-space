@@ -28,6 +28,7 @@ const PostPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState('');
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
+  const [isCode, setIsCode] = useState(false);
   const setIsEditCheck = useSetRecoilState(isEditCheck);
 
   const [title, setTitle] = useState(isEdit ? feedList.title : '');
@@ -39,6 +40,17 @@ const PostPage = () => {
     if (isEdit) {
       handleItemClick(feedList.category);
       setImgAddList(feedList.item.image);
+    }
+
+    if (selectedItem == '질문있어요!') {
+      setIsCode(true);
+      console.log(selectedItem);
+      console.log(isCode);
+    }
+    else {
+      setIsCode(false);
+      console.log(selectedItem);
+      console.log(isCode);
     }
 
     // 필수 내용 다 입력했는지
@@ -164,7 +176,6 @@ const PostPage = () => {
 
   // 이미지 미리보기
   const imgAddPreview = () => {
-    console.log(imgAddList);
     const imgWidth = imgAddList.length === 1 || isEdit ? '350px' : '270px';
 
     return (
@@ -212,43 +223,30 @@ const PostPage = () => {
         )}
       </STitle>
       {isEdit ? (
-        <div>
+        <SContentWrap>
           <SPostContent
           placeholder="게시글 입력하기..."
           ref={contentInput}
-          onInput={handleResizeHeight}
           onChange={writePost}
           value={content}></SPostContent>
-          <SCodeWrap>
-          <SPostContent
-            placeholder="코드 입력하기..."
-            ref={contentInput}
-            onInput={handleResizeHeight}
-            onChange={writeCode}/>
-          <SCode>
-            <SyntaxHighlighter language="jsx" style={atomDark}>{code}</SyntaxHighlighter>
-          </SCode>
-        </SCodeWrap>
-        </div>
+        </SContentWrap>
       ) : (
-        <div>
+        <SContentWrap>
           <SPostContent
           placeholder="게시글 입력하기..."
           ref={contentInput}
-          onInput={handleResizeHeight}
           onChange={writePost}></SPostContent>
-          <SCodeWrap>
-          <SPostContent
-            placeholder="코드 입력하기..."
-            ref={contentInput}
-            onInput={handleResizeHeight}
-            onChange={writeCode}/>
-          <SCode>
-            <SyntaxHighlighter language="jsx" style={atomDark}>{code}</SyntaxHighlighter>
-          </SCode>
-        </SCodeWrap>
-        </div>
+        </SContentWrap>
       )}
+      {isCode && (<SCodeWrap>
+            <SPostContent
+              placeholder="코드 입력하기..."
+              ref={contentInput}
+              onChange={writeCode}/>
+            <SCode>
+              <SyntaxHighlighter language="jsx" style={atomDark}>{code}</SyntaxHighlighter>
+            </SCode>
+        </SCodeWrap>)}
       {imgAddPreview()}
       <SUploadImgBtn onClick={handleClick}>
         <SInputImg
@@ -329,7 +327,7 @@ const SContentTitle = styled.input`
 `;
 
 const SPostContent = styled(TextareaAutosize)`
-  margin: 0 20px;
+  margin: 0 20px 15px 20px;
   padding: 0;
   width: 350px;
   background-color: var(--black);
@@ -339,6 +337,12 @@ const SPostContent = styled(TextareaAutosize)`
   outline: none;
   font-family: inherit;
   font-size: 16px;
+  &::-webkit-scrollbar {
+  display: none;
+}
+`;
+
+const SContentWrap = styled.div`
 `;
 
 const SCodeWrap = styled.div`
