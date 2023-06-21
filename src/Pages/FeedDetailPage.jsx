@@ -183,6 +183,7 @@ const FeedDetailPage = () => {
           feedList={location.state}
           isEdit={isEdit}
           setIsEdit={setIsEdit}
+          imgArr={imgArr}
           type="post-config"
         />
       ) : isModalState === 'comment-config' && !otherAdmin ? (

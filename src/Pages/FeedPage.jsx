@@ -29,7 +29,7 @@ const FeedPage = () => {
     setIsEditCheck(false);
   }, []);
 
-  const tagItem = ['전체', '스터디 모집', '질문있어요!', '자유게시판', '팔로잉'];
+  const tagItem = ['전체', '팔로잉', '스터디 모집', '질문있어요!', '자유게시판'];
 
   const headerToggleState = useRecoilValue(headerToggle);
   console.log(FeedList);

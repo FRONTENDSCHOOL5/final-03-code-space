@@ -24,6 +24,8 @@ import iconComment from '../../assets/icons/chat-green.svg';
 import { profileImg, APIDefaultImage } from './COMMON';
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { categoryTag, searchFeedList, isEditCheck, isInitialLoadAtom, scrollPositionAtom } from '../../Atom/atom';
+import Skeleton from '../Common/Skeleton';
+import WithSkeleton from '../Common/Skeleton';
 
 const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   const setFeedListState = useSetRecoilState(searchFeedList);
@@ -95,7 +97,7 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   return (
     <>
       {isFetchData === false ? (
-        <div>로딩중....</div>
+        <Skeleton isLoading={isFetchData} />
       ) : (
         <div>
           {(tagState === '전체' ? FeedList : tagState === '팔로잉' ? followingFeed : allFeed).map(item => {

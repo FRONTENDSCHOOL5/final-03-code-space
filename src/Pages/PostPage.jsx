@@ -31,7 +31,7 @@ const PostPage = () => {
   const navigate = useNavigate();
   const isEdit = location.state?.isEdit;
   const feedList = location.state?.feedList;
-  const feedContent = location.state?.feedList;
+  const imgArr = location.state?.imgArr;
 
   const [contentTitleEdit, setContentTitleEdit] = useState(isEdit ? feedList.title : '');
   const [contentEdit, setContentEdit] = useState(isEdit ? feedList.content : '');
@@ -132,7 +132,6 @@ const PostPage = () => {
       }
     }
   };
-
   // 이미지 업로드 버튼 클릭시 파일 선택 가능
   const handleClick = () => {
     imgInput.current.click();
@@ -155,7 +154,7 @@ const PostPage = () => {
     } else {
       try {
         const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(alert('업로드완료!'));
-        const uploadedImageUrl = response.data[0].filename;
+        const uploadedImageUrl = url + response.data[0].filename;
         console.log(uploadedImageUrl);
         setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
         console.log(response);
@@ -164,34 +163,35 @@ const PostPage = () => {
       }
     }
   };
-
   // 이미지 미리보기
   const imgAddPreview = () => {
     console.log(imgAddList);
+    console.log(imgArr);
     const imgWidth =
       imgAddList.length === 1 || isEdit ? '350px' : imgAddList.length === 2 || isEdit ? '170px' : '100px';
     const imgMargin = imgAddList.length === 1 || isEdit ? '20px' : '10px';
     return (
       <SImgContainer>
-        {isEdit ? (
-          <SImgBox key={feedList.item.id}>
-            <SDelBtn onClick={() => onRemoveAdd(imgAddList)} />
-            <SPreviewImg src={imgAddList} style={{ width: imgWidth, margin: imgMargin }} />
-          </SImgBox>
-        ) : (
-          imgAddList.map((img, index) => {
-            return (
-              <SImgBox key={index}>
-                <SDelBtn onClick={() => onRemoveAdd(img.url)} />
-                <SPreviewImg src={url + img.url} style={{ width: imgWidth, margin: imgMargin }} />
-              </SImgBox>
-            );
-          })
-        )}
+        {isEdit
+          ? imgArr.map((img, index) => {
+              return (
+                <SImgBox key={index}>
+                  <SDelBtn onClick={() => onRemoveAdd(img)} />
+                  <SPreviewImg src={img} style={{ width: imgWidth, margin: imgMargin }} />
+                </SImgBox>
+              );
+            })
+          : imgAddList.map((img, index) => {
+              return (
+                <SImgBox key={index}>
+                  <SDelBtn onClick={() => onRemoveAdd(img.url)} />
+                  <SPreviewImg src={img.url} style={{ width: imgWidth, margin: imgMargin }} />
+                </SImgBox>
+              );
+            })}
       </SImgContainer>
     );
   };
-
   // 이미지 삭제
   const onRemoveAdd = deleteUrl => {
     setImgAddList(imgAddList.filter(img => img.url !== deleteUrl));

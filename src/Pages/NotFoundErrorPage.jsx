@@ -22,7 +22,7 @@ const NotFoundErrorPage = () => {
 export default NotFoundErrorPage;
 
 const SLogoImg = styled.img`
-  width: 350px;
+  width: 300px;
   display: block;
   transition: all 2s;
 `;

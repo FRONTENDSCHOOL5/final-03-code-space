@@ -45,7 +45,7 @@ const SearchPage = () => {
     setSearchContent(searchContent);
 
     // searchUser 함수를 호출하고 검색어를 키워드로 전달합니다
-    searchUser(searchContent);
+    // searchUser(searchContent);
 
     const regex = new RegExp(searchContent, 'gi');
     const results = feedList.filter(post => regex.test(post.title) || regex.test(post.contents));

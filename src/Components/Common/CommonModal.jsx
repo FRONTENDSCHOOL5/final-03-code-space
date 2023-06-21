@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { configModalAtom, setToken } from '../../Atom/atom';
 import { useNavigate } from 'react-router-dom';
-const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComment }) => {
+const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComment, imgArr }) => {
   const modalRef = useRef(null);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
@@ -25,7 +25,7 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComm
   }, []);
 
   function goEdit() {
-    navigate('/post', { state: { isEdit, ...feedList } });
+    navigate('/post', { state: { isEdit, ...feedList, imgArr } });
   }
   return (
     <SBackground onClick={handleClickOutside}>
