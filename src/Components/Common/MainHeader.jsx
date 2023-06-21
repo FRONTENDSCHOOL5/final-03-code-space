@@ -7,7 +7,8 @@ import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isConfigModal } from '../../Atom/atom';
-const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleUploadProduct }) => {
+
+const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleUploadProduct, buttonDisabled}) => {
   const navigate = useNavigate();
   const setIsConfigModal = useSetRecoilState(isConfigModal);
   const inputRef = useRef(null);
@@ -66,12 +67,12 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleU
         ) : type === 'save' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기"></SBackIcon>
-            <SSaveBtn onClick={handleUploadProduct}>저장</SSaveBtn>
+            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadProduct}>저장</SUploadBtn>
           </>
         ) : type === 'upload' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SSaveBtn onClick={handleUploadPost}>업로드</SSaveBtn>
+            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost}>업로드</SUploadBtn>
           </>
         ) : (
           <>에러</>
@@ -119,6 +120,27 @@ const SSaveBtn = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const SUploadBtn = styled.button`
+  width: 90px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--point-color);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 0;
+  border: none;
+  border-radius: 44px;
+  box-sizing: border-box;
+  cursor: pointer;
+  &:disabled {
+    cursor: default;
+    background: var(--secondary-color);
+  }
 `;
 
 const SBackIcon = styled.img`

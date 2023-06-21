@@ -4,10 +4,15 @@ import MainHeader from '../Components/Common/MainHeader';
 import Input from '../Components/Common/Input';
 import uploadImg from '../assets/icons/uploadImg.svg'
 import axios from 'axios';
+import { setToken } from '../Atom/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 
 const ProductPage = () => {
   const url = "https://api.mandarin.weniv.co.kr/";
   const authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
+  const navigate = useNavigate();
+  const isToken = useRecoilValue(setToken);
 
   const imgInput = useRef();
 
@@ -93,7 +98,7 @@ const ProductPage = () => {
     }
 
     const config = {
-      headers:{"Authorization" : authorization,
+      headers:{Authorization: 'Bearer ' + isToken, 
       "Content-type" : "application/json"}
     }
 
@@ -107,6 +112,7 @@ const ProductPage = () => {
         }
       }, config)
       console.log(response);
+      navigate('/myprofile');
     } catch(error){
       console.log(error);
     }
@@ -114,7 +120,7 @@ const ProductPage = () => {
 
   return (
     <>
-      <MainHeader type="save" handleUploadProduct={isSaveEnabled ? handleUploadProduct : null}/>
+      <MainHeader type="save" buttonDisabled={isSaveEnabled ? false : true} handleUploadProduct={isSaveEnabled ? handleUploadProduct : null}/>
       <SImgWrap>
         <SImgBg imageUrl={uploadedImageUrl}>
           <SUploadImgBtn onClick={handleClick}>
