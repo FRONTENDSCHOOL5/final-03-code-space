@@ -3,8 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { configModalAtom, setToken } from '../../Atom/atom';
 import { useNavigate } from 'react-router-dom';
-const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, commentId, deleteComment }) => {
-  console.log(commentId);
+const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComment }) => {
   const modalRef = useRef(null);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
@@ -15,11 +14,11 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, commentId,
       return;
     }
     if (modalRef.current && !modalRef.current.contains(target)) {
-      setconfigModalAtom(false);
+      setconfigModalAtom('');
     }
   };
+  console.log(feedList);
   useEffect(() => {
-    console.log(type);
     if (type === 'post-config') {
       setIsEdit(true);
     }
@@ -36,9 +35,13 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, commentId,
             <div onClick={() => setIsConfirmModal(true)}>삭제</div>
             <div onClick={() => goEdit()}>수정</div>
           </SContents>
-        ) : (
+        ) : type === 'comment-config' ? (
           <SContents>
             <div onClick={() => setIsConfirmModal(true)}>삭제</div>
+          </SContents>
+        ) : (
+          <SContents>
+            <div onClick={() => setIsConfirmModal(true)}>신고하기</div>
           </SContents>
         )}
       </SModal>
@@ -52,12 +55,20 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, commentId,
                 <div onClick={() => deleteFeed()}>삭제</div>
               </SConfirmContents>
             </SConfirmModal>
-          ) : (
+          ) : type === 'comment-config' ? (
             <SConfirmModal>
               <SConfirmTitle className="confirm-title">댓글을 삭제할까요?</SConfirmTitle>
               <SConfirmContents>
                 <SConfirmContent>취소</SConfirmContent>
                 <div onClick={() => deleteComment()}>삭제</div>
+              </SConfirmContents>
+            </SConfirmModal>
+          ) : (
+            <SConfirmModal>
+              <SConfirmTitle className="confirm-title">신고할까요?</SConfirmTitle>
+              <SConfirmContents>
+                <SConfirmContent>취소</SConfirmContent>
+                <div>확인</div>
               </SConfirmContents>
             </SConfirmModal>
           )}
@@ -135,7 +146,7 @@ const SBackground = styled.div`
   top: 0;
   overflow-y: hidden;
   /* text-align: center; */
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 const modalfadeOut = keyframes`
   0% {  top: 100%;  }

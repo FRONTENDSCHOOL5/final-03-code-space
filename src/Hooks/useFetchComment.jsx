@@ -21,6 +21,7 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, co
       const response = await POST_instance.delete(deletePost);
       console.log(response.data);
       console.log(response.data.message);
+      alert('삭제되었습니다!');
     } catch (error) {
       console.error(error);
       alert('잘못된 접근입니다!!!');
@@ -33,6 +34,7 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, co
       const response = await POST_instance.delete(deleteComment);
       console.log(response.data);
       console.log(response.data.message);
+      alert('삭제되었습니다!');
     } catch (error) {
       console.error(error);
       alert('잘못된 접근입니다!!!');

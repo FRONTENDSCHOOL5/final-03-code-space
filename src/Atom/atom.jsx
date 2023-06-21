@@ -83,7 +83,7 @@ export const searchUserListAtom = atom({
   key: 'searchUserList',
   default: [],
 });
-// export const searchUserListAtom = atom({
-//   key: 'searchUserList',
-//   default: [],
-// });
+export const configPostIdAtom = atom({
+  key: 'configPostIdAtom',
+  default: '',
+});

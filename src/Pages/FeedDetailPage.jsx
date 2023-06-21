@@ -25,7 +25,7 @@ import {
 import WriteComment from '../Components/Feed/WriteComment';
 import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { setToken, configModalAtom, isEditCheck } from '../Atom/atom';
+import { setToken, configModalAtom, isEditCheck, setAccountName } from '../Atom/atom';
 import CommonModal from '../Components/Common/CommonModal';
 import useFetchComment from '../Hooks/useFetchComment';
 import { extractString } from '../Components/Feed/extractString';
@@ -51,11 +51,13 @@ const FeedDetailPage = () => {
   const [isEdit, setIsEdit] = useState(true);
   const [commentId, setCommentId] = useState('');
   const [imgArr, setImgArr] = useState([]);
+  const [otherAdmin, setOtherAdmin] = useState(false);
 
   const isModalState = useRecoilValue(configModalAtom);
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
 
   const isEditCheckState = useRecoilValue(isEditCheck);
+  const accountName = useRecoilValue(setAccountName);
 
   const { postHeart, deletePost, deleteComment } = useFetchComment({ postID: feedList.id, commentId: commentId });
   const { getComment, getFeed } = useFetchComment({
@@ -69,12 +71,10 @@ const FeedDetailPage = () => {
   }
   async function deleteFeed() {
     await deletePost(); // deletePost 함수의 비동기 작업 완료까지 기다림
-    alert('삭제되었습니다!');
     navigate('/feed');
   }
   async function deleteCommentFunction() {
     await deleteComment(); // deletePost 함수의 비동기 작업 완료까지 기다림
-    alert('삭제되었습니다!');
     getComment();
     getFeed(setReactionCount);
     // navigate('/feed');
@@ -84,6 +84,11 @@ const FeedDetailPage = () => {
     setconfigModalAtom(''); //모달체크
     setIsEdit(false); //수정체크
     setImgArr(extractImageLinks(feedList.image));
+    if (feedList.author.accountname !== accountName) {
+      setOtherAdmin(true);
+    } else {
+      setOtherAdmin(false);
+    }
   }, []);
   useEffect(() => {
     if (!isEditCheckState) {
@@ -172,7 +177,7 @@ const FeedDetailPage = () => {
         setIsFetchData={setIsFetchData}
         setReactionCount={setReactionCount}
       />
-      {isModalState === 'post-config' ? (
+      {isModalState === 'post-config' && !otherAdmin ? (
         <CommonModal
           deleteFeed={deleteFeed}
           feedList={location.state}
@@ -180,10 +185,10 @@ const FeedDetailPage = () => {
           setIsEdit={setIsEdit}
           type="post-config"
         />
-      ) : isModalState === 'comment-config' ? (
+      ) : isModalState === 'comment-config' && !otherAdmin ? (
         <CommonModal deleteComment={deleteCommentFunction} commentId={commentId} type="comment-config" />
       ) : (
-        <></>
+        isModalState !== '' && otherAdmin && <CommonModal type="other-config" />
       )}
     </>
   );
