@@ -31,6 +31,13 @@ export const scrollPositionAtom = atom({
   default: 0,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const loginUserImageAtom = atom({
+  key: 'loginUserImageAtom',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
 export const headerToggle = atom({
   key: 'headerToggle',
   default: 'feed',
@@ -72,8 +79,11 @@ export const isInitialLoadAtom = atom({
   key: 'isInitialLoadAtom',
   default: true,
 });
-export const loginUserImageAtom = atom({
-  key: 'loginUserImageAtom',
-  default: '',
-  effects_UNSTABLE: [persistAtom],
+export const searchUserListAtom = atom({
+  key: 'searchUserList',
+  default: [],
 });
+// export const searchUserListAtom = atom({
+//   key: 'searchUserList',
+//   default: [],
+// });
