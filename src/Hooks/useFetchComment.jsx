@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { isfeedFetchToggle, setToken } from '../Atom/atom';
 import { MainAccountToken, BASEURL } from '../Components/Feed/COMMON';
 
-const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) => {
+const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, commentId }) => {
   const UserToken = useRecoilValue(setToken);
 
   const POST_instance = axios.create({
@@ -19,6 +19,18 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
     const deletePost = `post/${postID}`;
     try {
       const response = await POST_instance.delete(deletePost);
+      console.log(response.data);
+      console.log(response.data.message);
+    } catch (error) {
+      console.error(error);
+      alert('잘못된 접근입니다!!!');
+    }
+  }
+  async function deleteComment() {
+    // /post/:post_id/comments/:comment_id
+    const deleteComment = `post/${postID}/comments/${commentId}`;
+    try {
+      const response = await POST_instance.delete(deleteComment);
       console.log(response.data);
       console.log(response.data.message);
     } catch (error) {
@@ -90,7 +102,7 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
     }
   }
 
-  return { postHeart, getComment, getFeed, deletePost, editPost };
+  return { postHeart, getComment, getFeed, deletePost, editPost, deleteComment };
 };
 
 export default useFetchComment;

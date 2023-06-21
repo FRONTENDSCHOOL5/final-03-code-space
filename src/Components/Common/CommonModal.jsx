@@ -1,12 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { isConfigModal, setToken } from '../../Atom/atom';
+import { configModalAtom, setToken } from '../../Atom/atom';
 import { useNavigate } from 'react-router-dom';
-const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit }) => {
+const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, commentId, deleteComment }) => {
+  console.log(commentId);
   const modalRef = useRef(null);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
-  const setIsConfigModal = useSetRecoilState(isConfigModal);
+  const setconfigModalAtom = useSetRecoilState(configModalAtom);
   const navigate = useNavigate();
   const handleClickOutside = event => {
     const target = event.target;
@@ -14,10 +15,15 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit }) => {
       return;
     }
     if (modalRef.current && !modalRef.current.contains(target)) {
-      setIsConfigModal(false);
+      setconfigModalAtom(false);
     }
   };
-  setIsEdit(true);
+  useEffect(() => {
+    console.log(type);
+    if (type === 'post-config') {
+      setIsEdit(true);
+    }
+  }, []);
 
   function goEdit() {
     navigate('/post', { state: { isEdit, ...feedList } });
@@ -25,19 +31,37 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit }) => {
   return (
     <SBackground onClick={handleClickOutside}>
       <SModal ref={modalRef}>
-        <SContents>
-          <div onClick={() => setIsConfirmModal(true)}>삭제</div>
-          <div onClick={() => goEdit()}>수정</div>
-        </SContents>
+        {type === 'post-config' ? (
+          <SContents>
+            <div onClick={() => setIsConfirmModal(true)}>삭제</div>
+            <div onClick={() => goEdit()}>수정</div>
+          </SContents>
+        ) : (
+          <SContents>
+            <div onClick={() => setIsConfirmModal(true)}>삭제</div>
+          </SContents>
+        )}
       </SModal>
       {isConfirmModal && (
-        <SConfirmModal>
-          <SConfirmTitle className="confirm-title">게시글을 삭제할까요?</SConfirmTitle>
-          <SConfirmContents>
-            <SConfirmContent>취소</SConfirmContent>
-            <div onClick={() => deleteFeed()}>삭제</div>
-          </SConfirmContents>
-        </SConfirmModal>
+        <>
+          {type === 'post-config' ? (
+            <SConfirmModal>
+              <SConfirmTitle className="confirm-title">게시글을 삭제할까요?</SConfirmTitle>
+              <SConfirmContents>
+                <SConfirmContent>취소</SConfirmContent>
+                <div onClick={() => deleteFeed()}>삭제</div>
+              </SConfirmContents>
+            </SConfirmModal>
+          ) : (
+            <SConfirmModal>
+              <SConfirmTitle className="confirm-title">댓글을 삭제할까요?</SConfirmTitle>
+              <SConfirmContents>
+                <SConfirmContent>취소</SConfirmContent>
+                <div onClick={() => deleteComment()}>삭제</div>
+              </SConfirmContents>
+            </SConfirmModal>
+          )}
+        </>
       )}
     </SBackground>
   );

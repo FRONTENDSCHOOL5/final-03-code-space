@@ -6,10 +6,10 @@ import Button from './Button';
 import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { isConfigModal } from '../../Atom/atom';
+import { configModalAtom } from '../../Atom/atom';
 const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleUploadProduct }) => {
   const navigate = useNavigate();
-  const setIsConfigModal = useSetRecoilState(isConfigModal);
+  const setconfigModalAtom = useSetRecoilState(configModalAtom);
   const inputRef = useRef(null);
   useEffect(() => {
     if (type === 'search') {
@@ -51,17 +51,26 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleU
         ) : type === 'profile' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SSettingIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SSettingIcon>
+            <SSettingIcon
+              src={configIcon}
+              alt="설정창"
+              onClick={() => setconfigModalAtom('post-config')}></SSettingIcon>
           </>
         ) : type === 'detail' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
-            <SSettingIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SSettingIcon>
+            <SSettingIcon
+              src={configIcon}
+              alt="설정창"
+              onClick={() => setconfigModalAtom('post-config')}></SSettingIcon>
           </>
         ) : type === 'search-detail' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SSettingIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SSettingIcon>
+            <SSettingIcon
+              src={configIcon}
+              alt="설정창"
+              onClick={() => setconfigModalAtom('post-config')}></SSettingIcon>
           </>
         ) : type === 'save' ? (
           <>

@@ -25,7 +25,7 @@ import {
 import WriteComment from '../Components/Feed/WriteComment';
 import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { setToken, isConfigModal, isEditCheck } from '../Atom/atom';
+import { setToken, configModalAtom, isEditCheck } from '../Atom/atom';
 import CommonModal from '../Components/Common/CommonModal';
 import useFetchComment from '../Hooks/useFetchComment';
 import { extractString } from '../Components/Feed/extractString';
@@ -47,11 +47,19 @@ const FeedDetailPage = () => {
   const [isFetchData, setIsFetchData] = useState(false);
   const [reactionCount, setReactionCount] = useState();
   const [isEdit, setIsEdit] = useState(true);
+  const [commentId, setCommentId] = useState('');
 
-  const isModalState = useRecoilValue(isConfigModal);
+  const isModalState = useRecoilValue(configModalAtom);
+  const setconfigModalAtom = useSetRecoilState(configModalAtom);
+
   const isEditCheckState = useRecoilValue(isEditCheck);
 
-  const { postHeart, deletePost } = useFetchComment({ postID: feedList.id });
+  const { postHeart, deletePost, deleteComment } = useFetchComment({ postID: feedList.id, commentId: commentId });
+  const { getComment, getFeed } = useFetchComment({
+    postID: feedList.id,
+    setIsFetchData,
+    setCommentList,
+  });
 
   function goProfile(item) {
     navigate('/myprofile', { state: item });
@@ -61,11 +69,16 @@ const FeedDetailPage = () => {
     alert('삭제되었습니다!');
     navigate('/feed');
   }
-
-  const setIsConfigModal = useSetRecoilState(isConfigModal);
+  async function deleteCommentFunction() {
+    await deleteComment(); // deletePost 함수의 비동기 작업 완료까지 기다림
+    alert('삭제되었습니다!');
+    getComment();
+    getFeed(setReactionCount);
+    // navigate('/feed');
+  }
 
   useEffect(() => {
-    setIsConfigModal(false); //모달체크
+    setconfigModalAtom(''); //모달체크
     setIsEdit(false); //수정체크
   }, []);
   useEffect(() => {
@@ -145,6 +158,7 @@ const FeedDetailPage = () => {
         setCommentList={setCommentList}
         isFetchData={isFetchData}
         setIsFetchData={setIsFetchData}
+        setCommentId={setCommentId}
       />
       <WriteComment
         feedList={feedList}
@@ -154,8 +168,16 @@ const FeedDetailPage = () => {
         setIsFetchData={setIsFetchData}
         setReactionCount={setReactionCount}
       />
-      {isModalState ? (
-        <CommonModal deleteFeed={deleteFeed} feedList={location.state} isEdit={isEdit} setIsEdit={setIsEdit} />
+      {isModalState === 'post-config' ? (
+        <CommonModal
+          deleteFeed={deleteFeed}
+          feedList={location.state}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          type="post-config"
+        />
+      ) : isModalState === 'comment-config' ? (
+        <CommonModal deleteComment={deleteCommentFunction} commentId={commentId} type="comment-config" />
       ) : (
         <></>
       )}

@@ -55,9 +55,9 @@ export const categoryTagIndex = atom({
   key: 'categoryTagState',
   default: 0,
 });
-export const isConfigModal = atom({
-  key: 'isConfigModal',
-  default: false,
+export const configModalAtom = atom({
+  key: 'configModalAtom',
+  default: '',
 });
 export const isEditCheck = atom({
   key: 'isEditCheck',
