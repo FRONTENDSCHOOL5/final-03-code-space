@@ -44,13 +44,9 @@ const PostPage = () => {
 
     if (selectedItem == '질문있어요!') {
       setIsCode(true);
-      console.log(selectedItem);
-      console.log(isCode);
     }
     else {
       setIsCode(false);
-      console.log(selectedItem);
-      console.log(isCode);
     }
 
     // 필수 내용 다 입력했는지
@@ -310,13 +306,14 @@ const SContentTitle = styled.input`
   height: 30px;
   width: 260px;
   margin-right: 20px;
+  padding-bottom: 10px;
   background-color: var(--black);
   border: none;
   outline: none;
   border-bottom: 1px solid var(--gray);
   padding: 5px 0;
   color: var(--white);
-  font-size: 14px;
+  font-size: 20px;
   &:focus {
     transition: all 0.5s;
     border-bottom: 1px solid var(--point-color);
