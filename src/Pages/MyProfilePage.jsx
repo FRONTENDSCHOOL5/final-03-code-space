@@ -5,6 +5,9 @@ import MainProfile from '../Components/Profile/MainProfile';
 import ProductList from '../Components/Product/ProductList';
 import MyProfileInfo from '../Components/Profile/MyProfileInfo';
 import styled from 'styled-components';
+import CommonModal from '../Components/Common/CommonModal';
+import { useRecoilValue } from 'recoil';
+import { isConfigModal } from '../Atom/atom';
 
 import ProfilePost from '../Components/Post/ProfilePost';
 
@@ -17,6 +20,9 @@ function MyProfile() {
   profile = profile ? profile : MyProfileInfo();
 
   console.log(profile);
+
+  const isModalState = useRecoilValue(isConfigModal);
+
   return (
     <SLayout>
       <MainHeader type={'profile'} />
@@ -28,6 +34,7 @@ function MyProfile() {
       </SContainer>
       <ProfilePost />
       <BottomNav />
+      {isModalState ? <CommonModal type="profile" /> : <></>}
     </SLayout>
   );
 }
