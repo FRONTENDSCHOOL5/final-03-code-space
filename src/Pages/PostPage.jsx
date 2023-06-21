@@ -4,7 +4,8 @@ import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg';
 import delImg from '../assets/icons/del.svg';
 import axios from 'axios';
-import TextareaAutosize from 'react-textarea-autosize';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { setToken } from '../Atom/atom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -23,6 +24,7 @@ const PostPage = () => {
   const [selectedItem, setSelectedItem] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [code, setCode] = useState('');
   const [imgAddList, setImgAddList] = useState([]);
 
   const setIsEditCheck = useSetRecoilState(isEditCheck);
@@ -78,6 +80,11 @@ const PostPage = () => {
     setContentEdit(e.target.value);
   }
 
+  // 코드
+  function writeCode(e){
+    setCode(e.target.value);
+  }
+
   // 게시글 textarea 자동 높이
   const handleResizeHeight = useCallback(() => {
     contentInput.current.style.height = contentInput.current.scrollHeight + 'px';
@@ -104,7 +111,7 @@ const PostPage = () => {
           url + `post/${feedList.item.id}`,
           {
             post: {
-              content: `\\\"title:${contentTitleEdit}\\\"\\\"category:${selectedItem}\\\"${contentEdit}`,
+              content: `\\\"title:${contentTitleEdit}\\\"\\\"category:${selectedItem}\\\"\\\"${contentEdit}\\\"code:${code}`,
               image: image, // 이미지 url
             },
           },
@@ -123,7 +130,7 @@ const PostPage = () => {
           url + 'post',
           {
             post: {
-              content: `\\\"title:${contentTitleEdit}\\\"\\\"category:${selectedItem}\\\"${contentEdit}`,
+              content: `\\\"title:${contentTitleEdit}\\\"\\\"category:${selectedItem}\\\"${contentEdit}\\\"${contentEdit}\\\"code:${code}`,
               image: image, // 이미지 url
             },
           },
@@ -206,7 +213,7 @@ const PostPage = () => {
       <MainHeader type="upload" buttonDisabled={isSaveEnabled ? false : true} handleUploadPost={isSaveEnabled ? handleUploadPost : null} />
       <STitle>
         <DropdownWrapper>
-          <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '▼ 카테고리'}</DropdownButton>
+          <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '카테고리'}</DropdownButton>
           <DropdownContent isOpen={isOpen}>
             <DropdownItem onClick={() => handleItemClick('질문있어요!')}>질문있어요!</DropdownItem>
             <DropdownItem onClick={() => handleItemClick('스터디 모집')}>스터디 모집</DropdownItem>
@@ -233,6 +240,24 @@ const PostPage = () => {
           onInput={handleResizeHeight}
           onChange={writePost}></SPostContent>
       )}
+      {isEdit ? (
+        <SPostContent
+          placeholder="코드 입력하기..."
+          ref={contentInput}
+          onInput={handleResizeHeight}
+          onChange={writePost}
+          value={contentEdit}></SPostContent>
+      ) : (
+        <div>
+          <SPostContent
+            placeholder="코드 입력하기..."
+            ref={contentInput}
+            onInput={handleResizeHeight}
+            onChange={writeCode}></SPostContent>
+          <div style={{margin:'0 20px'}}><SyntaxHighlighter language="jsx" style={atomDark}>{code}</SyntaxHighlighter></div>
+        </div>
+      )}
+
 
       
       {imgAddPreview()}
@@ -257,21 +282,22 @@ const DropdownWrapper = styled.div`
 `;
 
 const DropdownButton = styled.button`
-  min-width: 74px;
+  min-width: 80px;
   padding: 5px 0;
-  background-color: var(--black);
-  color: var(--gray);
+  background-color: var(--point-color);
+  color: var(--white);
   font-size: 14px;
-  border-bottom: 1px solid var(--gray);
+  border-radius: 22px;
   cursor: pointer;
 `;
 
 const DropdownContent = styled.div`
   display: ${props => (props.isOpen ? 'block' : 'none')};
   position: absolute;
+  margin-top: 2px;
   color: var(--gray);
   background-color: var(--black);
-  min-width: 74px;
+  min-width: 80px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 `;
