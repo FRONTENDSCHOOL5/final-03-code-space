@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Button from './Button';
-import { useSetRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
 import { isLandingEnter } from '../../Atom/atom';
 import { Link } from 'react-router-dom';
@@ -45,93 +43,92 @@ const Modal = ({
     <>
       {!isLandingEnteState ? (
         <SModal>
-            <SModalTitle>{title}</SModalTitle>
-            <SForm onSubmit={handleSubmit}>
-              <SFormWrap className="EmailForm">
-                <label htmlFor="user-email">이메일</label>
-                {title === '이메일로 회원가입' ? (
-                  <SInput
-                    type="email"
-                    placeholder={'이메일 주소를 입력해주세요'}
-                    id="user-email"
-                    value={userEmail}
-                    onChange={inputHandler}
-                    onBlur={() => ValidSubmit(userEmail)}
-                  />
-                ) : (
-                  <SInput type="email" id="user-email" value={userEmail} onChange={inputHandler} />
-                )}
-                {successRes === '이미 가입된 이메일 주소 입니다.' ? (
-                  <SErrorMessage>{successRes}</SErrorMessage>
-                ) : successRes === '사용 가능한 이메일 입니다.' ? (
-                  <SSucessMessage>{successRes}</SSucessMessage>
-                ) : successRes === '잘못된 이메일 형식입니다.' ? (
-                  <SErrorMessage>{successRes}</SErrorMessage>
-                ) : null}
-              </SFormWrap>
-
-              <SFormWrap className="PwForm">
-                <label htmlFor="user-pw">비밀번호</label>
-                <SInput
-                  type="password"
-                  id="user-password"
-                  placeholder={title === '이메일로 회원가입' ? '비밀번호를 설정해주세요' : ''}
-                  value={userPassword}
-                  onChange={inputHandler}
-                  disabled={successRes === '이미 가입된 이메일 주소 입니다.'}
-                />
-                {LoginError && <SErrorMessage>{LoginErrorMessage}</SErrorMessage>}
-
-                {!isPasswordValid && userPassword.length < 6 && successRes !== '이미 가입된 이메일 주소 입니다.' ? (
-                  <SErrorMessage>{PwMessage}</SErrorMessage>
-                ) : null}
-              </SFormWrap>
-
-              <SBtnBox>
-                <Button type="submit" disabled={!isFormValid}>
-                  {title === '이메일로 회원가입' ? '다음' : '로그인'}
-                </Button>
-              </SBtnBox>
-
-              {title === '로그인' && (
-                <SLink>
-                  <Link to="/signup">이메일로 회원가입</Link>
-                </SLink>
-              )}
-            </SForm>
-
-            <SSnsBtnBox>
+          <SModalTitle>{title}</SModalTitle>
+          <SForm onSubmit={handleSubmit}>
+            <SFormWrap className="EmailForm">
+              <label htmlFor="user-email">이메일</label>
               {title === '이메일로 회원가입' ? (
-                <>
-                  <Button className="kakao" type="button">
-                    <img src={kakaoIcon} alt="Kakao Icon" />
-                    <span>카카오아이디로 가입</span>
-                  </Button>
-                  <Button className="naver" type="button">
-                    <img src={naverIcon} alt="naver Icon" /> 네이버 아이디로 가입
-                  </Button>
-                  <Button className="google" type="button">
-                    <img src={googleIcon} alt="google Icon" />
-                    <span>구글 아이디로 가입</span>
-                  </Button>
-                </>
+                <SInput
+                  type="email"
+                  placeholder={'이메일 주소를 입력해주세요'}
+                  id="user-email"
+                  value={userEmail}
+                  onChange={inputHandler}
+                  onBlur={() => ValidSubmit(userEmail)}
+                />
               ) : (
-                <>
-                  <Button className="kakao" type="button">
-                    <img src={kakaoIcon} alt="Kakao Icon" />
-                    <span>카카오로 로그인</span>
-                  </Button>
-                  <Button className="naver" type="button">
-                    <img src={naverIcon} alt="naver Icon" />
-                    네이버로 로그인
-                  </Button>
-                  <Button className="google" type="button">
-                    <img src={googleIcon} alt="google Icon" />
-                    <span>구글로 로그인</span>
-                  </Button>
-                </>
+                <SInput type="email" id="user-email" value={userEmail} onChange={inputHandler} />
               )}
-            </SSnsBtnBox>
+              {successRes === '이미 가입된 이메일 주소 입니다.' ? (
+                <SErrorMessage>{successRes}</SErrorMessage>
+              ) : successRes === '사용 가능한 이메일 입니다.' ? (
+                <SSucessMessage>{successRes}</SSucessMessage>
+              ) : successRes === '잘못된 이메일 형식입니다.' ? (
+                <SErrorMessage>{successRes}</SErrorMessage>
+              ) : null}
+            </SFormWrap>
+
+            <SFormWrap className="PwForm">
+              <label htmlFor="user-pw">비밀번호</label>
+              <SInput
+                type="password"
+                id="user-password"
+                placeholder={title === '이메일로 회원가입' ? '비밀번호를 설정해주세요' : ''}
+                value={userPassword}
+                onChange={inputHandler}
+                disabled={successRes === '이미 가입된 이메일 주소 입니다.'}
+              />
+              {LoginError && <SErrorMessage>{LoginErrorMessage}</SErrorMessage>}
+
+              {!isPasswordValid && userPassword.length < 6 && successRes !== '이미 가입된 이메일 주소 입니다.' ? (
+                <SErrorMessage>{PwMessage}</SErrorMessage>
+              ) : null}
+            </SFormWrap>
+
+            <SBtnBox>
+              <Button type="submit" disabled={!isFormValid || userPassword.length < 6}>
+                {title === '이메일로 회원가입' ? '다음' : '로그인'}
+              </Button>
+            </SBtnBox>
+          </SForm>
+
+          <SSnsBtnBox>
+            {title === '이메일로 회원가입' ? (
+              <>
+                <Button className="kakao" type="button">
+                  <img src={kakaoIcon} alt="Kakao Icon" />
+                  <span>카카오아이디로 가입</span>
+                </Button>
+                <Button className="naver" type="button">
+                  <img src={naverIcon} alt="naver Icon" /> 네이버 아이디로 가입
+                </Button>
+                <Button className="google" type="button">
+                  <img src={googleIcon} alt="google Icon" />
+                  <span>구글 아이디로 가입</span>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button className="kakao" type="button">
+                  <img src={kakaoIcon} alt="Kakao Icon" />
+                  <span>카카오로 로그인</span>
+                </Button>
+                <Button className="naver" type="button">
+                  <img src={naverIcon} alt="naver Icon" />
+                  네이버로 로그인
+                </Button>
+                <Button className="google" type="button">
+                  <img src={googleIcon} alt="google Icon" />
+                  <span>구글로 로그인</span>
+                </Button>
+              </>
+            )}
+          </SSnsBtnBox>
+          {title === '로그인' && (
+            <SLink>
+              <Link to="/signup">이메일로 회원가입</Link>
+            </SLink>
+          )}
         </SModal>
       ) : (
         <></>
@@ -139,12 +136,11 @@ const Modal = ({
     </>
   );
 };
-
 export default Modal;
 
 const modalfadeOut = keyframes`
   0% {  top: 100%;  }
-  100% {  top: 40%;  }
+  100% {  top: 26%;  }
 `;
 
 const SModal = styled.article`
@@ -154,8 +150,8 @@ const SModal = styled.article`
   background-color: var(--modal-gray);
   border-radius: 47px 47px 0 0;
   position: fixed;
-  top: 40%;
-
+  top: 26%;
+  box-shadow: 0px -40px 22px -17px rgba(240, 9, 9, 0.75);
   /* transition: all 2s; */
   animation: ${({ isLandingEnterState }) => (isLandingEnterState ? 'none' : modalfadeOut)} 1.4s ease-in;
 
@@ -170,24 +166,24 @@ const SModal = styled.article`
     border-radius: 15px;
     margin: 17px 0;
   }
-
 `;
 
 const SModalTitle = styled.h1`
   color: var(--black);
   text-align: center;
-  margin-top: 45px;
+  margin: 45px 0 35px;
   font-size: 24px;
 `;
 
 const SForm = styled.form`
-  padding: 15px 50px;
+  padding: 0 50px;
+  margin-bottom: 10px;
 `;
 
 const SFormWrap = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
+  margin-bottom: 22px;
 
   label {
     font-size: 12px;
@@ -237,7 +233,7 @@ const SBtnBox = styled.div`
 
 const SLink = styled.div`
   text-align: center;
-  margin-top: 30px;
+  margin-top: 20px;
   font-size: 14px;
 
   a {
@@ -246,10 +242,10 @@ const SLink = styled.div`
 `;
 
 const SSnsBtnBox = styled.div`
-  padding: 15px 50px;
+  padding: 0 50px;
 
   & > *:not(:last-child) {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 
   button[type='button'] {
@@ -277,4 +273,3 @@ const SSnsBtnBox = styled.div`
     padding-right: 17px;
   }
 `;
-
