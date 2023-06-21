@@ -129,6 +129,7 @@ const PostPage = () => {
           config,
         );
         console.log(response);
+        navigate('/feed');
       } catch (error) {
         console.log(error);
       }
