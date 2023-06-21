@@ -26,6 +26,7 @@ import {
 } from '../Styles/FeedStyle/PostStyle';
 import useSearchUser from '../Hooks/useSearchUser';
 import Button from '../Components/Common/Button';
+import { motion } from 'framer-motion';
 const SearchPage = () => {
   const feedList = useRecoilValue(searchFeedList);
   const query = useRecoilValue(searchQuery);
@@ -73,101 +74,103 @@ const SearchPage = () => {
     }
   }, [feedList, searchParams]);
   return (
-    <SFeedLayout>
-      <MainHeader type="search" handleSearch={handleSearch} searchValue={searchContent} />
-      <SSearchTab>
-        <div onClick={() => setSearchTabToggle(true)} className={searchTabToggle ? 'active' : ''}>
-          게시글
-        </div>
-        <div onClick={() => setSearchTabToggle(false)} className={searchTabToggle ? '' : 'active'}>
-          유저
-        </div>
-      </SSearchTab>
-      <ul>
-        {searchContent.length > 0 ? (
-          searchTabToggle ? (
-            searchResults.map(item => (
-              <SFeedCard key={item.id}>
-                <SAuthor>
-                  {item.author.image === APIDefaultImage ? (
-                    <SProfileImg src={profileImg} alt="프사" onClick={() => goProfile(item.author)} />
-                  ) : (
-                    <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
-                  )}
-                  <STitleContainer onClick={() => goFeedDetail(item, item.title, item.contents)}>
-                    <STitle>
-                      {item.title &&
-                        item.title.split(new RegExp(`(${searchContent})`, 'gi')).map((part, index) => (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <SFeedLayout>
+        <MainHeader type="search" handleSearch={handleSearch} searchValue={searchContent} />
+        <SSearchTab>
+          <div onClick={() => setSearchTabToggle(true)} className={searchTabToggle ? 'active' : ''}>
+            게시글
+          </div>
+          <div onClick={() => setSearchTabToggle(false)} className={searchTabToggle ? '' : 'active'}>
+            유저
+          </div>
+        </SSearchTab>
+        <ul>
+          {searchContent.length > 0 ? (
+            searchTabToggle ? (
+              searchResults.map(item => (
+                <SFeedCard key={item.id}>
+                  <SAuthor>
+                    {item.author.image === APIDefaultImage ? (
+                      <SProfileImg src={profileImg} alt="프사" onClick={() => goProfile(item.author)} />
+                    ) : (
+                      <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
+                    )}
+                    <STitleContainer onClick={() => goFeedDetail(item, item.title, item.contents)}>
+                      <STitle>
+                        {item.title &&
+                          item.title.split(new RegExp(`(${searchContent})`, 'gi')).map((part, index) => (
+                            <span
+                              key={index}
+                              style={part.toLowerCase() === searchContent.toLowerCase() ? { color: '#2bae66' } : {}}>
+                              {part}
+                            </span>
+                          ))}
+                      </STitle>
+                      <SAuthorInfo>
+                        <SUserName>{item.author.username}</SUserName>
+                        <SAccountname>@{item.author.accountname}</SAccountname>
+                      </SAuthorInfo>
+                    </STitleContainer>
+                  </SAuthor>
+                  <div>
+                    <SMainContent onClick={() => goFeedDetail(item, item.title, item.contents)}>
+                      {item.contents &&
+                        item.contents.split(new RegExp(`(${searchContent})`, 'gi')).map((part, index) => (
                           <span
                             key={index}
                             style={part.toLowerCase() === searchContent.toLowerCase() ? { color: '#2bae66' } : {}}>
                             {part}
                           </span>
                         ))}
-                    </STitle>
-                    <SAuthorInfo>
-                      <SUserName>{item.author.username}</SUserName>
-                      <SAccountname>@{item.author.accountname}</SAccountname>
-                    </SAuthorInfo>
-                  </STitleContainer>
-                </SAuthor>
-                <div>
-                  <SMainContent onClick={() => goFeedDetail(item, item.title, item.contents)}>
-                    {item.contents &&
-                      item.contents.split(new RegExp(`(${searchContent})`, 'gi')).map((part, index) => (
-                        <span
-                          key={index}
-                          style={part.toLowerCase() === searchContent.toLowerCase() ? { color: '#2bae66' } : {}}>
-                          {part}
-                        </span>
-                      ))}
-                  </SMainContent>
-                </div>
-                <SReactionContainer>
-                  <SReactionContent onClick={() => goFeedDetail(item, item.title, item.contents)}>
-                    <SReactionCount>
-                      <SHeartImg src={iconHeart} alt="하트" />
-                      {item.heartCount}
-                    </SReactionCount>
-                    <SReactionCount>
-                      <SHeartImg src={iconComment} alt="댓글" />
-                      {item.comments.length}
-                    </SReactionCount>
-                  </SReactionContent>
-                  <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>
-                </SReactionContainer>
-              </SFeedCard>
-            ))
-          ) : (
-            userList.map(user => (
-              <SFeedCard key={user.id}>
-                <SFollowContainer onClick={() => navigate('/myprofile', { state: user })}>
-                  <SImage src={user.image} alt={user.username} />
-                  <STextContainer>
-                    <SUserName>{user.username}</SUserName>
-                    <SAccountName>@ {user.accountname}</SAccountName>
-                  </STextContainer>
-                </SFollowContainer>
+                    </SMainContent>
+                  </div>
+                  <SReactionContainer>
+                    <SReactionContent onClick={() => goFeedDetail(item, item.title, item.contents)}>
+                      <SReactionCount>
+                        <SHeartImg src={iconHeart} alt="하트" />
+                        {item.heartCount}
+                      </SReactionCount>
+                      <SReactionCount>
+                        <SHeartImg src={iconComment} alt="댓글" />
+                        {item.comments.length}
+                      </SReactionCount>
+                    </SReactionContent>
+                    <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>
+                  </SReactionContainer>
+                </SFeedCard>
+              ))
+            ) : (
+              userList.map(user => (
+                <SFeedCard key={user.id}>
+                  <SFollowContainer onClick={() => navigate('/myprofile', { state: user })}>
+                    <SImage src={user.image} alt={user.username} />
+                    <STextContainer>
+                      <SUserName>{user.username}</SUserName>
+                      <SAccountName>@ {user.accountname}</SAccountName>
+                    </STextContainer>
+                  </SFollowContainer>
 
-                <SBtnContainer>
-                  <Button
-                    width="80px"
-                    bgColor="var(--gray)"
-                    fontSize="12px"
-                    // onClick={e => handleFollow(e, user.accountname, token)}
-                  >
-                    {/* {isFollower ? '삭제' : isFollowing ? '팔로잉' : '팔로우'} */}
-                  </Button>
-                </SBtnContainer>
-              </SFeedCard>
-            ))
-          )
-        ) : (
-          <></>
-        )}
-      </ul>
-      <BottomNav />
-    </SFeedLayout>
+                  <SBtnContainer>
+                    <Button
+                      width="80px"
+                      bgColor="var(--gray)"
+                      fontSize="12px"
+                      // onClick={e => handleFollow(e, user.accountname, token)}
+                    >
+                      {/* {isFollower ? '삭제' : isFollowing ? '팔로잉' : '팔로우'} */}
+                    </Button>
+                  </SBtnContainer>
+                </SFeedCard>
+              ))
+            )
+          ) : (
+            <></>
+          )}
+        </ul>
+        <BottomNav />
+      </SFeedLayout>
+    </motion.div>
   );
 };
 
@@ -196,17 +199,6 @@ const SSearchTab = styled.div`
   div.active {
     border-bottom: 2px solid var(--point-color);
     color: var(--point-color);
-  }
-`;
-
-const SFollowCard = styled.div`
-  margin-bottom: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  &:last-child {
-    margin-bottom: 0;
   }
 `;
 

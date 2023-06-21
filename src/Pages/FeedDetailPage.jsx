@@ -5,6 +5,7 @@ import iconComment from '../assets/icons/chat-green.svg';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MainHeader from '../Components/Common/MainHeader';
 import Comment from '../Components/Feed/Comment';
+import { motion } from 'framer-motion';
 import {
   STitle,
   SContent,
@@ -96,6 +97,7 @@ const FeedDetailPage = () => {
     }
     setFeedFunction(editFeed);
   }, [isEditCheckState]);
+
   const setFeedFunction = editFeed => {
     const extractedData = extractString(editFeed.content, 'title');
     if (extractedData === null) {
@@ -113,86 +115,87 @@ const FeedDetailPage = () => {
 
   return (
     <>
-      {location.state.feedList.isSearch ? <MainHeader type="search-detail" /> : <MainHeader type="detail" />}
-      <SDetailFeedCard>
-        <SAuthor>
-          {feedList.author.image === APIDefaultImage ? (
-            <SProfileImg src={profileImg} alt="프사" onClick={() => goProfile(feedList.author)} />
-          ) : (
-            <SProfileImg src={feedList.author.image} alt="프사" onClick={() => goProfile(feedList.author)} />
-          )}
-          <STitleContainer>
-            {title === '' ? <STitle>{feedTitle}</STitle> : <STitle>{title}</STitle>}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        {location.state.feedList.isSearch ? <MainHeader type="search-detail" /> : <MainHeader type="detail" />}
+        <SDetailFeedCard>
+          <SAuthor>
+            {feedList.author.image === APIDefaultImage ? (
+              <SProfileImg src={profileImg} alt="프사" onClick={() => goProfile(feedList.author)} />
+            ) : (
+              <SProfileImg src={feedList.author.image} alt="프사" onClick={() => goProfile(feedList.author)} />
+            )}
+            <STitleContainer>
+              {title === '' ? <STitle>{feedTitle}</STitle> : <STitle>{title}</STitle>}
 
-            <SAuthorInfo>
-              <SUserName>{feedList.author.username}</SUserName>
-              <SAccountname>@{feedList.author.accountname}</SAccountname>
-            </SAuthorInfo>
-          </STitleContainer>
-        </SAuthor>
-        <div>
-          {content === '' ? <SContent>{feedContent}</SContent> : <SContent>{content}</SContent>}
-          {imgArr.length === 0 ? null : <Carousel imgArr={imgArr} />}
-        </div>
-        <SReactionContainer>
-          <SReactionContent>
-            <SReactionCount>
-              {reactionCount?.post.hearted ? (
-                <SHeartImgDetail
-                  src={iconFillHeart}
-                  alt="하트"
-                  onClick={() => postHeart(reactionCount?.post.hearted, setReactionCount)}
-                />
-              ) : (
-                <SHeartImgDetail
-                  src={iconHeart}
-                  alt="하트"
-                  onClick={() => postHeart(reactionCount?.post.hearted, setReactionCount)}
-                />
-              )}
-              {reactionCount?.post.heartCount}
-            </SReactionCount>
-            <SReactionCount>
-              <SHeartImg src={iconComment} alt="댓글" />
-              {reactionCount?.post.commentCount}
-            </SReactionCount>
-          </SReactionContent>
+              <SAuthorInfo>
+                <SUserName>{feedList.author.username}</SUserName>
+                <SAccountname>@{feedList.author.accountname}</SAccountname>
+              </SAuthorInfo>
+            </STitleContainer>
+          </SAuthor>
+          <div>
+            {content === '' ? <SContent>{feedContent}</SContent> : <SContent>{content}</SContent>}
+            {imgArr.length === 0 ? null : <Carousel imgArr={imgArr} />}
+          </div>
+          <SReactionContainer>
+            <SReactionContent>
+              <SReactionCount>
+                {reactionCount?.post.hearted ? (
+                  <SHeartImgDetail
+                    src={iconFillHeart}
+                    alt="하트"
+                    onClick={() => postHeart(reactionCount?.post.hearted, setReactionCount)}
+                  />
+                ) : (
+                  <SHeartImgDetail
+                    src={iconHeart}
+                    alt="하트"
+                    onClick={() => postHeart(reactionCount?.post.hearted, setReactionCount)}
+                  />
+                )}
+                {reactionCount?.post.heartCount}
+              </SReactionCount>
+              <SReactionCount>
+                <SHeartImg src={iconComment} alt="댓글" />
+                {reactionCount?.post.commentCount}
+              </SReactionCount>
+            </SReactionContent>
 
-          <SAccountname>{feedList.createdAt.slice(0, 10)}</SAccountname>
-        </SReactionContainer>
-      </SDetailFeedCard>
-      <Comment
-        feedList={feedList}
-        commentList={commentList}
-        setCommentList={setCommentList}
-        isFetchData={isFetchData}
-        setIsFetchData={setIsFetchData}
-        setCommentId={setCommentId}
-      />
-      <WriteComment
-        feedList={feedList}
-        commentList={commentList}
-        setCommentList={setCommentList}
-        isFetchData={isFetchData}
-        setIsFetchData={setIsFetchData}
-        setReactionCount={setReactionCount}
-      />
-      {isModalState === 'post-config' && !otherAdmin ? (
-        <CommonModal
-          deleteFeed={deleteFeed}
-          feedList={location.state}
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          imgArr={imgArr}
-          type="post-config"
+            <SAccountname>{feedList.createdAt.slice(0, 10)}</SAccountname>
+          </SReactionContainer>
+        </SDetailFeedCard>
+        <Comment
+          feedList={feedList}
+          commentList={commentList}
+          setCommentList={setCommentList}
+          isFetchData={isFetchData}
+          setIsFetchData={setIsFetchData}
+          setCommentId={setCommentId}
         />
-      ) : isModalState === 'comment-config' && !otherAdmin ? (
-        <CommonModal deleteComment={deleteCommentFunction} commentId={commentId} type="comment-config" />
-      ) : (
-        isModalState !== '' && otherAdmin && <CommonModal type="other-config" />
-      )}
+        <WriteComment
+          feedList={feedList}
+          commentList={commentList}
+          setCommentList={setCommentList}
+          isFetchData={isFetchData}
+          setIsFetchData={setIsFetchData}
+          setReactionCount={setReactionCount}
+        />
+        {isModalState === 'post-config' && !otherAdmin ? (
+          <CommonModal
+            deleteFeed={deleteFeed}
+            feedList={location.state}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
+            imgArr={imgArr}
+            type="post-config"
+          />
+        ) : isModalState === 'comment-config' && !otherAdmin ? (
+          <CommonModal deleteComment={deleteCommentFunction} commentId={commentId} type="comment-config" />
+        ) : (
+          isModalState !== '' && otherAdmin && <CommonModal type="other-config" />
+        )}
+      </motion.div>
     </>
   );
 };
-// username={feedList.author.username} feedId={feedList.id} comments={feedList.comments}
 export default FeedDetailPage;

@@ -17,30 +17,33 @@ import ProductPage from './Pages/ProductPage';
 import NotFoundErrorPage from './Pages/NotFoundErrorPage';
 import Modal from './Components/Common/Modal';
 import { SMainLayout } from './Styles/MainLayoutStyle';
+import { AnimatePresence } from 'framer-motion';
 
 function App() {
   return (
     <div>
       <GlobalStyle />
-      <SMainLayout>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/feed" element={<FeedPage />} />
-          <Route path="/feeddetail" element={<FeedDetailPage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/profile" element={<ProfileSetPage />} />
-          <Route path="/myprofile" element={<MyProfilePage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/messagelist" element={<MessageListPage />} />
-          <Route path="/message" element={<MessagePage />} />
-          <Route path="/post" element={<PostPage />} />
-          <Route path="/product" element={<ProductPage />} />
-          <Route path="/follow" element={<FollowPage />} />
-          <Route path="/following" element={<FollowingPage />} />
-          <Route path="/*" element={<NotFoundErrorPage />} />
-        </Routes>
-      </SMainLayout>
+      <AnimatePresence>
+        <SMainLayout>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/feed" element={<FeedPage />} />
+            <Route path="/feeddetail" element={<FeedDetailPage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/profile" element={<ProfileSetPage />} />
+            <Route path="/myprofile" element={<MyProfilePage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/messagelist" element={<MessageListPage />} />
+            <Route path="/message" element={<MessagePage />} />
+            <Route path="/post" element={<PostPage />} />
+            <Route path="/product" element={<ProductPage />} />
+            <Route path="/follow" element={<FollowPage />} />
+            <Route path="/following" element={<FollowingPage />} />
+            <Route path="/*" element={<NotFoundErrorPage />} />
+          </Routes>
+        </SMainLayout>
+      </AnimatePresence>
     </div>
   );
 }

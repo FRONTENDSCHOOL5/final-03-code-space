@@ -9,6 +9,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { headerToggle, categoryTag, categoryTagIndex, isEditCheck } from '../Atom/atom';
 import { extractString } from '../Components/Feed/extractString';
 import SearchPage from './SearchPage';
+import { motion } from 'framer-motion';
 // 피드 메인 페이지
 const FeedPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -35,26 +36,28 @@ const FeedPage = () => {
   console.log(FeedList);
 
   return (
-    <SFeedLayout>
-      <>
-        <MainHeader type="feed" />
-        <STagLayout>
-          {tagItem.map((item, index) => (
-            <TagButton
-              FeedList={FeedList}
-              setFeedList={setFeedList}
-              key={index}
-              text={'#' + item}
-              active={index === activeIndex}
-              onClick={() => handleClick(index)}
-            />
-          ))}
-        </STagLayout>
-        <FetchFeed setFeedList={setFeedList} FeedList={FeedList} />
-      </>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <SFeedLayout>
+        <>
+          <MainHeader type="feed" />
+          <STagLayout>
+            {tagItem.map((item, index) => (
+              <TagButton
+                FeedList={FeedList}
+                setFeedList={setFeedList}
+                key={index}
+                text={'#' + item}
+                active={index === activeIndex}
+                onClick={() => handleClick(index)}
+              />
+            ))}
+          </STagLayout>
+          <FetchFeed setFeedList={setFeedList} FeedList={FeedList} />
+        </>
 
-      <BottomNav />
-    </SFeedLayout>
+        <BottomNav />
+      </SFeedLayout>
+    </motion.div>
   );
 };
 export default FeedPage;

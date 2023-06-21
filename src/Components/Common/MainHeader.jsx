@@ -116,7 +116,7 @@ const SSearch = styled.input`
   margin-left: 10px;
   border: none;
   box-sizing: border-box;
-  border: 2px solid ${props => (props.isFocused ? 'var(--point-color)' : 'var(--black)')};
+  border: 2.5px solid ${props => (props.isFocused ? 'var(--point-color)' : 'var(--black)')};
   outline: none;
   transition: border-color 0.3s ease-in-out;
 `;
