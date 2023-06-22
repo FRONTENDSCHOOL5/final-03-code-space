@@ -1,5 +1,8 @@
 // 제목, 본문 찾기 함수
 export function extractString(inputString, extractType) {
+  if (inputString === undefined) {
+    return null;
+  }
   const startIndex = inputString.indexOf(`\\"${extractType}:`);
   if (startIndex === -1) {
     return null; // 해당 타입의 문자열이 없으면 null 반환

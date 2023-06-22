@@ -6,10 +6,19 @@ import Button from './Button';
 import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { isConfigModal } from '../../Atom/atom';
-const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleUploadProduct, handleSubmit }) => {
+import { configModalAtom } from '../../Atom/atom';
+const MainHeader = ({
+  type,
+  handleUploadPost,
+  handleSearch,
+  searchValue,
+  handleUploadProduct,
+  searchUser,
+  buttonDisabled,
+  handleSubmit,
+}) => {
   const navigate = useNavigate();
-  const setIsConfigModal = useSetRecoilState(isConfigModal);
+  const setconfigModalAtom = useSetRecoilState(configModalAtom);
   const inputRef = useRef(null);
   useEffect(() => {
     if (type === 'search') {
@@ -32,7 +41,7 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleU
         {type === 'feed' ? (
           <>
             <div>코드스페이스</div>
-            <SBackIcon src={searchIcon} alt="돋보기" onClick={() => navigate('/search')} />
+            <SSearchIcon src={searchIcon} alt="돋보기" onClick={() => navigate('/search')} />
           </>
         ) : type === 'search' ? (
           <>
@@ -48,10 +57,28 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleU
               onChange={event => handleSearch(event)}
             />
           </>
+        ) : type === 'search-user' ? (
+          <>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
+            <SSearch
+              type="text"
+              ref={inputRef}
+              placeholder="검색어를 입력하세요!"
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+              isFocused={isInputFocused}
+              value={searchValue} // 검색어 값 추가
+              onChange={event => handleSearch(event)}
+            />
+            <SSearchIconBtn src={searchIcon} alt="돋보기" onClick={searchUser} />
+          </>
         ) : type === 'profile' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SBackIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SBackIcon>
+            <SSettingIcon
+              src={configIcon}
+              alt="설정창"
+              onClick={() => setconfigModalAtom('post-config')}></SSettingIcon>
           </>
         ) : type === 'set-profile' ? (
           <>
@@ -71,12 +98,18 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleU
         ) : type === 'detail' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
-            <SBackIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SBackIcon>
+            <SSettingIcon
+              src={configIcon}
+              alt="설정창"
+              onClick={() => setconfigModalAtom('post-config')}></SSettingIcon>
           </>
         ) : type === 'search-detail' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SBackIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SBackIcon>
+            <SSettingIcon
+              src={configIcon}
+              alt="설정창"
+              onClick={() => setconfigModalAtom('post-config')}></SSettingIcon>
           </>
         ) : type === 'save' ? (
           <>
@@ -86,7 +119,9 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleU
         ) : type === 'upload' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SSaveBtn onClick={handleUploadPost}>업로드</SSaveBtn>
+            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost} style={{ marginRight: '5px' }}>
+              업로드
+            </SUploadBtn>
           </>
         ) : (
           <>에러</>
@@ -122,7 +157,7 @@ const SSearch = styled.input`
   margin-left: 10px;
   border: none;
   box-sizing: border-box;
-  border: 2px solid ${props => (props.isFocused ? 'var(--point-color)' : 'var(--black)')};
+  border: 2.5px solid ${props => (props.isFocused ? 'var(--point-color)' : 'var(--black)')};
   outline: none;
   transition: border-color 0.3s ease-in-out;
 `;
@@ -135,8 +170,46 @@ const SSaveBtn = styled(Button)`
   align-items: center;
 `;
 
+const SUploadBtn = styled.button`
+  width: 90px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--point-color);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 0;
+  border: none;
+  border-radius: 44px;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+    background: var(--secondary-color);
+  }
+`;
+
 const SBackIcon = styled.img`
   &:hover {
     scale: 1.1;
   }
+`;
+const SSettingIcon = styled.img`
+  &:hover {
+    scale: 1.1;
+  }
+`;
+const SSearchIcon = styled.img`
+  &:hover {
+    scale: 1.1;
+    fill: var(--point-color);
+    filter: invert(53%) sepia(7%) saturate(4534%) hue-rotate(95deg) brightness(105%) contrast(78%);
+  }
+`;
+const SSearchIconBtn = styled(SSearchIcon)`
+  margin-left: -30px;
+  filter: invert(53%) sepia(7%) saturate(4534%) hue-rotate(95deg) brightness(105%) contrast(78%);
 `;

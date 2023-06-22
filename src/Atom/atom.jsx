@@ -32,6 +32,17 @@ export const setIsFollowed = atom({
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
+export const scrollPositionAtom = atom({
+  key: 'scrollPositionAtom',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const loginUserImageAtom = atom({
+  key: 'loginUserImageAtom',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
 
 export const headerToggle = atom({
   key: 'headerToggle',
@@ -57,9 +68,9 @@ export const categoryTagIndex = atom({
   key: 'categoryTagState',
   default: 0,
 });
-export const isConfigModal = atom({
-  key: 'isConfigModal',
-  default: false,
+export const configModalAtom = atom({
+  key: 'configModalAtom',
+  default: '',
 });
 export const isEditCheck = atom({
   key: 'isEditCheck',
@@ -67,5 +78,22 @@ export const isEditCheck = atom({
 });
 export const searchQuery = atom({
   key: 'searchQuery',
+  default: '',
+});
+export const isModalAtom = atom({
+  key: 'isModalAtom',
+  default: false,
+});
+
+export const isInitialLoadAtom = atom({
+  key: 'isInitialLoadAtom',
+  default: true,
+});
+export const searchUserListAtom = atom({
+  key: 'searchUserList',
+  default: [],
+});
+export const configPostIdAtom = atom({
+  key: 'configPostIdAtom',
   default: '',
 });

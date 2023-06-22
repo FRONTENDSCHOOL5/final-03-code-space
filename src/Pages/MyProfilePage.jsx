@@ -7,12 +7,12 @@ import MyProfileInfo from '../Components/Profile/MyProfileInfo';
 import styled from 'styled-components';
 import CommonModal from '../Components/Common/CommonModal';
 import { useRecoilValue } from 'recoil';
-import { isConfigModal } from '../Atom/atom';
+import { isModalAtom } from '../Atom/atom';
 
 import ProfilePost from '../Components/Post/ProfilePost';
 
-// 프로필을 클릭했을 때 useLocation으로 해당 profile 정보 가져오기
 function MyProfile() {
+  // 프로필을 클릭했을 때 useLocation으로 해당 profile 정보 가져오기
   const location = useLocation();
   let profileData = location.state;
   // console.log(profile);
@@ -20,7 +20,7 @@ function MyProfile() {
   const myUserData = MyProfileInfo();
   const profile = profileData ? profileData : myUserData;
 
-  const isModalState = useRecoilValue(isConfigModal);
+  const isModalState = useRecoilValue(isModalAtom);
 
   return (
     <SLayout>

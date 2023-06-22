@@ -1,13 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { setToken } from '../Atom/atom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { isEditCheck } from '../Atom/atom';
+import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg';
 import delImg from '../assets/icons/del.svg';
 import axios from 'axios';
-import { setToken } from '../Atom/atom';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { isEditCheck } from '../Atom/atom';
 
 const PostPage = () => {
   const url = 'https://api.mandarin.weniv.co.kr/';
@@ -17,25 +20,22 @@ const PostPage = () => {
   const isToken = useRecoilValue(setToken);
   const contentInput = useRef();
   const imgInput = useRef();
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState('');
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [imgAddList, setImgAddList] = useState([]);
-
-  const setIsEditCheck = useSetRecoilState(isEditCheck);
-  const IsEditCheck = useRecoilValue(isEditCheck);
-
   const location = useLocation();
   const navigate = useNavigate();
   const isEdit = location.state?.isEdit;
   const feedList = location.state?.feedList;
-  const feedContent = location.state?.feedList;
+  const imgArr = location.state?.imgArr;
 
-  const [contentTitleEdit, setContentTitleEdit] = useState(isEdit ? feedList.title : '');
-  const [contentEdit, setContentEdit] = useState(isEdit ? feedList.content : '');
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState('');
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
+  const [isCode, setIsCode] = useState(false);
+  const setIsEditCheck = useSetRecoilState(isEditCheck);
+
+  const [title, setTitle] = useState(isEdit ? feedList.title : '');
+  const [content, setContent] = useState(isEdit ? feedList.content : '');
+  const [code, setCode] = useState(isEdit ? feedList.content : '');
+  const [imgAddList, setImgAddList] = useState([]);
 
   useEffect(() => {
     console.log(isEdit);
@@ -44,16 +44,19 @@ const PostPage = () => {
       handleItemClick(feedList.category);
       setImgAddList(feedList.item.image);
     }
+    if (selectedItem == '질문있어요!' || selectedItem == '자유게시판') {
+      setIsCode(true);
+    } else {
+      setIsCode(false);
+    }
 
-    if(contentTitleEdit !== '' &&
-    contentEdit !== '' && 
-    imgAddList.length <= 3){
+    // 필수 내용 다 입력했는지
+    if (selectedItem && title !== '' && content !== '') {
       setIsSaveEnabled(true);
     } else {
       setIsSaveEnabled(false);
     }
-    
-  }, [contentTitleEdit, contentEdit,imgAddList]);
+  }, [selectedItem, title, content, imgAddList]);
 
   // 카테고리 드롭다운
   const toggleDropdown = () => {
@@ -61,54 +64,51 @@ const PostPage = () => {
   };
 
   const handleItemClick = item => {
-    console.log(item);
     setSelectedItem(item);
     setIsOpen(false);
   };
 
   // 제목
   function writeTitle(e) {
-    setContentTitleEdit(e.target.value);
+    setTitle(e.target.value);
   }
 
   // 게시글
   function writePost(e) {
-    setContentEdit(e.target.value);
+    setContent(e.target.value);
   }
 
-  // 게시글 textarea 자동 높이
-  const handleResizeHeight = useCallback(() => {
-    contentInput.current.style.height = contentInput.current.scrollHeight + 'px';
-  }, []);
+  // 코드
+  function writeCode(e) {
+    setCode(e.target.value);
+  }
 
   // 카테고리, 제목, 게시글 보내기
   const handleUploadPost = async e => {
-
     // 이미지 넣지 않았을 떄
-    let image = "";// 이미지 변수 초기화 
+    let image = ''; // 이미지 변수 초기화
 
     // 이미지 3장 이내로 넣었을 때
-    const imgUrls = imgAddList.map((img) => img.url);
+    const imgUrls = imgAddList.map(img => img.url);
     image = imgUrls.join(',');
 
     const config = {
       headers: { Authorization: 'Bearer ' + isToken, 'Content-type': 'application/json' },
     };
+
     if (isEdit) {
-      const image = feedList.item.image;
+      const image = imgArr.toString();
       try {
-        console.log(title, content);
         const response = await axios.put(
           url + `post/${feedList.item.id}`,
           {
             post: {
-              content: `\\\"title:${contentTitleEdit}\\\"\\\"category:${selectedItem}\\\"${contentEdit}`,
-              image: image, // 이미지 url
+              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"code:${code}`,
+              image: image,
             },
           },
           config,
         );
-
         console.log(response.data.post);
         setIsEditCheck(true);
         navigate('/feeddetail', { state: { ...location.state, edit: response.data.post } });
@@ -116,24 +116,30 @@ const PostPage = () => {
         console.log(error);
       }
     } else {
+      // 이미지 넣지 않았을 떄
+      let image = ''; // 이미지 변수 초기화
+
+      // 이미지 3장 이내로 넣었을 때
+      const imgUrls = imgAddList.map(img => img.url);
+      image = imgUrls.join(',');
       try {
         const response = await axios.post(
           url + 'post',
           {
             post: {
-              content: `\\\"title:${contentTitleEdit}\\\"\\\"category:${selectedItem}\\\"${contentEdit}`,
-              image: image, // 이미지 url
+              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"\\\"code:${code}\\\"`,
+              image: image,
             },
           },
           config,
         );
         console.log(response);
+        navigate('/feed'); // 업로드 후 feed로 이동
       } catch (error) {
         console.log(error);
       }
     }
   };
-
   // 이미지 업로드 버튼 클릭시 파일 선택 가능
   const handleClick = () => {
     imgInput.current.click();
@@ -142,7 +148,6 @@ const PostPage = () => {
   // 이미지 서버 업로드
   const handleUploadImg = async e => {
     const file = e.target.files[0];
-    console.log(file);
     const formData = new FormData();
     formData.append('image', file);
 
@@ -150,14 +155,13 @@ const PostPage = () => {
       headers: { 'Content-Type': 'multipart/form-data' },
     };
 
-    if(imgAddList.length >= 3){
-      alert("이미지는 최대 3장까지만 업로드 가능합니다!");
+    if (imgAddList.length >= 3) {
+      alert('이미지는 최대 3장까지만 업로드 가능합니다!');
       return;
-    }
-    else{
+    } else {
       try {
         const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(alert('업로드완료!'));
-        const uploadedImageUrl = response.data[0].filename;
+        const uploadedImageUrl = url + response.data[0].filename;
         console.log(uploadedImageUrl);
         setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
         console.log(response);
@@ -166,25 +170,23 @@ const PostPage = () => {
       }
     }
   };
-
   // 이미지 미리보기
   const imgAddPreview = () => {
-    console.log(imgAddList);
-    const imgWidth = imgAddList.length === 1 || isEdit ? '350px' : imgAddList.length === 2 || isEdit ? '170px' : '100px';
-    const imgMargin = imgAddList.length === 1 || isEdit ? '20px' : '10px';
+    const imgWidth = imgAddList.length === 1 || isEdit ? '350px' : '270px';
+
     return (
       <SImgContainer>
         {isEdit ? (
           <SImgBox key={feedList.item.id}>
             <SDelBtn onClick={() => onRemoveAdd(imgAddList)} />
-            <SPreviewImg src={imgAddList} style={{ width: imgWidth, margin: imgMargin }} />
+            <SPreviewImg src={imgAddList} style={{ width: imgWidth }} />
           </SImgBox>
         ) : (
           imgAddList.map((img, index) => {
             return (
               <SImgBox key={index}>
                 <SDelBtn onClick={() => onRemoveAdd(img.url)} />
-                <SPreviewImg src={url + img.url} style={{ width: imgWidth, margin: imgMargin }} />
+                <SPreviewImg src={img.url} style={{ width: imgWidth }} />
               </SImgBox>
             );
           })
@@ -192,18 +194,22 @@ const PostPage = () => {
       </SImgContainer>
     );
   };
-
   // 이미지 삭제
   const onRemoveAdd = deleteUrl => {
     setImgAddList(imgAddList.filter(img => img.url !== deleteUrl));
   };
+  console.log(isSaveEnabled);
 
   return (
     <>
-      <MainHeader type="upload" handleUploadPost={isSaveEnabled ? handleUploadPost : null} />
+      <MainHeader
+        type="upload"
+        buttonDisabled={isSaveEnabled ? false : true}
+        handleUploadPost={isSaveEnabled ? handleUploadPost : null}
+      />
       <STitle>
         <DropdownWrapper>
-          <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '▼ 카테고리'}</DropdownButton>
+          <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '카테고리'}</DropdownButton>
           <DropdownContent isOpen={isOpen}>
             <DropdownItem onClick={() => handleItemClick('질문있어요!')}>질문있어요!</DropdownItem>
             <DropdownItem onClick={() => handleItemClick('스터디 모집')}>스터디 모집</DropdownItem>
@@ -211,26 +217,34 @@ const PostPage = () => {
           </DropdownContent>
         </DropdownWrapper>
         {isEdit ? (
-          <SContentTitle placeholder="제목" onChange={writeTitle} value={contentTitleEdit} />
+          <SContentTitle placeholder="제목" onChange={writeTitle} value={title} />
         ) : (
           <SContentTitle placeholder="제목" onChange={writeTitle} />
         )}
       </STitle>
       {isEdit ? (
-        <SPostContent
-          placeholder="게시글 입력하기..."
-          ref={contentInput}
-          onInput={handleResizeHeight}
-          onChange={writePost}
-          value={contentEdit}></SPostContent>
+        <SContentWrap>
+          <SPostContent
+            placeholder="게시글 입력하기..."
+            ref={contentInput}
+            onChange={writePost}
+            value={content}></SPostContent>
+        </SContentWrap>
       ) : (
-        <SPostContent
-          placeholder="게시글 입력하기..."
-          ref={contentInput}
-          onInput={handleResizeHeight}
-          onChange={writePost}></SPostContent>
+        <SContentWrap>
+          <SPostContent placeholder="게시글 입력하기..." ref={contentInput} onChange={writePost}></SPostContent>
+        </SContentWrap>
       )}
-
+      {isCode && (
+        <SCodeWrap>
+          <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} />
+          <SCode>
+            <SyntaxHighlighter language="jsx" style={atomDark}>
+              {code}
+            </SyntaxHighlighter>
+          </SCode>
+        </SCodeWrap>
+      )}
       {imgAddPreview()}
       <SUploadImgBtn onClick={handleClick}>
         <SInputImg
@@ -253,21 +267,22 @@ const DropdownWrapper = styled.div`
 `;
 
 const DropdownButton = styled.button`
-  min-width: 74px;
+  min-width: 80px;
   padding: 5px 0;
-  background-color: var(--black);
-  color: var(--gray);
+  background-color: var(--point-color);
+  color: var(--white);
   font-size: 14px;
-  border-bottom: 1px solid var(--gray);
+  border-radius: 22px;
   cursor: pointer;
 `;
 
 const DropdownContent = styled.div`
   display: ${props => (props.isOpen ? 'block' : 'none')};
   position: absolute;
+  margin-top: 2px;
   color: var(--gray);
   background-color: var(--black);
-  min-width: 74px;
+  min-width: 80px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 `;
@@ -293,13 +308,14 @@ const SContentTitle = styled.input`
   height: 30px;
   width: 260px;
   margin-right: 20px;
+  padding-bottom: 10px;
   background-color: var(--black);
   border: none;
   outline: none;
   border-bottom: 1px solid var(--gray);
   padding: 5px 0;
   color: var(--white);
-  font-size: 14px;
+  font-size: 20px;
   &:focus {
     transition: all 0.5s;
     border-bottom: 1px solid var(--point-color);
@@ -309,11 +325,10 @@ const SContentTitle = styled.input`
   }
 `;
 
-const SPostContent = styled.textarea`
-  margin: 0 20px;
+const SPostContent = styled(TextareaAutosize)`
+  margin: 0 20px 15px 20px;
   padding: 0;
   width: 350px;
-  /* height: 200px; */
   background-color: var(--black);
   border: none;
   color: var(--white);
@@ -321,6 +336,17 @@ const SPostContent = styled.textarea`
   outline: none;
   font-family: inherit;
   font-size: 16px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const SContentWrap = styled.div``;
+
+const SCodeWrap = styled.div``;
+
+const SCode = styled.div`
+  margin: 0 20px;
 `;
 
 const SUploadImgBtn = styled.div`
@@ -338,12 +364,30 @@ const SInputImg = styled.input`
 `;
 
 const SImgContainer = styled.div`
+  margin: 20px;
   display: flex;
+  gap: 15px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    border-radius: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    height: 10px;
+    background: var(--darkgray);
+    background-clip: padding-box;
+    border: 5px solid transparent;
+    border-radius: 20px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: none;
+    height: 100px;
+  }
 `;
 
 const SImgBox = styled.div`
-  flex: 1;
   position: relative;
+  flex: 1;
 `;
 
 const SPreviewImg = styled.img`
@@ -352,8 +396,8 @@ const SPreviewImg = styled.img`
 
 const SDelBtn = styled.div`
   position: absolute;
-  top: 30px;
-  right: 30px;
+  top: 0;
+  right: 0;
   width: 30px;
   height: 30px;
   background-image: url(${delImg});

@@ -1,19 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { useSetRecoilState } from 'recoil';
-import { isConfigModal, setToken, setAccountName, searchFeedList, setIsFollowed, setIsLogined } from '../../Atom/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  configModalAtom,
+  setToken,
+  setIsLogined,
+  setAccountName,
+  searchFeedList,
+  setIsFollowed,
+} from '../../Atom/atom';
 import { useNavigate } from 'react-router-dom';
-
-const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComment }) => {
+const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComment, imgArr }) => {
   const modalRef = useRef(null);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
-  const setConfigModalAtom = useSetRecoilState(isConfigModal); // 이거 충돌날 수도 있는 부분
+  const setconfigModalAtom = useSetRecoilState(configModalAtom);
   const setTokenAtom = useSetRecoilState(setToken);
+  const setIsLoginedAtom = useSetRecoilState(setIsLogined);
   const setAccountNameAtom = useSetRecoilState(setAccountName);
   const searchFeedListAtom = useSetRecoilState(searchFeedList);
   const setIsFollowedAtom = useSetRecoilState(setIsFollowed);
-  const setIsLoginedAtom = useSetRecoilState(setIsLogined);
-
   const navigate = useNavigate();
 
   const handleClickOutside = event => {
@@ -22,10 +27,10 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComm
       return;
     }
     if (modalRef.current && !modalRef.current.contains(target)) {
-      setConfigModalAtom(false);
+      setconfigModalAtom('');
     }
   };
-
+  console.log(feedList);
   useEffect(() => {
     if (type === 'post-config') {
       setIsEdit(true);
@@ -45,7 +50,7 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComm
   };
 
   function goEdit() {
-    navigate('/post', { state: { isEdit, ...feedList } });
+    navigate('/post', { state: { isEdit, ...feedList, imgArr } });
   }
   return (
     <SBackground onClick={handleClickOutside}>
@@ -64,7 +69,15 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComm
               로그아웃
             </div>
           </SContents>
-        ) : null}
+        ) : type === 'comment-config' ? (
+          <SContents>
+            <div onClick={() => setIsConfirmModal(true)}>삭제</div>
+          </SContents>
+        ) : (
+          <SContents>
+            <div onClick={() => setIsConfirmModal(true)}>신고하기</div>
+          </SContents>
+        )}
       </SModal>
       {isConfirmModal && (
         <SConfirmModalBackground>
@@ -84,7 +97,23 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComm
                 <div onClick={handleLogout}>로그아웃</div>
               </SConfirmContents>
             </SConfirmModal>
-          ) : null}
+          ) : type === 'comment-config' ? (
+            <SConfirmModal>
+              <SConfirmTitle className="confirm-title">댓글을 삭제할까요?</SConfirmTitle>
+              <SConfirmContents>
+                <SConfirmContent>취소</SConfirmContent>
+                <div onClick={() => deleteComment()}>삭제</div>
+              </SConfirmContents>
+            </SConfirmModal>
+          ) : (
+            <SConfirmModal>
+              <SConfirmTitle className="confirm-title">신고할까요?</SConfirmTitle>
+              <SConfirmContents>
+                <SConfirmContent>취소</SConfirmContent>
+                <div>확인</div>
+              </SConfirmContents>
+            </SConfirmModal>
+          )}
         </SConfirmModalBackground>
       )}
     </SBackground>
