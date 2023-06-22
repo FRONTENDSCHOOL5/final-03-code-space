@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import Post from './Post';
 import axios from 'axios';
@@ -6,6 +7,7 @@ import { MainAccountToken } from './COMMON';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { searchFeedList } from '../../Atom/atom';
 import { debounce } from 'lodash';
+import BackToTopBtn from '../../Styles/FeedStyle/BackToTopBtn';
 
 const FetchFeed = ({ setFeedList, FeedList }) => {
   const URL = 'https://api.mandarin.weniv.co.kr/';
@@ -17,6 +19,8 @@ const FetchFeed = ({ setFeedList, FeedList }) => {
   const [skip, setSkip] = useState(0); // 건너뛸 데이터 개수
   const [isFetchData, setIsFetchData] = useState(false);
   const [isScrollCheck, setIsScrollCheck] = useState(false);
+  const [showScrollTopButton, setShowScrollTopButton] = useState(false);
+
   const [allFeed, setAllFeed] = useState([]);
   const [followingFeed, setFollowingFeed] = useState([]);
   useEffect(() => {
@@ -96,6 +100,8 @@ const FetchFeed = ({ setFeedList, FeedList }) => {
     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
     const clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+    setShowScrollTopButton(scrollTop > 600);
+
     if (scrollTop + clientHeight >= scrollHeight - 100) {
       console.log('하단!');
       setSkip(prevSkip => prevSkip + limit); // skip 값을 업데이트하여 다음 페이지의 데이터 요청
@@ -108,11 +114,42 @@ const FetchFeed = ({ setFeedList, FeedList }) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  const handleScrollTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // 부드러운 스크롤을 위해 추가
+    });
+  };
 
   return (
     <>
-      <Post isFetchData={isFetchData} FeedList={FeedList} allFeed={allFeed} followingFeed={followingFeed} />
+      <Post
+        isFetchData={isFetchData}
+        FeedList={FeedList}
+        allFeed={allFeed}
+        followingFeed={followingFeed}
+        showScrollTopButton={showScrollTopButton}
+        handleScrollTop={handleScrollTop}
+      />
+
+      {showScrollTopButton && (
+        <SSTopScrollBtnLayout>
+          <BackToTopBtn handleScrollTop={handleScrollTop} className="scroll-top-button">
+            Top
+          </BackToTopBtn>
+        </SSTopScrollBtnLayout>
+      )}
     </>
   );
 };
 export default FetchFeed;
+const SSTopScrollBtnLayout = styled.div`
+  position: fixed;
+  right: 50%;
+  bottom: 50%;
+  z-index: 11;
+  transform: translate(250%, 850%);
+`;
+const STopScrollBtn = styled.button`
+  background-color: white;
+`;

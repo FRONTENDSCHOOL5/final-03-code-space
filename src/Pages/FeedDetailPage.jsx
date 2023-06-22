@@ -121,10 +121,8 @@ const FeedDetailPage = () => {
     }
   }, []);
   useEffect(() => {
-    if (!isEditCheckState) {
-      return;
-    }
-  }, [isEditCheckState]);
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     setImgArr(extractImageLinks(reactionCount?.post.image));

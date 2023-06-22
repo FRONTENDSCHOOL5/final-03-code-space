@@ -43,6 +43,12 @@ const SFeedCard = styled.div`
   padding: 20px;
   box-sizing: border-box;
   cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  transition: all 0.6s;
+  &:hover {
+    scale: 0.99;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.6);
+  }
 `;
 const SDetailFeedCard = styled.div`
   display: flex;
