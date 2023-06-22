@@ -20,10 +20,10 @@ const MainHeader = ({
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
   const inputRef = useRef(null);
   useEffect(() => {
-    if (type === 'search') {
+    if (type === 'search' || type === 'search-user') {
       inputRef.current.focus();
     }
-  }, []);
+  }, [type]);
 
   const [isInputFocused, setIsInputFocused] = useState(false);
 
@@ -33,6 +33,11 @@ const MainHeader = ({
 
   const handleInputBlur = () => {
     setIsInputFocused(false);
+  };
+  const handleKeyDown = event => {
+    if (event.key === 'Enter') {
+      searchUser();
+    }
   };
   return (
     <>
@@ -68,6 +73,7 @@ const MainHeader = ({
               isFocused={isInputFocused}
               value={searchValue} // 검색어 값 추가
               onChange={event => handleSearch(event)}
+              onKeyDown={handleKeyDown}
             />
             <SSearchIconBtn src={searchIcon} alt="돋보기" onClick={searchUser} />
           </>
