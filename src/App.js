@@ -16,12 +16,12 @@ import FeedDetailPage from './Pages/FeedDetailPage';
 import ProductPage from './Pages/ProductPage';
 import NotFoundErrorPage from './Pages/NotFoundErrorPage';
 import Modal from './Components/Common/Modal';
-import { SMainLayout } from './Styles/MainLayoutStyle';
+import { SMainLayout, Sbackground } from './Styles/MainLayoutStyle';
 import { AnimatePresence } from 'framer-motion';
 
 function App() {
   return (
-    <div>
+    <Sbackground>
       <GlobalStyle />
       <AnimatePresence>
         <SMainLayout>
@@ -41,10 +41,11 @@ function App() {
             <Route path="/follow" element={<FollowPage />} />
             <Route path="/following" element={<FollowingPage />} />
             <Route path="/*" element={<NotFoundErrorPage />} />
+            <Route path="/landing" element={<LandingPage />} />
           </Routes>
         </SMainLayout>
       </AnimatePresence>
-    </div>
+    </Sbackground>
   );
 }
 export default App;
