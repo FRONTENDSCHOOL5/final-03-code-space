@@ -124,6 +124,7 @@ const SPostImage = styled.img`
 `;
 const SCodeEditor = styled.div`
   font-size: 11px;
+  margin: 20px 0;
 `;
 const SCodeLanguage = styled.div`
   color: var(--darkgray);
