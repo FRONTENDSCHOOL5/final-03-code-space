@@ -57,6 +57,8 @@ const FeedDetailPage = () => {
   const [commentId, setCommentId] = useState('');
   const [imgArr, setImgArr] = useState([]);
   const [otherAdmin, setOtherAdmin] = useState(false);
+  const [commentAccount, setCommentAccount] = useState('');
+  // const [commentAdmin, setCommentAdmin] = useState(false);
 
   const isModalState = useRecoilValue(configModalAtom);
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
@@ -206,6 +208,7 @@ const FeedDetailPage = () => {
             isFetchData={isFetchData}
             setIsFetchData={setIsFetchData}
             setCommentId={setCommentId}
+            setCommentAccount={setCommentAccount}
           />
           <WriteComment
             feedList={feedList}
@@ -228,8 +231,13 @@ const FeedDetailPage = () => {
               code={code}
               category={category}
             />
-          ) : isModalState === 'comment-config' && !otherAdmin ? (
-            <CommonModal deleteComment={deleteCommentFunction} commentId={commentId} type="comment-config" />
+          ) : isModalState === 'comment-config' ? (
+            <CommonModal
+              deleteComment={deleteCommentFunction}
+              commentId={commentId}
+              commentAccount={commentAccount}
+              type="comment-config"
+            />
           ) : (
             isModalState !== '' && otherAdmin && <CommonModal type="other-config" />
           )}

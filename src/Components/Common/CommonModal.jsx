@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { configModalAtom, setToken } from '../../Atom/atom';
+import { configModalAtom, setToken, setAccountName } from '../../Atom/atom';
 import { useNavigate } from 'react-router-dom';
 const CommonModal = ({
   deleteFeed,
@@ -15,10 +15,14 @@ const CommonModal = ({
   content,
   code,
   category,
+  commentId,
+  commentAccount,
 }) => {
   const modalRef = useRef(null);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
+  const accountName = useRecoilValue(setAccountName);
+
   const navigate = useNavigate();
   const handleClickOutside = event => {
     const target = event.target;
@@ -34,6 +38,13 @@ const CommonModal = ({
     if (type === 'post-config') {
       setIsEdit(true);
     }
+    console.log(commentId);
+    console.log(accountName);
+    if (commentAccount === accountName) {
+      setconfigModalAtom('comment-config');
+    } else {
+      setconfigModalAtom('other-config');
+    }
   }, []);
 
   function goEdit() {
@@ -41,22 +52,26 @@ const CommonModal = ({
   }
   return (
     <SBackground onClick={handleClickOutside}>
-      <SModal ref={modalRef}>
-        {type === 'post-config' ? (
+      {type === 'post-config' ? (
+        <SModal ref={modalRef}>
           <SContents>
             <div onClick={() => setIsConfirmModal(true)}>삭제</div>
             <div onClick={() => goEdit()}>수정</div>
           </SContents>
-        ) : type === 'comment-config' ? (
+        </SModal>
+      ) : type === 'comment-config' ? (
+        <SSingleModal ref={modalRef}>
           <SContents>
             <div onClick={() => setIsConfirmModal(true)}>삭제</div>
           </SContents>
-        ) : (
+        </SSingleModal>
+      ) : (
+        <SSingleModal ref={modalRef}>
           <SContents>
             <div onClick={() => setIsConfirmModal(true)}>신고하기</div>
           </SContents>
-        )}
-      </SModal>
+        </SSingleModal>
+      )}
       {isConfirmModal && (
         <>
           {type === 'post-config' ? (
@@ -188,4 +203,7 @@ const SModal = styled.article`
     border-radius: 15px;
     margin: 17px 0;
   }
+`;
+const SSingleModal = styled(SModal)`
+  top: 85%;
 `;
