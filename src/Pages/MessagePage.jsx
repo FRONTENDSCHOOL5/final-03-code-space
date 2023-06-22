@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg';
@@ -7,29 +7,56 @@ import { motion } from 'framer-motion';
 
 const MessagePage = () => {
   const imgInput = useRef();
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
 
   // 이미지 업로드 버튼 클릭시 파일 선택 가능
   const handleClick = () => {
     imgInput.current.click();
   }
 
+  // 채팅 전송 기능
+  const handleInputChange = (e) => {
+    setMessage(e.taget.value);
+  }
+
+  const handleSendMessage = () => {
+    if(message.trim() === ''){
+      return;
+    }
+
+    const newMessage = {
+      id: Date.now(),
+      text: message,
+      isMine: true,
+    };
+
+    setMessages([...messages, newMessage]);
+    setMessage('');
+  };
+
   return (
     <>
       <MainHeader type="message" />
       <SMsgWrap>
         <SProfileImg></SProfileImg>
+        <SContentWrap>
         <SMsgContent>옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여, 뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할 넣는 풍부하게 뛰노는 인생의 힘있다.</SMsgContent>
         <SMsgTime>10:23</SMsgTime>
+        </SContentWrap>
       </SMsgWrap>
       <SMsgWrap>
         <SProfileImg></SProfileImg>
-        <SMsgContent>어쩌고 저쩌고 이상입니다.</SMsgContent>
+        <SContentWrap>
+          <SMsgContent>어쩌고 저쩌고 이상입니다.</SMsgContent>
+          <SMsgTime>10:24</SMsgTime>
+        </SContentWrap>
       </SMsgWrap>
       <SLayout>
         <SUploadImgBtn onClick={handleClick}>
           <SInputImg type="file" accept="image/jpg, image/jpeg, image/png" multiple ref={imgInput} ></SInputImg>
         </SUploadImgBtn>
-        <SWriteMsg></SWriteMsg>
+        <SWriteMsg placeholder="메세지 입력" value={message} onChange={handleInputChange}></SWriteMsg>
         <SSendBtn>전송</SSendBtn>
       </SLayout>
     </>
@@ -41,7 +68,8 @@ export default MessagePage;
 const SMsgWrap = styled.div`
   margin: 10px;
   display: flex;
-  align-items: start;
+  justify-content: left;
+  align-items: center;
 `;
 
 const SProfileImg = styled.div`
@@ -49,6 +77,11 @@ const SProfileImg = styled.div`
   height: 42px;
   background-image: url(${ProfileImg});
   background-size: 42px 42px;
+`;
+
+const SContentWrap = styled.div`
+  display: flex;
+  align-items: end;
 `;
 
 const SMsgContent = styled.div`
@@ -63,7 +96,7 @@ const SMsgContent = styled.div`
 `;
 
 const SMsgTime = styled.p`
-  align-items: flex-end;
+  align-items: end;
   margin-left: 10px;
   color: var(--white);
   font-size: 12px;
