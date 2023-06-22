@@ -67,7 +67,7 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComm
         ) : null}
       </SModal>
       {isConfirmModal && (
-        <SLayout>
+        <SConfirmModalBackground>
           {type === 'post-config' ? (
             <SConfirmModal>
               <SConfirmTitle className="confirm-title">게시글을 삭제할까요?</SConfirmTitle>
@@ -85,7 +85,7 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComm
               </SConfirmContents>
             </SConfirmModal>
           ) : null}
-        </SLayout>
+        </SConfirmModalBackground>
       )}
     </SBackground>
   );
@@ -93,10 +93,10 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComm
 
 export default CommonModal;
 
-const SLayout = styled.div`
-  /* width: inherit; */
+const SConfirmModalBackground = styled.div`
+  /* width: inherit;
   /* height: 100%; */
-  background-color: rgba(85, 85, 85, 0.8);
+  background-color: rgba(85, 85, 85, 0.6);
   position: relative;
   width: inherit;
   height: 100%;
@@ -193,7 +193,7 @@ const SBackground = styled.div`
   top: 0;
   overflow-y: hidden;
   /* text-align: center; */
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.8);
 `;
 const modalfadeOut = keyframes`
   0% {  top: 100%;  }
