@@ -14,12 +14,12 @@ import MyProfilePage from './Pages/MyProfilePage';
 import SearchPage from './Pages/SearchPage';
 import FeedDetailPage from './Pages/FeedDetailPage';
 import ProductPage from './Pages/ProductPage';
-import Modal from './Components/Common/Modal';
 import { SMainLayout } from './Styles/MainLayoutStyle';
+import styled from 'styled-components';
 
 function App() {
   return (
-    <div>
+    <Sbackground>
       <GlobalStyle />
       <SMainLayout>
         <Routes>
@@ -37,9 +37,15 @@ function App() {
           <Route path="/product" element={<ProductPage />} />
           <Route path="/follow" element={<FollowPage />} />
           <Route path="/following" element={<FollowingPage />} />
+          <Route path="/landing" element={<LandingPage />} />
         </Routes>
       </SMainLayout>
-    </div>
+    </Sbackground>
   );
 }
 export default App;
+
+const Sbackground = styled.div `
+background-color:var(--black);
+min-height: 100vh;
+`
