@@ -47,6 +47,7 @@ const FeedDetailPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [code, setCode] = useState('');
+  const [category, setCategory] = useState('');
 
   const [commentList, setCommentList] = useState({});
   const [isFetchData, setIsFetchData] = useState(false);
@@ -136,6 +137,7 @@ const FeedDetailPage = () => {
     setTitle(extracted);
     setContent(contentData.extracted);
     setCode(codeData.extracted);
+    setCategory(categoryData.extracted);
   };
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -160,11 +162,14 @@ const FeedDetailPage = () => {
             </SAuthor>
             <div>
               <SContent>{content}</SContent>
-              <SCodeEditor>
-                <SyntaxHighlighter language="jsx" style={atomDark}>
-                  {code}
-                </SyntaxHighlighter>
-              </SCodeEditor>
+              {category !== '스터디 모집' && (
+                <SCodeEditor>
+                  <SyntaxHighlighter language="jsx" style={atomDark}>
+                    {code}
+                  </SyntaxHighlighter>
+                </SCodeEditor>
+              )}
+
               {imgArr.length === 0 ? null : <Carousel imgArr={imgArr} />}
             </div>
             <SReactionContainer>
@@ -218,6 +223,10 @@ const FeedDetailPage = () => {
               setIsEdit={setIsEdit}
               imgArr={imgArr}
               type="post-config"
+              title={title}
+              content={content}
+              code={code}
+              category={category}
             />
           ) : isModalState === 'comment-config' && !otherAdmin ? (
             <CommonModal deleteComment={deleteCommentFunction} commentId={commentId} type="comment-config" />

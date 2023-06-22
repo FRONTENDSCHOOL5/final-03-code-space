@@ -35,8 +35,8 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   const [scrollPosition, setScrollPosition] = useRecoilState(scrollPositionAtom);
   const [isInitialLoad, setIsInitialLoad] = useRecoilState(isInitialLoadAtom);
 
-  function goFeedDetail(item, title, content, category) {
-    navigate('/feeddetail', { state: { feedList: { item, title, content, category } } });
+  function goFeedDetail(item, title, content, category, code) {
+    navigate('/feeddetail', { state: { feedList: { item, title, content, category, code } } });
   }
   function goProfile(event, item) {
     event.stopPropagation();
@@ -134,7 +134,7 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
             content = contentData.extracted;
             code = codeData.extracted;
             return (
-              <SFeedCard key={item.id} onClick={() => goFeedDetail(item, title, content, category)}>
+              <SFeedCard key={item.id} onClick={() => goFeedDetail(item, title, content, category, code)}>
                 <SAuthor>
                   {item.author.image === APIDefaultImage ? (
                     <SProfileImg src={profileImg} alt="프사" onClick={event => goProfile(event, item.author)} />

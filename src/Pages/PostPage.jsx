@@ -25,6 +25,7 @@ const PostPage = () => {
   const isEdit = location.state?.isEdit;
   const feedList = location.state?.feedList;
   const imgArr = location.state?.imgArr;
+  const state = location.state;
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState('');
@@ -32,18 +33,21 @@ const PostPage = () => {
   const [isCode, setIsCode] = useState(false);
   const setIsEditCheck = useSetRecoilState(isEditCheck);
 
-  const [title, setTitle] = useState(isEdit ? feedList.title : '');
-  const [content, setContent] = useState(isEdit ? feedList.content : '');
-  const [code, setCode] = useState(isEdit ? feedList.content : '');
+  const [title, setTitle] = useState(isEdit ? state.title : '');
+  const [content, setContent] = useState(isEdit ? state.content : '');
+  const [code, setCode] = useState(isEdit ? state.code : '');
   const [imgAddList, setImgAddList] = useState([]);
+  console.log(state);
 
+  useEffect(() => {
+    if (isEdit) {
+      handleItemClick(state.category);
+      setImgAddList(imgArr);
+    }
+  }, []);
   useEffect(() => {
     console.log(isEdit);
 
-    if (isEdit) {
-      handleItemClick(feedList.category);
-      setImgAddList(feedList.item.image);
-    }
     if (selectedItem == '질문있어요!' || selectedItem == '자유게시판') {
       setIsCode(true);
     } else {
@@ -171,28 +175,35 @@ const PostPage = () => {
 
     return (
       <SImgContainer>
-        {isEdit ? (
-          <SImgBox key={feedList.item.id}>
-            <SDelBtn onClick={() => onRemoveAdd(imgAddList)} />
-            <SPreviewImg src={imgAddList} style={{ width: imgWidth }} />
-          </SImgBox>
-        ) : (
-          imgAddList.map((img, index) => {
-            return (
-              <SImgBox key={index}>
-                <SDelBtn onClick={() => onRemoveAdd(img.url)} />
-                <SPreviewImg src={img.url} style={{ width: imgWidth }} />
-              </SImgBox>
-            );
-          })
-        )}
+        {isEdit
+          ? imgAddList.map((img, index) => {
+              return (
+                <SImgBox key={index}>
+                  <SDelBtn onClick={() => onRemoveAdd(img)} />
+                  <SPreviewImg src={img} style={{ width: imgWidth }} />
+                </SImgBox>
+              );
+            })
+          : imgAddList.map((img, index) => {
+              return (
+                <SImgBox key={index}>
+                  <SDelBtn onClick={() => onRemoveAdd(img.url)} />
+                  <SPreviewImg src={img.url} style={{ width: imgWidth }} />
+                </SImgBox>
+              );
+            })}
       </SImgContainer>
     );
   };
   // 이미지 삭제
   const onRemoveAdd = deleteUrl => {
-    setImgAddList(imgAddList.filter(img => img.url !== deleteUrl));
+    if (isEdit) {
+      setImgAddList(imgAddList.filter(img => img !== deleteUrl));
+    } else {
+      setImgAddList(imgAddList.filter(img => img.url !== deleteUrl));
+    }
   };
+
   console.log(isSaveEnabled);
 
   return (
@@ -230,7 +241,7 @@ const PostPage = () => {
           <SPostContent placeholder="게시글 입력하기..." ref={contentInput} onChange={writePost}></SPostContent>
         </SContentWrap>
       )}
-      {isCode && (
+      {isCode ? (
         <SCodeWrap>
           <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} />
           <SCode>
@@ -239,6 +250,18 @@ const PostPage = () => {
             </SyntaxHighlighter>
           </SCode>
         </SCodeWrap>
+      ) : (
+        isEdit &&
+        isCode && (
+          <SCodeWrap>
+            <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} value={code} />
+            <SCode>
+              <SyntaxHighlighter language="jsx" style={atomDark}>
+                {code}
+              </SyntaxHighlighter>
+            </SCode>
+          </SCodeWrap>
+        )
       )}
       {imgAddPreview()}
       <SUploadImgBtn onClick={handleClick}>
