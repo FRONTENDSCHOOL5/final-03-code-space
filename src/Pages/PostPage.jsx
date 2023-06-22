@@ -46,7 +46,7 @@ const PostPage = () => {
   console.log(isEdit);
 
   useEffect(() => {
-    if (!isEditCheckState) {
+    if (!isEditCheckState && isEdit) {
       navigate('/feeddetail', { state: { ...location.state, isEdit: false } });
     }
     if (isEdit) {
@@ -55,7 +55,7 @@ const PostPage = () => {
     }
   }, []);
   useEffect(() => {
-    console.log(isCode);
+    console.log(isEdit);
 
     if (selectedItem == '질문있어요!' || selectedItem == '자유게시판') {
       setIsCode(true);
