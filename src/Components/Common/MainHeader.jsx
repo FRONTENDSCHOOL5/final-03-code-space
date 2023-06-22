@@ -7,7 +7,7 @@ import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isConfigModal } from '../../Atom/atom';
-const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleUploadProduct }) => {
+const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleUploadProduct, handleSubmit }) => {
   const navigate = useNavigate();
   const setIsConfigModal = useSetRecoilState(isConfigModal);
   const inputRef = useRef(null);
@@ -52,6 +52,21 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleU
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
             <SBackIcon src={configIcon} alt="설정창" onClick={() => setIsConfigModal(true)}></SBackIcon>
+          </>
+        ) : type === 'set-profile' ? (
+          <>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <Button
+              type="submit"
+              padding="7px 0"
+              width="90px"
+              mainHeader={true}
+              onClick={() => {
+                handleSubmit();
+                navigate('/myprofile');
+              }}>
+              저장
+            </Button>
           </>
         ) : type === 'detail' ? (
           <>
