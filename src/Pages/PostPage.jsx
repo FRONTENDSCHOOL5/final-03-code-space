@@ -42,7 +42,7 @@ const PostPage = () => {
       setImgAddList(feedList.item.image);
     }
 
-    if (selectedItem == '질문있어요!') {
+    if (selectedItem == '질문있어요!' || selectedItem == '자유게시판') {
       setIsCode(true);
     }
     else {
@@ -58,6 +58,7 @@ const PostPage = () => {
     } else {
       setIsSaveEnabled(false);
     }
+
   }, [selectedItem, title, content,imgAddList]);
 
   // 카테고리 드롭다운
@@ -124,7 +125,7 @@ const PostPage = () => {
           url + 'post',
           {
             post: {
-              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"code:${code}`,
+              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"\\\"code:${code}\\\"`,
               image: image,
             },
           },
