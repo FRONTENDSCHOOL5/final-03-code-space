@@ -7,7 +7,7 @@ import ProductList from '../Components/Product/ProductList';
 import styled from 'styled-components';
 import CommonModal from '../Components/Common/CommonModal';
 import { useRecoilValue } from 'recoil';
-import { isModalAtom, setAccountName } from '../Atom/atom';
+import { configModalAtom, setAccountName } from '../Atom/atom';
 
 import ProfilePost from '../Components/Post/ProfilePost';
 
@@ -21,7 +21,7 @@ function MyProfile() {
   // const myUserData = MyProfileInfo();
   // const profile = profileData ? profileData : myUserData;
 
-  const isModalState = useRecoilValue(isModalAtom);
+  const ConfigModal = useRecoilValue(configModalAtom);
 
   return (
     <SLayout>
@@ -34,7 +34,7 @@ function MyProfile() {
       </SContainer>
       <ProfilePost accountName={profile ? profile.accountname : accountName} />
       <BottomNav />
-      {isModalState ? <CommonModal type="profile" /> : <></>}
+      {ConfigModal === 'post-config' ? <CommonModal type="profile" /> : <></>}
     </SLayout>
   );
 }

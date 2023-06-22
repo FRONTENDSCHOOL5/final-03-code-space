@@ -97,3 +97,7 @@ export const configPostIdAtom = atom({
   key: 'configPostIdAtom',
   default: '',
 });
+export const searchTabAtom = atom({
+  key: 'searchTabAtom',
+  default: true,
+});

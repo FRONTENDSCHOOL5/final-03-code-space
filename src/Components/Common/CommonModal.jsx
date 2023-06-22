@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   configModalAtom,
   setToken,
@@ -8,17 +8,38 @@ import {
   setAccountName,
   searchFeedList,
   setIsFollowed,
+  isEditCheck,
 } from '../../Atom/atom';
 import { useNavigate } from 'react-router-dom';
-const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComment, imgArr }) => {
+const CommonModal = ({
+  deleteFeed,
+  feedList,
+  isEdit,
+  setIsEdit,
+  type,
+  deleteComment,
+  imgArr,
+  title,
+  content,
+  code,
+  category,
+  commentId,
+  commentAccount,
+  language,
+}) => {
   const modalRef = useRef(null);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
-  const setconfigModalAtom = useSetRecoilState(configModalAtom);
+  const [isModalState, setconfigModalAtom] = useRecoilState(configModalAtom);
+  const [isEditCheckState, setEditCheckState] = useRecoilState(isEditCheck);
+
+  const accountName = useRecoilValue(setAccountName);
+
   const setTokenAtom = useSetRecoilState(setToken);
   const setIsLoginedAtom = useSetRecoilState(setIsLogined);
   const setAccountNameAtom = useSetRecoilState(setAccountName);
   const searchFeedListAtom = useSetRecoilState(searchFeedList);
   const setIsFollowedAtom = useSetRecoilState(setIsFollowed);
+
   const navigate = useNavigate();
 
   const handleClickOutside = event => {
@@ -33,7 +54,18 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComm
   console.log(feedList);
   useEffect(() => {
     if (type === 'post-config') {
+      console.log('isEdit=true');
       setIsEdit(true);
+      setEditCheckState(true);
+    }
+    if (type === 'comment-config') {
+      if (commentAccount === accountName) {
+        setconfigModalAtom('comment-config');
+      } else {
+        setconfigModalAtom('other-config');
+      }
+    } else {
+      return;
     }
   }, []);
 
@@ -50,35 +82,45 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComm
   };
 
   function goEdit() {
-    navigate('/post', { state: { isEdit, ...feedList, imgArr } });
+    navigate('/post', { state: { isEdit, ...feedList, imgArr, title, content, code, category, language } });
   }
+
   return (
     <SBackground onClick={handleClickOutside}>
-      <SModal ref={modalRef}>
+      <>
         {type === 'post-config' ? (
-          <SContents>
-            <div className="accent" onClick={() => setIsConfirmModal(true)}>
-              삭제
-            </div>
-            <div onClick={() => goEdit()}>수정</div>
-          </SContents>
+          <SModal ref={modalRef}>
+            <SContents>
+              <div className="accent" onClick={() => setIsConfirmModal(true)}>
+                삭제
+              </div>
+              <div onClick={() => goEdit()}>수정</div>
+            </SContents>
+          </SModal>
         ) : type === 'profile' ? (
-          <SContents>
-            <div>설정 및 개인정보</div>
-            <div onClick={() => setIsConfirmModal(true)} className="accent">
-              로그아웃
-            </div>
-          </SContents>
+          <SModal ref={modalRef}>
+            <SContents>
+              <div>설정 및 개인정보</div>
+              <div onClick={() => setIsConfirmModal(true)} className="accent">
+                로그아웃
+              </div>
+            </SContents>
+          </SModal>
         ) : type === 'comment-config' ? (
-          <SContents>
-            <div onClick={() => setIsConfirmModal(true)}>삭제</div>
-          </SContents>
+          <SSingleModal ref={modalRef}>
+            <SContents>
+              <div onClick={() => setIsConfirmModal(true)}>삭제</div>
+            </SContents>
+          </SSingleModal>
         ) : (
-          <SContents>
-            <div onClick={() => setIsConfirmModal(true)}>신고하기</div>
-          </SContents>
+          <SSingleModal ref={modalRef}>
+            <SContents>
+              <div onClick={() => setIsConfirmModal(true)}>신고하기</div>
+            </SContents>
+          </SSingleModal>
         )}
-      </SModal>
+      </>
+
       {isConfirmModal && (
         <SConfirmModalBackground>
           {type === 'post-config' ? (
@@ -123,8 +165,6 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComm
 export default CommonModal;
 
 const SConfirmModalBackground = styled.div`
-  /* width: inherit;
-  /* height: 100%; */
   background-color: rgba(85, 85, 85, 0.6);
   position: relative;
   width: inherit;
@@ -228,6 +268,10 @@ const modalfadeOut = keyframes`
   0% {  top: 100%;  }
   100% {  top: 80%;  }
 `;
+const singleModalfadeOut = keyframes`
+  0% {  top: 100%;  }
+  100% {  top: 90%;  }
+`;
 
 const SModal = styled.article`
   width: 100%;
@@ -240,6 +284,30 @@ const SModal = styled.article`
 
   transition: all 0.2s;
   animation: ${({ isLandingEnterState }) => (isLandingEnterState ? 'none' : modalfadeOut)} 0.1s ease-in;
+
+  ::before {
+    content: '';
+    width: 50px;
+    height: 4px;
+    background-color: var(--border-gray);
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    border-radius: 15px;
+    margin: 17px 0;
+  }
+`;
+const SSingleModal = styled.article`
+  width: 100%;
+  max-width: 390px;
+  height: 100%;
+  background-color: var(--black);
+  border-radius: 47px 47px 0 0;
+  position: fixed;
+  top: 87%;
+
+  transition: all 0.2s;
+  animation: ${singleModalfadeOut} 0.1s ease-in;
 
   ::before {
     content: '';
