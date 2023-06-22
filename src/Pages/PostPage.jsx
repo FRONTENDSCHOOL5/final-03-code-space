@@ -11,6 +11,7 @@ import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg';
 import delImg from '../assets/icons/del.svg';
 import axios from 'axios';
+import language from 'react-syntax-highlighter/dist/esm/languages/hljs/1c';
 
 const PostPage = () => {
   const url = 'https://api.mandarin.weniv.co.kr/';
@@ -25,12 +26,16 @@ const PostPage = () => {
   const isEdit = location.state?.isEdit;
   const feedList = location.state?.feedList;
   const imgArr = location.state?.imgArr;
+  const category = ['스터디 모집', '질문있어요!', '자유게시판'];
+  const codeLanguages = ['html', 'css', 'javascript', 'jsx', 'python', 'java', 'c', ];
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState('');
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
   const [isCode, setIsCode] = useState(false);
+  const [language, setLanguage] = useState('');
   const setIsEditCheck = useSetRecoilState(isEditCheck);
+  const [isOpenLanguageDropdown, setIsOpenLanguageDropdown] = useState(false);
 
   const [title, setTitle] = useState(isEdit ? feedList.title : '');
   const [content, setContent] = useState(isEdit ? feedList.content : '');
@@ -68,6 +73,16 @@ const PostPage = () => {
     setIsOpen(false);
   };
 
+  // 코드 언어 드롭다운
+  const toggleLanguageDropdown = () => {
+    setIsOpenLanguageDropdown(!isOpenLanguageDropdown);
+  };
+
+  const handleLanguageItemClick = language => {
+    setLanguage(language);
+    setIsOpenLanguageDropdown(false);
+  };
+
   // 제목
   function writeTitle(e) {
     setTitle(e.target.value);
@@ -85,13 +100,8 @@ const PostPage = () => {
 
   // 카테고리, 제목, 게시글 보내기
   const handleUploadPost = async e => {
-    // 이미지 넣지 않았을 떄
-    let image = ''; // 이미지 변수 초기화
 
-    // 이미지 3장 이내로 넣었을 때
-    const imgUrls = imgAddList.map(img => img.url);
-    image = imgUrls.join(',');
-
+    
     const config = {
       headers: { Authorization: 'Bearer ' + isToken, 'Content-type': 'application/json' },
     };
@@ -103,7 +113,7 @@ const PostPage = () => {
           url + `post/${feedList.item.id}`,
           {
             post: {
-              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"code:${code}`,
+              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"\\\"code:${code}\\\"\\\"language:${language}\\\"`,
               image: image,
             },
           },
@@ -127,7 +137,7 @@ const PostPage = () => {
           url + 'post',
           {
             post: {
-              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"\\\"code:${code}\\\"`,
+              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"\\\"code:${code}\\\"\\\"language:${language}\\\"`,
               image: image,
             },
           },
@@ -211,9 +221,11 @@ const PostPage = () => {
         <DropdownWrapper>
           <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '카테고리'}</DropdownButton>
           <DropdownContent isOpen={isOpen}>
-            <DropdownItem onClick={() => handleItemClick('질문있어요!')}>질문있어요!</DropdownItem>
-            <DropdownItem onClick={() => handleItemClick('스터디 모집')}>스터디 모집</DropdownItem>
-            <DropdownItem onClick={() => handleItemClick('자유게시판')}>자유게시판</DropdownItem>
+            {category.map(item => (
+                  <DropdownItem key={item} onClick={() => handleItemClick(item)}>
+                    {item}
+                  </DropdownItem>
+            ))}
           </DropdownContent>
         </DropdownWrapper>
         {isEdit ? (
@@ -237,11 +249,21 @@ const PostPage = () => {
       )}
       {isCode && (
         <SCodeWrap>
+          <DropdownWrapper>
+            <DropdownButton onClick={toggleLanguageDropdown}>{language ? language : '코드 언어'}</DropdownButton>
+            <DropdownContent isOpen={isOpenLanguageDropdown}>
+              {codeLanguages.map(language => (
+                <DropdownItem key={language} onClick={() => handleLanguageItemClick(language)}>
+                  {language}
+                </DropdownItem>
+              ))}
+            </DropdownContent>
+          </DropdownWrapper>
           <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} />
           <SCode>
-            <SyntaxHighlighter language="jsx" style={atomDark}>
+            <SSyntaxHighlighter language={language} style={atomDark}>
               {code}
-            </SyntaxHighlighter>
+            </SSyntaxHighlighter>
           </SCode>
         </SCodeWrap>
       )}
@@ -347,6 +369,23 @@ const SCodeWrap = styled.div``;
 
 const SCode = styled.div`
   margin: 0 20px;
+`;
+
+const SSyntaxHighlighter = styled(SyntaxHighlighter)`
+  &::-webkit-scrollbar {
+    border-radius: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    height: 10px;
+    background: var(--darkgray);
+    background-clip: padding-box;
+    border: 5px solid transparent;
+    border-radius: 20px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: none;
+    height: 100px;
+  }
 `;
 
 const SUploadImgBtn = styled.div`
