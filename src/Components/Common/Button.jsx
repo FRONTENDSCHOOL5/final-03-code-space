@@ -26,7 +26,7 @@ const SButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    transition: all 0.3s;
+    transition: all 0.3s ease-out;
     background-color: var(--secondary-color);
   }
 
@@ -34,6 +34,7 @@ const SButton = styled.button`
   ${props => props.myProfileBtn && transparentStyle}
   ${props => props.followBtn && transparentStyle}
   ${props => props.isFollowing && followStyle}
+  ${props => props.mainHeader && headerBtnStyle}
 `;
 
 const transparentStyle = css`
@@ -53,4 +54,11 @@ const followStyle = css`
   background-color: var(--point-color);
   color: var(--white);
   box-shadow: none;
+`;
+
+const headerBtnStyle = css`
+  background-color: var(--secondary-color);
+  &:hover {
+    background-color: var(--point-color);
+  }
 `;
