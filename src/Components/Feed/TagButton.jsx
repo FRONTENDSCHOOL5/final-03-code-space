@@ -15,10 +15,16 @@ const STagButton = styled.div`
   border: 1px solid var(--darkgray);
   padding: 5px 8px;
   font-size: 12px;
-  color: var(--lightgray);
+  color: var(--gray);
+  white-space: nowrap;
+
   cursor: pointer;
   &.active {
     color: var(--white);
     background-color: var(--point-color);
+    border: 1px solid var(--point-color);
+  }
+  &:hover {
+    scale: 1.05;
   }
 `;

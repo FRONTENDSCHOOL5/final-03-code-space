@@ -19,7 +19,7 @@ const SInputForm = styled.div`
   margin: 16px 34px;
   font-size: 12px;
   label {
-    color: var(--lightgray);
+    color: var(--gray);
   }
 `;
 

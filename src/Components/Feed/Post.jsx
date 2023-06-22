@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,6 @@ import { extractString } from './extractString';
 import {
   SFeedCard,
   STitle,
-  SContent,
   SUserName,
   SAccountname,
   SAuthor,
@@ -22,41 +21,118 @@ import {
 
 import iconHeart from '../../assets/icons/heart.svg';
 import iconComment from '../../assets/icons/chat-green.svg';
-import profileImg from '../../assets/default-profile-image.svg';
-const APIDefaultImage = 'http://146.56.183.55:5050/Ellipse.png';
+import { profileImg, APIDefaultImage } from './COMMON';
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
+import { categoryTag, searchFeedList, isEditCheck, isInitialLoadAtom, scrollPositionAtom } from '../../Atom/atom';
+import Skeleton from '../Common/Skeleton';
+import WithSkeleton from '../Common/Skeleton';
 
-const Post = ({ isFetchData, FeedList }) => {
+const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
+  const setFeedListState = useSetRecoilState(searchFeedList);
+  const feedListState = useRecoilValue(searchFeedList);
   const navigate = useNavigate();
-  function goFeedDetail(item, extracted, remaining) {
-    navigate('/feeddetail', { state: { item, extracted, remaining } });
+  const tagState = useRecoilValue(categoryTag);
+  const [scrollPosition, setScrollPosition] = useRecoilState(scrollPositionAtom);
+  const [isInitialLoad, setIsInitialLoad] = useRecoilState(isInitialLoadAtom);
+
+  function goFeedDetail(item, title, content, category) {
+    navigate('/feeddetail', { state: { feedList: { item, title, content, category } } });
   }
-  function goProfile(item) {
+  function goProfile(event, item) {
+    event.stopPropagation();
     navigate('/myprofile', { state: item });
   }
 
+  useEffect(() => {
+    if (isFetchData) {
+      // 초기 로딩 시 스크롤 위치 복원
+      console.log('ddd');
+      window.scrollTo(0, scrollPosition);
+      setIsInitialLoad(true);
+    }
+  }, [isFetchData]);
+
+  useEffect(() => {
+    // 스크롤 위치 업데이트 시 상태 변수에 저장
+    const handleScroll = () => {
+      setScrollPosition(window.pageYOffset);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    setFeedFunction();
+  }, [allFeed]); // isFetchData 상태도 감시
+
+  const setFeedFunction = () => {
+    const updatedFeedList = allFeed.map(item => {
+      let title;
+      let contents;
+      const extractedData = extractString(item.content, 'title');
+      if (extractedData === null) {
+        return item;
+      }
+      const { extracted, remaining } = extractedData;
+
+      const categoryData = extractString(remaining, 'category');
+      if (categoryData === null) {
+        return item;
+      }
+      title = extracted;
+      contents = categoryData.remaining;
+
+      return {
+        ...item,
+        title,
+        contents,
+      };
+    });
+
+    setFeedListState(updatedFeedList);
+  };
   return (
     <>
       {isFetchData === false ? (
-        <div>로딩중....</div>
+        <Skeleton isLoading={isFetchData} />
       ) : (
         <div>
-          {FeedList.map(item => {
+          {(tagState === '전체' ? FeedList : tagState === '팔로잉' ? followingFeed : allFeed).map(item => {
+            let title;
+            let content;
             const extractedData = extractString(item.content, 'title');
-            console.log(extractedData);
             if (extractedData === null) {
-              return null; // 추출된 값이 없는 경우 해당 항목을 건너뜁니다.
+              return null;
             }
             const { extracted, remaining } = extractedData;
+
+            const categoryData = extractString(remaining, 'category');
+            if (categoryData === null) {
+              return null;
+            }
+            const category = categoryData.extracted;
+
+            if (tagState !== '팔로잉') {
+              if (tagState !== '전체' && tagState !== category) {
+                return null;
+              }
+            }
+
+            title = extracted;
+            content = categoryData.remaining;
             return (
-              <SFeedCard key={item.id}>
+              <SFeedCard key={item.id} onClick={() => goFeedDetail(item, title, content, category)}>
                 <SAuthor>
                   {item.author.image === APIDefaultImage ? (
-                    <SProfileImg src={profileImg} alt="프사" onClick={() => goProfile(item.author)} />
+                    <SProfileImg src={profileImg} alt="프사" onClick={event => goProfile(event, item.author)} />
                   ) : (
-                    <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
+                    <SProfileImg src={item.author.image} alt="프사" onClick={event => goProfile(event, item.author)} />
                   )}
-                  <STitleContainer onClick={() => goFeedDetail(item, extracted, remaining)}>
-                    <STitle>{extracted}</STitle>
+                  <STitleContainer>
+                    <STitle>{title}</STitle>
                     <SAuthorInfo>
                       <SUserName>{item.author.username}</SUserName>
                       <SAccountname>@{item.author.accountname}</SAccountname>
@@ -64,20 +140,19 @@ const Post = ({ isFetchData, FeedList }) => {
                   </STitleContainer>
                 </SAuthor>
                 <div>
-                  <SMainContent onClick={() => goFeedDetail(item, extracted, remaining)}>{remaining}</SMainContent>
+                  <SMainContent>{content}</SMainContent>
                 </div>
                 <SReactionContainer>
-                  <SReactionContent onClick={() => goFeedDetail(item, extracted, remaining)}>
+                  <SReactionContent>
                     <SReactionCount>
                       <SHeartImg src={iconHeart} alt="하트" />
-                      {item.heartCount}
+                      <div>{item.heartCount}</div>
                     </SReactionCount>
                     <SReactionCount>
                       <SHeartImg src={iconComment} alt="댓글" />
-                      {item.comments.length}
+                      <div>{item.comments.length}</div>
                     </SReactionCount>
                   </SReactionContent>
-
                   <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>
                 </SReactionContainer>
               </SFeedCard>

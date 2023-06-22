@@ -1,17 +1,42 @@
-import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Button from './Button';
-import { useSetRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
 import { isLandingEnter } from '../../Atom/atom';
+import { Link } from 'react-router-dom';
+import kakaoIcon from '../../assets/icons/kakao.svg';
+import googleIcon from '../../assets/icons/google.svg';
+import naverIcon from '../../assets/icons/naver.svg';
 
-const Modal = ({ title, loginSubmit, userEmail, userPassword, inputHandler, showErrorMessage }) => {
+const Modal = ({
+  title,
+  LoginSubmit,
+  ValidSubmit,
+  userEmail,
+  userPassword,
+  inputHandler,
+  LoginError,
+  isPasswordValid,
+  successRes,
+}) => {
   const isFormValid = userEmail !== '' && userPassword !== '';
   const isLandingEnteState = useRecoilValue(isLandingEnter);
 
-  const handleLoginSubmit = e => {
+  const LoginErrorMessage = title === '로그인' && LoginError ? '*이메일 또는 비밀번호가 일치하지 않습니다.' : '';
+
+  const PwMessage =
+    title === '이메일로 회원가입' && isPasswordValid && userPassword.length >= 6
+      ? null
+      : '*비밀번호는 6자리 이상이어야 합니다.';
+
+  const handleSubmit = e => {
     e.preventDefault();
-    loginSubmit(e);
+    if (title === '이메일로 회원가입') {
+      console.log('이메일 검증 submit 실행');
+      ValidSubmit(e);
+    } else {
+      console.log('로그인 submit 실행');
+      LoginSubmit(e);
+    }
   };
 
   return (
@@ -19,16 +44,28 @@ const Modal = ({ title, loginSubmit, userEmail, userPassword, inputHandler, show
       {!isLandingEnteState ? (
         <SModal>
           <SModalTitle>{title}</SModalTitle>
-          <SForm onSubmit={handleLoginSubmit}>
+          <SForm onSubmit={handleSubmit}>
             <SFormWrap className="EmailForm">
               <label htmlFor="user-email">이메일</label>
-              <SInput
-                type="email"
-                placeholder={title === '이메일로 회원가입' ? '이메일 주소를 입력해주세요' : ''}
-                id="user-email"
-                value={userEmail}
-                onChange={inputHandler}
-              />
+              {title === '이메일로 회원가입' ? (
+                <SInput
+                  type="email"
+                  placeholder={'이메일 주소를 입력해주세요'}
+                  id="user-email"
+                  value={userEmail}
+                  onChange={inputHandler}
+                  onBlur={() => ValidSubmit(userEmail)}
+                />
+              ) : (
+                <SInput type="email" id="user-email" value={userEmail} onChange={inputHandler} />
+              )}
+              {successRes === '이미 가입된 이메일 주소 입니다.' ? (
+                <SErrorMessage>{successRes}</SErrorMessage>
+              ) : successRes === '사용 가능한 이메일 입니다.' ? (
+                <SSucessMessage>{successRes}</SSucessMessage>
+              ) : successRes === '잘못된 이메일 형식입니다.' ? (
+                <SErrorMessage>{successRes}</SErrorMessage>
+              ) : null}
             </SFormWrap>
 
             <SFormWrap className="PwForm">
@@ -39,15 +76,59 @@ const Modal = ({ title, loginSubmit, userEmail, userPassword, inputHandler, show
                 placeholder={title === '이메일로 회원가입' ? '비밀번호를 설정해주세요' : ''}
                 value={userPassword}
                 onChange={inputHandler}
+                disabled={successRes === '이미 가입된 이메일 주소 입니다.'}
               />
-              {showErrorMessage && <SErrorMessage>*이메일 또는 비밀번호가 일치하지 않습니다.</SErrorMessage>}
+              {LoginError && <SErrorMessage>{LoginErrorMessage}</SErrorMessage>}
+
+              {!isPasswordValid && userPassword.length < 6 && successRes !== '이미 가입된 이메일 주소 입니다.' ? (
+                <SErrorMessage>{PwMessage}</SErrorMessage>
+              ) : null}
             </SFormWrap>
+
             <SBtnBox>
-              <Button type="submit" disabled={!isFormValid}>
-                로그인
+              <Button type="submit" disabled={!isFormValid || userPassword.length < 6}>
+                {title === '이메일로 회원가입' ? '다음' : '로그인'}
               </Button>
             </SBtnBox>
           </SForm>
+
+          <SSnsBtnBox>
+            {title === '이메일로 회원가입' ? (
+              <>
+                <Button className="kakao" type="button">
+                  <img src={kakaoIcon} alt="Kakao Icon" />
+                  <span>카카오아이디로 가입</span>
+                </Button>
+                <Button className="naver" type="button">
+                  <img src={naverIcon} alt="naver Icon" /> 네이버 아이디로 가입
+                </Button>
+                <Button className="google" type="button">
+                  <img src={googleIcon} alt="google Icon" />
+                  <span>구글 아이디로 가입</span>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button className="kakao" type="button">
+                  <img src={kakaoIcon} alt="Kakao Icon" />
+                  <span>카카오로 로그인</span>
+                </Button>
+                <Button className="naver" type="button">
+                  <img src={naverIcon} alt="naver Icon" />
+                  네이버로 로그인
+                </Button>
+                <Button className="google" type="button">
+                  <img src={googleIcon} alt="google Icon" />
+                  <span>구글로 로그인</span>
+                </Button>
+              </>
+            )}
+          </SSnsBtnBox>
+          {title === '로그인' && (
+            <SLink>
+              <Link to="/signup">이메일로 회원가입</Link>
+            </SLink>
+          )}
         </SModal>
       ) : (
         <></>
@@ -55,25 +136,24 @@ const Modal = ({ title, loginSubmit, userEmail, userPassword, inputHandler, show
     </>
   );
 };
-
 export default Modal;
 
 const modalfadeOut = keyframes`
   0% {  top: 100%;  }
-  100% {  top: 40%;  }
+  100% {  top: 26%;  }
 `;
 
 const SModal = styled.article`
   width: 100%;
   max-width: 390px;
   height: 100%;
-  background-color: var(--modal-gray);
+  background-color: var(--modal-darkgray);
   border-radius: 47px 47px 0 0;
   position: fixed;
-  top: 40%;
-
+  top: 26%;
+  box-shadow: 0px -40px 15px -15px rgb(0, 0, 0, 0.7);
   /* transition: all 2s; */
-  animation: ${({ isLandingEnterState }) => (isLandingEnterState ? 'none' : modalfadeOut)} 1.4s ease-in;
+  animation: ${({ isLandingEnterState }) => (isLandingEnterState ? 'none' : modalfadeOut)} 1.3s ease-in;
 
   ::before {
     content: '';
@@ -89,33 +169,36 @@ const SModal = styled.article`
 `;
 
 const SModalTitle = styled.h1`
-  color: var(--black);
+  color: var(--white);
   text-align: center;
-  margin-top: 45px;
+  margin: 45px 0 35px;
   font-size: 24px;
 `;
 
 const SForm = styled.form`
-  padding: 15px 50px;
+  padding: 0 50px;
+  margin-bottom: 10px;
 `;
 
 const SFormWrap = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
+  margin-bottom: 22px;
 
   label {
     font-size: 12px;
-    color: #767676;
+    color: var(--white);
   }
 `;
+
 const SInput = styled.input`
-  background-color: var(--modal-gray);
+  background-color: var(--modal-darkgray);
+
   border: none;
   outline: none;
   border-bottom: 1px solid var(--gray);
   padding: 15px 0;
-  color: var(--black);
+  color: var(--white);
   font-size: 14px;
   &:focus {
     transition: all 0.5s;
@@ -123,6 +206,20 @@ const SInput = styled.input`
   }
   &::placeholder {
     color: var(--gray);
+  }
+
+  &.disabled {
+    background-color: var(--disabled-gray);
+    color: var(--disabled-text);
+  }
+
+  /* input 자동입력시 webkit 기반 브라우저 설정 */
+
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px var(--modal-darkgray) inset; /* input 박스 컬러 설정 */
+    -webkit-text-fill-color: var(--white); /* input 텍스트 컬러 설정 */
+    caret-color: var(--white); /* 텍스트 cursor 컬러 설정 */
+    transition: background-color 5000s ease-in-out 0s;
   }
 `;
 
@@ -132,10 +229,94 @@ const SErrorMessage = styled.p`
   margin-top: 5px;
 `;
 
-const SBtnBox = styled.div`
-  margin: 16px 32px;
+const SSucessMessage = styled.p`
+  color: var(--point-color);
+  font-size: 12px;
+  margin-top: 5px;
+`;
 
+const SBtnBox = styled.div`
   button:disabled {
     background-color: var(--secondary-color);
+  }
+
+  @media (min-height: 780px) {
+    button {
+      margin: 10px 0;
+    }
+  }
+
+  @media (min-height: 840px) {
+    button {
+      margin: 20px 0;
+    }
+  }
+
+  @media (min-height: 930px) {
+    button {
+      margin: 20px 0;
+    }
+  }
+`;
+
+const SLink = styled.div`
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+
+  a {
+    color: #767676;
+  }
+`;
+
+const SSnsBtnBox = styled.div`
+  padding: 0 50px;
+
+  & > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  button[type='button'] {
+    background-color: transparent;
+    color: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+
+    img {
+      margin-right: 15px;
+    }
+  }
+
+  .kakao {
+    border: 1px solid #f2c94c;
+  }
+
+  .naver {
+    border: 1px solid var(--point-color);
+  }
+
+  .google {
+    border: 1px solid var(--border-gray);
+    padding-right: 17px;
+  }
+
+  @media (min-height: 780px) {
+    button[type='button'] {
+      margin-bottom: 20px;
+    }
+  }
+
+  @media (min-height: 840px) {
+    button[type='button'] {
+      margin-bottom: 30px;
+    }
+  }
+
+  @media (min-height: 930px) {
+    button[type='button'] {
+      margin-bottom: 30px;
+    }
   }
 `;

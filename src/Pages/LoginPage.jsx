@@ -4,21 +4,25 @@ import axios from 'axios';
 import Modal from '../Components/Common/Modal';
 
 import { useSetRecoilState } from 'recoil';
-import { useRecoilValue } from 'recoil';
-
 import { setToken } from '../Atom/atom';
+import { setAccountName, loginUserImageAtom } from '../Atom/atom';
+import { isModalAtom } from '../Atom/atom';
+import { useRecoilState } from 'recoil';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [isModal, setIsModal] = useRecoilState(isModalAtom);
 
   const setTokenAtom = useSetRecoilState(setToken);
-  const isToken = useRecoilValue(setToken);
+  const setAccountNameAtom = useSetRecoilState(setAccountName);
+  const setLoginUserImage = useSetRecoilState(loginUserImageAtom);
 
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [LoginError, setLoginError] = useState(false);
 
-  const inputHandler = (e) => {
+  const inputHandler = e => {
     if (e.target.type === 'email') {
       setUserEmail(e.target.value);
     } else if (e.target.type === 'password') {
@@ -26,7 +30,7 @@ const LoginPage = () => {
     }
   };
 
-  async function loginSubmit(e) {
+  async function LoginSubmit(e) {
     e.preventDefault();
     const url = 'https://api.mandarin.weniv.co.kr';
 
@@ -48,9 +52,12 @@ const LoginPage = () => {
       const userData = response.data.user;
       console.log(userData.token);
       setTokenAtom(userData.token);
-      navigate('/feed'); // 로그인 성공 시 main 피드로 이동
+      setAccountNameAtom(userData.accountname);
+      setLoginUserImage(userData.image);
+      navigate('/feed');
+      setIsModal(false);
     } catch (error) {
-      setShowErrorMessage(true);
+      setLoginError(true);
       console.error(error);
     }
   }
@@ -58,11 +65,12 @@ const LoginPage = () => {
   return (
     <Modal
       title="로그인"
-      loginSubmit={loginSubmit}
+      LoginSubmit={LoginSubmit}
       userEmail={userEmail}
       userPassword={userPassword}
       inputHandler={inputHandler}
-      showErrorMessage={showErrorMessage}
+      isPasswordValid={isPasswordValid}
+      LoginError={LoginError}
     />
   );
 };

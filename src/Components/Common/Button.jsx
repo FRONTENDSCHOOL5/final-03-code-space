@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export default function Button(props) {
   const { type } = props;
@@ -24,8 +24,24 @@ const SButton = styled.button`
   border-radius: ${props => props.borderRadius || '44px'};
   box-sizing: border-box;
   cursor: pointer;
+
   &:hover {
     transition: all 0.3s;
+    background-color: var(--secondary-color);
+  }
+
+  ${props => props.subscribed && transparentStyle}
+  ${props => props.myProfileBtn && transparentStyle}
+`;
+
+const transparentStyle = css`
+  background-color: transparent;
+  color: #cacaca;
+  box-shadow: 0px 0px 0px 1px var(--border-gray);
+
+  &:hover {
+    transition: all 0.2.5s ease-in-out;
+    color: var(--point-color);
     background-color: var(--secondary-color);
   }
 `;

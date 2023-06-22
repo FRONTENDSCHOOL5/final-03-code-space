@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg';
 import ProfileImg from '../assets/img/profile-img.svg';
+import { motion } from 'framer-motion';
 
 const MessagePage = () => {
   const imgInput = useRef();

@@ -9,6 +9,34 @@ export const setToken = atom({
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
+export const searchFeedList = atom({
+  key: 'FeedList',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const setAccountName = atom({
+  key: 'accountName',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
+export let setIsFollowed = atom({
+  key: 'isFollowed',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+export const scrollPositionAtom = atom({
+  key: 'scrollPositionAtom',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const loginUserImageAtom = atom({
+  key: 'loginUserImageAtom',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
 
 export const headerToggle = atom({
   key: 'headerToggle',
@@ -21,4 +49,45 @@ export const bottomNavIndex = atom({
 export const isLandingEnter = atom({
   key: 'isLandingEnter',
   default: true,
+});
+export const isfeedFetchToggle = atom({
+  key: 'isfeedFetchToggle',
+  default: false,
+});
+export const categoryTag = atom({
+  key: 'categoryTag',
+  default: '전체',
+});
+export const categoryTagIndex = atom({
+  key: 'categoryTagState',
+  default: 0,
+});
+export const configModalAtom = atom({
+  key: 'configModalAtom',
+  default: '',
+});
+export const isEditCheck = atom({
+  key: 'isEditCheck',
+  default: false,
+});
+export const searchQuery = atom({
+  key: 'searchQuery',
+  default: '',
+});
+export const isModalAtom = atom({
+  key: 'isModalAtom',
+  default: false,
+});
+
+export const isInitialLoadAtom = atom({
+  key: 'isInitialLoadAtom',
+  default: true,
+});
+export const searchUserListAtom = atom({
+  key: 'searchUserList',
+  default: [],
+});
+export const configPostIdAtom = atom({
+  key: 'configPostIdAtom',
+  default: '',
 });
