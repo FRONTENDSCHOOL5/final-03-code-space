@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { configModalAtom, setToken, setAccountName } from '../../Atom/atom';
 import { useNavigate } from 'react-router-dom';
 const CommonModal = ({
@@ -20,7 +20,8 @@ const CommonModal = ({
 }) => {
   const modalRef = useRef(null);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
-  const setconfigModalAtom = useSetRecoilState(configModalAtom);
+  const [isModalState, setconfigModalAtom] = useRecoilState(configModalAtom);
+
   const accountName = useRecoilValue(setAccountName);
 
   const navigate = useNavigate();
@@ -38,12 +39,14 @@ const CommonModal = ({
     if (type === 'post-config') {
       setIsEdit(true);
     }
-    console.log(commentId);
-    console.log(accountName);
-    if (commentAccount === accountName) {
-      setconfigModalAtom('comment-config');
+    if (type === 'comment-config') {
+      if (commentAccount === accountName) {
+        setconfigModalAtom('comment-config');
+      } else {
+        setconfigModalAtom('other-config');
+      }
     } else {
-      setconfigModalAtom('other-config');
+      return;
     }
   }, []);
 

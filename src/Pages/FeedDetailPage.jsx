@@ -26,7 +26,7 @@ import {
 } from '../Styles/FeedStyle/PostStyle';
 import WriteComment from '../Components/Feed/WriteComment';
 import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { setToken, configModalAtom, isEditCheck, setAccountName } from '../Atom/atom';
 import CommonModal from '../Components/Common/CommonModal';
 import useFetchComment from '../Hooks/useFetchComment';
@@ -60,8 +60,7 @@ const FeedDetailPage = () => {
   const [commentAccount, setCommentAccount] = useState('');
   // const [commentAdmin, setCommentAdmin] = useState(false);
 
-  const isModalState = useRecoilValue(configModalAtom);
-  const setconfigModalAtom = useSetRecoilState(configModalAtom);
+  const [isModalState, setconfigModalAtom] = useRecoilState(configModalAtom);
 
   const isEditCheckState = useRecoilValue(isEditCheck);
   const accountName = useRecoilValue(setAccountName);
@@ -110,7 +109,6 @@ const FeedDetailPage = () => {
       setOtherAdmin(false);
     }
   }, []);
-  console.log(imgArr);
   useEffect(() => {
     if (!isEditCheckState) {
       return;
@@ -141,6 +139,7 @@ const FeedDetailPage = () => {
     setCode(codeData.extracted);
     setCategory(categoryData.extracted);
   };
+  console.log(isModalState);
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       {location.state.feedList.isSearch ? <MainHeader type="search-detail" /> : <MainHeader type="detail" />}

@@ -123,7 +123,7 @@ const SPostImage = styled.img`
   border-radius: 20px;
 `;
 const SCodeEditor = styled.div`
-  font-size: 10px;
+  font-size: 11px;
 `;
 export {
   SFeedCard,
