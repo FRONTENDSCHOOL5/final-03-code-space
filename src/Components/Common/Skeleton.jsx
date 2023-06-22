@@ -19,13 +19,16 @@ const Skeleton = () => {
     </SSkeletonLayout>
   );
 };
-const WithSkeleton = props => {
+const WithSkeleton = ({ isLoading, type }) => {
   return (
     <div>
-      {!props.isLoading &&
+      {!isLoading && type === 'detail' ? (
+        <Skeleton />
+      ) : (
         new Array(10).fill(1).map((_, i) => {
           return <Skeleton key={i} />;
-        })}
+        })
+      )}
     </div>
   );
 };

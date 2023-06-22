@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { isfeedFetchToggle, setToken } from '../Atom/atom';
 import { MainAccountToken, BASEURL } from '../Components/Feed/COMMON';
 
-const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, commentId }) => {
+const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, commentId, setIsFeedFetchData }) => {
   const UserToken = useRecoilValue(setToken);
 
   const POST_instance = axios.create({
@@ -59,19 +59,35 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, co
       const response = await POST_instance.get(CommentPOST);
       setCommentList(response.data.comments.reverse());
       setIsFetchData(true);
+      console.log(response.data.comments);
     } catch (error) {
       console.error(error);
     }
   }
 
-  async function getFeed(setReactionCount) {
+  async function getFeed({ setReactionCount, type }) {
     const FeedGET = `post/${postID}/?limit=2`;
-
-    try {
-      const response = await POST_instance.get(FeedGET);
-      setReactionCount(response.data);
-    } catch (error) {
-      console.error(error);
+    console.log(type);
+    console.log('겟피드!!!!!!!!');
+    if (type === 'init') {
+      try {
+        const response = await POST_instance.get(FeedGET);
+        // setReactionCount(response.data);
+        console.log(response.data.post);
+        setIsFeedFetchData(true);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const response = await POST_instance.get(FeedGET);
+        setReactionCount(response.data);
+        console.log(response.data.post);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
@@ -90,12 +106,12 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, co
     try {
       if (!hearted) {
         const response = await POST_instance.post(POST_URL);
-        getFeed(setReactionCount);
+        getFeed({ setReactionCount });
         console.log(response.data);
       } else {
         console.log('delete!!');
         const response = await POST_instance.delete(POST_URL);
-        getFeed(setReactionCount);
+        getFeed({ setReactionCount });
 
         console.log(response.data);
       }

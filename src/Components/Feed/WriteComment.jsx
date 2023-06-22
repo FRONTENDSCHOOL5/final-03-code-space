@@ -9,16 +9,12 @@ import useFetchComment from '../../Hooks/useFetchComment';
 const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetchData, setReactionCount }) => {
   const [inputComment, setInputComment] = useState('');
   const isToken = useRecoilValue(setToken);
-  const refreshFeedState = useRecoilValue(isfeedFetchToggle);
-  const refreshFeed = useSetRecoilState(isfeedFetchToggle);
   const LoginUserImage = useRecoilValue(loginUserImageAtom);
 
   const { getFeed } = useFetchComment({
     postID: feedList.id,
   });
-  useEffect(() => {
-    getFeed(setReactionCount); // 컴포넌트가 마운트될 때 FetchDetailFeed 실행
-  }, [isFetchData]);
+
   const handleAddComment = async () => {
     const URL = 'https://api.mandarin.weniv.co.kr/';
     const CommentPOST = `post/${feedList.id}/comments`;
@@ -43,8 +39,9 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
       // 댓글 작성 후, 새로운 댓글을 commentList에 추가하고 isFetchData를 true로 설정하여 댓글 목록을 다시 불러옴
       setCommentList(prevCommentList => [...prevCommentList, response.data.comment]);
       setIsFetchData(true);
-      refreshFeed(!refreshFeedState);
-      getFeed(setReactionCount); // 컴포넌트가 마운트될 때 FetchDetailFeed 실행
+      console.log('댓글쓰기2');
+
+      getFeed({ setReactionCount }); // 컴포넌트가 마운트될 때 FetchDetailFeed 실행
 
       // 입력 필드 초기화
       setInputComment('');
