@@ -59,10 +59,12 @@ const SAuthor = styled.div`
 `;
 const SProfileImg = styled.img`
   max-width: 46px;
-  max-height: 46px;
+  min-height: 46px;
   width: 100%;
   height: 100%;
   border: none;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 const STitleContainer = styled.div`
   display: flex;
