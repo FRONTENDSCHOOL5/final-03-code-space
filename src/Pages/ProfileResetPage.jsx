@@ -4,6 +4,7 @@ import Profile from '../Components/Common/Profile';
 import MainHeader from '../Components/Common/MainHeader';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { setToken, setAccountName } from '../Atom/atom';
+import styled from 'styled-components';
 
 const ProfileSetPage = ({ userEmail, userPassword }) => {
   const [isFormValid, setIsFormValid] = useState(false);
@@ -51,9 +52,15 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
   return (
     <>
       <MainHeader type={'set-profile'} handleSubmit={handleSubmit} />
-      <Profile onFormValidityChange={handleFormValidity} userInfo={userInfo} setUserInfoValue={setUserInfoValue} />
+      <ProfileWrapper>
+        <Profile onFormValidityChange={handleFormValidity} userInfo={userInfo} setUserInfoValue={setUserInfoValue} />
+      </ProfileWrapper>
     </>
   );
 };
 
 export default ProfileSetPage;
+
+const ProfileWrapper = styled.div`
+  padding-top: 30px;
+`;
