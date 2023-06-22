@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { extractString } from '../Feed/extractString';
+import { extractImageLinks } from '../Feed/extractImage';
 import {
   SFeedCard,
   STitle,
@@ -18,7 +19,9 @@ import {
 } from '../../Styles/FeedStyle/PostStyle';
 import styled from 'styled-components';
 
+import logoImg from '../../assets/img/icon-logo.svg';
 import iconHeart from '../../assets/icons/heart.svg';
+import iconMore from '../../assets/icons/more-img.svg';
 import iconComment from '../../assets/icons/chat-green.svg';
 import { useRecoilValue } from 'recoil';
 import { categoryTag } from '../../Atom/atom';
@@ -28,8 +31,6 @@ const Post = ({ postData, isGrid }) => {
   const tagState = useRecoilValue(categoryTag);
   const URL = 'https://api.mandarin.weniv.co.kr/';
 
-  // const [img, setImg] = useState('');
-
   function goFeedDetail(item, title, content, category) {
     navigate('/feeddetail', { state: { feedList: { item, title, content, category } } });
   }
@@ -37,11 +38,8 @@ const Post = ({ postData, isGrid }) => {
     navigate('/myprofile', { state: item });
   }
 
-  // useEffect(() => {
-  //   console.log(postData);
-  //   setImg(URL + postData.post[0]?.image);
-  // }, [postData]);
-  // console.log(img, postData);
+  console.log(postData);
+  console.log(postData.post);
 
   return (
     <>
@@ -67,15 +65,18 @@ const Post = ({ postData, isGrid }) => {
             title = extracted;
             content = categoryData.remaining;
 
-            // const contentImgs = item.image.split(',');
-            console.log(item.image);
+            // 이미지 여러장 배열로 변환
+            const contentImgArr = extractImageLinks(item.image);
+            console.log(contentImgArr);
+
             return (
               <>
                 {isGrid ? (
-                  <SContentContainer key={item.id} onClick={() => goFeedDetail(item, title, content, category)}>
-                    {/* TODO: 게시물 저장시 이미지에 url이 붙어서 저장되는 애들이 있고, 그냥 이미지 주소만 저장되는 애들이 있는데 이거 처리 의논해봐야될 듯 */}
-                    <img src={item.image !== '' ? item.image : iconHeart} alt="" />
-                    {/* {contentImgs.length > 1 && <div></div>} */}
+                  <SContentContainer
+                    key={item.id}
+                    className={contentImgArr.length >= 2 ? 'moreImg' : ''}
+                    onClick={() => goFeedDetail(item, title, content, category)}>
+                    <img src={contentImgArr.length === 0 ? logoImg : contentImgArr[0]} alt="" />
                   </SContentContainer>
                 ) : (
                   <SFeedCard key={item.id}>
@@ -121,10 +122,20 @@ const Post = ({ postData, isGrid }) => {
 export default Post;
 
 const SContentContainer = styled.div`
+  position: relative;
   width: 114px;
   height: 114px;
   background-color: #29292d;
   cursor: pointer;
+
+  &.moreImg::after {
+    content: url(${iconMore});
+    display: inline-block;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 20px;
+  }
 
   img {
     width: 100%;
