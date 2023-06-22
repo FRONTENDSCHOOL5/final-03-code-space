@@ -6,13 +6,13 @@ import { AddFollow, DeleteFollow } from './FollowAddDelete';
 import Button from '../Common/Button';
 import styled from 'styled-components';
 
-export default function FollowCard({ profile, isFollower }) {
+export default function FollowCard({ profile }) {
   const navigate = useNavigate();
   const token = useRecoilValue(setToken);
 
   console.log(profile);
 
-  const [isFollowing, setIsFollowing] = useState(true);
+  // const [isFollowing, setIsFollowing] = useState(true);
   function handleFollow(e) {
     const buttonContent = e.target.innerText;
     if (buttonContent === '팔로잉') {
@@ -21,7 +21,7 @@ export default function FollowCard({ profile, isFollower }) {
         .then(() => {
           // 함수 호출 성공 시 실행될 코드
           console.log('삭제완');
-          setIsFollowing(false);
+          // setIsFollowing(false);
         })
         .catch(error => {
           console.log(error);
@@ -32,7 +32,7 @@ export default function FollowCard({ profile, isFollower }) {
         .then(() => {
           // 함수 호출 성공 시 실행될 코드
           console.log('추가완');
-          setIsFollowing(true);
+          // setIsFollowing(true);
         })
         .catch(error => {
           console.log(error);
@@ -53,14 +53,14 @@ export default function FollowCard({ profile, isFollower }) {
 
       <SBtnContainer>
         <Button
-          isFollowing={!isFollowing}
+          isFollowing={!profile.isfollow}
           followBtn={true}
           padding="7px 0"
-          width="80px"
+          width="70px"
           bgColor="var(--gray)"
           fontSize="12px"
           onClick={e => handleFollow(e, profile.accountname, token)}>
-          {isFollower ? '삭제' : isFollowing ? '팔로잉' : '팔로우'}
+          {profile.isfollow ? '팔로잉' : '팔로우'}
         </Button>
       </SBtnContainer>
     </SFollowCard>
