@@ -20,10 +20,10 @@ const MainHeader = ({
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
   const inputRef = useRef(null);
   useEffect(() => {
-    if (type === 'search') {
+    if (type === 'search' || type === 'search-user') {
       inputRef.current.focus();
     }
-  }, []);
+  }, [type]);
 
   const [isInputFocused, setIsInputFocused] = useState(false);
 
