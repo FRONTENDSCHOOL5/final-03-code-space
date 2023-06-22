@@ -22,21 +22,47 @@ import {
 import iconHeart from '../../assets/icons/heart.svg';
 import iconComment from '../../assets/icons/chat-green.svg';
 import { profileImg, APIDefaultImage } from './COMMON';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { categoryTag, searchFeedList, isEditCheck } from '../../Atom/atom';
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
+import { categoryTag, searchFeedList, isEditCheck, isInitialLoadAtom, scrollPositionAtom } from '../../Atom/atom';
+import Skeleton from '../Common/Skeleton';
+import WithSkeleton from '../Common/Skeleton';
 
-const Post = ({ isFetchData, FeedList, allFeed }) => {
+const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   const setFeedListState = useSetRecoilState(searchFeedList);
   const feedListState = useRecoilValue(searchFeedList);
   const navigate = useNavigate();
   const tagState = useRecoilValue(categoryTag);
+  const [scrollPosition, setScrollPosition] = useRecoilState(scrollPositionAtom);
+  const [isInitialLoad, setIsInitialLoad] = useRecoilState(isInitialLoadAtom);
 
   function goFeedDetail(item, title, content, category) {
     navigate('/feeddetail', { state: { feedList: { item, title, content, category } } });
   }
-  function goProfile(item) {
+  function goProfile(event, item) {
+    event.stopPropagation();
     navigate('/myprofile', { state: item });
   }
+
+  useEffect(() => {
+    if (isFetchData) {
+      // 초기 로딩 시 스크롤 위치 복원
+      console.log('ddd');
+      window.scrollTo(0, scrollPosition);
+      setIsInitialLoad(true);
+    }
+  }, [isFetchData]);
+
+  useEffect(() => {
+    // 스크롤 위치 업데이트 시 상태 변수에 저장
+    const handleScroll = () => {
+      setScrollPosition(window.pageYOffset);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     setFeedFunction();
@@ -71,10 +97,10 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
   return (
     <>
       {isFetchData === false ? (
-        <div>로딩중....</div>
+        <Skeleton isLoading={isFetchData} />
       ) : (
         <div>
-          {(tagState === '전체' ? FeedList : allFeed).map(item => {
+          {(tagState === '전체' ? FeedList : tagState === '팔로잉' ? followingFeed : allFeed).map(item => {
             let title;
             let content;
             const extractedData = extractString(item.content, 'title');
@@ -88,21 +114,25 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
               return null;
             }
             const category = categoryData.extracted;
-            if (tagState !== '전체' && tagState !== category) {
-              return null;
+
+            if (tagState !== '팔로잉') {
+              if (tagState !== '전체' && tagState !== category) {
+                return null;
+              }
             }
+
             title = extracted;
             content = categoryData.remaining;
             return (
-              <SFeedCard key={item.id}>
+              <SFeedCard key={item.id} onClick={() => goFeedDetail(item, title, content, category)}>
                 <SAuthor>
                   {item.author.image === APIDefaultImage ? (
-                    <SProfileImg src={profileImg} alt="프사" onClick={() => goProfile(item.author)} />
+                    <SProfileImg src={profileImg} alt="프사" onClick={event => goProfile(event, item.author)} />
                   ) : (
-                    <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
+                    <SProfileImg src={item.author.image} alt="프사" onClick={event => goProfile(event, item.author)} />
                   )}
-                  <STitleContainer onClick={() => goFeedDetail(item, title, content, category)}>
-                    <STitle onClick={() => goFeedDetail(item, title, content, category)}>{title}</STitle>
+                  <STitleContainer>
+                    <STitle>{title}</STitle>
                     <SAuthorInfo>
                       <SUserName>{item.author.username}</SUserName>
                       <SAccountname>@{item.author.accountname}</SAccountname>
@@ -110,17 +140,17 @@ const Post = ({ isFetchData, FeedList, allFeed }) => {
                   </STitleContainer>
                 </SAuthor>
                 <div>
-                  <SMainContent onClick={() => goFeedDetail(item, title, content, category)}>{content}</SMainContent>
+                  <SMainContent>{content}</SMainContent>
                 </div>
                 <SReactionContainer>
-                  <SReactionContent onClick={() => goFeedDetail(item, title, content, category)}>
+                  <SReactionContent>
                     <SReactionCount>
                       <SHeartImg src={iconHeart} alt="하트" />
-                      {item.heartCount}
+                      <div>{item.heartCount}</div>
                     </SReactionCount>
                     <SReactionCount>
                       <SHeartImg src={iconComment} alt="댓글" />
-                      {item.comments.length}
+                      <div>{item.comments.length}</div>
                     </SReactionCount>
                   </SReactionContent>
                   <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>

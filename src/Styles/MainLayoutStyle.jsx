@@ -15,4 +15,10 @@ const SMainLayout = styled.div`
 
   box-shadow: rgba(0, 0, 0, 0.8) 0 0 50px;
 `;
-export { SMainLayout };
+
+const Sbackground = styled.div`
+  background-color: var(--black);
+  min-height: 100vh;
+`;
+
+export { SMainLayout, Sbackground };

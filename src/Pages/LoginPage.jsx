@@ -5,7 +5,7 @@ import Modal from '../Components/Common/Modal';
 
 import { useSetRecoilState } from 'recoil';
 import { setToken } from '../Atom/atom';
-import { setAccountName } from '../Atom/atom';
+import { setAccountName, loginUserImageAtom } from '../Atom/atom';
 import { isModalAtom } from '../Atom/atom';
 import { useRecoilState } from 'recoil';
 
@@ -14,10 +14,11 @@ const LoginPage = () => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(true);
-  const [isModal, setIsModal] = useRecoilState(isModalAtom)
+  const [isModal, setIsModal] = useRecoilState(isModalAtom);
 
   const setTokenAtom = useSetRecoilState(setToken);
   const setAccountNameAtom = useSetRecoilState(setAccountName);
+  const setLoginUserImage = useSetRecoilState(loginUserImageAtom);
 
   const [LoginError, setLoginError] = useState(false);
 
@@ -52,6 +53,7 @@ const LoginPage = () => {
       console.log(userData.token);
       setTokenAtom(userData.token);
       setAccountNameAtom(userData.accountname);
+      setLoginUserImage(userData.image);
       navigate('/feed');
       setIsModal(false);
     } catch (error) {
@@ -70,7 +72,6 @@ const LoginPage = () => {
       isPasswordValid={isPasswordValid}
       LoginError={LoginError}
     />
-    
   );
 };
 

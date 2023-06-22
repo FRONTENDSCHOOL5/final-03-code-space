@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { isfeedFetchToggle, setToken } from '../Atom/atom';
 import { MainAccountToken, BASEURL } from '../Components/Feed/COMMON';
 
-const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) => {
+const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, commentId, setIsFeedFetchData }) => {
   const UserToken = useRecoilValue(setToken);
 
   const POST_instance = axios.create({
@@ -21,6 +21,20 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
       const response = await POST_instance.delete(deletePost);
       console.log(response.data);
       console.log(response.data.message);
+      alert('삭제되었습니다!');
+    } catch (error) {
+      console.error(error);
+      alert('잘못된 접근입니다!!!');
+    }
+  }
+  async function deleteComment() {
+    // /post/:post_id/comments/:comment_id
+    const deleteComment = `post/${postID}/comments/${commentId}`;
+    try {
+      const response = await POST_instance.delete(deleteComment);
+      console.log(response.data);
+      console.log(response.data.message);
+      alert('삭제되었습니다!');
     } catch (error) {
       console.error(error);
       alert('잘못된 접근입니다!!!');
@@ -39,29 +53,41 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
   }
 
   async function getComment() {
-    console.log('getComment');
     const CommentPOST = `post/${postID}/comments`;
 
     try {
       const response = await POST_instance.get(CommentPOST);
-      console.log(response.data);
       setCommentList(response.data.comments.reverse());
       setIsFetchData(true);
+      console.log(response.data.comments);
     } catch (error) {
       console.error(error);
     }
   }
 
-  async function getFeed(setReactionCount) {
+  async function getFeed({ setReactionCount, type }) {
     const FeedGET = `post/${postID}/?limit=2`;
-
-    console.log('getfeed');
-    try {
-      const response = await POST_instance.get(FeedGET);
-      console.log(response.data);
-      setReactionCount(response.data);
-    } catch (error) {
-      console.error(error);
+    console.log(type);
+    console.log('겟피드!!!!!!!!');
+    if (type === 'init') {
+      try {
+        const response = await POST_instance.get(FeedGET);
+        // setReactionCount(response.data);
+        console.log(response.data.post);
+        setIsFeedFetchData(true);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const response = await POST_instance.get(FeedGET);
+        setReactionCount(response.data);
+        console.log(response.data.post);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
@@ -80,12 +106,12 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
     try {
       if (!hearted) {
         const response = await POST_instance.post(POST_URL);
-        getFeed(setReactionCount);
+        getFeed({ setReactionCount });
         console.log(response.data);
       } else {
         console.log('delete!!');
         const response = await POST_instance.delete(POST_URL);
-        getFeed(setReactionCount);
+        getFeed({ setReactionCount });
 
         console.log(response.data);
       }
@@ -94,7 +120,7 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType }) 
     }
   }
 
-  return { postHeart, getComment, getFeed, deletePost, editPost };
+  return { postHeart, getComment, getFeed, deletePost, editPost, deleteComment };
 };
 
 export default useFetchComment;

@@ -24,6 +24,7 @@ const PostPage = () => {
   const navigate = useNavigate();
   const isEdit = location.state?.isEdit;
   const feedList = location.state?.feedList;
+  const imgArr = location.state?.imgArr;
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState('');
@@ -37,29 +38,25 @@ const PostPage = () => {
   const [imgAddList, setImgAddList] = useState([]);
 
   useEffect(() => {
+    console.log(isEdit);
+
     if (isEdit) {
       handleItemClick(feedList.category);
       setImgAddList(feedList.item.image);
     }
-
     if (selectedItem == '질문있어요!' || selectedItem == '자유게시판') {
       setIsCode(true);
-    }
-    else {
+    } else {
       setIsCode(false);
     }
 
     // 필수 내용 다 입력했는지
-    if(selectedItem &&
-    title !== '' &&
-    content !== '' && 
-    imgAddList.length <= 3){
+    if (selectedItem && title !== '' && content !== '') {
       setIsSaveEnabled(true);
     } else {
       setIsSaveEnabled(false);
     }
-
-  }, [selectedItem, title, content,imgAddList]);
+  }, [selectedItem, title, content, imgAddList]);
 
   // 카테고리 드롭다운
   const toggleDropdown = () => {
@@ -82,18 +79,17 @@ const PostPage = () => {
   }
 
   // 코드
-  function writeCode(e){
+  function writeCode(e) {
     setCode(e.target.value);
   }
 
   // 카테고리, 제목, 게시글 보내기
   const handleUploadPost = async e => {
-
     // 이미지 넣지 않았을 떄
-    let image = ""; // 이미지 변수 초기화 
+    let image = ''; // 이미지 변수 초기화
 
-    // 이미지 3장 이내로 넣었을 때 ','로 각 이미지 구분해줌
-    const imgUrls = imgAddList.map((img) => img.url);
+    // 이미지 3장 이내로 넣었을 때
+    const imgUrls = imgAddList.map(img => img.url);
     image = imgUrls.join(',');
 
     const config = {
@@ -101,7 +97,7 @@ const PostPage = () => {
     };
 
     if (isEdit) {
-      const image = feedList.item.image;
+      const image = imgArr.toString();
       try {
         const response = await axios.put(
           url + `post/${feedList.item.id}`,
@@ -120,6 +116,12 @@ const PostPage = () => {
         console.log(error);
       }
     } else {
+      // 이미지 넣지 않았을 떄
+      let image = ''; // 이미지 변수 초기화
+
+      // 이미지 3장 이내로 넣었을 때
+      const imgUrls = imgAddList.map(img => img.url);
+      image = imgUrls.join(',');
       try {
         const response = await axios.post(
           url + 'post',
@@ -138,7 +140,6 @@ const PostPage = () => {
       }
     }
   };
-
   // 이미지 업로드 버튼 클릭시 파일 선택 가능
   const handleClick = () => {
     imgInput.current.click();
@@ -154,11 +155,10 @@ const PostPage = () => {
       headers: { 'Content-Type': 'multipart/form-data' },
     };
 
-    if(imgAddList.length >= 3){
-      alert("이미지는 최대 3장까지만 업로드 가능합니다!");
+    if (imgAddList.length >= 3) {
+      alert('이미지는 최대 3장까지만 업로드 가능합니다!');
       return;
-    }
-    else{
+    } else {
       try {
         const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(alert('업로드완료!'));
         const uploadedImageUrl = url + response.data[0].filename;
@@ -170,7 +170,6 @@ const PostPage = () => {
       }
     }
   };
-
   // 이미지 미리보기
   const imgAddPreview = () => {
     const imgWidth = imgAddList.length === 1 || isEdit ? '350px' : '270px';
@@ -180,14 +179,14 @@ const PostPage = () => {
         {isEdit ? (
           <SImgBox key={feedList.item.id}>
             <SDelBtn onClick={() => onRemoveAdd(imgAddList)} />
-            <SPreviewImg src={imgAddList} style={{ width: imgWidth}} />
+            <SPreviewImg src={imgAddList} style={{ width: imgWidth }} />
           </SImgBox>
         ) : (
           imgAddList.map((img, index) => {
             return (
               <SImgBox key={index}>
                 <SDelBtn onClick={() => onRemoveAdd(img.url)} />
-                <SPreviewImg src={img.url} style={{ width: imgWidth}} />
+                <SPreviewImg src={img.url} style={{ width: imgWidth }} />
               </SImgBox>
             );
           })
@@ -195,15 +194,19 @@ const PostPage = () => {
       </SImgContainer>
     );
   };
-
   // 이미지 삭제
   const onRemoveAdd = deleteUrl => {
     setImgAddList(imgAddList.filter(img => img.url !== deleteUrl));
   };
+  console.log(isSaveEnabled);
 
   return (
     <>
-      <MainHeader type="upload" buttonDisabled={isSaveEnabled ? false : true} handleUploadPost={isSaveEnabled ? handleUploadPost : null} />
+      <MainHeader
+        type="upload"
+        buttonDisabled={isSaveEnabled ? false : true}
+        handleUploadPost={isSaveEnabled ? handleUploadPost : null}
+      />
       <STitle>
         <DropdownWrapper>
           <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '카테고리'}</DropdownButton>
@@ -222,28 +225,26 @@ const PostPage = () => {
       {isEdit ? (
         <SContentWrap>
           <SPostContent
-          placeholder="게시글 입력하기..."
-          ref={contentInput}
-          onChange={writePost}
-          value={content}></SPostContent>
+            placeholder="게시글 입력하기..."
+            ref={contentInput}
+            onChange={writePost}
+            value={content}></SPostContent>
         </SContentWrap>
       ) : (
         <SContentWrap>
-          <SPostContent
-          placeholder="게시글 입력하기..."
-          ref={contentInput}
-          onChange={writePost}></SPostContent>
+          <SPostContent placeholder="게시글 입력하기..." ref={contentInput} onChange={writePost}></SPostContent>
         </SContentWrap>
       )}
-      {isCode && (<SCodeWrap>
-            <SPostContent
-              placeholder="코드 입력하기..."
-              ref={contentInput}
-              onChange={writeCode}/>
-            <SCode>
-              <SyntaxHighlighter language="jsx" style={atomDark}>{code}</SyntaxHighlighter>
-            </SCode>
-        </SCodeWrap>)}
+      {isCode && (
+        <SCodeWrap>
+          <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} />
+          <SCode>
+            <SyntaxHighlighter language="jsx" style={atomDark}>
+              {code}
+            </SyntaxHighlighter>
+          </SCode>
+        </SCodeWrap>
+      )}
       {imgAddPreview()}
       <SUploadImgBtn onClick={handleClick}>
         <SInputImg
@@ -336,15 +337,13 @@ const SPostContent = styled(TextareaAutosize)`
   font-family: inherit;
   font-size: 16px;
   &::-webkit-scrollbar {
-  display: none;
-}
+    display: none;
+  }
 `;
 
-const SContentWrap = styled.div`
-`;
+const SContentWrap = styled.div``;
 
-const SCodeWrap = styled.div`
-`;
+const SCodeWrap = styled.div``;
 
 const SCode = styled.div`
   margin: 0 20px;

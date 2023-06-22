@@ -74,7 +74,7 @@ const SNavLayout = styled.nav`
   max-width: 390px;
   margin: 0 auto;
   background: var(--black);
-  border-top: 0.5px solid var(--darkgray);
+  border-top: 0.5px solid var(--border-gray);
 
   position: fixed;
   bottom: 0;
