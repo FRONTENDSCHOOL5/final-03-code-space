@@ -7,7 +7,7 @@ import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { configModalAtom } from '../../Atom/atom';
-const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleUploadProduct }) => {
+const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleUploadProduct, searchUser }) => {
   const navigate = useNavigate();
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
   const inputRef = useRef(null);
@@ -47,6 +47,21 @@ const MainHeader = ({ type, handleUploadPost, handleSearch, searchValue, handleU
               value={searchValue} // 검색어 값 추가
               onChange={event => handleSearch(event)}
             />
+          </>
+        ) : type === 'search-user' ? (
+          <>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
+            <SSearch
+              type="text"
+              ref={inputRef}
+              placeholder="검색어를 입력하세요!"
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+              isFocused={isInputFocused}
+              value={searchValue} // 검색어 값 추가
+              onChange={event => handleSearch(event)}
+            />
+            <SSearchIconBtn src={searchIcon} alt="돋보기" onClick={searchUser} />
           </>
         ) : type === 'profile' ? (
           <>
@@ -145,4 +160,8 @@ const SSearchIcon = styled.img`
     fill: var(--point-color);
     filter: invert(53%) sepia(7%) saturate(4534%) hue-rotate(95deg) brightness(105%) contrast(78%);
   }
+`;
+const SSearchIconBtn = styled(SSearchIcon)`
+  margin-left: -30px;
+  filter: invert(53%) sepia(7%) saturate(4534%) hue-rotate(95deg) brightness(105%) contrast(78%);
 `;

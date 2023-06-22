@@ -47,7 +47,7 @@ const PostPage = () => {
       setImgAddList(feedList.item.image);
     }
 
-    if (contentTitleEdit !== '' && contentEdit !== '' && imgAddList.length <= 3) {
+    if (contentTitleEdit !== '' && contentEdit !== '') {
       setIsSaveEnabled(true);
     } else {
       setIsSaveEnabled(false);
@@ -82,18 +82,11 @@ const PostPage = () => {
 
   // 카테고리, 제목, 게시글 보내기
   const handleUploadPost = async e => {
-    // 이미지 넣지 않았을 떄
-    let image = ''; // 이미지 변수 초기화
-
-    // 이미지 3장 이내로 넣었을 때
-    const imgUrls = imgAddList.map(img => img.url);
-    image = imgUrls.join(',');
-
     const config = {
       headers: { Authorization: 'Bearer ' + isToken, 'Content-type': 'application/json' },
     };
     if (isEdit) {
-      const image = feedList.item.image;
+      const image = imgArr.toString();
       try {
         console.log(title, content);
         const response = await axios.put(
@@ -114,6 +107,12 @@ const PostPage = () => {
         console.log(error);
       }
     } else {
+      // 이미지 넣지 않았을 떄
+      let image = ''; // 이미지 변수 초기화
+
+      // 이미지 3장 이내로 넣었을 때
+      const imgUrls = imgAddList.map(img => img.url);
+      image = imgUrls.join(',');
       try {
         const response = await axios.post(
           url + 'post',
@@ -166,7 +165,6 @@ const PostPage = () => {
   // 이미지 미리보기
   const imgAddPreview = () => {
     console.log(imgAddList);
-    console.log(imgArr);
     const imgWidth =
       imgAddList.length === 1 || isEdit ? '350px' : imgAddList.length === 2 || isEdit ? '170px' : '100px';
     const imgMargin = imgAddList.length === 1 || isEdit ? '20px' : '10px';
@@ -196,6 +194,7 @@ const PostPage = () => {
   const onRemoveAdd = deleteUrl => {
     setImgAddList(imgAddList.filter(img => img.url !== deleteUrl));
   };
+  console.log(isSaveEnabled);
 
   return (
     <>

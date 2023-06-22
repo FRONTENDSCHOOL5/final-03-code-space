@@ -76,7 +76,16 @@ const SearchPage = () => {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <SFeedLayout>
-        <MainHeader type="search" handleSearch={handleSearch} searchValue={searchContent} />
+        {searchTabToggle ? (
+          <MainHeader type="search" handleSearch={handleSearch} searchValue={searchContent} />
+        ) : (
+          <MainHeader
+            type="search-user"
+            handleSearch={handleSearch}
+            searchValue={searchContent}
+            searchUser={() => searchUser(searchContent)}
+          />
+        )}
         <SSearchTab>
           <div onClick={() => setSearchTabToggle(true)} className={searchTabToggle ? 'active' : ''}>
             게시글
