@@ -125,6 +125,10 @@ const SPostImage = styled.img`
 const SCodeEditor = styled.div`
   font-size: 11px;
 `;
+const SCodeLanguage = styled.div`
+  color: var(--darkgray);
+  margin-left: 3px;
+`;
 export {
   SFeedCard,
   STitle,
@@ -144,4 +148,5 @@ export {
   SPostImage,
   SHeartImgDetail,
   SCodeEditor,
+  SCodeLanguage,
 };

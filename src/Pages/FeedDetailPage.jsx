@@ -23,6 +23,7 @@ import {
   SPostImage,
   SHeartImgDetail,
   SCodeEditor,
+  SCodeLanguage,
 } from '../Styles/FeedStyle/PostStyle';
 import WriteComment from '../Components/Feed/WriteComment';
 import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
@@ -48,21 +49,22 @@ const FeedDetailPage = () => {
   const [content, setContent] = useState('');
   const [code, setCode] = useState('');
   const [category, setCategory] = useState('');
+  const [language, setLanguage] = useState('');
+  const [imgArr, setImgArr] = useState([]);
 
   const [commentList, setCommentList] = useState({});
   const [isFetchData, setIsFetchData] = useState(false);
   const [isFeedFetchData, setIsFeedFetchData] = useState(false);
   const [reactionCount, setReactionCount] = useState(null);
-  const [isEdit, setIsEdit] = useState(true);
+  const [isEdit, setIsEdit] = useState(false);
   const [commentId, setCommentId] = useState('');
-  const [imgArr, setImgArr] = useState([]);
   const [otherAdmin, setOtherAdmin] = useState(false);
   const [commentAccount, setCommentAccount] = useState('');
-  // const [commentAdmin, setCommentAdmin] = useState(false);
 
   const [isModalState, setconfigModalAtom] = useRecoilState(configModalAtom);
 
-  const isEditCheckState = useRecoilValue(isEditCheck);
+  const [isEditCheckState, setEditCheckState] = useRecoilState(isEditCheck);
+
   const accountName = useRecoilValue(setAccountName);
 
   const { postHeart, deletePost, deleteComment } = useFetchComment({
@@ -97,12 +99,15 @@ const FeedDetailPage = () => {
 
     setFeedFunction(feedData.post); // reactionCount.post에 대한 처리
   }
+  console.log(feedList);
+  console.log(imgArr);
   useEffect(() => {
     setIsFeedFetchData(false);
     initFeed();
     setconfigModalAtom(''); //모달체크
     setIsEdit(false); //수정체크
-    setImgArr(extractImageLinks(feedList.image));
+    setEditCheckState(false);
+
     if (feedList.author.accountname !== accountName) {
       setOtherAdmin(true);
     } else {
@@ -114,6 +119,10 @@ const FeedDetailPage = () => {
       return;
     }
   }, [isEditCheckState]);
+
+  useEffect(() => {
+    setImgArr(extractImageLinks(reactionCount?.post.image));
+  }, [reactionCount]);
 
   const setFeedFunction = async editFeed => {
     const extractedData = extractString(editFeed.content, 'title');
@@ -134,10 +143,15 @@ const FeedDetailPage = () => {
     if (contentData === null) {
       return editFeed;
     }
+    const languageData = extractString(contentData.remaining, 'language');
+    if (contentData === null) {
+      return editFeed;
+    }
     setTitle(extracted);
     setContent(contentData.extracted);
     setCode(codeData.extracted);
     setCategory(categoryData.extracted);
+    setLanguage(languageData.extracted);
   };
   console.log(isModalState);
   return (
@@ -165,7 +179,8 @@ const FeedDetailPage = () => {
               <SContent>{content}</SContent>
               {category !== '스터디 모집' && (
                 <SCodeEditor>
-                  <SyntaxHighlighter language="jsx" style={atomDark}>
+                  <SCodeLanguage>{language}</SCodeLanguage>
+                  <SyntaxHighlighter language={language} style={atomDark}>
                     {code}
                   </SyntaxHighlighter>
                 </SCodeEditor>
@@ -229,6 +244,7 @@ const FeedDetailPage = () => {
               content={content}
               code={code}
               category={category}
+              language={language}
             />
           ) : isModalState === 'comment-config' ? (
             <CommonModal
