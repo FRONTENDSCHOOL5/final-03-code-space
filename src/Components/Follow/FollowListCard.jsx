@@ -53,6 +53,9 @@ export default function FollowCard({ profile, isFollower }) {
 
       <SBtnContainer>
         <Button
+          isFollowing={!isFollowing}
+          followBtn={true}
+          padding="7px 0"
           width="80px"
           bgColor="var(--gray)"
           fontSize="12px"
