@@ -179,6 +179,10 @@ const modalfadeOut = keyframes`
   0% {  top: 100%;  }
   100% {  top: 80%;  }
 `;
+const singleModalfadeOut = keyframes`
+  0% {  top: 100%;  }
+  100% {  top: 90%;  }
+`;
 
 const SModal = styled.article`
   width: 100%;
@@ -204,6 +208,27 @@ const SModal = styled.article`
     margin: 17px 0;
   }
 `;
-const SSingleModal = styled(SModal)`
-  top: 85%;
+const SSingleModal = styled.article`
+  width: 100%;
+  max-width: 390px;
+  height: 100%;
+  background-color: var(--black);
+  border-radius: 47px 47px 0 0;
+  position: fixed;
+  top: 90%;
+
+  transition: all 0.2s;
+  animation: ${singleModalfadeOut} 0.1s ease-in;
+
+  ::before {
+    content: '';
+    width: 50px;
+    height: 4px;
+    background-color: var(--border-gray);
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    border-radius: 15px;
+    margin: 17px 0;
+  }
 `;

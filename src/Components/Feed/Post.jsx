@@ -72,6 +72,8 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
     const updatedFeedList = allFeed.map(item => {
       let title;
       let contents;
+      let code;
+
       const extractedData = extractString(item.content, 'title');
       if (extractedData === null) {
         return item;
@@ -82,13 +84,23 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
       if (categoryData === null) {
         return item;
       }
+      const codeData = extractString(categoryData.remaining, 'code');
+      if (codeData === null) {
+        return item;
+      }
+      const contentData = extractString(codeData.remaining, 'content');
+      if (contentData === null) {
+        return item;
+      }
       title = extracted;
-      contents = categoryData.remaining;
+      contents = contentData.extracted;
+      code = codeData.extracted;
 
       return {
         ...item,
         title,
         contents,
+        code,
       };
     });
 
