@@ -15,7 +15,6 @@ import SearchPage from './Pages/SearchPage';
 import FeedDetailPage from './Pages/FeedDetailPage';
 import ProductPage from './Pages/ProductPage';
 import NotFoundErrorPage from './Pages/NotFoundErrorPage';
-import ChatRoom from './Pages/ChatRoom';
 import Modal from './Components/Common/Modal';
 import { SMainLayout, Sbackground } from './Styles/MainLayoutStyle';
 import { AnimatePresence } from 'framer-motion';
@@ -37,7 +36,6 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/messagelist" element={<MessageListPage />} />
             <Route path="/message" element={<MessagePage />} />
-            <Route path="/chat" element={<ChatRoom />} />
             <Route path="/post" element={<PostPage />} />
             <Route path="/product" element={<ProductPage />} />
             <Route path="/follow" element={<FollowPage />} />

@@ -17,8 +17,14 @@ const MessagePage = () => {
 
   // 채팅 전송 기능
   const handleInputChange = (e) => {
-    setMessage(e.taget.value);
+    setMessage(e.target.value);
   }
+
+  const handleInputKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
 
   const handleSendMessage = () => {
     if(message.trim() === ''){
@@ -29,6 +35,7 @@ const MessagePage = () => {
       id: Date.now(),
       text: message,
       isMine: true,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
     };
 
     setMessages([...messages, newMessage]);
@@ -52,12 +59,22 @@ const MessagePage = () => {
           <SMsgTime>10:24</SMsgTime>
         </SContentWrap>
       </SMsgWrap>
+        {messages.map((msg) => (
+          <SMsgMyWrap>
+            <SContentWrap>
+              <SMsgMyTime>{msg.timestamp}</SMsgMyTime>
+              <SMsgMyContent key={msg.id} isMine={msg.isMine}>
+                <SMsgMyText isMine={msg.isMine}>{msg.text}</SMsgMyText>
+              </SMsgMyContent>
+            </SContentWrap>
+          </SMsgMyWrap>
+        ))}
       <SLayout>
         <SUploadImgBtn onClick={handleClick}>
           <SInputImg type="file" accept="image/jpg, image/jpeg, image/png" multiple ref={imgInput} ></SInputImg>
         </SUploadImgBtn>
-        <SWriteMsg placeholder="메세지 입력" value={message} onChange={handleInputChange}></SWriteMsg>
-        <SSendBtn>전송</SSendBtn>
+        <SWriteMsg placeholder="메세지 입력" value={message} onChange={handleInputChange} onKeyPress={handleInputKeyPress}></SWriteMsg>
+        <SSendBtn onClick={handleSendMessage}>전송</SSendBtn>
       </SLayout>
     </>
   );
@@ -70,6 +87,10 @@ const SMsgWrap = styled.div`
   display: flex;
   justify-content: left;
   align-items: center;
+`;
+
+const SMsgMyWrap = styled(SMsgWrap)`
+  justify-content: right;
 `;
 
 const SProfileImg = styled.div`
@@ -100,6 +121,26 @@ const SMsgTime = styled.p`
   margin-left: 10px;
   color: var(--white);
   font-size: 12px;
+`;
+
+const SMsgMyTime = styled.p`
+  align-items: end;
+  margin-right: 5px;
+  color: var(--white);
+  font-size: 12px;
+`
+
+const SMsgMyContent = styled.div`
+  max-width: 240px;
+  padding: 10px 8px;
+  background-color: var(--point-color);
+  border-radius: 9px 0px 9px 9px;
+`;
+
+const SMsgMyText = styled.p`
+  color: var(--white);
+  font-size: 13px;
+  line-height: 1.3;
 `;
 
 const SLayout = styled.div`
