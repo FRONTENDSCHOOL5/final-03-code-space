@@ -78,6 +78,10 @@ export const isModalAtom = atom({
   key: 'isModalAtom',
   default: false,
 });
+export const noneEnterAtom = atom({
+  key: 'noneEnterAtom',
+  default: false,
+});
 
 export const isInitialLoadAtom = atom({
   key: 'isInitialLoadAtom',

@@ -5,13 +5,13 @@ import Splash from '../assets/img/splash.png';
 import LoginPage from './LoginPage';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
-import { isLandingEnter, isModalAtom } from '../Atom/atom';
+import { isLandingEnter, isModalAtom,noneEnterAtom } from '../Atom/atom';
 import { useLocation } from 'react-router-dom';
 
 const LandingPage = () => {
   const [isModal, setIsModal] = useRecoilState(isModalAtom)
+  const noneEnter = useRecoilValue(noneEnterAtom);
   
-
   const setIsLandingEnter = useSetRecoilState(isLandingEnter);
   const isLandingEnterState = useRecoilValue(isLandingEnter);
   const location = useLocation();
@@ -35,7 +35,7 @@ const LandingPage = () => {
         {isModal ? (
           <LoginPage />
         ) : (
-          !isSignupPage && (
+          !isSignupPage && !noneEnter &&( // 회원가입 페이지와 로그인 완료시 Enter는 보이지 않게 
             <SEnter
               isLandingEnterState={isLandingEnterState}
               isAnimationDisabled={isAnimationDisabled}
