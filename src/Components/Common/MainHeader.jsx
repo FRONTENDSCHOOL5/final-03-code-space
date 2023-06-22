@@ -34,6 +34,11 @@ const MainHeader = ({
   const handleInputBlur = () => {
     setIsInputFocused(false);
   };
+  const handleKeyDown = event => {
+    if (event.key === 'Enter') {
+      searchUser();
+    }
+  };
   return (
     <>
       <SLayout>
@@ -68,6 +73,7 @@ const MainHeader = ({
               isFocused={isInputFocused}
               value={searchValue} // 검색어 값 추가
               onChange={event => handleSearch(event)}
+              onKeyDown={handleKeyDown}
             />
             <SSearchIconBtn src={searchIcon} alt="돋보기" onClick={searchUser} />
           </>
