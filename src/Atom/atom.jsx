@@ -83,6 +83,11 @@ export const noneEnterAtom = atom({
   default: false,
 });
 
+export const isLoginSuccessAtom = atom({
+  key: 'isLoginSuccess',
+  default: false,
+});
+
 export const isInitialLoadAtom = atom({
   key: 'isInitialLoadAtom',
   default: true,

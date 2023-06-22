@@ -6,7 +6,7 @@ import Modal from '../Components/Common/Modal';
 import { useSetRecoilState } from 'recoil';
 import { setToken } from '../Atom/atom';
 import { setAccountName, loginUserImageAtom } from '../Atom/atom';
-import { isLandingEnter, isModalAtom, noneEnterAtom } from '../Atom/atom';
+import { isLandingEnter, isModalAtom, noneEnterAtom ,isLoginSuccessAtom} from '../Atom/atom';
 import { useRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
 
@@ -21,6 +21,8 @@ const LoginPage = () => {
   const setIsLandingEnter = useSetRecoilState(isLandingEnter);
   const isLandingEnterState = useRecoilValue(isLandingEnter);
   const [noneEnter, setNoneEnter] = useRecoilState(noneEnterAtom);
+  const [isLoginSucess, setIsLoginSucess] = useRecoilState(isLoginSuccessAtom);
+
 
   const setTokenAtom = useSetRecoilState(setToken);
   const setAccountNameAtom = useSetRecoilState(setAccountName);
@@ -63,11 +65,12 @@ const LoginPage = () => {
       setIsLandingEnter(true);
       setIsModal(false);
       setNoneEnter(true); // Enter 글자 안보이도록
+      setIsLoginSucess(true); // 로그인에 성공했다는 상태
 
       // 로그인 성공 시 랜딩 애니메이션 후 5초 뒤 피드 페이지 이동
       setTimeout(() => {
         navigate('/feed');
-      }, 5000);
+      }, 2500);
     } catch (error) {
       setLoginError(true);
       console.error(error);
