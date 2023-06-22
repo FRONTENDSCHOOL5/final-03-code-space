@@ -18,7 +18,11 @@ const BottomNav = () => {
   const location = useLocation();
   useEffect(() => {
     const path = location.pathname.replace('/', ''); // Remove leading '/'
-    const index = navItems.indexOf(path);
+    let index = navItems.indexOf(path);
+    if (path === 'search') {
+      index = 0;
+    }
+
     if (index !== -1) {
       setBottomNavIndexState(index);
     }

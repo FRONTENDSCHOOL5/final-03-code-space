@@ -32,6 +32,8 @@ function App() {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={<ProfileSetPage />} />
             <Route path="/myprofile" element={<MyProfilePage />} />
+            <Route path={'/myprofile/:accountname'} element={<MyProfilePage />} />
+
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/messagelist" element={<MessageListPage />} />
