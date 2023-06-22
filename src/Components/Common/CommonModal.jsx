@@ -1,12 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { isConfigModal, setToken } from '../../Atom/atom';
+import { configModalAtom, setToken } from '../../Atom/atom';
 import { useNavigate } from 'react-router-dom';
-const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit }) => {
+const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit, type, deleteComment, imgArr }) => {
   const modalRef = useRef(null);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
-  const setIsConfigModal = useSetRecoilState(isConfigModal);
+  const setconfigModalAtom = useSetRecoilState(configModalAtom);
   const navigate = useNavigate();
   const handleClickOutside = event => {
     const target = event.target;
@@ -14,31 +14,65 @@ const CommonModal = ({ deleteFeed, feedList, isEdit, setIsEdit }) => {
       return;
     }
     if (modalRef.current && !modalRef.current.contains(target)) {
-      setIsConfigModal(false);
+      setconfigModalAtom('');
     }
   };
-  setIsEdit(true);
+  console.log(feedList);
+  useEffect(() => {
+    if (type === 'post-config') {
+      setIsEdit(true);
+    }
+  }, []);
 
   function goEdit() {
-    console.log(isEdit);
-    navigate('/post', { state: { isEdit, ...feedList } });
+    navigate('/post', { state: { isEdit, ...feedList, imgArr } });
   }
   return (
     <SBackground onClick={handleClickOutside}>
       <SModal ref={modalRef}>
-        <SContents>
-          <div onClick={() => setIsConfirmModal(true)}>삭제</div>
-          <div onClick={() => goEdit()}>수정</div>
-        </SContents>
+        {type === 'post-config' ? (
+          <SContents>
+            <div onClick={() => setIsConfirmModal(true)}>삭제</div>
+            <div onClick={() => goEdit()}>수정</div>
+          </SContents>
+        ) : type === 'comment-config' ? (
+          <SContents>
+            <div onClick={() => setIsConfirmModal(true)}>삭제</div>
+          </SContents>
+        ) : (
+          <SContents>
+            <div onClick={() => setIsConfirmModal(true)}>신고하기</div>
+          </SContents>
+        )}
       </SModal>
       {isConfirmModal && (
-        <SConfirmModal>
-          <SConfirmTitle className="confirm-title">게시글을 삭제할까요?</SConfirmTitle>
-          <SConfirmContents>
-            <SConfirmContent>취소</SConfirmContent>
-            <div onClick={() => deleteFeed()}>삭제</div>
-          </SConfirmContents>
-        </SConfirmModal>
+        <>
+          {type === 'post-config' ? (
+            <SConfirmModal>
+              <SConfirmTitle className="confirm-title">게시글을 삭제할까요?</SConfirmTitle>
+              <SConfirmContents>
+                <SConfirmContent>취소</SConfirmContent>
+                <div onClick={() => deleteFeed()}>삭제</div>
+              </SConfirmContents>
+            </SConfirmModal>
+          ) : type === 'comment-config' ? (
+            <SConfirmModal>
+              <SConfirmTitle className="confirm-title">댓글을 삭제할까요?</SConfirmTitle>
+              <SConfirmContents>
+                <SConfirmContent>취소</SConfirmContent>
+                <div onClick={() => deleteComment()}>삭제</div>
+              </SConfirmContents>
+            </SConfirmModal>
+          ) : (
+            <SConfirmModal>
+              <SConfirmTitle className="confirm-title">신고할까요?</SConfirmTitle>
+              <SConfirmContents>
+                <SConfirmContent>취소</SConfirmContent>
+                <div>확인</div>
+              </SConfirmContents>
+            </SConfirmModal>
+          )}
+        </>
       )}
     </SBackground>
   );
@@ -65,7 +99,7 @@ const SConfirmContents = styled.div`
     height: 100%;
     padding: 15px;
     &:hover {
-      background-color: var(--gray);
+      background-color: var(--border-gray);
     }
   }
   div:nth-child(1) {
@@ -86,9 +120,9 @@ const SContents = styled.div`
   align-items: center;
   color: var(--white);
   margin-top: 50px;
-  gap: 30px;
+  gap: 20px;
   div {
-    width: 40%;
+    width: 80%;
     text-align: center;
     padding: 10px;
     border-radius: 10px;
@@ -98,7 +132,7 @@ const SContents = styled.div`
     font-weight: bold;
   }
   div:hover {
-    background-color: var(--gray);
+    background-color: var(--border-gray);
   }
 `;
 const SBackground = styled.div`
@@ -112,7 +146,7 @@ const SBackground = styled.div`
   top: 0;
   overflow-y: hidden;
   /* text-align: center; */
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 const modalfadeOut = keyframes`
   0% {  top: 100%;  }

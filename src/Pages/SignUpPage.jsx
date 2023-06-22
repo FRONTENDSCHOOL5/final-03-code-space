@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Modal from '../Components/Common/Modal';
 import Profile from '../Components/Common/Profile';
+import LandingPage from './LandingPage';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -56,6 +57,7 @@ const SignUpPage = () => {
 
   return (
     <>
+      <LandingPage />
       <Modal
         title="이메일로 회원가입"
         ValidSubmit={ValidSubmit}

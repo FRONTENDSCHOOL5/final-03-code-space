@@ -9,6 +9,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { headerToggle, categoryTag, categoryTagIndex, isEditCheck } from '../Atom/atom';
 import { extractString } from '../Components/Feed/extractString';
 import SearchPage from './SearchPage';
+import { motion } from 'framer-motion';
 // 피드 메인 페이지
 const FeedPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -29,32 +30,34 @@ const FeedPage = () => {
     setIsEditCheck(false);
   }, []);
 
-  const tagItem = ['전체', '스터디 모집', '질문있어요!', '자유게시판'];
+  const tagItem = ['전체', '팔로잉', '스터디 모집', '질문있어요!', '자유게시판'];
 
   const headerToggleState = useRecoilValue(headerToggle);
   console.log(FeedList);
 
   return (
-    <SFeedLayout>
-      <>
-        <MainHeader type="feed" />
-        <STagLayout>
-          {tagItem.map((item, index) => (
-            <TagButton
-              FeedList={FeedList}
-              setFeedList={setFeedList}
-              key={index}
-              text={'#' + item}
-              active={index === activeIndex}
-              onClick={() => handleClick(index)}
-            />
-          ))}
-        </STagLayout>
-        <FetchFeed setFeedList={setFeedList} FeedList={FeedList} />
-      </>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <SFeedLayout>
+        <>
+          <MainHeader type="feed" />
+          <STagLayout>
+            {tagItem.map((item, index) => (
+              <TagButton
+                FeedList={FeedList}
+                setFeedList={setFeedList}
+                key={index}
+                text={'#' + item}
+                active={index === activeIndex}
+                onClick={() => handleClick(index)}
+              />
+            ))}
+          </STagLayout>
+          <FetchFeed setFeedList={setFeedList} FeedList={FeedList} />
+        </>
 
-      <BottomNav />
-    </SFeedLayout>
+        <BottomNav />
+      </SFeedLayout>
+    </motion.div>
   );
 };
 export default FeedPage;
@@ -66,6 +69,11 @@ const STagLayout = styled.div`
   gap: 10px;
   padding: 6px 20px;
   border-bottom: 1px solid var(--border-gray);
+  overflow-x: scroll;
+  ::-webkit-scrollbar {
+    width: 2px;
+    height: 0px;
+  } /* 스크롤 바 */
 `;
 const SFeedLayout = styled(SMainLayout)`
   padding-bottom: 70px;
