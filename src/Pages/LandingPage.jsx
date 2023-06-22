@@ -3,13 +3,14 @@ import styled, { keyframes, css } from 'styled-components';
 import Logo from '../assets/img/icon-logo.svg';
 import Splash from '../assets/img/splash.png';
 import LoginPage from './LoginPage';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
-import { isLandingEnter } from '../Atom/atom';
+import { isLandingEnter, isModalAtom } from '../Atom/atom';
 import { useLocation } from 'react-router-dom';
 
 const LandingPage = () => {
-  const [isModal, setIsModal] = useState(false);
+  const [isModal, setIsModal] = useRecoilState(isModalAtom)
+  
 
   const setIsLandingEnter = useSetRecoilState(isLandingEnter);
   const isLandingEnterState = useRecoilValue(isLandingEnter);
@@ -19,7 +20,6 @@ const LandingPage = () => {
     setIsLandingEnter(false);
     setIsModal(true);
   };
-
   const isSignupPage = location.pathname === '/signup';
   const isAnimationDisabled = isSignupPage; // "/signup" 경로일 때 애니메이션 비활성화
 

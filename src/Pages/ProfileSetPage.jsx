@@ -6,10 +6,13 @@ import Button from '../Components/Common/Button';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useMainAccountFollow from '../Hooks/useMainAccountFollow';
+import { isModalAtom } from '../Atom/atom';
+import { useRecoilState } from 'recoil';
 
 const ProfileSetPage = ({ userEmail, userPassword }) => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [userInfo, setUserInfo] = useState({});
+  const [isModal, setIsModal] = useRecoilState(isModalAtom)
 
   const location = useLocation();
   const userLoginInfo = location.state;
@@ -55,7 +58,8 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
       console.log('User profile created:', response.data);
 
       if (response.data.message === '회원가입 성공') {
-        navigate('/login'); 
+        navigate('/landing'); 
+        setIsModal(true);
         followingAcount(userInfo.accountId);
       }
     } catch (error) {

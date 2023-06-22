@@ -63,3 +63,7 @@ export const searchQuery = atom({
   key: 'searchQuery',
   default: '',
 });
+export const isModalAtom = atom({
+  key: 'isModalAtom',
+  default: false,
+});
