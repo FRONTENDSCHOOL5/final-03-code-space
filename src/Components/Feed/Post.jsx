@@ -103,6 +103,7 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
           {(tagState === '전체' ? FeedList : tagState === '팔로잉' ? followingFeed : allFeed).map(item => {
             let title;
             let content;
+            let code;
             const extractedData = extractString(item.content, 'title');
             if (extractedData === null) {
               return null;
@@ -115,6 +116,14 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
             }
             const category = categoryData.extracted;
 
+            const codeData = extractString(categoryData.remaining, 'code');
+            if (codeData === null) {
+              return null;
+            }
+            const contentData = extractString(codeData.remaining, 'content');
+            if (contentData === null) {
+              return null;
+            }
             if (tagState !== '팔로잉') {
               if (tagState !== '전체' && tagState !== category) {
                 return null;
@@ -122,7 +131,8 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
             }
 
             title = extracted;
-            content = categoryData.remaining;
+            content = contentData.extracted;
+            code = codeData.extracted;
             return (
               <SFeedCard key={item.id} onClick={() => goFeedDetail(item, title, content, category)}>
                 <SAuthor>

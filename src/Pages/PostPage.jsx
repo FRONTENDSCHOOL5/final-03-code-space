@@ -82,19 +82,14 @@ const PostPage = () => {
   function writeCode(e) {
     setCode(e.target.value);
   }
+  console.log(code);
 
   // 카테고리, 제목, 게시글 보내기
   const handleUploadPost = async e => {
-    // 이미지 넣지 않았을 떄
-    let image = ''; // 이미지 변수 초기화
-
-    // 이미지 3장 이내로 넣었을 때
-    const imgUrls = imgAddList.map(img => img.url);
-    image = imgUrls.join(',');
-
     const config = {
       headers: { Authorization: 'Bearer ' + isToken, 'Content-type': 'application/json' },
     };
+    console.log(isEdit);
 
     if (isEdit) {
       const image = imgArr.toString();
@@ -103,7 +98,7 @@ const PostPage = () => {
           url + `post/${feedList.item.id}`,
           {
             post: {
-              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"code:${code}`,
+              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"code:${code}\\\"\\\"content:${content}\\\"`,
               image: image,
             },
           },
@@ -127,7 +122,7 @@ const PostPage = () => {
           url + 'post',
           {
             post: {
-              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"\\\"code:${code}\\\"`,
+              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"code:${code}\\\"\\\"content:${content}\\\"`,
               image: image,
             },
           },

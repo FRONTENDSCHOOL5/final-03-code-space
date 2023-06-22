@@ -22,6 +22,7 @@ import {
   SDetailFeedCard,
   SPostImage,
   SHeartImgDetail,
+  SCodeEditor,
 } from '../Styles/FeedStyle/PostStyle';
 import WriteComment from '../Components/Feed/WriteComment';
 import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
@@ -33,6 +34,8 @@ import { extractString } from '../Components/Feed/extractString';
 import { extractImageLinks } from '../Components/Feed/extractImage';
 import Carousel from '../Components/Feed/Carousel';
 import WithSkeleton from '../Components/Common/Skeleton';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 const FeedDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,6 +46,7 @@ const FeedDetailPage = () => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [code, setCode] = useState('');
 
   const [commentList, setCommentList] = useState({});
   const [isFetchData, setIsFetchData] = useState(false);
@@ -103,6 +107,7 @@ const FeedDetailPage = () => {
       setOtherAdmin(false);
     }
   }, []);
+  console.log(imgArr);
   useEffect(() => {
     if (!isEditCheckState) {
       return;
@@ -120,8 +125,17 @@ const FeedDetailPage = () => {
     if (categoryData === null) {
       return editFeed;
     }
+    const codeData = extractString(categoryData.remaining, 'code');
+    if (codeData === null) {
+      return editFeed;
+    }
+    const contentData = extractString(codeData.remaining, 'content');
+    if (contentData === null) {
+      return editFeed;
+    }
     setTitle(extracted);
-    setContent(categoryData.remaining);
+    setContent(contentData.extracted);
+    setCode(codeData.extracted);
   };
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -146,6 +160,11 @@ const FeedDetailPage = () => {
             </SAuthor>
             <div>
               <SContent>{content}</SContent>
+              <SCodeEditor>
+                <SyntaxHighlighter language="jsx" style={atomDark}>
+                  {code}
+                </SyntaxHighlighter>
+              </SCodeEditor>
               {imgArr.length === 0 ? null : <Carousel imgArr={imgArr} />}
             </div>
             <SReactionContainer>
