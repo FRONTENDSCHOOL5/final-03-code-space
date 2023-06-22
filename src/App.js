@@ -14,38 +14,38 @@ import MyProfilePage from './Pages/MyProfilePage';
 import SearchPage from './Pages/SearchPage';
 import FeedDetailPage from './Pages/FeedDetailPage';
 import ProductPage from './Pages/ProductPage';
-import { SMainLayout } from './Styles/MainLayoutStyle';
-import styled from 'styled-components';
+import NotFoundErrorPage from './Pages/NotFoundErrorPage';
+import Modal from './Components/Common/Modal';
+import { SMainLayout, Sbackground } from './Styles/MainLayoutStyle';
+import { AnimatePresence } from 'framer-motion';
 
 function App() {
   return (
     <Sbackground>
       <GlobalStyle />
-      <SMainLayout>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/feed" element={<FeedPage />} />
-          <Route path="/feeddetail" element={<FeedDetailPage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/profile" element={<ProfileSetPage />} />
-          <Route path="/myprofile" element={<MyProfilePage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/messagelist" element={<MessageListPage />} />
-          <Route path="/message" element={<MessagePage />} />
-          <Route path="/post" element={<PostPage />} />
-          <Route path="/product" element={<ProductPage />} />
-          <Route path="/follow" element={<FollowPage />} />
-          <Route path="/following" element={<FollowingPage />} />
-          <Route path="/landing" element={<LandingPage />} />
-        </Routes>
-      </SMainLayout>
+      <AnimatePresence>
+        <SMainLayout>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/feed" element={<FeedPage />} />
+            <Route path="/feeddetail" element={<FeedDetailPage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/profile" element={<ProfileSetPage />} />
+            <Route path="/myprofile" element={<MyProfilePage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/messagelist" element={<MessageListPage />} />
+            <Route path="/message" element={<MessagePage />} />
+            <Route path="/post" element={<PostPage />} />
+            <Route path="/product" element={<ProductPage />} />
+            <Route path="/follow" element={<FollowPage />} />
+            <Route path="/following" element={<FollowingPage />} />
+            <Route path="/*" element={<NotFoundErrorPage />} />
+            <Route path="/landing" element={<LandingPage />} />
+          </Routes>
+        </SMainLayout>
+      </AnimatePresence>
     </Sbackground>
   );
 }
 export default App;
-
-const Sbackground = styled.div `
-background-color:var(--black);
-min-height: 100vh;
-`
