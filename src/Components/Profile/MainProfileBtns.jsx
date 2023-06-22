@@ -69,28 +69,28 @@ export default function MainProfileBtns({ accountName, isSubscribed, setIsSubscr
     }
   };
 
-  if (isMyProfile) {
-    return (
-      <SBtnLayout>
-        <Button width="120px" myProfileBtn={true} padding="8px 0">
-          <Link to="/profile">프로필 수정</Link>
-        </Button>
-        <Button width="100px" myProfileBtn={true} padding="8px 0">
-          <Link to="/product">상품 등록</Link>
-        </Button>
-      </SBtnLayout>
-    );
-  } else if (!isMyProfile) {
-    return (
-      <SBtnContainer>
-        <SChatBtn />
-        <Button width="120px" onClick={handleClick} subscribed={isSubscribed} padding="8px 0">
-          {isSubscribed ? '언팔로우 ' : '팔로우'}
-        </Button>
-        <SShareBtn onClick={handleCopyClipBoard} />
-      </SBtnContainer>
-    );
-  }
+  return (
+    <>
+      {isMyProfile ? (
+        <SBtnLayout>
+          <Button width="120px" myProfileBtn={true} padding="8px 0">
+            <Link to="/setprofile">프로필 수정</Link>
+          </Button>
+          <Button width="100px" myProfileBtn={true} padding="8px 0">
+            <Link to="/product">상품 등록</Link>
+          </Button>
+        </SBtnLayout>
+      ) : (
+        <SBtnContainer>
+          <SChatBtn />
+          <Button width="120px" onClick={handleClick} subscribed={isSubscribed} padding="8px 0">
+            {isSubscribed ? '언팔로우 ' : '팔로우'}
+          </Button>
+          <SShareBtn onClick={handleCopyClipBoard} />
+        </SBtnContainer>
+      )}
+    </>
+  );
 }
 
 const SBtnLayout = styled.div`

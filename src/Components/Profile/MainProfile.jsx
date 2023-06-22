@@ -16,11 +16,11 @@ export default function MainProfile({ profile }) {
 
   const [isSubscribed, setIsSubscribed] = useState(profile.isfollow);
 
-  console.log(profile);
-  console.log(profile.accountname);
-  console.log(profile.followerCount);
-  console.log(followerCount);
-  console.log(followerCountRender);
+  // console.log(profile);
+  // console.log(profile.accountname);
+  // console.log(profile.followerCount);
+  // console.log(followerCount);
+  // console.log(followerCountRender);
 
   useEffect(() => {
     getUserData();
@@ -97,6 +97,9 @@ const SProfileImgBox = styled.div`
 
   img {
     width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
   }
 `;
 
