@@ -14,12 +14,11 @@ import ProfilePost from '../Components/Post/ProfilePost';
 // 프로필을 클릭했을 때 useLocation으로 해당 profile 정보 가져오기
 function MyProfile() {
   const location = useLocation();
-  let profile = location.state;
+  let profileData = location.state;
   // console.log(profile);
-  // location으로 가져온 값이 있으면 그 값을, 값이 없다면 MyProfileInfo()값을 profile에 재할당
-  profile = profile ? profile : MyProfileInfo();
 
-  console.log(profile);
+  const myUserData = MyProfileInfo();
+  const profile = profileData ? profileData : myUserData;
 
   const isModalState = useRecoilValue(isConfigModal);
 
@@ -32,7 +31,7 @@ function MyProfile() {
       <SContainer>
         <ProductList profile={profile} />
       </SContainer>
-      <ProfilePost />
+      <ProfilePost accountName={profile.accountname} />
       <BottomNav />
       {isModalState ? <CommonModal type="profile" /> : <></>}
     </SLayout>
