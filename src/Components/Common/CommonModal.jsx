@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { configModalAtom, setToken, setAccountName } from '../../Atom/atom';
+import { configModalAtom, setToken, setAccountName, isEditCheck } from '../../Atom/atom';
 import { useNavigate } from 'react-router-dom';
 const CommonModal = ({
   deleteFeed,
@@ -17,10 +17,12 @@ const CommonModal = ({
   category,
   commentId,
   commentAccount,
+  language,
 }) => {
   const modalRef = useRef(null);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   const [isModalState, setconfigModalAtom] = useRecoilState(configModalAtom);
+  const [isEditCheckState, setEditCheckState] = useRecoilState(isEditCheck);
 
   const accountName = useRecoilValue(setAccountName);
 
@@ -37,7 +39,9 @@ const CommonModal = ({
   console.log(feedList);
   useEffect(() => {
     if (type === 'post-config') {
+      console.log('isEdit=true');
       setIsEdit(true);
+      setEditCheckState(true);
     }
     if (type === 'comment-config') {
       if (commentAccount === accountName) {
@@ -51,7 +55,7 @@ const CommonModal = ({
   }, []);
 
   function goEdit() {
-    navigate('/post', { state: { isEdit, ...feedList, imgArr, title, content, code, category } });
+    navigate('/post', { state: { isEdit, ...feedList, imgArr, title, content, code, category, language } });
   }
   return (
     <SBackground onClick={handleClickOutside}>

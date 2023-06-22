@@ -32,7 +32,7 @@ const Carousel = ({ imgArr }) => {
           {imgArr.map((img, index) => (
             <CarouselImage
               key={index}
-              src={img}
+              src={img.url}
               alt="feed"
               currentIndex={currentIndex}
               transition={transition}

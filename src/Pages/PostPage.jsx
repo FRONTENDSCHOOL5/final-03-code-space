@@ -3,7 +3,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { setToken } from '../Atom/atom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { isEditCheck } from '../Atom/atom';
 import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
@@ -34,24 +34,28 @@ const PostPage = () => {
   const [selectedItem, setSelectedItem] = useState('');
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
   const [isCode, setIsCode] = useState(false);
-  const [language, setLanguage] = useState('');
-  const setIsEditCheck = useSetRecoilState(isEditCheck);
+  const [isEditCheckState, setEditCheckState] = useRecoilState(isEditCheck);
+
   const [isOpenLanguageDropdown, setIsOpenLanguageDropdown] = useState(false);
 
   const [title, setTitle] = useState(isEdit ? state.title : '');
   const [content, setContent] = useState(isEdit ? state.content : '');
   const [code, setCode] = useState(isEdit ? state.code : '');
+  const [language, setLanguage] = useState(isEdit ? state.language : '');
   const [imgAddList, setImgAddList] = useState([]);
-  console.log(state);
+  console.log(isEdit);
 
   useEffect(() => {
+    if (!isEditCheckState) {
+      navigate('/feeddetail', { state: { ...location.state, isEdit: false } });
+    }
     if (isEdit) {
       handleItemClick(state.category);
       setImgAddList(imgArr);
     }
   }, []);
   useEffect(() => {
-    console.log(isEdit);
+    console.log(isCode);
 
     if (selectedItem == '질문있어요!' || selectedItem == '자유게시판') {
       setIsCode(true);
@@ -109,29 +113,30 @@ const PostPage = () => {
       headers: { Authorization: 'Bearer ' + isToken, 'Content-type': 'application/json' },
     };
     console.log(isEdit);
+    let image = ''; // 이미지 변수 초기화
 
     if (isEdit) {
-      const image = imgArr.toString();
+      const imgUrls = imgAddList.map(img => img.url);
+      image = imgUrls.join(',');
       try {
         const response = await axios.put(
           url + `post/${feedList.item.id}`,
           {
             post: {
-              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"\\\"code:${code}\\\"\\\"language:${language}\\\"`,
+              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"code:${code}\\\"\\\"content:${content}\\\"\\\"language:${language}\\\"`,
               image: image,
             },
           },
           config,
         );
         console.log(response.data.post);
-        setIsEditCheck(true);
-        navigate('/feeddetail', { state: { ...location.state, edit: response.data.post } });
+        setEditCheckState(true);
+        navigate('/feeddetail', { state: { ...location.state, edit: response.data.post, isEdit: false } });
       } catch (error) {
         console.log(error);
       }
     } else {
       // 이미지 넣지 않았을 떄
-      let image = ''; // 이미지 변수 초기화
 
       // 이미지 3장 이내로 넣었을 때
       const imgUrls = imgAddList.map(img => img.url);
@@ -141,7 +146,7 @@ const PostPage = () => {
           url + 'post',
           {
             post: {
-              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"${content}\\\"\\\"code:${code}\\\"\\\"language:${language}\\\"`,
+              content: `\\\"title:${title}\\\"\\\"category:${selectedItem}\\\"\\\"code:${code}\\\"\\\"content:${content}\\\"\\\"language:${language}\\\"`,
               image: image,
             },
           },
@@ -164,6 +169,7 @@ const PostPage = () => {
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append('image', file);
+    console.log(imgAddList);
 
     const config = {
       headers: { 'Content-Type': 'multipart/form-data' },
@@ -187,15 +193,15 @@ const PostPage = () => {
   // 이미지 미리보기
   const imgAddPreview = () => {
     const imgWidth = imgAddList.length === 1 || isEdit ? '350px' : '270px';
-
+    console.log(imgAddList);
     return (
       <SImgContainer>
         {isEdit
           ? imgAddList.map((img, index) => {
               return (
                 <SImgBox key={index}>
-                  <SDelBtn onClick={() => onRemoveAdd(img)} />
-                  <SPreviewImg src={img} style={{ width: imgWidth }} />
+                  <SDelBtn onClick={() => onRemoveAdd(img.url)} />
+                  <SPreviewImg src={img.url} style={{ width: imgWidth }} />
                 </SImgBox>
               );
             })
@@ -213,7 +219,7 @@ const PostPage = () => {
   // 이미지 삭제
   const onRemoveAdd = deleteUrl => {
     if (isEdit) {
-      setImgAddList(imgAddList.filter(img => img !== deleteUrl));
+      setImgAddList(imgAddList.filter(img => img.url !== deleteUrl));
     } else {
       setImgAddList(imgAddList.filter(img => img.url !== deleteUrl));
     }
@@ -258,7 +264,7 @@ const PostPage = () => {
           <SPostContent placeholder="게시글 입력하기..." ref={contentInput} onChange={writePost}></SPostContent>
         </SContentWrap>
       )}
-      {isCode ? (
+      {isCode && !isEdit ? (
         <SCodeWrap>
           <DropdownWrapper>
             <DropdownButton onClick={toggleLanguageDropdown}>{language ? language : '코드 언어'}</DropdownButton>
@@ -281,9 +287,19 @@ const PostPage = () => {
         isEdit &&
         isCode && (
           <SCodeWrap>
+            <DropdownWrapper>
+              <DropdownButton onClick={toggleLanguageDropdown}>{language ? language : '코드 언어'}</DropdownButton>
+              <DropdownContent isOpen={isOpenLanguageDropdown}>
+                {codeLanguages.map(language => (
+                  <DropdownItem key={language} onClick={() => handleLanguageItemClick(language)}>
+                    {language}
+                  </DropdownItem>
+                ))}
+              </DropdownContent>
+            </DropdownWrapper>
             <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} value={code} />
             <SCode>
-              <SyntaxHighlighter language="jsx" style={atomDark}>
+              <SyntaxHighlighter language={language} style={atomDark}>
                 {code}
               </SyntaxHighlighter>
             </SCode>
