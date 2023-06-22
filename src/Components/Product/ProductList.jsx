@@ -5,13 +5,13 @@ import axios from 'axios';
 import styled from 'styled-components';
 import ProductCard from './ProductCard';
 
-export default function ProductList({ profile }) {
+export default function ProductList({ accountName }) {
   const [productData, setProductData] = useState([]);
   const token = useRecoilValue(setToken);
-  console.log(profile.accountname);
+  console.log(accountName);
 
   const URL = 'https://api.mandarin.weniv.co.kr';
-  const reqPath = `/product/${profile.accountname}`;
+  const reqPath = `/product/${accountName}`;
   console.log(reqPath);
 
   useEffect(() => {
