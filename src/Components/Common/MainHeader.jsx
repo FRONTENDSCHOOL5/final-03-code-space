@@ -110,13 +110,13 @@ const MainHeader = ({
           </>
         ) : type === 'more' ? (
         <>
-          <img src={backIcon} alt="뒤로가기"></img>
+          <img src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></img>
           <img src={moreIcon} alt="더보기"></img>
         </>
         ) : type === 'message' ? (
           <>
             <SWrap>
-              <img src={backIcon} alt="뒤로가기"></img>
+              <img src={backIcon} alt="뒤로가기" onClick={() => navigate('/messagelist')}></img>
               <SNickname>코딩천재</SNickname>
             </SWrap>
             <img src={moreIcon} alt="더보기"></img>

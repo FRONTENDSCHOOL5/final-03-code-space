@@ -3,12 +3,15 @@ import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import BottomNav from '../Components/Common/BottomNav';
 import ProfileImg from '../assets/img/profile-img.svg';
+import { useNavigate } from 'react-router-dom';
 
 const MessageListPage = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <MainHeader type="more"></MainHeader>
-      <SWrapChatList>
+      <SWrapChatList onClick={() => navigate('/message')}>
         <SProfileImg></SProfileImg>
         <SMsgWrap>
           <SMsgName>코딩천재</SMsgName>
@@ -42,6 +45,7 @@ const SWrapChatList = styled.div`
   width: 390px;
   height: 70px;
   border-bottom: 1px solid var(--border-gray);
+  cursor: pointer;
 `;
 
 const SProfileImg = styled.div`

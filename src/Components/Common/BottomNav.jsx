@@ -11,7 +11,7 @@ import { useRecoilValue } from 'recoil';
 import { useSetRecoilState } from 'recoil';
 import { bottomNavIndex } from '../../Atom/atom';
 const BottomNav = () => {
-  const navItems = ['feed', 'message', 'post', 'myprofile'];
+  const navItems = ['feed', 'messagelist', 'post', 'myprofile'];
   const imgs = [homeIcon, chatIcon, postIcon, profileIcon];
   const bottomNavIndexState = useRecoilValue(bottomNavIndex);
   const setBottomNavIndexState = useSetRecoilState(bottomNavIndex);
