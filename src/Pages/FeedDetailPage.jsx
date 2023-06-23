@@ -64,6 +64,7 @@ const FeedDetailPage = () => {
   const [isModalState, setconfigModalAtom] = useRecoilState(configModalAtom);
 
   const [isEditCheckState, setEditCheckState] = useRecoilState(isEditCheck);
+  const [myAccountName, setMyAccountName] = useRecoilState(setAccountName);
 
   const accountName = useRecoilValue(setAccountName);
 
@@ -79,7 +80,12 @@ const FeedDetailPage = () => {
   });
 
   function goProfile(item) {
-    navigate('/myprofile', { state: item });
+    console.log(item);
+    if (myAccountName === item.accountname) {
+      navigate(`/myprofile`, { state: item });
+    } else {
+      navigate(`/myprofile/${item.accountname}`, { state: item });
+    }
   }
   async function deleteFeed() {
     await deletePost(); // deletePost 함수의 비동기 작업 완료까지 기다림
@@ -115,10 +121,8 @@ const FeedDetailPage = () => {
     }
   }, []);
   useEffect(() => {
-    if (!isEditCheckState) {
-      return;
-    }
-  }, [isEditCheckState]);
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     setImgArr(extractImageLinks(reactionCount?.post.image));

@@ -4,15 +4,19 @@ import Logo from '../assets/img/icon-logo.svg';
 import Splash from '../assets/img/splash.png';
 import errorIcon from '../assets/img/error404.svg';
 import Button from '../Components/Common/Button';
+import { useNavigate } from 'react-router-dom';
 
 const NotFoundErrorPage = () => {
+  const navigate = useNavigate();
   return (
     <>
       <SBackground>
         <LogoBox>
           <SLogoImg src={errorIcon} alt="로고이미지" />
           <SEnter>페이지를 찾을 수 없습니다 :(</SEnter>
-          <Button width="30%">홈으로 가기</Button>
+          <Button width="30%" onClick={() => navigate('/')}>
+            홈으로 가기
+          </Button>
         </LogoBox>
       </SBackground>
     </>
