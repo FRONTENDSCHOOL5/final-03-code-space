@@ -19,8 +19,7 @@ export default function MainProfile({ accountName }) {
 
   const [isSubscribed, setIsSubscribed] = useState(profile.isfollow);
 
-  // console.log(profile);
-  // console.log(profile.accountname);
+  console.log(profile);
   // console.log(profile.followerCount);
   // console.log(followerCount);
   // console.log(followerCountRender);
@@ -28,6 +27,7 @@ export default function MainProfile({ accountName }) {
   useEffect(() => {
     setIsFetchData(false);
     getUserData();
+    console.log(profile);
   }, [followerCount, accountName]);
   // followerCount는 내 프로필에는 변화가 없기 때문에 내 프로필을 불러올 때 getUserData()가 실행되지 않음.(전에 값이 들어가거나 undefind)
   // 내 프로필을 들어갈 때도 getUserData()가 실행되기를 원하기 때문에 이 부분 의존성 배열을 제거(의존성 배열을 뺄 경우 페이지가 로딩될 때마다 실행)
@@ -45,14 +45,25 @@ export default function MainProfile({ accountName }) {
         },
       });
       console.log(response.data.profile);
-      setProfile(response.data.profile);
-      setIsSubscribed(response.data.profile.isfollow);
-      setFollowerCount(response.data.profile.followerCount);
-      setFollowerCountRender(response.data.profile.followerCount);
+      const followrUpdate = removeFollowerById(response.data.profile, '6494255eb2cb20566369fa5c');
+      setProfile(followrUpdate);
+      setIsSubscribed(followrUpdate.isfollow);
+      setFollowerCount(followrUpdate.follower.length);
+      setFollowerCountRender(followrUpdate.follower.length);
       setIsFetchData(true);
+
+      console.log(followrUpdate);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  // 메인계정 지워주기
+  function removeFollowerById(obj, followerId) {
+    if (obj && obj.follower) {
+      obj.follower = obj.follower.filter(id => id !== followerId);
+    }
+    return obj;
   }
 
   return (
