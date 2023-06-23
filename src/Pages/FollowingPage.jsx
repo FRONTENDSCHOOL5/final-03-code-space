@@ -14,14 +14,14 @@ export default function FollowPage() {
   const location = useLocation();
   let accountName = location.state.accountName;
 
+  const [followList, setFollowList] = useState([]);
   console.log(accountName);
 
+  // followList가 변할 때마다 실행
   useEffect(() => {
     // console.log('test');
     getFollowData();
-  }, []);
-
-  const [followList, setFollowList] = useState([]);
+  }, [followList]);
 
   const URL = 'https://api.mandarin.weniv.co.kr';
   const reqPath = `/profile/${accountName}/following`;
@@ -45,19 +45,19 @@ export default function FollowPage() {
 
   return (
     <>
-      <MainHeader />
-      <SFollowerList>
+      <MainHeader type="profile" />
+      <SFollowingList>
         {followList.map(follow => {
           console.log(follow);
-          return <FollowListCard key={follow._id} profile={follow} isFollower={false} />;
+          return <FollowListCard key={follow._id} profile={follow} />;
         })}
-      </SFollowerList>
+      </SFollowingList>
       <BottomNav />
     </>
   );
 }
 
-const SFollowerList = styled.div`
+const SFollowingList = styled.div`
   box-shadow: inset 0 0 30px red;
   padding: 20px 16px;
   color: var(--white);

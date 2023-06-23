@@ -4,14 +4,15 @@ import MainHeader from '../Components/Common/MainHeader';
 import Input from '../Components/Common/Input';
 import uploadImg from '../assets/icons/uploadImg.svg';
 import { motion } from 'framer-motion';
+
 import axios from 'axios';
 import { setToken } from '../Atom/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 
 const ProductPage = () => {
-  const url = "https://api.mandarin.weniv.co.kr/";
-  const authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
+  const url = 'https://api.mandarin.weniv.co.kr/';
+
   const navigate = useNavigate();
   const isToken = useRecoilValue(setToken);
 
@@ -94,9 +95,8 @@ const ProductPage = () => {
     }
 
     const config = {
-      headers:{Authorization: 'Bearer ' + isToken, 
-      "Content-type" : "application/json"}
-    }
+      headers: { Authorization: 'Bearer ' + isToken, 'Content-type': 'application/json' },
+    };
 
     try {
       const response = await axios.post(
@@ -113,7 +113,7 @@ const ProductPage = () => {
       );
       console.log(response);
       navigate('/myprofile');
-    } catch(error){
+    } catch (error) {
       console.log(error);
     }
   };
@@ -121,7 +121,11 @@ const ProductPage = () => {
   return (
     <>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-        <MainHeader type="save" buttonDisabled={isSaveEnabled ? false : true}  handleUploadProduct={isSaveEnabled ? handleUploadProduct : null} />
+        <MainHeader
+          type="save"
+          buttonDisabled={isSaveEnabled ? false : true}
+          handleUploadProduct={isSaveEnabled ? handleUploadProduct : null}
+        />
         <SImgWrap>
           <SImgBg imageUrl={uploadedImageUrl}>
             <SUploadImgBtn onClick={handleClick}>
@@ -140,7 +144,7 @@ const ProductPage = () => {
           onChange={writeProductName}
           minLength={2}
           maxLength={15}
-          style={{fontSize:'16px'}}
+          style={{ fontSize: '16px' }}
         />
         <Input
           placeholder="숫자만 입력 가능합니다."
@@ -148,12 +152,14 @@ const ProductPage = () => {
           onChange={writeProductPrice}
           value={commaProductPrice}
           onkeyup="inputNumberFormat(this)"
-          style={{fontSize:'16px'}}/>
-        <Input 
-          placeholder="상품 설명을 입력해주세요." 
-          label="판매 설명" 
-          onChange={writeSaleUrl} 
-          style={{fontSize:'16px'}}/>
+          style={{ fontSize: '16px' }}
+        />
+        <Input
+          placeholder="상품 설명을 입력해주세요."
+          label="판매 설명"
+          onChange={writeSaleUrl}
+          style={{ fontSize: '16px' }}
+        />
       </motion.div>
     </>
   );

@@ -16,6 +16,7 @@ const MainHeader = ({
   handleUploadProduct,
   searchUser,
   buttonDisabled,
+  handleSubmit,
 }) => {
   const navigate = useNavigate();
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
@@ -85,6 +86,21 @@ const MainHeader = ({
               src={configIcon}
               alt="설정창"
               onClick={() => setconfigModalAtom('post-config')}></SSettingIcon>
+          </>
+        ) : type === 'set-profile' ? (
+          <>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <Button
+              type="submit"
+              padding="7px 0"
+              width="90px"
+              mainHeader={true}
+              onClick={() => {
+                handleSubmit();
+                navigate('/myprofile');
+              }}>
+              저장
+            </Button>
           </>
         ) : type === 'detail' ? (
           <>

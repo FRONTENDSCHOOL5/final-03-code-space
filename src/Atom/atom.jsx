@@ -21,7 +21,13 @@ export const setAccountName = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-export let setIsFollowed = atom({
+export const setIsLogined = atom({
+  key: 'isLogined',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const setIsFollowed = atom({
   key: 'isFollowed',
   default: false,
   effects_UNSTABLE: [persistAtom],

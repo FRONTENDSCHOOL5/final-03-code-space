@@ -5,14 +5,13 @@ import axios from 'axios';
 import styled from 'styled-components';
 import ProductCard from './ProductCard';
 
-export default function ProductList({ profile }) {
+export default function ProductList({ accountName }) {
   const [productData, setProductData] = useState([]);
   const token = useRecoilValue(setToken);
-  console.log(profile.accountname);
+  console.log(accountName);
 
   const URL = 'https://api.mandarin.weniv.co.kr';
-  const reqPath = `/product/${profile.accountname}`;
-  // const reqPath = `/product/pig1`;
+  const reqPath = `/product/${accountName}`;
   console.log(reqPath);
 
   useEffect(() => {
@@ -29,10 +28,7 @@ export default function ProductList({ profile }) {
           'Content-type': 'application/json',
         },
       });
-      console.log(response.data);
       console.log(response.data.product);
-
-      // const productData = ;
       setProductData(response.data.product);
     } catch (error) {
       console.log(error);
@@ -51,17 +47,18 @@ export default function ProductList({ profile }) {
         <SProductListTitle>판매 중인 상품</SProductListTitle>
         {/* 상품 갯수만큼 상품카드 넣어주기 */}
         <SProductList>
-          {productData.map(product => {
-            return (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                itemName={product.itemName}
-                price={product.price}
-                itemImg={product.itemImage}
-              />
-            );
-          })}
+          {productData &&
+            productData.map(product => {
+              return (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  itemName={product.itemName}
+                  price={product.price}
+                  itemImg={product.itemImage}
+                />
+              );
+            })}
         </SProductList>
       </SLayout>
     );
@@ -81,9 +78,19 @@ const SProductList = styled.div`
   /* overflow: hidden; */
   flex-wrap: nowrap;
   overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   div {
     flex-shrink: 0;
+
+    &:last-child {
+      margin-right: 16px;
+    }
   }
 `;
 

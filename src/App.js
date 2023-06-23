@@ -16,6 +16,7 @@ import FeedDetailPage from './Pages/FeedDetailPage';
 import ProductPage from './Pages/ProductPage';
 import NotFoundErrorPage from './Pages/NotFoundErrorPage';
 import Modal from './Components/Common/Modal';
+import ProfileResetPage from './Pages/ProfileResetPage';
 import { SMainLayout, Sbackground } from './Styles/MainLayoutStyle';
 import { AnimatePresence } from 'framer-motion';
 
@@ -31,6 +32,7 @@ function App() {
             <Route path="/feeddetail" element={<FeedDetailPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={<ProfileSetPage />} />
+            <Route path="/setprofile" element={<ProfileResetPage />} />
             <Route path="/myprofile" element={<MyProfilePage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
