@@ -107,6 +107,8 @@ const SNavLayout = styled.nav`
 const SCommentProfileImg = styled.img`
   width: 36px;
   height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 const SInputComment = styled.input`
   flex: 1;
