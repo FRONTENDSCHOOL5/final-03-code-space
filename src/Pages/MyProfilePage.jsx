@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import CommonModal from '../Components/Common/CommonModal';
 import { useRecoilValue } from 'recoil';
 import { configModalAtom, setAccountName } from '../Atom/atom';
+import { motion } from 'framer-motion';
 
 import ProfilePost from '../Components/Post/ProfilePost';
 
@@ -24,18 +25,20 @@ function MyProfile() {
   const ConfigModal = useRecoilValue(configModalAtom);
 
   return (
-    <SLayout>
-      <MainHeader type={'profile'} />
-      <SContainer>
-        <MainProfile accountName={profile ? profile.accountname : accountName} />
-      </SContainer>
-      <SContainer>
-        <ProductList accountName={profile ? profile.accountname : accountName} />
-      </SContainer>
-      <ProfilePost accountName={profile ? profile.accountname : accountName} />
-      <BottomNav />
-      {ConfigModal === 'post-config' ? <CommonModal type="profile" /> : <></>}
-    </SLayout>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <SLayout>
+        <MainHeader type={'profile'} />
+        <SContainer>
+          <MainProfile accountName={profile ? profile.accountname : accountName} />
+        </SContainer>
+        <SContainer>
+          <ProductList accountName={profile ? profile.accountname : accountName} />
+        </SContainer>
+        <ProfilePost accountName={profile ? profile.accountname : accountName} />
+        <BottomNav />
+        {ConfigModal === 'post-config' ? <CommonModal type="profile" /> : <></>}
+      </SLayout>
+    </motion.div>
   );
 }
 

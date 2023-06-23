@@ -100,8 +100,3 @@ const SProductListTitle = styled.h2`
   font-size: 16px;
   font-weight: 700;
 `;
-
-const ProductListLayout = styled.div`
-  display: flex;
-  gap: 10px;
-`;
