@@ -70,12 +70,12 @@ const SLayout = styled.div`
   background-color: var(--black);
   border-top: 1px solid #4d4d4d;
   border-bottom: 1px solid #4d4d4d;
+  box-sizing: border-box;
 `;
 
 const SProductList = styled.div`
   display: flex;
   gap: 10px;
-  /* overflow: hidden; */
   flex-wrap: nowrap;
   overflow-x: auto;
   -ms-overflow-style: none;
