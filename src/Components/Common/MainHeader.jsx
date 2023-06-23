@@ -104,15 +104,13 @@ const MainHeader = ({
           </>
         ) : type === 'save' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기"></SBackIcon>
-            <SSaveBtn onClick={handleUploadProduct}>저장</SSaveBtn>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadProduct} style={{marginRight:'20px'}}>저장</SUploadBtn>
           </>
         ) : type === 'upload' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost} style={{ marginRight: '5px' }}>
-              업로드
-            </SUploadBtn>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/myprofile')}></SBackIcon>
+            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost}style={{ marginRight: '5px' }}>업로드</SUploadBtn>
           </>
         ) : type === 'more' ? (
         <>
@@ -198,7 +196,6 @@ const SUploadBtn = styled.button`
   border-radius: 44px;
   box-sizing: border-box;
   cursor: pointer;
-
   &:disabled {
     cursor: default;
     background: var(--secondary-color);
