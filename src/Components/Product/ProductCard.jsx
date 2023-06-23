@@ -6,7 +6,7 @@ export default function ProductCard({ id, itemName, price, itemImg }) {
     <SProductCard id={id}>
       <SImage src={itemImg} alt={itemName} />
       <STitle>{itemName}</STitle>
-      <SPrice>{price}원</SPrice>
+      <SPrice>{price.toLocaleString()}원</SPrice>
     </SProductCard>
   );
 }
