@@ -271,6 +271,7 @@ const SBackground = styled.div`
   left: 0;
   top: 0;
   overflow-y: hidden;
+  z-index:9999;
   /* text-align: center; */
   background-color: rgba(0, 0, 0, 0.8);
 `;
