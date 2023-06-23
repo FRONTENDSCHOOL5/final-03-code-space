@@ -51,9 +51,7 @@ const MessagePage = () => {
         <SProfileImg />
         <SContentWrap>
           <SMsgContent>
-            옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,
-            뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할 넣는
-            풍부하게 뛰노는 인생의 힘있다.
+            안녕하세요^~^
           </SMsgContent>
           <SMsgTime>10:23</SMsgTime>
         </SContentWrap>
@@ -61,7 +59,7 @@ const MessagePage = () => {
       <SMsgWrap>
         <SProfileImg />
         <SContentWrap>
-          <SMsgContent>어쩌고 저쩌고 이상입니다.</SMsgContent>
+          <SMsgContent>같이 코딩하고싶어서 연락드렸습니다!</SMsgContent>
           <SMsgTime>10:24</SMsgTime>
         </SContentWrap>
       </SMsgWrap>
