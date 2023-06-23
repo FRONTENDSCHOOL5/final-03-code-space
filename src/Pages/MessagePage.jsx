@@ -117,13 +117,17 @@ const SContentWrap = styled.div`
 `;
 
 const SMsgContent = styled.div`
-  width: 240px;
+  max-width: 240px;
   margin-left: 10px;
   padding: 10px 8px;
-  color: var(--white);
-  border: 0.5px solid var(--white);
+  color : ${(props) => 
+  props.isMine ? 'var(--black)': 'var(--white)'};
+  background-color : ${(props) => 
+  props.isMine ? 'var(--point-color)': 'var(--black)'};
+  border : ${(props) => 
+  props.isMine ? 'none': '0.5px solid var(--white)'};
   border-radius: ${(props) =>
-    props.isMine ? '0px 9px 9px 9px' : '9px 0px 9px 9px'};
+  props.isMine ? '9px 0px 9px 9px' : '0px 9px 9px 9px'};
   font-size: 13px;
   line-height: 1.3;
 `;
