@@ -17,12 +17,23 @@ import {
   SReactionContent,
   SReactionCount,
   SMainContent,
+  SImgContainer,
+  STitleContent,
+  SCodeEditor,
+  SCodeLanguage,
+  SCodeContainer,
 } from '../../Styles/FeedStyle/PostStyle';
 
 import iconHeart from '../../assets/icons/heart.svg';
 import iconComment from '../../assets/icons/chat-green.svg';
 import { profileImg, APIDefaultImage } from './COMMON';
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { formatCodeSnippet } from './formatCodeSnippet';
+
 import {
   categoryTag,
   searchFeedList,
@@ -165,6 +176,8 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
             content = contentData.extracted;
             code = codeData.extracted;
             language = languageData.extracted;
+            code = formatCodeSnippet(code);
+
             return (
               <SFeedCard key={item.id} onClick={() => goFeedDetail(item, title, content, category, code, language)}>
                 <SAuthor>
@@ -174,7 +187,17 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
                     <SProfileImg src={item.author.image} alt="프사" onClick={event => goProfile(event, item.author)} />
                   )}
                   <STitleContainer>
-                    <STitle>{title}</STitle>
+                    <STitleContent>
+                      <STitle>{title}</STitle>
+                      {item.image ? (
+                        <SImgContainer>
+                          <FontAwesomeIcon icon={faImage} style={{ color: '#2bae66' }} />
+                        </SImgContainer>
+                      ) : (
+                        <></>
+                      )}
+                    </STitleContent>
+
                     <SAuthorInfo>
                       <SUserName>{item.author.username}</SUserName>
                       <SAccountname>@{item.author.accountname}</SAccountname>
@@ -183,6 +206,16 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
                 </SAuthor>
                 <div>
                   <SMainContent>{content}</SMainContent>
+                  {code !== '' && (
+                    <SCodeEditor>
+                      <SCodeLanguage>{language}</SCodeLanguage>
+                      <SCodeContainer>
+                        <SyntaxHighlighter language={language} style={atomDark}>
+                          {code}
+                        </SyntaxHighlighter>
+                      </SCodeContainer>
+                    </SCodeEditor>
+                  )}
                 </div>
                 <SReactionContainer>
                   <SReactionContent>

@@ -68,7 +68,7 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
           value={inputComment}
           type="text"
           placeholder="댓글 작성하기"
-          onKeyDown={handleKeyDown}
+          onKeyDown={event => handleKeyDown(event)}
         />
         <SSubmutBtn onClick={handleAddComment} className={inputComment ? 'active' : ''}>
           게시
@@ -107,6 +107,8 @@ const SNavLayout = styled.nav`
 const SCommentProfileImg = styled.img`
   width: 36px;
   height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 const SInputComment = styled.input`
   flex: 1;
