@@ -120,8 +120,8 @@ const SLogoImg = styled.img`
   display: block;
   transition: all 2s;
   width: ${({ isLandingEnterState, isAnimationDisabled }) =>
-    isAnimationDisabled ? '180px' : isLandingEnterState ? '300px' : '180px'};
-  transform: translateY(${({ isLandingEnterState }) => (isLandingEnterState ? 0 : '-95%')});
+    isAnimationDisabled ? '200px' : isLandingEnterState ? '300px' : '200px'};
+  transform: translateY(${({ isLandingEnterState }) => (isLandingEnterState ? '40%' : '-95%')});
   animation: ${({ isLandingEnterState, isAnimationDisabled }) =>
       isAnimationDisabled ? 'none' : isLandingEnterState ? 'none' : logofadeOut}
     0.8s ease-in;
@@ -169,7 +169,7 @@ const SEnter = styled.div`
   color: var(--white);
   font-family: var(--title-font);
   font-size: 40px;
-  margin-top: 40px;
+  margin-top: 100px;
   text-align: center;
   font-style: italic;
   &:hover {

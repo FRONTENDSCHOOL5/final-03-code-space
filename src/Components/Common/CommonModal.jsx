@@ -197,6 +197,7 @@ const SConfirmContents = styled.div`
   font-size: 14px;
 
   cursor: pointer;
+  font-size: 12px;
   div {
     flex: 1;
     height: 100%;
@@ -266,7 +267,7 @@ const SBackground = styled.div`
 `;
 const modalfadeOut = keyframes`
   0% {  top: 100%;  }
-  100% {  top: 80%;  }
+  100% {  top: 85%;  }
 `;
 const singleModalfadeOut = keyframes`
   0% {  top: 100%;  }
@@ -280,7 +281,7 @@ const SModal = styled.article`
   background-color: var(--black);
   border-radius: 47px 47px 0 0;
   position: fixed;
-  top: 80%;
+  top: 85%;
 
   transition: all 0.2s;
   animation: ${({ isLandingEnterState }) => (isLandingEnterState ? 'none' : modalfadeOut)} 0.1s ease-in;

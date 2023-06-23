@@ -87,14 +87,9 @@ img{
     margin:0;
 }
 
-/* html{
-  min-height: 100vh;
-}
 body{
-  min-height: calc(var(--vh, 1vh) * 100);
-
-
-} */
+  font-family: var(--default-font);
+}
 
 `;
 export default GlobalStyle;
