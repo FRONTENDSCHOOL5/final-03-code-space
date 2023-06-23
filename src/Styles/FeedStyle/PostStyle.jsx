@@ -76,6 +76,9 @@ const STitleContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+const STitleContent = styled.div`
+  display: flex;
+`;
 const SAuthorInfo = styled.div`
   display: flex;
   align-items: center;
@@ -138,6 +141,11 @@ const SCodeLanguage = styled.div`
   color: var(--darkgray);
   margin-left: 3px;
 `;
+const SImgContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+`;
 export {
   SFeedCard,
   STitle,
@@ -158,4 +166,6 @@ export {
   SHeartImgDetail,
   SCodeEditor,
   SCodeLanguage,
+  SImgContainer,
+  STitleContent,
 };
