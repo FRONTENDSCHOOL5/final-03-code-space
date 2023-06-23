@@ -411,6 +411,7 @@ const SCode = styled.div`
 `;
 
 const SSyntaxHighlighter = styled(SyntaxHighlighter)`
+  font-size: 11px;
   &::-webkit-scrollbar {
     border-radius: 6px;
   }
