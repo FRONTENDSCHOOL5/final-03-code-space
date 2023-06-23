@@ -120,7 +120,6 @@ const CarouselButton = styled.button`
 const IndicatorsContainer = styled.ul`
   display: flex;
   justify-content: center;
-  margin-top: 10px;
 `;
 
 const Indicator = styled.li`
@@ -128,8 +127,9 @@ const Indicator = styled.li`
   height: 10px;
   background-color: ${props => (props.active ? 'var(--point-color)' : 'var(--lightgray)')};
   border-radius: 50%;
-  margin: 0 5px;
+  margin: -15px 5px;
   cursor: pointer;
+  z-index: 5;
 `;
 
 export default Carousel;
