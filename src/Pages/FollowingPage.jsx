@@ -58,7 +58,6 @@ export default function FollowPage() {
 }
 
 const SFollowingList = styled.div`
-  box-shadow: inset 0 0 30px red;
   padding: 20px 16px;
   color: var(--white);
   font-family: var(--default-font);

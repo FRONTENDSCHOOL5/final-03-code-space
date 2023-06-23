@@ -17,6 +17,7 @@ const SProductCard = styled.div`
 
 const SImage = styled.img`
   width: inherit;
+  vertical-align: top;
   height: 90px;
   object-fit: cover;
   border-radius: 8px;

@@ -48,6 +48,8 @@ const Post = ({ postData, isGrid }) => {
           postData.post?.map(item => {
             let title;
             let content;
+            let code;
+            let language;
             const extractedData = extractString(item.content, 'title');
             if (extractedData === null) {
               return null;
@@ -62,8 +64,33 @@ const Post = ({ postData, isGrid }) => {
             if (tagState !== '전체' && tagState !== category) {
               return null;
             }
+
+            const codeData = extractString(categoryData.remaining, 'code');
+            if (codeData === null) {
+              return null;
+            }
+
+            const contentData = extractString(codeData.remaining, 'content');
+
+            if (contentData === null) {
+              return null;
+            }
+            const languageData = extractString(contentData.remaining, 'language');
+
+            if (languageData === null) {
+              return null;
+            }
+
+            if (tagState !== '팔로잉') {
+              if (tagState !== '전체' && tagState !== category) {
+                return null;
+              }
+            }
+
             title = extracted;
-            content = categoryData.remaining;
+            content = contentData.extracted;
+            code = codeData.extracted;
+            language = languageData.extracted;
 
             // 이미지 여러장 배열로 변환
             const contentImgArr = extractImageLinks(item.image);
@@ -75,8 +102,8 @@ const Post = ({ postData, isGrid }) => {
                   <SContentContainer
                     key={item.id}
                     className={contentImgArr.length >= 2 ? 'moreImg' : ''}
-                    onClick={() => goFeedDetail(item, title, content, category)}>
-                    <img src={contentImgArr.length === 0 ? logoImg : contentImgArr[0]} alt="" />
+                    onClick={() => goFeedDetail(item, title, content, category, code, language)}>
+                    <img src={contentImgArr.length === 0 ? logoImg : contentImgArr[0].url} alt="" />
                   </SContentContainer>
                 ) : (
                   <SFeedCard key={item.id}>
@@ -84,7 +111,9 @@ const Post = ({ postData, isGrid }) => {
                       <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
 
                       <STitleContainer onClick={() => goFeedDetail(item, title, content, category)}>
-                        <STitle onClick={() => goFeedDetail(item, title, content, category)}>{title}</STitle>
+                        <STitle onClick={() => goFeedDetail(item, title, content, category, code, language)}>
+                          {title}
+                        </STitle>
                         <SAuthorInfo>
                           <SUserName>{item.author.username}</SUserName>
                           <SAccountname>@{item.author.accountname}</SAccountname>
@@ -92,7 +121,7 @@ const Post = ({ postData, isGrid }) => {
                       </STitleContainer>
                     </SAuthor>
                     <div>
-                      <SMainContent onClick={() => goFeedDetail(item, title, content, category)}>
+                      <SMainContent onClick={() => goFeedDetail(item, title, content, category, code, language)}>
                         {content}
                       </SMainContent>
                     </div>
