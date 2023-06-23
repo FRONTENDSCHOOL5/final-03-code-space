@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import Logo from '../assets/img/icon-logo.svg';
 import Splash from '../assets/img/splash.png';
 import LoginPage from './LoginPage';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
-import { isLandingEnter, isModalAtom } from '../Atom/atom';
+import { isLandingEnter, isModalAtom, noneEnterAtom, isLoginSuccessAtom } from '../Atom/atom';
 import { useLocation } from 'react-router-dom';
 
 const LandingPage = () => {
   const [isModal, setIsModal] = useRecoilState(isModalAtom);
+  const noneEnter = useRecoilValue(noneEnterAtom);
+  const isLoginSuccess = useRecoilValue(isLoginSuccessAtom);
 
   const setIsLandingEnter = useSetRecoilState(isLandingEnter);
   const isLandingEnterState = useRecoilValue(isLandingEnter);
@@ -19,6 +21,7 @@ const LandingPage = () => {
     setIsLandingEnter(false);
     setIsModal(true);
   };
+
   const isSignupPage = location.pathname === '/signup';
   const isAnimationDisabled = isSignupPage; // "/signup" 경로일 때 애니메이션 비활성화
 
@@ -30,11 +33,13 @@ const LandingPage = () => {
           src={Logo}
           alt="로고이미지"
           isAnimationDisabled={isAnimationDisabled}
+          isLoginSuccess={isLoginSuccess}
         />
         {isModal ? (
           <LoginPage />
         ) : (
-          !isSignupPage && (
+          !isSignupPage &&
+          !noneEnter && ( // 회원가입 페이지와 로그인 완료시 Enter는 보이지 않게
             <SEnter
               isLandingEnterState={isLandingEnterState}
               isAnimationDisabled={isAnimationDisabled}
@@ -60,8 +65,58 @@ const enterScale = keyframes`
   100% { scale: 1.1;  }
 `;
 
+// 로그인 성공 후 애니메이션
+
+const rotationAnimation = keyframes`
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  12.5% {
+    transform: rotate(90deg) scale(1.2);
+  }
+  25% {
+    transform: rotate(180deg) scale(1.4);
+  }
+  37.5% {
+    transform: rotate(270deg) scale(1.6);
+  }
+  50% {
+    transform: rotate(360deg) scale(1.8);
+  }
+  62.5% {
+    transform: rotate(450deg) scale(2);
+  }
+  75% {
+    transform: rotate(540deg) scale(1.8);
+  }
+  87.5% {
+    transform: rotate(630deg) scale(1.6);
+  }
+  100% {
+    transform: rotate(720deg) scale(1);
+    opacity: 0;
+  }
+`;
+
+const textAnimation = keyframes`
+  0% {
+    color: var(--white); 
+    content: "";
+  }
+  50% {
+    color: var(--point-color);
+    content: "CodeSpace";
+  }
+  100% {
+    color: var(--point-color);
+    content: "CodeSpace";
+  }
+`;
+
+
 const SLogoImg = styled.img`
   width: 300px;
+  position: relative;
   display: block;
   transition: all 2s;
   width: ${({ isLandingEnterState, isAnimationDisabled }) =>
@@ -70,6 +125,25 @@ const SLogoImg = styled.img`
   animation: ${({ isLandingEnterState, isAnimationDisabled }) =>
       isAnimationDisabled ? 'none' : isLandingEnterState ? 'none' : logofadeOut}
     0.8s ease-in;
+
+  // 로그인에 성공했을 때 로고이미지의 애니메이션
+
+  ${({ isLoginSuccess }) =>
+    isLoginSuccess &&
+    css`
+      animation: ${rotationAnimation} 3s linear forwards;
+      transform-origin: center;
+
+      &::after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation: ${textAnimation} 2.5s ease-in forwards;
+        color: var(--point-color);
+        content: "";
+      }
+    `};
 `;
 
 const LogoBox = styled.div`
