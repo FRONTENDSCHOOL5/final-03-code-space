@@ -76,7 +76,7 @@ const Post = ({ postData, isGrid }) => {
                     key={item.id}
                     className={contentImgArr.length >= 2 ? 'moreImg' : ''}
                     onClick={() => goFeedDetail(item, title, content, category)}>
-                    <img src={contentImgArr.length === 0 ? logoImg : contentImgArr[0]} alt="" />
+                    <img src={contentImgArr.length === 0 ? logoImg : contentImgArr[0].url} alt="" />
                   </SContentContainer>
                 ) : (
                   <SFeedCard key={item.id}>
