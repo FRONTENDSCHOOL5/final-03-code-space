@@ -19,6 +19,9 @@ import {
   SMainContent,
   SImgContainer,
   STitleContent,
+  SCodeEditor,
+  SCodeLanguage,
+  SCodeContainer,
 } from '../../Styles/FeedStyle/PostStyle';
 
 import iconHeart from '../../assets/icons/heart.svg';
@@ -27,6 +30,9 @@ import { profileImg, APIDefaultImage } from './COMMON';
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { formatCodeSnippet } from './formatCodeSnippet';
 
 import {
   categoryTag,
@@ -170,6 +176,8 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
             content = contentData.extracted;
             code = codeData.extracted;
             language = languageData.extracted;
+            code = formatCodeSnippet(code);
+
             return (
               <SFeedCard key={item.id} onClick={() => goFeedDetail(item, title, content, category, code, language)}>
                 <SAuthor>
@@ -198,6 +206,16 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
                 </SAuthor>
                 <div>
                   <SMainContent>{content}</SMainContent>
+                  {code !== '' && (
+                    <SCodeEditor>
+                      <SCodeLanguage>{language}</SCodeLanguage>
+                      <SCodeContainer>
+                        <SyntaxHighlighter language={language} style={atomDark}>
+                          {code}
+                        </SyntaxHighlighter>
+                      </SCodeContainer>
+                    </SCodeEditor>
+                  )}
                 </div>
                 <SReactionContainer>
                   <SReactionContent>

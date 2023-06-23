@@ -136,6 +136,17 @@ const SPostImage = styled.img`
 const SCodeEditor = styled.div`
   font-size: 11px;
   margin: 20px 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+`;
+const SCodeContainer = styled.div`
+  display: -webkit-box !important;
+  -webkit-line-clamp: 5 !important; /* 원하는 줄 수에 맞게 조정해주세요 */
+  -webkit-box-orient: vertical !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
 `;
 const SCodeLanguage = styled.div`
   color: var(--darkgray);
@@ -168,4 +179,5 @@ export {
   SCodeLanguage,
   SImgContainer,
   STitleContent,
+  SCodeContainer,
 };
