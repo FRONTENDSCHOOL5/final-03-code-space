@@ -29,7 +29,7 @@ const SignUpPage = () => {
     }
 
     const url = 'https://api.mandarin.weniv.co.kr';
-    console.log(userEmail);
+    console.log(email);
     try {
       const response = await axios.post(
         url + '/user/emailvalid/',
@@ -50,7 +50,8 @@ const SignUpPage = () => {
       console.log(response);
 
       if (successRes === '사용 가능한 이메일 입니다.' && isSubmitBtn) {
-        navigate(`/profile`, { state: { email, userPassword } });
+        setUserEmail(email);
+        navigate(`/profile`, { state: { userEmail, userPassword } });
       }
     } catch (error) {
       setSuccessRes(error.response.data.message);
