@@ -22,10 +22,12 @@ import {
   SDetailFeedCard,
   SPostImage,
   SHeartImgDetail,
+  SCodeEditor,
+  SCodeLanguage,
 } from '../Styles/FeedStyle/PostStyle';
 import WriteComment from '../Components/Feed/WriteComment';
 import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { setToken, configModalAtom, isEditCheck, setAccountName } from '../Atom/atom';
 import CommonModal from '../Components/Common/CommonModal';
 import useFetchComment from '../Hooks/useFetchComment';
@@ -33,6 +35,8 @@ import { extractString } from '../Components/Feed/extractString';
 import { extractImageLinks } from '../Components/Feed/extractImage';
 import Carousel from '../Components/Feed/Carousel';
 import WithSkeleton from '../Components/Common/Skeleton';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 const FeedDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,20 +47,24 @@ const FeedDetailPage = () => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [code, setCode] = useState('');
+  const [category, setCategory] = useState('');
+  const [language, setLanguage] = useState('');
+  const [imgArr, setImgArr] = useState([]);
 
   const [commentList, setCommentList] = useState({});
   const [isFetchData, setIsFetchData] = useState(false);
   const [isFeedFetchData, setIsFeedFetchData] = useState(false);
   const [reactionCount, setReactionCount] = useState(null);
-  const [isEdit, setIsEdit] = useState(true);
+  const [isEdit, setIsEdit] = useState(false);
   const [commentId, setCommentId] = useState('');
-  const [imgArr, setImgArr] = useState([]);
   const [otherAdmin, setOtherAdmin] = useState(false);
+  const [commentAccount, setCommentAccount] = useState('');
 
-  const isModalState = useRecoilValue(configModalAtom);
-  const setconfigModalAtom = useSetRecoilState(configModalAtom);
+  const [isModalState, setconfigModalAtom] = useRecoilState(configModalAtom);
 
-  const isEditCheckState = useRecoilValue(isEditCheck);
+  const [isEditCheckState, setEditCheckState] = useRecoilState(isEditCheck);
+
   const accountName = useRecoilValue(setAccountName);
 
   const { postHeart, deletePost, deleteComment } = useFetchComment({
@@ -91,12 +99,15 @@ const FeedDetailPage = () => {
 
     setFeedFunction(feedData.post); // reactionCount.post에 대한 처리
   }
+  console.log(feedList);
+  console.log(imgArr);
   useEffect(() => {
     setIsFeedFetchData(false);
     initFeed();
     setconfigModalAtom(''); //모달체크
     setIsEdit(false); //수정체크
-    setImgArr(extractImageLinks(feedList.image));
+    setEditCheckState(false);
+
     if (feedList.author.accountname !== accountName) {
       setOtherAdmin(true);
     } else {
@@ -109,6 +120,10 @@ const FeedDetailPage = () => {
     }
   }, [isEditCheckState]);
 
+  useEffect(() => {
+    setImgArr(extractImageLinks(reactionCount?.post.image));
+  }, [reactionCount]);
+
   const setFeedFunction = async editFeed => {
     const extractedData = extractString(editFeed.content, 'title');
     if (extractedData === null) {
@@ -120,9 +135,25 @@ const FeedDetailPage = () => {
     if (categoryData === null) {
       return editFeed;
     }
+    const codeData = extractString(categoryData.remaining, 'code');
+    if (codeData === null) {
+      return editFeed;
+    }
+    const contentData = extractString(codeData.remaining, 'content');
+    if (contentData === null) {
+      return editFeed;
+    }
+    const languageData = extractString(contentData.remaining, 'language');
+    if (contentData === null) {
+      return editFeed;
+    }
     setTitle(extracted);
-    setContent(categoryData.remaining);
+    setContent(contentData.extracted);
+    setCode(codeData.extracted);
+    setCategory(categoryData.extracted);
+    setLanguage(languageData.extracted);
   };
+  console.log(isModalState);
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       {location.state.feedList.isSearch ? <MainHeader type="search-detail" /> : <MainHeader type="detail" />}
@@ -146,6 +177,15 @@ const FeedDetailPage = () => {
             </SAuthor>
             <div>
               <SContent>{content}</SContent>
+              {category !== '스터디 모집' && (
+                <SCodeEditor>
+                  <SCodeLanguage>{language}</SCodeLanguage>
+                  <SyntaxHighlighter language={language} style={atomDark}>
+                    {code}
+                  </SyntaxHighlighter>
+                </SCodeEditor>
+              )}
+
               {imgArr.length === 0 ? null : <Carousel imgArr={imgArr} />}
             </div>
             <SReactionContainer>
@@ -182,6 +222,7 @@ const FeedDetailPage = () => {
             isFetchData={isFetchData}
             setIsFetchData={setIsFetchData}
             setCommentId={setCommentId}
+            setCommentAccount={setCommentAccount}
           />
           <WriteComment
             feedList={feedList}
@@ -199,9 +240,19 @@ const FeedDetailPage = () => {
               setIsEdit={setIsEdit}
               imgArr={imgArr}
               type="post-config"
+              title={title}
+              content={content}
+              code={code}
+              category={category}
+              language={language}
             />
-          ) : isModalState === 'comment-config' && !otherAdmin ? (
-            <CommonModal deleteComment={deleteCommentFunction} commentId={commentId} type="comment-config" />
+          ) : isModalState === 'comment-config' ? (
+            <CommonModal
+              deleteComment={deleteCommentFunction}
+              commentId={commentId}
+              commentAccount={commentAccount}
+              type="comment-config"
+            />
           ) : (
             isModalState !== '' && otherAdmin && <CommonModal type="other-config" />
           )}
