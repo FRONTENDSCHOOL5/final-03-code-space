@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import BottomNav from '../Components/Common/BottomNav';
 import MainHeader from '../Components/Common/MainHeader';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { searchFeedList, searchQuery, searchUserListAtom } from '../Atom/atom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { searchFeedList, searchQuery, searchUserListAtom, searchTabAtom } from '../Atom/atom';
 import styled from 'styled-components';
 import { profileImg, APIDefaultImage } from '../Components/Feed/COMMON';
 import iconHeart from '../assets/icons/heart.svg';
@@ -34,32 +34,56 @@ const SearchPage = () => {
   const [searchContent, setSearchContent] = useState(query);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchTabToggle, setSearchTabToggle] = useState(true);
+  const [searchTabToggle, setSearchTabToggle] = useRecoilState(searchTabAtom);
   const { searchUser } = useSearchUser();
-  const userList = useRecoilValue(searchUserListAtom);
+  const [userList, setUserList] = useRecoilState(searchUserListAtom);
+  const [resetToggle, setResetToggle] = useState(false);
+
+  useEffect(() => {
+    if (resetToggle) {
+      console.log('리셋');
+      setUserList([]);
+      setResetToggle(false);
+    }
+  }, [resetToggle, setUserList]);
+
+  useEffect(() => {
+    if (searchTabToggle) {
+      setResetToggle(false);
+    }
+    setSearchContent('');
+  }, [searchTabToggle]);
+
   useEffect(() => {
     setSearchResults(feedList);
   }, [feedList]);
 
   const handleSearch = event => {
-    const searchContent = event.target.value.trim();
+    const searchContent = event.target.value;
     setSearchContent(searchContent);
+    if (searchContent !== '' || !searchTabToggle) {
+      console.log('ddd');
+      setResetToggle(true);
+    }
 
     // searchUser 함수를 호출하고 검색어를 키워드로 전달합니다
     // searchUser(searchContent);
 
     const regex = new RegExp(searchContent, 'gi');
-    const results = feedList.filter(post => regex.test(post.title) || regex.test(post.contents));
+    const results = feedList.filter(
+      post => regex.test(post.title) || regex.test(post.contents) || regex.test(post.code),
+    );
     setSearchResults(results);
 
     setSearchParams({ query: searchContent });
   };
 
-  function goFeedDetail(item, title, content) {
-    navigate('/feeddetail', { state: { feedList: { item, title, content, isSearch: true } } });
+  function goFeedDetail(item, title, content, category, code) {
+    navigate('/feeddetail', { state: { feedList: { item, title, content, category, code, isSearch: true } } });
   }
 
-  function goProfile(item) {
+  function goProfile(event, item) {
+    event.stopPropagation();
     navigate('/myprofile', { state: item });
   }
 
@@ -69,7 +93,9 @@ const SearchPage = () => {
     if (query) {
       setSearchContent(query);
       const regex = new RegExp(query, 'gi');
-      const results = feedList.filter(post => regex.test(post.title) || regex.test(post.contents));
+      const results = feedList.filter(
+        post => regex.test(post.title) || regex.test(post.contents) || regex.test(post.code),
+      );
       setSearchResults(results);
     }
   }, [feedList, searchParams]);
@@ -98,14 +124,14 @@ const SearchPage = () => {
           {searchContent.length > 0 ? (
             searchTabToggle ? (
               searchResults.map(item => (
-                <SFeedCard key={item.id}>
+                <SFeedCard key={item.id} onClick={() => goFeedDetail(item, item.title, item.contents)}>
                   <SAuthor>
                     {item.author.image === APIDefaultImage ? (
                       <SProfileImg src={profileImg} alt="프사" onClick={() => goProfile(item.author)} />
                     ) : (
                       <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
                     )}
-                    <STitleContainer onClick={() => goFeedDetail(item, item.title, item.contents)}>
+                    <STitleContainer>
                       <STitle>
                         {item.title &&
                           item.title.split(new RegExp(`(${searchContent})`, 'gi')).map((part, index) => (
@@ -123,7 +149,7 @@ const SearchPage = () => {
                     </STitleContainer>
                   </SAuthor>
                   <div>
-                    <SMainContent onClick={() => goFeedDetail(item, item.title, item.contents)}>
+                    <SMainContent>
                       {item.contents &&
                         item.contents.split(new RegExp(`(${searchContent})`, 'gi')).map((part, index) => (
                           <span
@@ -135,7 +161,7 @@ const SearchPage = () => {
                     </SMainContent>
                   </div>
                   <SReactionContainer>
-                    <SReactionContent onClick={() => goFeedDetail(item, item.title, item.contents)}>
+                    <SReactionContent>
                       <SReactionCount>
                         <SHeartImg src={iconHeart} alt="하트" />
                         {item.heartCount}

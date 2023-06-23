@@ -35,8 +35,8 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   const [scrollPosition, setScrollPosition] = useRecoilState(scrollPositionAtom);
   const [isInitialLoad, setIsInitialLoad] = useRecoilState(isInitialLoadAtom);
 
-  function goFeedDetail(item, title, content, category) {
-    navigate('/feeddetail', { state: { feedList: { item, title, content, category } } });
+  function goFeedDetail(item, title, content, category, code, language) {
+    navigate('/feeddetail', { state: { feedList: { item, title, content, category, code, language } } });
   }
   function goProfile(event, item) {
     event.stopPropagation();
@@ -46,7 +46,6 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   useEffect(() => {
     if (isFetchData) {
       // 초기 로딩 시 스크롤 위치 복원
-      console.log('ddd');
       window.scrollTo(0, scrollPosition);
       setIsInitialLoad(true);
     }
@@ -72,6 +71,8 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
     const updatedFeedList = allFeed.map(item => {
       let title;
       let contents;
+      let code;
+
       const extractedData = extractString(item.content, 'title');
       if (extractedData === null) {
         return item;
@@ -82,13 +83,23 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
       if (categoryData === null) {
         return item;
       }
+      const codeData = extractString(categoryData.remaining, 'code');
+      if (codeData === null) {
+        return item;
+      }
+      const contentData = extractString(codeData.remaining, 'content');
+      if (contentData === null) {
+        return item;
+      }
       title = extracted;
-      contents = categoryData.remaining;
+      contents = contentData.extracted;
+      code = codeData.extracted;
 
       return {
         ...item,
         title,
         contents,
+        code,
       };
     });
 
@@ -103,6 +114,8 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
           {(tagState === '전체' ? FeedList : tagState === '팔로잉' ? followingFeed : allFeed).map(item => {
             let title;
             let content;
+            let code;
+            let language;
             const extractedData = extractString(item.content, 'title');
             if (extractedData === null) {
               return null;
@@ -115,6 +128,21 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
             }
             const category = categoryData.extracted;
 
+            const codeData = extractString(categoryData.remaining, 'code');
+
+            if (codeData === null) {
+              return null;
+            }
+            const contentData = extractString(codeData.remaining, 'content');
+
+            if (contentData === null) {
+              return null;
+            }
+            const languageData = extractString(contentData.remaining, 'language');
+
+            if (languageData === null) {
+              return null;
+            }
             if (tagState !== '팔로잉') {
               if (tagState !== '전체' && tagState !== category) {
                 return null;
@@ -122,9 +150,11 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
             }
 
             title = extracted;
-            content = categoryData.remaining;
+            content = contentData.extracted;
+            code = codeData.extracted;
+            language = languageData.extracted;
             return (
-              <SFeedCard key={item.id} onClick={() => goFeedDetail(item, title, content, category)}>
+              <SFeedCard key={item.id} onClick={() => goFeedDetail(item, title, content, category, code, language)}>
                 <SAuthor>
                   {item.author.image === APIDefaultImage ? (
                     <SProfileImg src={profileImg} alt="프사" onClick={event => goProfile(event, item.author)} />

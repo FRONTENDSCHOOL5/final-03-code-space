@@ -32,7 +32,7 @@ const Carousel = ({ imgArr }) => {
           {imgArr.map((img, index) => (
             <CarouselImage
               key={index}
-              src={img}
+              src={img.url}
               alt="feed"
               currentIndex={currentIndex}
               transition={transition}
@@ -75,6 +75,8 @@ const CarouselImageContainer = styled.div`
 
 const CarouselImageWrapper = styled.div`
   display: flex;
+  width: 100%;
+  height: 100%;
   transition: transform 0.5s ease; /* 슬라이드 애니메이션 설정 */
   transform-style: preserve-3d; /* 3D 변환 유지 */
   transform: translate3d(${({ currentIndex }) => -currentIndex * 100}%, 0, 0); /* X축으로 이동 */

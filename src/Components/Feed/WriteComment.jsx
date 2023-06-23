@@ -49,6 +49,11 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
       console.error(error);
     }
   };
+  const handleKeyDown = event => {
+    if (event.key === 'Enter') {
+      handleAddComment();
+    }
+  };
 
   return (
     <>
@@ -63,6 +68,7 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
           value={inputComment}
           type="text"
           placeholder="댓글 작성하기"
+          onKeyDown={handleKeyDown}
         />
         <SSubmutBtn onClick={handleAddComment} className={inputComment ? 'active' : ''}>
           게시
