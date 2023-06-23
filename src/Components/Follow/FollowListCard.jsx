@@ -42,28 +42,30 @@ export default function FollowCard({ profile }) {
   }
 
   return (
-    <SFollowCard id={profile._id}>
-      <SFollowContainer onClick={() => navigate('/myprofile', { state: profile })}>
-        <SImage src={profile.image} alt={profile.username} />
-        <STextContainer>
-          <SUserName>{profile.username}</SUserName>
-          <SAccountName>@ {profile.accountname}</SAccountName>
-        </STextContainer>
-      </SFollowContainer>
+    <>
+      {profile._id === '6494255eb2cb20566369fa5c' ? null : (
+        <SFollowCard id={profile._id}>
+          <SFollowContainer onClick={() => navigate('/myprofile', { state: profile })}>
+            <SImage src={profile.image} alt={profile.username} />
+            <STextContainer>
+              <SUserName>{profile.username}</SUserName>
+              <SAccountName>@ {profile.accountname}</SAccountName>
+            </STextContainer>
+          </SFollowContainer>
 
-      <SBtnContainer>
-        <Button
-          isFollowing={!profile.isfollow}
-          followBtn={true}
-          padding="7px 0"
-          width="70px"
-          bgColor="var(--gray)"
-          fontSize="12px"
-          onClick={e => handleFollow(e, profile.accountname, token)}>
-          {profile.isfollow ? '팔로잉' : '팔로우'}
-        </Button>
-      </SBtnContainer>
-    </SFollowCard>
+          <Button
+            isFollowing={!profile.isfollow}
+            followBtn={true}
+            padding="7px 0"
+            width="70px"
+            bgColor="var(--gray)"
+            fontSize="12px"
+            onClick={e => handleFollow(e, profile.accountname, token)}>
+            {profile.isfollow ? '팔로잉' : '팔로우'}
+          </Button>
+        </SFollowCard>
+      )}
+    </>
   );
 }
 
@@ -106,5 +108,3 @@ const SAccountName = styled.p`
   font-weight: 700;
   color: var(--darkgray);
 `;
-
-const SBtnContainer = styled.div``;
