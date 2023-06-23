@@ -68,7 +68,6 @@ export default function FollowCard({ profile }) {
 }
 
 const SFollowCard = styled.div`
-  box-shadow: inset 0px 0px 10px green;
   margin-bottom: 16px;
   display: flex;
   justify-content: space-between;
@@ -80,7 +79,6 @@ const SFollowCard = styled.div`
 `;
 
 const SFollowContainer = styled.div`
-  box-shadow: inset 0px 0px 10px green;
   display: flex;
   align-items: center;
 `;
@@ -94,7 +92,6 @@ const SImage = styled.img`
 `;
 
 const STextContainer = styled.div`
-  box-shadow: inset 0px 0px 10px green;
   margin-left: 12px;
 `;
 
@@ -110,6 +107,4 @@ const SAccountName = styled.p`
   color: var(--darkgray);
 `;
 
-const SBtnContainer = styled.div`
-  box-shadow: inset 0px 0px 10px green;
-`;
+const SBtnContainer = styled.div``;
