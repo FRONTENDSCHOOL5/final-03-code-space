@@ -43,7 +43,7 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
         email: userLoginInfo.userEmail,
         password: userLoginInfo.userPassword,
         accountname: userInfo.accountId,
-        Intro: userInfo.intro,
+        intro: userInfo.intro,
         image: userInfo.profileImage || "https://api.mandarin.weniv.co.kr/1687265009141.png",
       },
     };
