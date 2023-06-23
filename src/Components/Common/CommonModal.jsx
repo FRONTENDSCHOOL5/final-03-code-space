@@ -281,7 +281,7 @@ const SModal = styled.article`
   background-color: var(--black);
   border-radius: 47px 47px 0 0;
   position: fixed;
-  top: 85%;
+  top: 81%;
 
   transition: all 0.2s;
   animation: ${({ isLandingEnterState }) => (isLandingEnterState ? 'none' : modalfadeOut)} 0.1s ease-in;

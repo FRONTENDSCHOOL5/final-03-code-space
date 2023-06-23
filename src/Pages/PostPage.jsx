@@ -310,7 +310,7 @@ const PostPage = () => {
       <SUploadImgBtn onClick={handleClick}>
         <SInputImg
           type="file"
-          accept="image/jpg, image/jpeg, image/png"
+          accept="image/jpg, image/jpeg, image/png, image/gif"
           multiple
           ref={imgInput}
           onChange={handleUploadImg}></SInputImg>
