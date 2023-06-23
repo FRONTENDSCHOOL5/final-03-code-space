@@ -103,15 +103,13 @@ const MainHeader = ({
           </>
         ) : type === 'save' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기"></SBackIcon>
-            <SSaveBtn onClick={handleUploadProduct}>저장</SSaveBtn>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadProduct} style={{marginRight:'20px'}}>저장</SUploadBtn>
           </>
         ) : type === 'upload' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost} style={{ marginRight: '5px' }}>
-              업로드
-            </SUploadBtn>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/myprofile')}></SBackIcon>
+            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost}style={{ marginRight: '5px' }}>업로드</SUploadBtn>
           </>
         ) : (
           <>에러</>
@@ -152,14 +150,6 @@ const SSearch = styled.input`
   transition: border-color 0.3s ease-in-out;
 `;
 
-const SSaveBtn = styled(Button)`
-  width: 90px;
-  height: 32px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const SUploadBtn = styled.button`
   width: 90px;
   height: 32px;
@@ -175,7 +165,6 @@ const SUploadBtn = styled.button`
   border-radius: 44px;
   box-sizing: border-box;
   cursor: pointer;
-
   &:disabled {
     cursor: default;
     background: var(--secondary-color);

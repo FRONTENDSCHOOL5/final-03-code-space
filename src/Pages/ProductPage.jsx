@@ -5,11 +5,15 @@ import Input from '../Components/Common/Input';
 import uploadImg from '../assets/icons/uploadImg.svg';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { setToken } from '../Atom/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 
 const ProductPage = () => {
-  const url = 'https://api.mandarin.weniv.co.kr/';
-  const authorization =
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
+  const url = "https://api.mandarin.weniv.co.kr/";
+  const authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
+  const navigate = useNavigate();
+  const isToken = useRecoilValue(setToken);
 
   const imgInput = useRef();
 
@@ -90,8 +94,9 @@ const ProductPage = () => {
     }
 
     const config = {
-      headers: { Authorization: authorization, 'Content-type': 'application/json' },
-    };
+      headers:{Authorization: 'Bearer ' + isToken, 
+      "Content-type" : "application/json"}
+    }
 
     try {
       const response = await axios.post(
@@ -107,7 +112,8 @@ const ProductPage = () => {
         config,
       );
       console.log(response);
-    } catch (error) {
+      navigate('/myprofile');
+    } catch(error){
       console.log(error);
     }
   };
@@ -115,7 +121,7 @@ const ProductPage = () => {
   return (
     <>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-        <MainHeader type="save" handleUploadProduct={isSaveEnabled ? handleUploadProduct : null} />
+        <MainHeader type="save" buttonDisabled={isSaveEnabled ? false : true}  handleUploadProduct={isSaveEnabled ? handleUploadProduct : null} />
         <SImgWrap>
           <SImgBg imageUrl={uploadedImageUrl}>
             <SUploadImgBtn onClick={handleClick}>
@@ -134,6 +140,7 @@ const ProductPage = () => {
           onChange={writeProductName}
           minLength={2}
           maxLength={15}
+          style={{fontSize:'16px'}}
         />
         <Input
           placeholder="숫자만 입력 가능합니다."
@@ -141,8 +148,12 @@ const ProductPage = () => {
           onChange={writeProductPrice}
           value={commaProductPrice}
           onkeyup="inputNumberFormat(this)"
-        />
-        <Input type="url" placeholder="URL을 입력해 주세요." label="판매 링크" onChange={writeSaleUrl} />
+          style={{fontSize:'16px'}}/>
+        <Input 
+          placeholder="상품 설명을 입력해주세요." 
+          label="판매 설명" 
+          onChange={writeSaleUrl} 
+          style={{fontSize:'16px'}}/>
       </motion.div>
     </>
   );
@@ -151,9 +162,9 @@ const ProductPage = () => {
 export default ProductPage;
 
 const SImgBg = styled.div`
-  margin: 34px;
-  width: 322px;
+  width: 100%;
   height: 204px;
+  margin: 34px;
   border: 0.5px solid var(--gray);
   border-radius: 10px;
   background-color: var(--lightgray);
@@ -163,6 +174,7 @@ const SImgBg = styled.div`
 `;
 
 const SImgWrap = styled.div`
+  position: relative; /* 부모 요소를 relative로 설정 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -170,13 +182,16 @@ const SImgWrap = styled.div`
 `;
 
 const SUploadImgBtn = styled.div`
+  position: absolute; /* 절대 위치로 설정 */
+  bottom: 0; /* 바닥에 붙이기 */
+  right: 0; /* 오른쪽에 붙이기 */
   float: right;
-  bottom: 100px;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   margin: 20px;
   border-radius: 50%;
   background-image: url(${uploadImg});
+  background-size: 60px 60px;
   cursor: pointer;
 `;
 
