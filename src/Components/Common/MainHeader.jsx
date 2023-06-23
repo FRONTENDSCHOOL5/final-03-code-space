@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import backIcon from '../../assets/icon-arrow-left.svg';
 import searchIcon from '../../assets/icon-search.svg';
+import moreIcon from '../../assets/icons/more.svg'
 import Button from './Button';
 import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
@@ -103,15 +104,26 @@ const MainHeader = ({
           </>
         ) : type === 'save' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기"></SBackIcon>
-            <SSaveBtn onClick={handleUploadProduct}>저장</SSaveBtn>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadProduct} style={{marginRight:'20px'}}>저장</SUploadBtn>
           </>
         ) : type === 'upload' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
-            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost} style={{ marginRight: '5px' }}>
-              업로드
-            </SUploadBtn>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/myprofile')}></SBackIcon>
+            <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost}style={{ marginRight: '5px' }}>업로드</SUploadBtn>
+          </>
+        ) : type === 'more' ? (
+        <>
+          <img src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></img>
+          <img src={moreIcon} alt="더보기"></img>
+        </>
+        ) : type === 'message' ? (
+          <>
+            <SWrap>
+              <img src={backIcon} alt="뒤로가기" onClick={() => navigate('/messagelist')}></img>
+              <SNickname>코딩천재</SNickname>
+            </SWrap>
+            <img src={moreIcon} alt="더보기"></img>
           </>
         ) : (
           <>에러</>
@@ -160,6 +172,15 @@ const SSaveBtn = styled(Button)`
   align-items: center;
 `;
 
+const SWrap = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const SNickname = styled.p`
+  margin-left: 15px;
+  font-size: 14px;
+`;
 const SUploadBtn = styled.button`
   width: 90px;
   height: 32px;
@@ -175,7 +196,6 @@ const SUploadBtn = styled.button`
   border-radius: 44px;
   box-sizing: border-box;
   cursor: pointer;
-
   &:disabled {
     cursor: default;
     background: var(--secondary-color);
