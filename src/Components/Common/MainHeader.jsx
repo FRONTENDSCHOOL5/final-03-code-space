@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import backIcon from '../../assets/icon-arrow-left.svg';
 import searchIcon from '../../assets/icon-search.svg';
+import moreIcon from '../../assets/icons/more.svg'
 import Button from './Button';
 import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
@@ -111,6 +112,19 @@ const MainHeader = ({
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/myprofile')}></SBackIcon>
             <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost}style={{ marginRight: '5px' }}>업로드</SUploadBtn>
           </>
+        ) : type === 'more' ? (
+        <>
+          <img src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></img>
+          <img src={moreIcon} alt="더보기"></img>
+        </>
+        ) : type === 'message' ? (
+          <>
+            <SWrap>
+              <img src={backIcon} alt="뒤로가기" onClick={() => navigate('/messagelist')}></img>
+              <SNickname>코딩천재</SNickname>
+            </SWrap>
+            <img src={moreIcon} alt="더보기"></img>
+          </>
         ) : (
           <>에러</>
         )}
@@ -150,6 +164,23 @@ const SSearch = styled.input`
   transition: border-color 0.3s ease-in-out;
 `;
 
+const SSaveBtn = styled(Button)`
+  width: 90px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SWrap = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const SNickname = styled.p`
+  margin-left: 15px;
+  font-size: 14px;
+`;
 const SUploadBtn = styled.button`
   width: 90px;
   height: 32px;
