@@ -15,14 +15,15 @@ const SignUpPage = () => {
 
   const inputHandler = e => {
     if (e.target.type === 'email') {
-      setUserEmail(e.target.value);
+      setUserEmail(() => e.target.value);
     } else if (e.target.type === 'password') {
       setUserPassword(e.target.value);
     }
   };
 
   const ValidSubmit = async e => {
-
+    const email = e?.target.value; // 최신 이메일 값 사용
+    // console.log(email); // 이메일 값 출력
     if (userPassword.length < 6) {
       setIsPasswordValid(false);
     }
@@ -34,7 +35,7 @@ const SignUpPage = () => {
         url + '/user/emailvalid/',
         {
           user: {
-            email: userEmail,
+            email: email,
           },
         },
         {
@@ -46,12 +47,14 @@ const SignUpPage = () => {
 
       setSuccessRes(response.data.message);
       console.log(response.data.message);
+      console.log(response);
 
       if (successRes === '사용 가능한 이메일 입니다.' && isSubmitBtn) {
-        navigate(`/profile`, { state: { userEmail, userPassword } });
+        navigate(`/profile`, { state: { email, userPassword } });
       }
     } catch (error) {
       setSuccessRes(error.response.data.message);
+      console.log(error.response.data.message);
       console.log(error.response.data.message);
     }
   };
