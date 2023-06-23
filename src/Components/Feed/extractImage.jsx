@@ -3,6 +3,10 @@ export function extractImageLinks(imageString) {
     return [];
   }
 
-  const imageLinks = imageString.split(',').map(link => link.trim());
+  const imageLinks = imageString.split(',').map(link => {
+    const trimmedLink = link.trim();
+    return { url: trimmedLink };
+  });
+
   return imageLinks;
 }

@@ -8,8 +8,17 @@ import configIcon from '../../assets/icons/icon- more-vertical.svg';
 import CommonModal from '../Common/CommonModal';
 import { configModalAtom } from '../../Atom/atom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import WithSkeleton from '../Common/Skeleton';
 
-const Comment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetchData, setCommentId }) => {
+const Comment = ({
+  feedList,
+  commentList,
+  setCommentList,
+  isFetchData,
+  setIsFetchData,
+  setCommentId,
+  setCommentAccount,
+}) => {
   const navigate = useNavigate();
   const isModalState = useRecoilValue(configModalAtom);
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
@@ -29,6 +38,7 @@ const Comment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetc
 
     getComment(); // 컴포넌트가 마운트될 때 FetchDetailFeed 실행
   }, []);
+  console.log(commentList);
 
   return (
     <SCommentListLayout>
@@ -56,7 +66,8 @@ const Comment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetc
                     onClick={() => {
                       setconfigModalAtom('comment-config');
                       setCommentId(comment.id);
-                      console.log(comment.id);
+                      setCommentAccount(comment.author.accountname);
+                      console.log(comment.author.accountname);
                     }}></SConfigIcon>
                 </SCommentContainer>
               </SCommentLayout>
@@ -64,7 +75,7 @@ const Comment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetc
           })}
         </div>
       ) : (
-        <div>로딩중...</div>
+        <></>
       )}
     </SCommentListLayout>
   );
