@@ -68,7 +68,7 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
           value={inputComment}
           type="text"
           placeholder="댓글 작성하기"
-          onKeyDown={handleKeyDown}
+          onKeyDown={event => handleKeyDown(event)}
         />
         <SSubmutBtn onClick={handleAddComment} className={inputComment ? 'active' : ''}>
           게시
