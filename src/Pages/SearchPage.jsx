@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BottomNav from '../Components/Common/BottomNav';
 import MainHeader from '../Components/Common/MainHeader';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { searchFeedList, searchQuery, searchUserListAtom, searchTabAtom } from '../Atom/atom';
+import { searchFeedList, searchQuery, searchUserListAtom, searchTabAtom, setAccountName } from '../Atom/atom';
 import styled from 'styled-components';
 import { profileImg, APIDefaultImage } from '../Components/Feed/COMMON';
 import iconHeart from '../assets/icons/heart.svg';
@@ -37,6 +37,8 @@ const SearchPage = () => {
   const [searchTabToggle, setSearchTabToggle] = useRecoilState(searchTabAtom);
   const { searchUser } = useSearchUser();
   const [userList, setUserList] = useRecoilState(searchUserListAtom);
+  const [myAccountName, setMyAccountName] = useRecoilState(setAccountName);
+
   const [resetToggle, setResetToggle] = useState(false);
 
   useEffect(() => {
@@ -84,9 +86,12 @@ const SearchPage = () => {
 
   function goProfile(event, item) {
     event.stopPropagation();
-    navigate('/myprofile', { state: item });
+    if (myAccountName === item.accountname) {
+      navigate(`/myprofile`, { state: item });
+    } else {
+      navigate(`/myprofile/${item.accountname}`, { state: item });
+    }
   }
-
   useEffect(() => {
     const query = searchParams.get('query');
 
@@ -127,9 +132,13 @@ const SearchPage = () => {
                 <SFeedCard key={item.id} onClick={() => goFeedDetail(item, item.title, item.contents)}>
                   <SAuthor>
                     {item.author.image === APIDefaultImage ? (
-                      <SProfileImg src={profileImg} alt="프사" onClick={() => goProfile(item.author)} />
+                      <SProfileImg src={profileImg} alt="프사" onClick={event => goProfile(event, item.author)} />
                     ) : (
-                      <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
+                      <SProfileImg
+                        src={item.author.image}
+                        alt="프사"
+                        onClick={event => goProfile(event, item.author)}
+                      />
                     )}
                     <STitleContainer>
                       <STitle>

@@ -17,6 +17,7 @@ const Modal = ({
   LoginError,
   isPasswordValid,
   successRes,
+  setIsSubmitBtn,
 }) => {
   const isFormValid = userEmail !== '' && userPassword !== '';
   const isLandingEnteState = useRecoilValue(isLandingEnter);
@@ -86,9 +87,17 @@ const Modal = ({
             </SFormWrap>
 
             <SBtnBox>
-              <Button type="submit" disabled={!isFormValid || userPassword.length < 6}>
-                {title === '이메일로 회원가입' ? '다음' : '로그인'}
-              </Button>
+              {title === '로그인' && (
+                <Button type="submit" disabled={!isFormValid || userPassword.length < 6}>
+                  로그인
+                </Button>
+              )}
+
+              {title === '이메일로 회원가입' && (
+                <Button type="submit" onClick={() => setIsSubmitBtn(true)} disabled={!isFormValid || userPassword.length < 6}>
+                  다음
+                </Button>
+              )}
             </SBtnBox>
           </SForm>
 

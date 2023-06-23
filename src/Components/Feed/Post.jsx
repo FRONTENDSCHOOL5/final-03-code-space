@@ -23,7 +23,14 @@ import iconHeart from '../../assets/icons/heart.svg';
 import iconComment from '../../assets/icons/chat-green.svg';
 import { profileImg, APIDefaultImage } from './COMMON';
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
-import { categoryTag, searchFeedList, isEditCheck, isInitialLoadAtom, scrollPositionAtom } from '../../Atom/atom';
+import {
+  categoryTag,
+  searchFeedList,
+  isEditCheck,
+  isInitialLoadAtom,
+  scrollPositionAtom,
+  setAccountName,
+} from '../../Atom/atom';
 import Skeleton from '../Common/Skeleton';
 import WithSkeleton from '../Common/Skeleton';
 
@@ -34,13 +41,18 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   const tagState = useRecoilValue(categoryTag);
   const [scrollPosition, setScrollPosition] = useRecoilState(scrollPositionAtom);
   const [isInitialLoad, setIsInitialLoad] = useRecoilState(isInitialLoadAtom);
+  const [myAccountName, setMyAccountName] = useRecoilState(setAccountName);
 
   function goFeedDetail(item, title, content, category, code, language) {
     navigate('/feeddetail', { state: { feedList: { item, title, content, category, code, language } } });
   }
   function goProfile(event, item) {
     event.stopPropagation();
-    navigate('/myprofile', { state: item });
+    if (myAccountName === item.accountname) {
+      navigate(`/myprofile`, { state: item });
+    } else {
+      navigate(`/myprofile/${item.accountname}`, { state: item });
+    }
   }
 
   useEffect(() => {

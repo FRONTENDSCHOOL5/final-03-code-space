@@ -11,6 +11,7 @@ const SignUpPage = () => {
   const [userPassword, setUserPassword] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [successRes, setSuccessRes] = useState('');
+  const [isSubmitBtn, setIsSubmitBtn] = useState(false);
 
   const inputHandler = e => {
     if (e.target.type === 'email') {
@@ -46,7 +47,7 @@ const SignUpPage = () => {
       setSuccessRes(response.data.message);
       console.log(response.data.message);
 
-      if (successRes === '사용 가능한 이메일 입니다.') {
+      if (successRes === '사용 가능한 이메일 입니다.' && isSubmitBtn) {
         navigate(`/profile`, { state: { userEmail, userPassword } });
       }
     } catch (error) {
@@ -66,6 +67,7 @@ const SignUpPage = () => {
         inputHandler={inputHandler}
         isPasswordValid={isPasswordValid}
         successRes={successRes}
+        setIsSubmitBtn={setIsSubmitBtn}
       />
     </>
   );
