@@ -21,7 +21,7 @@ export default function FollowPage() {
   useEffect(() => {
     // console.log('test');
     getFollowData();
-  }, [followList]);
+  }, [accountName]);
 
   const URL = 'https://api.mandarin.weniv.co.kr';
   const reqPath = `/profile/${accountName}/follower`;
