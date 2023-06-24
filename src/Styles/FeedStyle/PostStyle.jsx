@@ -76,6 +76,9 @@ const STitleContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+const STitleContent = styled.div`
+  display: flex;
+`;
 const SAuthorInfo = styled.div`
   display: flex;
   align-items: center;
@@ -133,10 +136,26 @@ const SPostImage = styled.img`
 const SCodeEditor = styled.div`
   font-size: 11px;
   margin: 20px 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+`;
+const SCodeContainer = styled.div`
+  display: -webkit-box !important;
+  -webkit-line-clamp: 5 !important; /* 원하는 줄 수에 맞게 조정해주세요 */
+  -webkit-box-orient: vertical !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
 `;
 const SCodeLanguage = styled.div`
   color: var(--darkgray);
   margin-left: 3px;
+`;
+const SImgContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
 `;
 export {
   SFeedCard,
@@ -158,4 +177,7 @@ export {
   SHeartImgDetail,
   SCodeEditor,
   SCodeLanguage,
+  SImgContainer,
+  STitleContent,
+  SCodeContainer,
 };

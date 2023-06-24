@@ -134,9 +134,7 @@ const FetchFeed = ({ setFeedList, FeedList }) => {
 
       {showScrollTopButton && (
         <SSTopScrollBtnLayout>
-          <BackToTopBtn handleScrollTop={handleScrollTop} className="scroll-top-button">
-            Top
-          </BackToTopBtn>
+          <BackToTopBtn handleScrollTop={handleScrollTop} className="scroll-top-button"></BackToTopBtn>
         </SSTopScrollBtnLayout>
       )}
     </>
@@ -145,11 +143,7 @@ const FetchFeed = ({ setFeedList, FeedList }) => {
 export default FetchFeed;
 const SSTopScrollBtnLayout = styled.div`
   position: fixed;
-  right: 50%;
-  bottom: 50%;
-  z-index: 11;
-  transform: translate(250%, 850%);
-`;
-const STopScrollBtn = styled.button`
-  background-color: white;
+  width: 390px;
+  height: 50px;
+  bottom: 100px;
 `;

@@ -40,6 +40,22 @@ const Modal = ({
     }
   };
 
+  function inputOnchangeFunc(e) {
+    console.log(e.target.value);
+    inputHandler(e);
+    ValidSubmit(e); // 이벤트 객체를 그대로 전달
+  }
+
+  function submitBtnCheck() {
+    console.log(successRes);
+    console.log(PwMessage);
+    if (successRes !== '사용 가능한 이메일 입니다.' && PwMessage !== null) {
+      setIsSubmitBtn(false);
+    } else {
+      setIsSubmitBtn(true);
+    }
+  }
+
   return (
     <>
       {!isLandingEnteState ? (
@@ -54,8 +70,8 @@ const Modal = ({
                   placeholder={'이메일 주소를 입력해주세요'}
                   id="user-email"
                   value={userEmail}
-                  onChange={inputHandler}
-                  onBlur={() => ValidSubmit(userEmail)}
+                  onChange={e => inputOnchangeFunc(e)}
+                  // onBlur={() => ValidSubmit(userEmail)}
                 />
               ) : (
                 <SInput type="email" id="user-email" value={userEmail} onChange={inputHandler} />
@@ -94,7 +110,10 @@ const Modal = ({
               )}
 
               {title === '이메일로 회원가입' && (
-                <Button type="submit" onClick={() => setIsSubmitBtn(true)} disabled={!isFormValid || userPassword.length < 6}>
+                <Button
+                  type="submit"
+                  onClick={() => submitBtnCheck()}
+                  disabled={!isFormValid || userPassword.length < 6}>
                   다음
                 </Button>
               )}

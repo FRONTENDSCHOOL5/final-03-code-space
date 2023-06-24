@@ -181,7 +181,7 @@ const FeedDetailPage = () => {
             </SAuthor>
             <div>
               <SContent>{content}</SContent>
-              {category !== '스터디 모집' && (
+              {code !== '' && (
                 <SCodeEditor>
                   <SCodeLanguage>{language}</SCodeLanguage>
                   <SyntaxHighlighter language={language} style={atomDark}>

@@ -3,12 +3,6 @@ import styled from 'styled-components';
 const BackToTopBtn = ({ handleScrollTop }) => {
   return (
     <SButton onClick={() => handleScrollTop()}>
-      <div className="text">
-        <span>TOP</span>
-      </div>
-      <div className="clone">
-        <span>TOP</span>
-      </div>
       <svg
         width="20px"
         xmlns="http://www.w3.org/2000/svg"
@@ -32,6 +26,11 @@ const SButton = styled.button`
   background: none;
   position: relative;
   padding-bottom: 2em;
+  display: block;
+  width: 50px;
+  height: 50px;
+  margin-left: auto;
+  margin-right: 10px;
 
   div,
   svg {
@@ -62,7 +61,7 @@ const SButton = styled.button`
     opacity: 1;
     font-size: 1.3rem;
     transition: 0.2s;
-    margin-left: 4px;
+    margin-left: -6px;
   }
 
   & .clone > * {
@@ -99,13 +98,13 @@ const SButton = styled.button`
   /* icon style and hover */
   & svg {
     width: 20px;
-    right: 1px;
+    right: 5px;
     top: 50%;
     transform: translateY(-50%) rotate(-50deg);
     transition: 0.2s ease-out;
   }
 
   &:hover svg {
-    transform: translateY(-50%) rotate(-90deg);
+    transform: translateY(-50%) rotate(-450deg);
   }
 `;
