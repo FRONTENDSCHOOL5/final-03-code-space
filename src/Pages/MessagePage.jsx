@@ -59,7 +59,7 @@ const MessagePage = () => {
       <SMsgWrap>
         <SProfileImg />
         <SContentWrap>
-          <SMsgContent>같이 코딩하고싶어서 연락드렸습니다!</SMsgContent>
+          <SMsgContent>같이 스터디하고싶어요!</SMsgContent>
           <SMsgTime>10:24</SMsgTime>
         </SContentWrap>
       </SMsgWrap>
