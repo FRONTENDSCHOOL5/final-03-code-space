@@ -82,7 +82,7 @@ const MainHeader = ({
           </>
         ) : type === 'profile' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
             <SSettingIcon
               src={configIcon}
               alt="설정창"
@@ -105,7 +105,7 @@ const MainHeader = ({
           </>
         ) : type === 'detail' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
             <SSettingIcon
               src={configIcon}
               alt="설정창"
@@ -113,7 +113,7 @@ const MainHeader = ({
           </>
         ) : type === 'search-detail' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
             <SSettingIcon
               src={configIcon}
               alt="설정창"
@@ -128,7 +128,7 @@ const MainHeader = ({
           </>
         ) : type === 'upload' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/myprofile')}></SBackIcon>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
             <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost} style={{ marginRight: '5px' }}>
               업로드
             </SUploadBtn>
