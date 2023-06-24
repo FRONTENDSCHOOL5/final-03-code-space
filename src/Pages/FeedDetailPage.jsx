@@ -23,6 +23,7 @@ import {
   SPostImage,
   SHeartImgDetail,
   SCodeEditor,
+  SSyntaxHighlighter,
   SCodeLanguage,
 } from '../Styles/FeedStyle/PostStyle';
 import WriteComment from '../Components/Feed/WriteComment';
@@ -35,7 +36,6 @@ import { extractString } from '../Components/Feed/extractString';
 import { extractImageLinks } from '../Components/Feed/extractImage';
 import Carousel from '../Components/Feed/Carousel';
 import WithSkeleton from '../Components/Common/Skeleton';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 const FeedDetailPage = () => {
   const navigate = useNavigate();
@@ -184,9 +184,9 @@ const FeedDetailPage = () => {
               {code !== '' && (
                 <SCodeEditor>
                   <SCodeLanguage>{language}</SCodeLanguage>
-                  <SyntaxHighlighter language={language} style={atomDark}>
+                  <SSyntaxHighlighter language={language} style={atomDark}>
                     {code}
-                  </SyntaxHighlighter>
+                  </SSyntaxHighlighter>
                 </SCodeEditor>
               )}
 
@@ -267,4 +267,5 @@ const FeedDetailPage = () => {
     </motion.div>
   );
 };
+
 export default FeedDetailPage;
