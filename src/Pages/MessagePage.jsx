@@ -77,7 +77,7 @@ const MessagePage = () => {
         <SUploadImgBtn onClick={handleClick} />
         <SInputImg
           type="file"
-          accept="image/jpg, image/jpeg, image/png"
+          accept="image/jpg, image/jpeg, image/png, image/gif, image/bmp, image/tif, image/heic"
           multiple
           ref={imgInput}
         />
