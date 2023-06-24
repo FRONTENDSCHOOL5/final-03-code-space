@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg';
 import ProfileImg from '../assets/img/profile-img.svg';
-import { motion } from 'framer-motion';
 
 const MessagePage = () => {
   const navigate = useNavigate();
@@ -47,24 +46,15 @@ const MessagePage = () => {
     setMessage('');
   };
 
-  const openModal = () => {
+  const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
+  const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  const handleOpenModal = () => {
-    openModal();
-    console.log("움직여제발");
-  };
-
-  const handleCloseModal = () => {
-    closeModal();
-  };
-
-  const Modal = ({ isOpen, onClose }) => {
+  const Modal = ({isOpen}) => {
     if (!isOpen) return null;
   
     return (
