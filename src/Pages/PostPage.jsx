@@ -209,7 +209,7 @@ const PostPage = () => {
               return (
                 <SImgBox key={index}>
                   <SDelBtn onClick={() => onRemoveAdd(img.url)} />
-                  <SPreviewImg src={img.url} style={{ width: imgWidth }} />
+                  <SPreviewImg style={{ width: imgWidth}}><SPreviewImgCover src={img.url}/></SPreviewImg>
                 </SImgBox>
               );
             })}
@@ -469,8 +469,16 @@ const SImgBox = styled.div`
   flex: 1;
 `;
 
-const SPreviewImg = styled.img`
+const SPreviewImg = styled.div`
   border-radius: 10px;
+  height: 200px;
+  overflow: hidden;
+`;
+
+const SPreviewImgCover = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const SDelBtn = styled.div`
