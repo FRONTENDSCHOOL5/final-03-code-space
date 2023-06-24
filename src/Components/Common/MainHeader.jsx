@@ -17,6 +17,7 @@ const MainHeader = ({
   searchUser,
   buttonDisabled,
   handleSubmit,
+  handleOpenModal,
 }) => {
   const navigate = useNavigate();
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
@@ -135,7 +136,6 @@ const MainHeader = ({
         ) : type === 'more' ? (
           <>
             <img src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></img>
-            <img src={moreIcon} alt="더보기"></img>
           </>
         ) : type === 'message' ? (
           <>
@@ -143,7 +143,11 @@ const MainHeader = ({
               <img src={backIcon} alt="뒤로가기" onClick={() => navigate('/messagelist')}></img>
               <SNickname>코딩천재</SNickname>
             </SWrap>
-            <img src={moreIcon} alt="더보기"></img>
+            <SSettingIcon
+              src={moreIcon}
+              alt="더보기"
+              onClick={handleOpenModal}>
+              </SSettingIcon>
           </>
         ) : (
           <>에러</>
