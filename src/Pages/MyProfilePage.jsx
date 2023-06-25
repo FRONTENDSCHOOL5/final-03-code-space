@@ -24,6 +24,7 @@ import { motion } from 'framer-motion';
 import ProfilePost from '../Components/Post/ProfilePost';
 import { useState } from 'react';
 import AlertModal from '../Components/Common/AlertModal';
+import { useEffect } from 'react';
 
 function MyProfile() {
   // 프로필을 클릭했을 때 useLocation으로 해당 profile 정보 가져오기
@@ -43,6 +44,11 @@ function MyProfile() {
   const [noneEnter, setNoneEnter] = useRecoilState(noneEnterAtom);
   const [isLoginSucess, setIsLoginModalSucess] = useRecoilState(isLoginModalSuccessAtom);
 
+  const [accountNameState, setAccountNameState] = useState(profile ? profile.accountname : accountName);
+  useEffect(() => {
+    setAccountNameState(profile ? profile.accountname : accountName);
+  }, [navigate]);
+
   const handleLogout = () => {
     setAlertModal(false);
     navigate('/');
@@ -56,23 +62,24 @@ function MyProfile() {
     setNoneEnter(false);
     setIsLoginModalSucess(false);
   };
+
+  console.log(profile?.accountname);
   console.log(accountName);
-  console.log(profile.accountname);
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <SLayout>
-        {profile.accountname !== accountName ? <MainHeader type={'profile'} /> : <MainHeader type={'myprofile'} />}
+        {accountNameState === accountName ? <MainHeader type={'myprofile'} /> : <MainHeader type={'profile'} />}
         <SContainer>
-          <MainProfile accountName={profile ? profile.accountname : accountName} />
+          <MainProfile accountName={accountNameState} />
         </SContainer>
         <SContainer>
-          <ProductList accountName={profile ? profile.accountname : accountName} />
+          <ProductList accountName={accountNameState} />
         </SContainer>
-        <ProfilePost accountName={profile ? profile.accountname : accountName} />
+        <ProfilePost accountName={accountNameState} />
         <BottomNav />
         {ConfigModal === 'post-config' ? (
           <CommonModal type="profile" />
-        ) : ConfigModal !== '' && profile.accountName !== accountName ? (
+        ) : ConfigModal !== '' && accountNameState !== accountName ? (
           <CommonModal type="other" />
         ) : (
           <></>
