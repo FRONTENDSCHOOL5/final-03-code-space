@@ -144,6 +144,5 @@ export default FetchFeed;
 const SSTopScrollBtnLayout = styled.div`
   position: fixed;
   width: 390px;
-  height: 50px;
-  bottom: 100px;
+  bottom: 80px;
 `;

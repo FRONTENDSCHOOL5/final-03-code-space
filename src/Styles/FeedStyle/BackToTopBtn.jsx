@@ -1,110 +1,40 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpLong } from '@fortawesome/free-solid-svg-icons';
 const BackToTopBtn = ({ handleScrollTop }) => {
   return (
     <SButton onClick={() => handleScrollTop()}>
-      <svg
-        width="20px"
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-      </svg>
+      <FontAwesomeIcon icon={faUpLong} size="xs" style={{ color: '#2bae66' }} />
     </SButton>
   );
 };
 
 export default BackToTopBtn;
+
 const SButton = styled.button`
-  width: 70px;
   overflow: hidden;
   border: none;
   color: var(--point-color);
   background: none;
   position: relative;
-  padding-bottom: 2em;
-  display: block;
+  display: flex; /* 수정 */
+  align-items: center; /* 수정 */
+  justify-content: center; /* 수정 */
   width: 50px;
   height: 50px;
   margin-left: auto;
-  margin-right: 10px;
+  margin-right: 20px;
+  padding-top: 20px;
 
-  div,
-  svg {
-    position: absolute;
+  & svg {
     width: 100%;
     height: 100%;
-    display: flex;
-  }
-
-  &:before {
-    content: '';
-    height: 2px;
-    left: 0;
-    width: 100%;
-    transform: scaleX(0);
-    transform-origin: bottom right;
-    background: currentColor;
-    transition: transform 0.25s ease-out;
-  }
-
-  &:hover:before {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-  }
-
-  & .clone > *,
-  & .text > * {
-    opacity: 1;
-    font-size: 1.3rem;
-    transition: 0.2s;
-    margin-left: -6px;
-  }
-
-  & .clone > * {
-    transform: translateY(60px);
-  }
-
-  &:hover .clone > * {
-    opacity: 1;
-    transform: translateY(0px);
-    transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
-  }
-
-  &:hover .text > * {
-    opacity: 1;
-    transform: translateY(-60px);
-    transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
-  }
-
-  &:hover .clone > :nth-child(1) {
-    transition-delay: 0.15s;
-  }
-
-  &:hover .clone > :nth-child(2) {
-    transition-delay: 0.2s;
-  }
-
-  &:hover .clone > :nth-child(3) {
-    transition-delay: 0.25s;
-  }
-
-  &:hover .clone > :nth-child(4) {
-    transition-delay: 0.3s;
-  }
-  /* icon style and hover */
-  & svg {
-    width: 20px;
-    right: 5px;
-    top: 50%;
-    transform: translateY(-50%) rotate(-50deg);
+    position: relative;
     transition: 0.2s ease-out;
   }
 
   &:hover svg {
-    transform: translateY(-50%) rotate(-450deg);
+    transform: rotate(360deg);
   }
 `;
