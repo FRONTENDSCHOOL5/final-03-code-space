@@ -7,6 +7,8 @@ import whitelight from '../assets/img/whitelight.svg';
 import whitelight2 from '../assets/img/whitelight2.svg';
 import whitelight3 from '../assets/img/whitelight3.svg';
 import whitelight4 from '../assets/img/whitelight4.svg';
+import whitelight5 from '../assets/img/whitelight5.svg';
+import whitelight6 from '../assets/img/whitelight6.svg';
 import LoginPage from './LoginPage';
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import {
@@ -82,6 +84,12 @@ const LandingPage = () => {
         )}
       </LogoBox>
       {isModal && <LoginPage setIsModal={setIsModal} />}
+      <SWhitelight1 />
+      <SWhitelight2 />
+      <SWhitelight3 />
+      <SWhitelight4 />
+      <SWhitelight5 />
+      <SWhitelight6 />
     </SBackground>
   );
 };
@@ -229,4 +237,71 @@ const SBackground = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-color: rgba(0, 0, 0, 0.5);
+  position: relative;
+`;
+
+const SWhitelight1 = styled.div`
+  position: absolute;
+  top: 15%;
+  left: 13%;
+  width: 35px;
+  height: 35px;
+  background-image: url(${whitelight});
+  background-size: cover;
+  z-index: 3;
+`;
+
+const SWhitelight2 = styled.div`
+  position: absolute;
+  top: 30%;
+  right: 25%;
+  width: 20px;
+  height: 20px;
+  background-image: url(${whitelight2});
+  background-size: cover;
+  z-index: 3;
+`;
+
+const SWhitelight3 = styled.div`
+  position: absolute;
+  bottom: 20%;
+  left: 15%;
+  width: 15px;
+  height: 15px;
+  background-image: url(${whitelight3});
+  background-size: cover;
+  z-index: 3;
+`;
+
+const SWhitelight4 = styled.div`
+  position: absolute;
+  bottom: 8%;
+  right: 7%;
+  width: 45px;
+  height: 45px;
+  background-image: url(${whitelight4});
+  background-size: cover;
+  z-index: 3;
+`;
+
+const SWhitelight5 = styled.div`
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  width: 15px;
+  height: 15px;
+  background-image: url(${whitelight5});
+  background-size: cover;
+  z-index: 3;
+`;
+
+const SWhitelight6 = styled.div`
+  position: absolute;
+  bottom: 33%;
+  right: 13%;
+  width: 20px;
+  height: 20px;
+  background-image: url(${whitelight6});
+  background-size: cover;
+  z-index: 3;
 `;
