@@ -37,15 +37,7 @@ const CommonModal = ({
 
   const accountName = useRecoilValue(setAccountName);
 
-  const setTokenAtom = useSetRecoilState(setToken);
-  const setIsLoginedAtom = useSetRecoilState(setIsLogined);
-  const setAccountNameAtom = useSetRecoilState(setAccountName);
-  const searchFeedListAtom = useSetRecoilState(searchFeedList);
-  const setIsFollowedAtom = useSetRecoilState(setIsFollowed);
-
   // 로그아웃 시 랜딩 페이지 애니메이션
-  const [noneEnter, setNoneEnter] = useRecoilState(noneEnterAtom);
-  const [isLoginSucess, setIsLoginModalSucess] = useRecoilState(isLoginModalSuccessAtom);
   const [alertModal, setAlertModal] = useRecoilState(isLogOutAlertAtom);
 
   const navigate = useNavigate();

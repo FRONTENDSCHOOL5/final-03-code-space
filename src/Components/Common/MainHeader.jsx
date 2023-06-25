@@ -83,6 +83,11 @@ const MainHeader = ({
         ) : type === 'profile' ? (
           <>
             <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <SSettingIcon src={configIcon} alt="설정창" onClick={() => setconfigModalAtom('other')}></SSettingIcon>
+          </>
+        ) : type === 'myprofile' ? (
+          <>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
             <SSettingIcon
               src={configIcon}
               alt="설정창"
@@ -105,7 +110,7 @@ const MainHeader = ({
           </>
         ) : type === 'detail' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
             <SSettingIcon
               src={configIcon}
               alt="설정창"
@@ -121,7 +126,7 @@ const MainHeader = ({
           </>
         ) : type === 'save' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
             <SUploadBtn disabled={buttonDisabled} onClick={handleUploadProduct} style={{ marginRight: '20px' }}>
               저장
             </SUploadBtn>
@@ -143,11 +148,7 @@ const MainHeader = ({
               <img src={backIcon} alt="뒤로가기" onClick={() => navigate('/messagelist')}></img>
               <SNickname>코딩천재</SNickname>
             </SWrap>
-            <SSettingIcon
-              src={moreIcon}
-              alt="더보기"
-              onClick={handleOpenModal}>
-              </SSettingIcon>
+            <SSettingIcon src={moreIcon} alt="더보기" onClick={handleOpenModal}></SSettingIcon>
           </>
         ) : (
           <>에러</>
