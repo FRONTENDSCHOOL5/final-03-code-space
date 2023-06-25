@@ -9,7 +9,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg';
-import delImg from '../assets/icons/del.svg';
+import delImg from '../assets/icons/delete1.svg';
 import axios from 'axios';
 import language from 'react-syntax-highlighter/dist/esm/languages/hljs/1c';
 
@@ -487,8 +487,8 @@ const SPreviewImgCover = styled.img`
 
 const SDelBtn = styled.div`
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: 5px;
   width: 30px;
   height: 30px;
   background-image: url(${delImg});

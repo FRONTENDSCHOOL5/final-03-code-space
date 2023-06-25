@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import delImg from '../../assets/icons/del.svg'
+import delImg from '../../assets/icons/delete1.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -187,10 +187,10 @@ const SSingleModal = styled.img`
 
 const SDelBtn = styled.div`
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 40px;
-  height: 40px;
+  top: 5px;
+  right: 5px;
+  width: 30px;
+  height: 30px;
   background-image: url(${delImg});
   background-repeat: no-repeat;
   background-size: contain;
