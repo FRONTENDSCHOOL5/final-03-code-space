@@ -25,8 +25,6 @@ const SAlertWrap = styled.div`
   background-color: var(--white);
   width: 100%;
   max-width: 300px;
-  height: 100%;
-  max-height: 200px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -50,6 +48,7 @@ const SMessage = styled.p`
   font-size: 16px;
   font-weight: bolder;
   color: var(--black);
+  margin-bottom: 5px;
 `;
 
 const SMessageFirstLine = styled(SMessage)`
@@ -62,7 +61,7 @@ const SButton = styled.button`
   height: 30px;
   background-color: var(--point-color);
   border-radius: 10px;
-  margin-top: auto;
-  margin-left: auto;
+  margin-top: 30px;
+
   color: var(--white);
 `;
