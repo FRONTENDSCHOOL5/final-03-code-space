@@ -9,9 +9,10 @@ import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg';
-import delImg from '../assets/icons/del.svg';
+import delImg from '../assets/icons/delete1.svg';
 import axios from 'axios';
 import language from 'react-syntax-highlighter/dist/esm/languages/hljs/1c';
+import AlertModal from '../Components/Common/AlertModal';
 
 const PostPage = () => {
   const url = 'https://api.mandarin.weniv.co.kr/';
@@ -35,6 +36,9 @@ const PostPage = () => {
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
   const [isCode, setIsCode] = useState(false);
   const [isEditCheckState, setEditCheckState] = useRecoilState(isEditCheck);
+
+  const [showAlert, setShowAlert] = useState(false); // 이미지 업로드 alert창 상태
+  const [showWarningAlert, setShowWarningAlert] = useState(false); // 이미지 업로드 3장 초과 alert창 상태
 
   const [isOpenLanguageDropdown, setIsOpenLanguageDropdown] = useState(false);
 
@@ -176,11 +180,12 @@ const PostPage = () => {
     };
 
     if (imgAddList.length >= 3) {
-      alert('이미지는 최대 3장까지만 업로드 가능합니다!');
+      // alert('이미지는 최대 3장까지만 업로드 가능합니다!');
+      setShowWarningAlert(true);
       return;
     } else {
       try {
-        const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(alert('업로드완료!'));
+        const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(setShowAlert(true));
         const uploadedImageUrl = url + response.data[0].filename;
         console.log(uploadedImageUrl);
         setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
@@ -209,7 +214,9 @@ const PostPage = () => {
               return (
                 <SImgBox key={index}>
                   <SDelBtn onClick={() => onRemoveAdd(img.url)} />
-                  <SPreviewImg src={img.url} style={{ width: imgWidth }} />
+                  <SPreviewImg style={{ width: imgWidth }}>
+                    <SPreviewImgCover src={img.url} />
+                  </SPreviewImg>
                 </SImgBox>
               );
             })}
@@ -315,6 +322,11 @@ const PostPage = () => {
           ref={imgInput}
           onChange={handleUploadImg}></SInputImg>
       </SUploadImgBtn>
+      {showAlert && <AlertModal message="이미지 업로드 완료" onClose={() => setShowAlert(false)} />}
+      {showWarningAlert && (
+        <AlertModal message="이미지는 최대 3장까지만 업로드 가능합니다." onClose={() => setShowWarningAlert(false)} />
+      )}{' '}
+      {/* alert 띄우는 곳 */}
     </>
   );
 };
@@ -343,7 +355,7 @@ const DropdownContent = styled.div`
   margin-top: 2px;
   color: var(--gray);
   background-color: var(--black);
-  min-width: 80px;
+  min-width: 140px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 `;
@@ -351,11 +363,11 @@ const DropdownContent = styled.div`
 const DropdownItem = styled.div`
   padding: 10px;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 16px;
 
   &:hover {
-    background-color: var(--gray);
-    color: var(--black);
+    background-color: var(--point-color);
+    color: var(--white);
   }
 `;
 
@@ -387,9 +399,10 @@ const SContentTitle = styled.input`
 `;
 
 const SPostContent = styled(TextareaAutosize)`
-  margin: 0 20px 15px 20px;
+  margin: 10px 20px 15px 20px;
   padding: 0;
   width: 350px;
+  min-height: 100px;
   background-color: var(--black);
   border: none;
   color: var(--white);
@@ -411,6 +424,7 @@ const SCode = styled.div`
 `;
 
 const SSyntaxHighlighter = styled(SyntaxHighlighter)`
+  font-size: 11px;
   &::-webkit-scrollbar {
     border-radius: 6px;
   }
@@ -435,6 +449,7 @@ const SUploadImgBtn = styled.div`
   border-radius: 50%;
   background-image: url(${uploadImg});
   cursor: pointer;
+  background-color: var(--black);
 `;
 
 const SInputImg = styled.input`
@@ -468,14 +483,22 @@ const SImgBox = styled.div`
   flex: 1;
 `;
 
-const SPreviewImg = styled.img`
+const SPreviewImg = styled.div`
   border-radius: 10px;
+  height: 200px;
+  overflow: hidden;
+`;
+
+const SPreviewImgCover = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const SDelBtn = styled.div`
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: 5px;
   width: 30px;
   height: 30px;
   background-image: url(${delImg});

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import MainProfileBtns from './MainProfileBtns';
 import axios from 'axios';
 import { setToken } from '../../Atom/atom';
+import { removeFollowerById } from './removeMainAccount';
 
 import WithSkeleton from '../../Components/Common/Skeleton';
 
@@ -16,8 +17,8 @@ export default function MainProfile({ accountName }) {
   const [profile, setProfile] = useState({});
   const [followerCount, setFollowerCount] = useState(profile.followerCount);
   const [followerCountRender, setFollowerCountRender] = useState(profile.followerCount);
-
   const [isSubscribed, setIsSubscribed] = useState(profile.isfollow);
+  const [isClickFollow, setIsClickFollow] = useState(false);
 
   console.log(profile);
   // console.log(profile.followerCount);
@@ -28,9 +29,7 @@ export default function MainProfile({ accountName }) {
     setIsFetchData(false);
     getUserData();
     console.log(profile);
-  }, [followerCount, accountName]);
-  // followerCount는 내 프로필에는 변화가 없기 때문에 내 프로필을 불러올 때 getUserData()가 실행되지 않음.(전에 값이 들어가거나 undefind)
-  // 내 프로필을 들어갈 때도 getUserData()가 실행되기를 원하기 때문에 이 부분 의존성 배열을 제거(의존성 배열을 뺄 경우 페이지가 로딩될 때마다 실행)
+  }, [followerCount, accountName, isSubscribed]);
 
   async function getUserData() {
     const URL = 'https://api.mandarin.weniv.co.kr';
@@ -45,6 +44,7 @@ export default function MainProfile({ accountName }) {
         },
       });
       console.log(response.data.profile);
+      // 메인계정 지워주기
       const followrUpdate = removeFollowerById(response.data.profile, '6494255eb2cb20566369fa5c');
       setProfile(followrUpdate);
       setIsSubscribed(followrUpdate.isfollow);
@@ -58,17 +58,38 @@ export default function MainProfile({ accountName }) {
     }
   }
 
-  // 메인계정 지워주기
-  function removeFollowerById(obj, followerId) {
-    if (obj && obj.follower) {
-      obj.follower = obj.follower.filter(id => id !== followerId);
-    }
-    return obj;
-  }
-
   return (
     <>
       {isFetchData ? (
+        <SProfileLayout>
+          <SProfileImgBox>
+            <SFollowLink to="/follow" state={{ accountName: profile.accountname }}>
+              <strong>{followerCount}</strong>
+              <p>followers</p>
+            </SFollowLink>
+            <img src={profile.image} alt="" />
+            <SFollowLink to="/following" state={{ accountName: profile.accountname }}>
+              <strong>{profile.followingCount}</strong>
+              <p>followings</p>
+            </SFollowLink>
+          </SProfileImgBox>
+
+          <SProfileInfo>
+            <strong>{profile.username}</strong>
+            <p>@ {profile.accountname}</p>
+            <p>{profile.intro}</p>
+          </SProfileInfo>
+
+          <MainProfileBtns
+            accountName={profile.accountname}
+            setIsSubscribed={setIsSubscribed}
+            isSubscribed={isSubscribed}
+            isMyProfile={profile.accountname === myAccountName}
+            setFollowerCount={setFollowerCount}
+            setIsClickFollow={setIsClickFollow}
+          />
+        </SProfileLayout>
+      ) : isClickFollow ? (
         <SProfileLayout>
           <SProfileImgBox>
             <SFollowLink to="/follow" state={{ accountName: profile.accountname }}>
@@ -92,10 +113,9 @@ export default function MainProfile({ accountName }) {
             accountName={profile.accountname}
             setIsSubscribed={setIsSubscribed}
             isSubscribed={isSubscribed}
-            // isfollow={profile.isfollow}
             isMyProfile={profile.accountname === myAccountName}
             setFollowerCount={setFollowerCount}
-            // followerCount={followerCount}
+            setIsClickFollow={setIsClickFollow}
           />
         </SProfileLayout>
       ) : (

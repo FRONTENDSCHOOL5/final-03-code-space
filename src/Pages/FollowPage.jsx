@@ -21,7 +21,7 @@ export default function FollowPage() {
   useEffect(() => {
     // console.log('test');
     getFollowData();
-  }, [accountName]);
+  }, [followList]);
 
   const URL = 'https://api.mandarin.weniv.co.kr';
   const reqPath = `/profile/${accountName}/follower`;
@@ -43,8 +43,6 @@ export default function FollowPage() {
       console.log(error);
     }
   }
-
-  // TODO: 메인계정은 안보이게 예외처리해주기!!
 
   return (
     <>

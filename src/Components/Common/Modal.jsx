@@ -46,6 +46,8 @@ const Modal = ({
     ValidSubmit(e); // 이벤트 객체를 그대로 전달
   }
 
+  
+
   function submitBtnCheck() {
     console.log(successRes);
     console.log(PwMessage);
@@ -193,6 +195,13 @@ const SModal = styled.article`
     position: absolute;
     border-radius: 15px;
     margin: 17px 0;
+  }
+
+  Button {
+    &:hover {
+      transform: translateY(-3px);
+      transition: transform 0.2s ease-in-out;
+    }
   }
 `;
 

@@ -23,6 +23,7 @@ import {
   SPostImage,
   SHeartImgDetail,
   SCodeEditor,
+  SSyntaxHighlighter,
   SCodeLanguage,
 } from '../Styles/FeedStyle/PostStyle';
 import WriteComment from '../Components/Feed/WriteComment';
@@ -35,8 +36,9 @@ import { extractString } from '../Components/Feed/extractString';
 import { extractImageLinks } from '../Components/Feed/extractImage';
 import Carousel from '../Components/Feed/Carousel';
 import WithSkeleton from '../Components/Common/Skeleton';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import AlertModal from '../Components/Common/AlertModal';
+import { type } from '@testing-library/user-event/dist/type';
 const FeedDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -60,6 +62,7 @@ const FeedDetailPage = () => {
   const [commentId, setCommentId] = useState('');
   const [otherAdmin, setOtherAdmin] = useState(false);
   const [commentAccount, setCommentAccount] = useState('');
+  const [alertModal, setAlertModal] = useState('');
 
   const [isModalState, setconfigModalAtom] = useRecoilState(configModalAtom);
 
@@ -71,6 +74,7 @@ const FeedDetailPage = () => {
   const { postHeart, deletePost, deleteComment } = useFetchComment({
     postID: feedList.id,
     commentId: commentId,
+    setAlertModal: setAlertModal,
   });
   const { getComment, getFeed } = useFetchComment({
     postID: feedList.id,
@@ -88,12 +92,25 @@ const FeedDetailPage = () => {
     }
   }
   async function deleteFeed() {
-    await deletePost(); // deletePost 함수의 비동기 작업 완료까지 기다림
-    navigate('/feed');
+    const message = await deletePost(); // deletePost 함수의 비동기 작업 완료까지 기다림
+    setAlertModal(message); // 삭제 완료 메시지 설정
+  }
+  async function handleAlertModalClose(type) {
+    setAlertModal('');
+    if (type === 'feed') {
+      navigate('/feed');
+    } else if (type === 'comment') {
+      getComment();
+      const type = 'init';
+      const feedData = await getFeed({ type: type }); // getFeed 함수에서 데이터를 받아옴
+      setReactionCount(feedData); // 받아온 데이터를 reactionCount에 설정
+    }
   }
   async function deleteCommentFunction() {
-    await deleteComment(); // deletePost 함수의 비동기 작업 완료까지 기다림
-    getComment();
+    const message = await deleteComment(); // deletePost 함수의 비동기 작업 완료까지 기다림
+    setAlertModal(message);
+
+    // setFeedFunction(feedData.post); // reactionCount.post에 대한 처리
 
     // navigate('/feed');
   }
@@ -184,9 +201,9 @@ const FeedDetailPage = () => {
               {code !== '' && (
                 <SCodeEditor>
                   <SCodeLanguage>{language}</SCodeLanguage>
-                  <SyntaxHighlighter language={language} style={atomDark}>
+                  <SSyntaxHighlighter language={language} style={atomDark}>
                     {code}
-                  </SyntaxHighlighter>
+                  </SSyntaxHighlighter>
                 </SCodeEditor>
               )}
 
@@ -260,6 +277,15 @@ const FeedDetailPage = () => {
           ) : (
             isModalState !== '' && otherAdmin && <CommonModal type="other-config" />
           )}
+          {alertModal === '게시글이 삭제되었습니다.' ? (
+            <AlertModal message="게시글이 삭제되었습니다." onClose={() => handleAlertModalClose('feed')} />
+          ) : alertModal === '댓글이 삭제되었습니다.' ? (
+            <AlertModal message="댓글이 삭제되었습니다." onClose={() => handleAlertModalClose('comment')} />
+          ) : (
+            alertModal === '잘못된 접근입니다.' && (
+              <AlertModal message="잘못된 접근입니다." onClose={() => handleAlertModalClose()} />
+            )
+          )}
         </>
       ) : (
         <WithSkeleton isLoading={isFeedFetchData} type="detail" />
@@ -267,4 +293,5 @@ const FeedDetailPage = () => {
     </motion.div>
   );
 };
+
 export default FeedDetailPage;

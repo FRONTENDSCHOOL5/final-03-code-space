@@ -6,10 +6,16 @@ import Button from '../Common/Button';
 import { useRecoilValue } from 'recoil';
 import { setToken } from '../../Atom/atom';
 import axios from 'axios';
-// import { useState } from 'react';
+import { removeFollowerById } from '../Profile/removeMainAccount';
 
-export default function MainProfileBtns({ accountName, isSubscribed, setIsSubscribed, isMyProfile, setFollowerCount }) {
-  // const [isSubscribed, setIsSubscribed] = useState(isfollow);
+export default function MainProfileBtns({
+  accountName,
+  isSubscribed,
+  setIsSubscribed,
+  isMyProfile,
+  setFollowerCount,
+  setIsClickFollow,
+}) {
   const token = useRecoilValue(setToken);
   const URL = 'https://api.mandarin.weniv.co.kr';
 
@@ -19,7 +25,6 @@ export default function MainProfileBtns({ accountName, isSubscribed, setIsSubscr
 
   async function handleClick() {
     if (isSubscribed === false) {
-      setIsSubscribed(true);
       console.log(isSubscribed);
       //   팔로워 추가해주기 -> api 요청
       const reqPath = `/profile/${accountName}/follow`;
@@ -32,13 +37,14 @@ export default function MainProfileBtns({ accountName, isSubscribed, setIsSubscr
             'Content-type': 'application/json',
           },
         });
-        setIsSubscribed(response.data.profile.isfollow);
-        setFollowerCount(response.data.profile.followerCount);
+        const followrUpdate = removeFollowerById(response.data.profile, '6494255eb2cb20566369fa5c');
+        setIsSubscribed(followrUpdate.isfollow);
+        setFollowerCount(followrUpdate.followerCount);
+        setIsClickFollow(true);
       } catch (error) {
         console.log(error);
       }
     } else if (isSubscribed) {
-      setIsSubscribed(false);
       //   팔로워 제거해주기 -> api 요청
       const reqPath = `/profile/${accountName}/unfollow`;
       try {
@@ -50,8 +56,10 @@ export default function MainProfileBtns({ accountName, isSubscribed, setIsSubscr
             'Content-type': 'application/json',
           },
         });
-        setIsSubscribed(response.data.profile.isfollow);
-        setFollowerCount(response.data.profile.followerCount);
+        const followrUpdate = removeFollowerById(response.data.profile, '6494255eb2cb20566369fa5c');
+        setIsSubscribed(followrUpdate.isfollow);
+        setFollowerCount(followrUpdate.followerCount);
+        setIsClickFollow(true);
         // console.log(response.data.profile.followerCount);
       } catch (error) {
         console.log(error);

@@ -15,10 +15,10 @@ import SearchPage from './Pages/SearchPage';
 import FeedDetailPage from './Pages/FeedDetailPage';
 import ProductPage from './Pages/ProductPage';
 import NotFoundErrorPage from './Pages/NotFoundErrorPage';
-import Modal from './Components/Common/Modal';
 import ProfileResetPage from './Pages/ProfileResetPage';
 import { SMainLayout, Sbackground } from './Styles/MainLayoutStyle';
 import { AnimatePresence } from 'framer-motion';
+import PrivateRoute from './Route/PrivateRoute';
 
 function App() {
   return (
@@ -28,28 +28,32 @@ function App() {
         <SMainLayout>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/feed" element={<FeedPage />} />
-            <Route path="/feeddetail" element={<FeedDetailPage />} />
-            <Route path="/search" element={<SearchPage />} />
-            <Route path="/profile" element={<ProfileSetPage />} />
-            <Route path="/setprofile" element={<ProfileResetPage />} />
-            <Route path="/myprofile" element={<MyProfilePage />} />
-            <Route path={'/myprofile/:accountname'} element={<MyProfilePage />} />
-
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/messagelist" element={<MessageListPage />} />
-            <Route path="/message" element={<MessagePage />} />
-            <Route path="/post" element={<PostPage />} />
-            <Route path="/product" element={<ProductPage />} />
-            <Route path="/follow" element={<FollowPage />} />
-            <Route path="/following" element={<FollowingPage />} />
-            <Route path="/*" element={<NotFoundErrorPage />} />
             <Route path="/landing" element={<LandingPage />} />
+
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/profile" element={<ProfileSetPage />} />
+            {/* PrivateRoute로 변경 */}
+            <Route path="/feed" element={<PrivateRoute path="/" element={<FeedPage />} />} />
+            <Route path="/feeddetail" element={<PrivateRoute path="/" element={<FeedDetailPage />} />} />
+            <Route path="/search" element={<PrivateRoute path="/" element={<SearchPage />} />} />
+            <Route path="/profile" element={<PrivateRoute path="/" element={<ProfileSetPage />} />} />
+            <Route path="/setprofile" element={<PrivateRoute path="/" element={<ProfileResetPage />} />} />
+            <Route path="/myprofile" element={<PrivateRoute path="/" element={<MyProfilePage />} />} />
+            <Route path={'/myprofile/:accountname'} element={<PrivateRoute path="/" element={<MyProfilePage />} />} />
+
+            <Route path="/messagelist" element={<PrivateRoute path="/" element={<MessageListPage />} />} />
+            <Route path="/message" element={<PrivateRoute path="/" element={<MessagePage />} />} />
+            <Route path="/post" element={<PrivateRoute path="/" element={<PostPage />} />} />
+            <Route path="/product" element={<PrivateRoute path="/" element={<ProductPage />} />} />
+            <Route path="/follow" element={<PrivateRoute path="/" element={<FollowPage />} />} />
+            <Route path="/following" element={<PrivateRoute path="/" element={<FollowingPage />} />} />
+            <Route path="/*" element={<NotFoundErrorPage />} />
           </Routes>
         </SMainLayout>
       </AnimatePresence>
     </Sbackground>
   );
 }
+
 export default App;

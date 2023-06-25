@@ -1,20 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import Logo from '../assets/img/icon-logo.svg';
 import Splash from '../assets/img/splash.png';
 import LoginPage from './LoginPage';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState, userec } from 'recoil';
 import { useRecoilValue } from 'recoil';
-import { isLandingEnter, isModalAtom, noneEnterAtom, isLoginSuccessAtom } from '../Atom/atom';
-import { useLocation } from 'react-router-dom';
+import {
+  isLandingEnter,
+  isModalAtom,
+  noneEnterAtom,
+  isLoginModalSuccessAtom,
+  setIsLogined,
+  isLoginAlertAtom,
+} from '../Atom/atom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import AlertModal from '../Components/Common/AlertModal';
 
 const LandingPage = () => {
   const [isModal, setIsModal] = useRecoilState(isModalAtom);
   const noneEnter = useRecoilValue(noneEnterAtom);
-  const isLoginSuccess = useRecoilValue(isLoginSuccessAtom);
+  const isLoginModalSuccess = useRecoilValue(isLoginModalSuccessAtom);
 
   const setIsLandingEnter = useSetRecoilState(isLandingEnter);
   const isLandingEnterState = useRecoilValue(isLandingEnter);
+  const [isLoginAlert, setisLoginAlert] = useRecoilState(isLoginAlertAtom);
+
   const location = useLocation();
 
   const handleClick = () => {
@@ -24,16 +34,25 @@ const LandingPage = () => {
 
   const isSignupPage = location.pathname === '/signup';
   const isAnimationDisabled = isSignupPage; // "/signup" 경로일 때 애니메이션 비활성화
+  const isLoginSuccess = useRecoilValue(setIsLogined);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isLoginSuccess) {
+      navigate('/feed');
+    }
+  }, []);
 
   return (
     <SBackground>
+      {isLoginAlert ? <AlertModal message="로그인을 해주세요!" onClose={() => setisLoginAlert(false)} /> : null}
+
       <LogoBox>
         <SLogoImg
           isLandingEnterState={isLandingEnterState}
           src={Logo}
           alt="로고이미지"
           isAnimationDisabled={isAnimationDisabled}
-          isLoginSuccess={isLoginSuccess}
+          isLoginModalSuccess={isLoginModalSuccess}
         />
         {isModal ? (
           <LoginPage />
@@ -113,7 +132,6 @@ const textAnimation = keyframes`
   }
 `;
 
-
 const SLogoImg = styled.img`
   width: 300px;
   position: relative;
@@ -128,8 +146,8 @@ const SLogoImg = styled.img`
 
   // 로그인에 성공했을 때 로고이미지의 애니메이션
 
-  ${({ isLoginSuccess }) =>
-    isLoginSuccess &&
+  ${({ isLoginModalSuccess }) =>
+    isLoginModalSuccess &&
     css`
       animation: ${rotationAnimation} 3s linear forwards;
       transform-origin: center;
@@ -141,11 +159,10 @@ const SLogoImg = styled.img`
         transform: translate(-50%, -50%);
         animation: ${textAnimation} 2.5s ease-in forwards;
         color: var(--point-color);
-        content: "";
+        content: '';
       }
     `};
 `;
-
 const LogoBox = styled.div`
   padding-top: 170px;
   padding-bottom: 90px;
