@@ -106,13 +106,13 @@ const rotationAnimation = keyframes`
     transform: rotate(450deg) scale(2);
   }
   75% {
-    transform: rotate(540deg) scale(1.8);
+    transform: rotate(540deg) scale(2.2);
   }
   87.5% {
-    transform: rotate(630deg) scale(1.6);
+    transform: rotate(630deg) scale(2.4);
   }
   100% {
-    transform: rotate(720deg) scale(1);
+    transform: rotate(720deg) scale(2.6);
     opacity: 0;
   }
 `;
