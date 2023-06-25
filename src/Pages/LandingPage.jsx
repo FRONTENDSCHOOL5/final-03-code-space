@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import Logo from '../assets/img/icon-logo.svg';
+import Logo from '../assets/img/Logo.svg';
+import Light from '../assets/img/light.svg';
 import Splash from '../assets/img/splash.png';
+import whitelight from '../assets/img/whitelight.svg';
+import whitelight2 from '../assets/img/whitelight2.svg';
+import whitelight3 from '../assets/img/whitelight3.svg';
+import whitelight4 from '../assets/img/whitelight4.svg';
+import whitelight5 from '../assets/img/whitelight5.svg';
+import whitelight6 from '../assets/img/whitelight6.svg';
 import LoginPage from './LoginPage';
-import { useRecoilState, useSetRecoilState, userec } from 'recoil';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import {
   isLandingEnter,
   isModalAtom,
@@ -27,11 +33,6 @@ const LandingPage = () => {
 
   const location = useLocation();
 
-  const handleClick = () => {
-    setIsLandingEnter(false);
-    setIsModal(true);
-  };
-
   const isSignupPage = location.pathname === '/signup';
   const isAnimationDisabled = isSignupPage; // "/signup" 경로일 때 애니메이션 비활성화
   const isLoginSuccess = useRecoilValue(setIsLogined);
@@ -41,6 +42,22 @@ const LandingPage = () => {
       navigate('/feed');
     }
   }, []);
+
+  const [isBlinking, setIsBlinking] = useState(false);
+
+  const handleEnterHover = () => {
+    setIsBlinking(true);
+  };
+
+  const handleEnterLeave = () => {
+    setIsBlinking(false);
+  };
+
+  const handleEnterClick = () => {
+    setIsLandingEnter(false);
+    setIsModal(true);
+    setIsBlinking(false);
+  };
 
   return (
     <SBackground>
@@ -54,20 +71,25 @@ const LandingPage = () => {
           isAnimationDisabled={isAnimationDisabled}
           isLoginModalSuccess={isLoginModalSuccess}
         />
-        {isModal ? (
-          <LoginPage />
-        ) : (
-          !isSignupPage &&
-          !noneEnter && ( // 회원가입 페이지와 로그인 완료시 Enter는 보이지 않게
-            <SEnter
-              isLandingEnterState={isLandingEnterState}
-              isAnimationDisabled={isAnimationDisabled}
-              onClick={handleClick}>
-              ENTER
-            </SEnter>
-          )
+        <SgreenlightBackground isBlinking={isBlinking} />
+        {!isModal && !isSignupPage && !noneEnter && (
+          <SEnter
+            isLandingEnterState={isLandingEnterState}
+            isAnimationDisabled={isAnimationDisabled}
+            onMouseEnter={handleEnterHover}
+            onMouseLeave={handleEnterLeave}
+            onClick={handleEnterClick}>
+            ENTER
+          </SEnter>
         )}
       </LogoBox>
+      {isModal && <LoginPage setIsModal={setIsModal} />}
+      <SWhitelight1 />
+      <SWhitelight2 />
+      <SWhitelight3 />
+      <SWhitelight4 />
+      <SWhitelight5 />
+      <SWhitelight6 />
     </SBackground>
   );
 };
@@ -106,29 +128,14 @@ const rotationAnimation = keyframes`
     transform: rotate(450deg) scale(2);
   }
   75% {
-    transform: rotate(540deg) scale(1.8);
+    transform: rotate(540deg) scale(2.2);
   }
   87.5% {
-    transform: rotate(630deg) scale(1.6);
+    transform: rotate(630deg) scale(2.4);
   }
   100% {
-    transform: rotate(720deg) scale(1);
+    transform: rotate(720deg) scale(2.6);
     opacity: 0;
-  }
-`;
-
-const textAnimation = keyframes`
-  0% {
-    color: var(--white); 
-    content: "";
-  }
-  50% {
-    color: var(--point-color);
-    content: "CodeSpace";
-  }
-  100% {
-    color: var(--point-color);
-    content: "CodeSpace";
   }
 `;
 
@@ -136,6 +143,7 @@ const SLogoImg = styled.img`
   width: 300px;
   position: relative;
   display: block;
+  z-index: 2;
   transition: all 2s;
   width: ${({ isLandingEnterState, isAnimationDisabled }) =>
     isAnimationDisabled ? '200px' : isLandingEnterState ? '300px' : '200px'};
@@ -151,18 +159,44 @@ const SLogoImg = styled.img`
     css`
       animation: ${rotationAnimation} 3s linear forwards;
       transform-origin: center;
-
-      &::after {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        animation: ${textAnimation} 2.5s ease-in forwards;
-        color: var(--point-color);
-        content: '';
-      }
     `};
 `;
+
+// greenlight css
+
+const blinkAnimation = keyframes`
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
+
+const SgreenlightBackground = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: ${({ isLandingEnterState }) => (isLandingEnterState ? '400px' : '300px')};
+  height: ${({ isLandingEnterState }) => (isLandingEnterState ? '400px' : '300px')};
+  border-radius: 50%;
+  background-image: url(${Light});
+  background-size: cover;
+  z-index: 1;
+
+  ${({ isBlinking }) =>
+    isBlinking &&
+    css`
+      animation: ${blinkAnimation} 1s ease-in-out infinite;
+    `}
+`;
+
+// greenlight css 끝
+
 const LogoBox = styled.div`
   padding-top: 170px;
   padding-bottom: 90px;
@@ -203,4 +237,71 @@ const SBackground = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-color: rgba(0, 0, 0, 0.5);
+  position: relative;
+`;
+
+const SWhitelight1 = styled.div`
+  position: absolute;
+  top: 15%;
+  left: 13%;
+  width: 35px;
+  height: 35px;
+  background-image: url(${whitelight});
+  background-size: cover;
+  z-index: 3;
+`;
+
+const SWhitelight2 = styled.div`
+  position: absolute;
+  top: 30%;
+  right: 25%;
+  width: 20px;
+  height: 20px;
+  background-image: url(${whitelight2});
+  background-size: cover;
+  z-index: 3;
+`;
+
+const SWhitelight3 = styled.div`
+  position: absolute;
+  bottom: 20%;
+  left: 15%;
+  width: 15px;
+  height: 15px;
+  background-image: url(${whitelight3});
+  background-size: cover;
+  z-index: 3;
+`;
+
+const SWhitelight4 = styled.div`
+  position: absolute;
+  bottom: 8%;
+  right: 7%;
+  width: 45px;
+  height: 45px;
+  background-image: url(${whitelight4});
+  background-size: cover;
+  z-index: 3;
+`;
+
+const SWhitelight5 = styled.div`
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  width: 15px;
+  height: 15px;
+  background-image: url(${whitelight5});
+  background-size: cover;
+  z-index: 3;
+`;
+
+const SWhitelight6 = styled.div`
+  position: absolute;
+  bottom: 33%;
+  right: 13%;
+  width: 20px;
+  height: 20px;
+  background-image: url(${whitelight6});
+  background-size: cover;
+  z-index: 3;
 `;
