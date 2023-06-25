@@ -44,6 +44,16 @@ const Carousel = ({ imgArr }) => {
         <SImgWrap>
           <SDelBtn onClick={handleCloseImgView} />
           <SSingleModal src={src}/>
+          {imgArr.length > 1 && (
+        <>
+          <CarouselButton onClick={goToPrevious} disabled={currentIndex === 0}>
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </CarouselButton>
+          <CarouselButton onClick={goToNext} disabled={currentIndex === imgArr.length - 1}>
+            <FontAwesomeIcon icon={faChevronRight} />
+          </CarouselButton>
+        </>
+      )}
         </SImgWrap>
       </StyledModal>
     );
