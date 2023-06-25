@@ -8,15 +8,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useMainAccountFollow from '../Hooks/useMainAccountFollow';
 import { isModalAtom } from '../Atom/atom';
 import { useRecoilState } from 'recoil';
+import AlertModal from '../Components/Common/AlertModal';
 
 const ProfileSetPage = ({ userEmail, userPassword }) => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [isModal, setIsModal] = useRecoilState(isModalAtom);
-
+  const [showAlertModal, setShowAlertModal] = useState(false);
   const location = useLocation();
   const userLoginInfo = location.state;
-  console.log(userLoginInfo);
 
   const { followingAcount } = useMainAccountFollow();
 
@@ -25,7 +25,6 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
       ...prevUserInfo,
       [key]: value,
     }));
-    console.log(userInfo);
   };
 
   const handleFormValidity = isValid => {
@@ -58,13 +57,18 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
       console.log('User profile created:', response.data);
 
       if (response.data.message === '회원가입 성공') {
-        navigate('/landing');
-        setIsModal(true);
+        setShowAlertModal(true);
         followingAcount(userInfo.accountId);
       }
     } catch (error) {
       console.error('Error creating user profile:', error);
     }
+  };
+
+  const handleModalClose = () => {
+    setShowAlertModal(false);
+    setIsModal(true);
+    navigate('/landing');
   };
 
   return (
@@ -79,6 +83,7 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
           CodeSpace 시작하기
         </Button>
       </SBtnBox>
+      {showAlertModal && <AlertModal message="회원가입 성공" onClose={handleModalClose} />}
     </>
   );
 };

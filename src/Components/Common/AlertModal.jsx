@@ -3,15 +3,20 @@ import styled from 'styled-components';
 import alertImg from '../../assets/icons/alert.png';
 
 export default function AlertModal({ message, onClose }) {
-  const handleClick = () => {
-    onClose(); // 버튼을 누르면 창 닫기
-  };
+  const shouldBreakLines = message.length > 14; // message길이 14글자 이상이면 다음 줄 적용
 
   return (
     <SAlertWrap>
       <img src={alertImg} alt="alert이미지" />
-      <SMessage>{message}</SMessage>
-      <SButton onClick={handleClick}>확인</SButton>
+      {shouldBreakLines ? (
+        <>
+          <SMessageFirstLine>{message.slice(0, 14)}</SMessageFirstLine>
+          <SMessage>{message.slice(14)}</SMessage>
+        </>
+      ) : (
+        <SMessage>{message}</SMessage>
+      )}
+      <SButton onClick={() => onClose()}>확인</SButton>
     </SAlertWrap>
   );
 }
@@ -46,6 +51,10 @@ const SMessage = styled.p`
   color: var(--black);
 `;
 
+const SMessageFirstLine = styled(SMessage)`
+  margin-bottom: 8px;
+`;
+
 const SButton = styled.button`
   font-size: 12px;
   width: 50px;
@@ -54,4 +63,5 @@ const SButton = styled.button`
   border-radius: 10px;
   margin-top: auto;
   margin-left: auto;
+  color: var(--white);
 `;

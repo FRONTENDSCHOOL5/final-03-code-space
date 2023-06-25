@@ -37,8 +37,8 @@ const PostPage = () => {
   const [isCode, setIsCode] = useState(false);
   const [isEditCheckState, setEditCheckState] = useRecoilState(isEditCheck);
 
-  const [showAlert, setShowAlert] = useState(false); // alert창 상태
-  const [showAlert1, setShowAlert1] = useState(false); // alert창 상태
+  const [showAlert, setShowAlert] = useState(false); // 이미지 업로드 alert창 상태
+  const [showWarningAlert, setShowWarningAlert] = useState(false); // 이미지 업로드 3장 초과 alert창 상태
 
   const [isOpenLanguageDropdown, setIsOpenLanguageDropdown] = useState(false);
 
@@ -170,7 +170,6 @@ const PostPage = () => {
 
   // 이미지 서버 업로드
   const handleUploadImg = async e => {
-
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append('image', file);
@@ -182,12 +181,11 @@ const PostPage = () => {
 
     if (imgAddList.length >= 3) {
       // alert('이미지는 최대 3장까지만 업로드 가능합니다!');
-      setShowAlert(true); 
+      setShowWarningAlert(true);
       return;
     } else {
       try {
-        const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(
-          setShowAlert1(true));
+        const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(setShowAlert(true));
         const uploadedImageUrl = url + response.data[0].filename;
         console.log(uploadedImageUrl);
         setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
@@ -315,8 +313,6 @@ const PostPage = () => {
       )}
       {imgAddPreview()}
       <SUploadImgBtn onClick={handleClick}>
-        {showAlert1 && <AlertModal message="이미지 업로드 완료" onClose={() => setShowAlert1(false)} />}
-        {showAlert && <AlertModal message="이미지는 최대 3장까지만 업로드 가능합니다!" onClose={() => setShowAlert(false)} />} {/* alert 띄우는 곳 */ }
         <SInputImg
           type="file"
           accept="image/jpg, image/jpeg, image/png, image/gif"
@@ -324,6 +320,11 @@ const PostPage = () => {
           ref={imgInput}
           onChange={handleUploadImg}></SInputImg>
       </SUploadImgBtn>
+      {showAlert && <AlertModal message="이미지 업로드 완료" onClose={() => setShowAlert(false)} />}
+      {showWarningAlert && (
+        <AlertModal message="이미지는 최대 3장까지만 업로드 가능합니다." onClose={() => setShowWarningAlert(false)} />
+      )}{' '}
+      {/* alert 띄우는 곳 */}
     </>
   );
 };
