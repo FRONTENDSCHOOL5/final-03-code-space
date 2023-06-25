@@ -4,7 +4,15 @@ import { useRecoilValue } from 'recoil';
 import { isfeedFetchToggle, setToken } from '../Atom/atom';
 import { MainAccountToken, BASEURL } from '../Components/Feed/COMMON';
 
-const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, commentId, setIsFeedFetchData }) => {
+const useFetchComment = ({
+  postID,
+  setCommentList,
+  setIsFetchData,
+  fetchType,
+  commentId,
+  setIsFeedFetchData,
+  setAlertModal,
+}) => {
   const UserToken = useRecoilValue(setToken);
 
   const POST_instance = axios.create({
@@ -21,10 +29,13 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, co
       const response = await POST_instance.delete(deletePost);
       console.log(response.data);
       console.log(response.data.message);
-      alert('삭제되었습니다!');
+      return '게시글이 삭제되었습니다.';
+      // alert('삭제되었습니다!');
     } catch (error) {
       console.error(error);
-      alert('잘못된 접근입니다!!!');
+      return '잘못된 접근입니다.';
+
+      // return Promise.reject(error);
     }
   }
   async function deleteComment() {
@@ -34,10 +45,11 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, co
       const response = await POST_instance.delete(deleteComment);
       console.log(response.data);
       console.log(response.data.message);
-      alert('삭제되었습니다!');
+      // alert('삭제되었습니다!');
+      return '댓글이 삭제되었습니다.';
     } catch (error) {
       console.error(error);
-      alert('잘못된 접근입니다!!!');
+      return '잘못된 접근입니다.';
     }
   }
   async function editPost() {
@@ -48,7 +60,7 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, co
       console.log(response.data.message);
     } catch (error) {
       console.error(error);
-      alert('잘못된 접근입니다!!!');
+      return '잘못된 접근입니다.';
     }
   }
 
@@ -62,13 +74,12 @@ const useFetchComment = ({ postID, setCommentList, setIsFetchData, fetchType, co
       console.log(response.data.comments);
     } catch (error) {
       console.error(error);
+      return '잘못된 접근입니다.';
     }
   }
 
   async function getFeed({ setReactionCount, type }) {
     const FeedGET = `post/${postID}/?limit=2`;
-    console.log(type);
-    console.log('겟피드!!!!!!!!');
     if (type === 'init') {
       try {
         const response = await POST_instance.get(FeedGET);

@@ -3,15 +3,11 @@ import styled from 'styled-components';
 import alertImg from '../../assets/icons/alert.png';
 
 export default function AlertModal({ message, onClose }) {
-  const handleClick = () => {
-    onClose(); // 버튼을 누르면 창 닫기
-  };
-
   return (
     <SAlertWrap>
       <img src={alertImg} alt="alert이미지" />
       <SMessage>{message}</SMessage>
-      <SButton onClick={handleClick}>확인</SButton>
+      <SButton onClick={() => onClose()}>확인</SButton>
     </SAlertWrap>
   );
 }
