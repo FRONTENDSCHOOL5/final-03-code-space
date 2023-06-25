@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import delImg from '../../assets/icons/delete1.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const Carousel = ({ imgArr }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transition, setTransition] = useState(false);
+  const [imgView, setImgView] = useState(false);
 
   useEffect(() => {
     // Enable transition after the initial render
@@ -25,7 +27,40 @@ const Carousel = ({ imgArr }) => {
     setTransition(false);
   };
 
+  const handleOnImgView = () => {
+    setImgView(true);
+    console.log("이미지 열림");
+  }
+
+  const handleCloseImgView = () => {
+    setImgView(false);
+  }
+
+  const ImgModal = ({isOpen, src}) => {
+    if (!isOpen) return null;
+  
+    return (
+      <StyledModal>
+        <SImgWrap>
+          <SDelBtn onClick={handleCloseImgView} />
+          <SSingleModal src={src}/>
+          {imgArr.length > 1 && (
+        <>
+          <CarouselButton onClick={goToPrevious} disabled={currentIndex === 0}>
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </CarouselButton>
+          <CarouselButton onClick={goToNext} disabled={currentIndex === imgArr.length - 1}>
+            <FontAwesomeIcon icon={faChevronRight} />
+          </CarouselButton>
+        </>
+      )}
+        </SImgWrap>
+      </StyledModal>
+    );
+  };
+
   return (
+    <div>
     <CarouselContainer>
       <CarouselImageContainer>
         <CarouselImageWrapper currentIndex={currentIndex}>
@@ -37,6 +72,7 @@ const Carousel = ({ imgArr }) => {
               currentIndex={currentIndex}
               transition={transition}
               onTransitionEnd={handleTransitionEnd}
+              onClick={handleOnImgView}
             />
           ))}
         </CarouselImageWrapper>
@@ -59,6 +95,8 @@ const Carousel = ({ imgArr }) => {
         ))}
       </IndicatorsContainer>
     </CarouselContainer>
+    <ImgModal isOpen={imgView} key={currentIndex} src={imgArr[currentIndex].url}/>
+    </div>
   );
 };
 
@@ -132,4 +170,43 @@ const Indicator = styled.li`
   z-index: 5;
 `;
 
+const StyledModal = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: hidden;
+  z-index:9999;
+  background-color: rgba(0, 0, 0, 0.8);
+`;
+
+const SImgWrap = styled.div`
+  width: 390px;
+  background-color: var(--black);
+  background-size: auto;
+  position: fixed;
+`;
+
+const SSingleModal = styled.img`
+  width: 100%;
+`;
+
+const SDelBtn = styled.div`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 30px;
+  height: 30px;
+  background-image: url(${delImg});
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
 export default Carousel;

@@ -1,14 +1,16 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg';
 import ProfileImg from '../assets/img/profile-img.svg';
-import { motion } from 'framer-motion';
 
 const MessagePage = () => {
+  const navigate = useNavigate();
   const imgInput = useRef();
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleClick = () => {
     imgInput.current.click();
@@ -44,9 +46,31 @@ const MessagePage = () => {
     setMessage('');
   };
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const Modal = ({isOpen}) => {
+    if (!isOpen) return null;
+  
+    return (
+      <StyledModal>
+        <SSingleModal>
+          <SContents>
+            <div onClick={() => navigate('/messagelist')}>채팅방 나가기</div>
+          </SContents>
+        </SSingleModal>
+      </StyledModal>
+    );
+  };
+
   return (
     <>
-      <MainHeader type="message" />
+      <MainHeader type="message" handleOpenModal={handleOpenModal}/>
       <SMsgWrap>
         <SProfileImg />
         <SContentWrap>
@@ -59,7 +83,7 @@ const MessagePage = () => {
       <SMsgWrap>
         <SProfileImg />
         <SContentWrap>
-          <SMsgContent>같이 코딩하고싶어서 연락드렸습니다!</SMsgContent>
+          <SMsgContent>같이 스터디하고싶어요!</SMsgContent>
           <SMsgTime>10:24</SMsgTime>
         </SContentWrap>
       </SMsgWrap>
@@ -77,7 +101,7 @@ const MessagePage = () => {
         <SUploadImgBtn onClick={handleClick} />
         <SInputImg
           type="file"
-          accept="image/jpg, image/jpeg, image/png"
+          accept="image/jpg, image/jpeg, image/png, image/gif, image/bmp, image/tif, image/heic"
           multiple
           ref={imgInput}
         />
@@ -89,6 +113,7 @@ const MessagePage = () => {
         />
         <SSendBtn onClick={handleSendMessage}>전송</SSendBtn>
       </SLayout>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
     </>
   );
 };
@@ -197,5 +222,72 @@ const SSendBtn = styled.button`
   &:hover {
     transition: all 0.5s;
     color: var(--point-color);
+  }
+`;
+
+const StyledModal = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: hidden;
+  z-index:9999;
+  /* text-align: center; */
+  background-color: rgba(0, 0, 0, 0.8);
+`;
+
+const SContents = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--white);
+  margin-top: 50px;
+  gap: 16px;
+  font-size: 14px;
+
+  div {
+    width: 90%;
+    text-align: center;
+    padding: 13px;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--point-color);
+    }
+  }
+
+  .accent {
+    color: var(--point-color);
+
+    &:hover {
+      color: var(--white);
+    }
+  }
+`;
+
+const SSingleModal = styled.article`
+  width: 100%;
+  max-width: 390px;
+  height: 100%;
+  background-color: var(--black);
+  border-radius: 47px 47px 0 0;
+  position: fixed;
+  top: 87%;
+
+  ::before {
+    content: '';
+    width: 50px;
+    height: 4px;
+    background-color: var(--border-gray);
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    border-radius: 15px;
+    margin: 17px 0;
   }
 `;

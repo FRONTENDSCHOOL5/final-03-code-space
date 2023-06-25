@@ -9,7 +9,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 import MainHeader from '../Components/Common/MainHeader';
 import uploadImg from '../assets/icons/uploadImg.svg';
-import delImg from '../assets/icons/del.svg';
+import delImg from '../assets/icons/delete1.svg';
 import axios from 'axios';
 import language from 'react-syntax-highlighter/dist/esm/languages/hljs/1c';
 import AlertModal from '../Components/Common/AlertModal';
@@ -214,7 +214,9 @@ const PostPage = () => {
               return (
                 <SImgBox key={index}>
                   <SDelBtn onClick={() => onRemoveAdd(img.url)} />
-                  <SPreviewImg src={img.url} style={{ width: imgWidth }} />
+                  <SPreviewImg style={{ width: imgWidth }}>
+                    <SPreviewImgCover src={img.url} />
+                  </SPreviewImg>
                 </SImgBox>
               );
             })}
@@ -234,63 +236,43 @@ const PostPage = () => {
 
   return (
     <>
-      <MainHeader
-        type="upload"
-        buttonDisabled={isSaveEnabled ? false : true}
-        handleUploadPost={isSaveEnabled ? handleUploadPost : null}
-      />
-      <STitle>
-        <DropdownWrapper>
-          <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '카테고리'}</DropdownButton>
-          <DropdownContent isOpen={isOpen}>
-            {category.map(item => (
-              <DropdownItem key={item} onClick={() => handleItemClick(item)}>
-                {item}
-              </DropdownItem>
-            ))}
-          </DropdownContent>
-        </DropdownWrapper>
-        {isEdit ? (
-          <SContentTitle placeholder="제목" onChange={writeTitle} value={title} />
-        ) : (
-          <SContentTitle placeholder="제목" onChange={writeTitle} />
-        )}
-      </STitle>
-      {isEdit ? (
-        <SContentWrap>
-          <SPostContent
-            placeholder="게시글 입력하기..."
-            ref={contentInput}
-            onChange={writePost}
-            value={content}></SPostContent>
-        </SContentWrap>
-      ) : (
-        <SContentWrap>
-          <SPostContent placeholder="게시글 입력하기..." ref={contentInput} onChange={writePost}></SPostContent>
-        </SContentWrap>
-      )}
-      {isCode && !isEdit ? (
-        <SCodeWrap>
+      <div>
+        <MainHeader
+          type="upload"
+          buttonDisabled={isSaveEnabled ? false : true}
+          handleUploadPost={isSaveEnabled ? handleUploadPost : null}
+        />
+        <STitle>
           <DropdownWrapper>
-            <DropdownButton onClick={toggleLanguageDropdown}>{language ? language : '코드 언어'}</DropdownButton>
-            <DropdownContent isOpen={isOpenLanguageDropdown}>
-              {codeLanguages.map(language => (
-                <DropdownItem key={language} onClick={() => handleLanguageItemClick(language)}>
-                  {language}
+            <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '카테고리'}</DropdownButton>
+            <DropdownContent isOpen={isOpen}>
+              {category.map(item => (
+                <DropdownItem key={item} onClick={() => handleItemClick(item)}>
+                  {item}
                 </DropdownItem>
               ))}
             </DropdownContent>
           </DropdownWrapper>
-          <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} />
-          <SCode>
-            <SSyntaxHighlighter language={language} style={atomDark}>
-              {code}
-            </SSyntaxHighlighter>
-          </SCode>
-        </SCodeWrap>
-      ) : (
-        isEdit &&
-        isCode && (
+          {isEdit ? (
+            <SContentTitle placeholder="제목" onChange={writeTitle} value={title} />
+          ) : (
+            <SContentTitle placeholder="제목" onChange={writeTitle} />
+          )}
+        </STitle>
+        {isEdit ? (
+          <SContentWrap>
+            <SPostContent
+              placeholder="게시글 입력하기..."
+              ref={contentInput}
+              onChange={writePost}
+              value={content}></SPostContent>
+          </SContentWrap>
+        ) : (
+          <SContentWrap>
+            <SPostContent placeholder="게시글 입력하기..." ref={contentInput} onChange={writePost}></SPostContent>
+          </SContentWrap>
+        )}
+        {isCode && !isEdit ? (
           <SCodeWrap>
             <DropdownWrapper>
               <DropdownButton onClick={toggleLanguageDropdown}>{language ? language : '코드 언어'}</DropdownButton>
@@ -302,28 +284,51 @@ const PostPage = () => {
                 ))}
               </DropdownContent>
             </DropdownWrapper>
-            <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} value={code} />
+            <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} />
             <SCode>
-              <SyntaxHighlighter language={language} style={atomDark}>
+              <SSyntaxHighlighter language={language} style={atomDark}>
                 {code}
-              </SyntaxHighlighter>
+              </SSyntaxHighlighter>
             </SCode>
           </SCodeWrap>
-        )
-      )}
-      {imgAddPreview()}
-      <SUploadImgBtn onClick={handleClick}>
-        <SInputImg
-          type="file"
-          accept="image/jpg, image/jpeg, image/png, image/gif"
-          multiple
-          ref={imgInput}
-          onChange={handleUploadImg}></SInputImg>
-      </SUploadImgBtn>
-      {showAlert1 && <AlertModal message="이미지 업로드 완료" onClose={() => setShowAlert1(false)} />}
-      {showAlert && (
-        <AlertModal message="이미지는 최대 3장까지만 업로드 가능합니다!" onClose={() => setShowAlert(false)} />
-      )}
+        ) : (
+          isEdit &&
+          isCode && (
+            <SCodeWrap>
+              <DropdownWrapper>
+                <DropdownButton onClick={toggleLanguageDropdown}>{language ? language : '코드 언어'}</DropdownButton>
+                <DropdownContent isOpen={isOpenLanguageDropdown}>
+                  {codeLanguages.map(language => (
+                    <DropdownItem key={language} onClick={() => handleLanguageItemClick(language)}>
+                      {language}
+                    </DropdownItem>
+                  ))}
+                </DropdownContent>
+              </DropdownWrapper>
+              <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} value={code} />
+              <SCode>
+                <SyntaxHighlighter language={language} style={atomDark}>
+                  {code}
+                </SyntaxHighlighter>
+              </SCode>
+            </SCodeWrap>
+          )
+        )}
+        {imgAddPreview()}
+        <SUploadImgBtn onClick={handleClick}>
+          <SInputImg
+            type="file"
+            accept="image/jpg, image/jpeg, image/png, image/gif, image/bmp, image/tif, image/heic"
+            multiple
+            ref={imgInput}
+            onChange={handleUploadImg}
+          />
+        </SUploadImgBtn>
+        {showAlert1 && <AlertModal message="이미지 업로드 완료" onClose={() => setShowAlert1(false)} />}
+        {showAlert && (
+          <AlertModal message="이미지는 최대 3장까지만 업로드 가능합니다!" onClose={() => setShowAlert(false)} />
+        )}
+      </div>
     </>
   );
 };
@@ -352,7 +357,7 @@ const DropdownContent = styled.div`
   margin-top: 2px;
   color: var(--gray);
   background-color: var(--black);
-  min-width: 80px;
+  min-width: 140px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 `;
@@ -360,11 +365,11 @@ const DropdownContent = styled.div`
 const DropdownItem = styled.div`
   padding: 10px;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 16px;
 
   &:hover {
-    background-color: var(--gray);
-    color: var(--black);
+    background-color: var(--point-color);
+    color: var(--white);
   }
 `;
 
@@ -396,9 +401,10 @@ const SContentTitle = styled.input`
 `;
 
 const SPostContent = styled(TextareaAutosize)`
-  margin: 0 20px 15px 20px;
+  margin: 10px 20px 15px 20px;
   padding: 0;
   width: 350px;
+  min-height: 100px;
   background-color: var(--black);
   border: none;
   color: var(--white);
@@ -420,6 +426,7 @@ const SCode = styled.div`
 `;
 
 const SSyntaxHighlighter = styled(SyntaxHighlighter)`
+  font-size: 11px;
   &::-webkit-scrollbar {
     border-radius: 6px;
   }
@@ -444,6 +451,7 @@ const SUploadImgBtn = styled.div`
   border-radius: 50%;
   background-image: url(${uploadImg});
   cursor: pointer;
+  background-color: var(--black);
 `;
 
 const SInputImg = styled.input`
@@ -477,14 +485,22 @@ const SImgBox = styled.div`
   flex: 1;
 `;
 
-const SPreviewImg = styled.img`
+const SPreviewImg = styled.div`
   border-radius: 10px;
+  height: 200px;
+  overflow: hidden;
+`;
+
+const SPreviewImgCover = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const SDelBtn = styled.div`
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: 5px;
   width: 30px;
   height: 30px;
   background-image: url(${delImg});

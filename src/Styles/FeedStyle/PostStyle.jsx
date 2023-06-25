@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
 const STitle = styled.div`
   color: var(--white);
@@ -140,6 +141,23 @@ const SCodeEditor = styled.div`
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
 `;
+
+const SSyntaxHighlighter = styled(SyntaxHighlighter)`
+  &::-webkit-scrollbar {
+    border-radius: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    height: 10px;
+    background: var(--darkgray);
+    background-clip: padding-box;
+    border: 5px solid transparent;
+    border-radius: 20px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: none;
+    height: 100px;
+  }
+`;
 const SCodeContainer = styled.div`
   display: -webkit-box !important;
   -webkit-line-clamp: 5 !important; /* 원하는 줄 수에 맞게 조정해주세요 */
@@ -176,6 +194,7 @@ export {
   SPostImage,
   SHeartImgDetail,
   SCodeEditor,
+  SSyntaxHighlighter,
   SCodeLanguage,
   SImgContainer,
   STitleContent,

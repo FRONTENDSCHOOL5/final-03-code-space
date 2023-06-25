@@ -17,6 +17,7 @@ const MainHeader = ({
   searchUser,
   buttonDisabled,
   handleSubmit,
+  handleOpenModal,
 }) => {
   const navigate = useNavigate();
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
@@ -89,7 +90,7 @@ const MainHeader = ({
           </>
         ) : type === 'set-profile' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/myprofile')}></SBackIcon>
             <Button
               type="submit"
               padding="7px 0"
@@ -104,7 +105,7 @@ const MainHeader = ({
           </>
         ) : type === 'detail' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
             <SSettingIcon
               src={configIcon}
               alt="설정창"
@@ -120,22 +121,21 @@ const MainHeader = ({
           </>
         ) : type === 'save' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></SBackIcon>
             <SUploadBtn disabled={buttonDisabled} onClick={handleUploadProduct} style={{ marginRight: '20px' }}>
               저장
             </SUploadBtn>
           </>
         ) : type === 'upload' ? (
           <>
-            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate('/myprofile')}></SBackIcon>
+            <SBackIcon src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></SBackIcon>
             <SUploadBtn disabled={buttonDisabled} onClick={handleUploadPost} style={{ marginRight: '5px' }}>
               업로드
             </SUploadBtn>
           </>
         ) : type === 'more' ? (
           <>
-            <img src={backIcon} alt="뒤로가기" onClick={() => navigate(-1)}></img>
-            <img src={moreIcon} alt="더보기"></img>
+            <img src={backIcon} alt="뒤로가기" onClick={() => navigate('/feed')}></img>
           </>
         ) : type === 'message' ? (
           <>
@@ -143,7 +143,11 @@ const MainHeader = ({
               <img src={backIcon} alt="뒤로가기" onClick={() => navigate('/messagelist')}></img>
               <SNickname>코딩천재</SNickname>
             </SWrap>
-            <img src={moreIcon} alt="더보기"></img>
+            <SSettingIcon
+              src={moreIcon}
+              alt="더보기"
+              onClick={handleOpenModal}>
+              </SSettingIcon>
           </>
         ) : (
           <>에러</>
