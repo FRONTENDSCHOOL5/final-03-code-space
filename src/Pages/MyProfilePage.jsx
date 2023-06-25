@@ -56,11 +56,12 @@ function MyProfile() {
     setNoneEnter(false);
     setIsLoginModalSucess(false);
   };
-
+  console.log(accountName);
+  console.log(profile.accountname);
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <SLayout>
-        <MainHeader type={'profile'} />
+        {profile.accountname !== accountName ? <MainHeader type={'profile'} /> : <MainHeader type={'myprofile'} />}
         <SContainer>
           <MainProfile accountName={profile ? profile.accountname : accountName} />
         </SContainer>
@@ -69,7 +70,13 @@ function MyProfile() {
         </SContainer>
         <ProfilePost accountName={profile ? profile.accountname : accountName} />
         <BottomNav />
-        {ConfigModal === 'post-config' ? <CommonModal type="profile" /> : <></>}
+        {ConfigModal === 'post-config' ? (
+          <CommonModal type="profile" />
+        ) : ConfigModal !== '' && profile.accountName !== accountName ? (
+          <CommonModal type="other" />
+        ) : (
+          <></>
+        )}
         {alertModal ? <AlertModal message="로그아웃 되었습니다." onClose={handleLogout} /> : <></>}
       </SLayout>
     </motion.div>
