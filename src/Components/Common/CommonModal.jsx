@@ -10,7 +10,7 @@ import {
   setIsFollowed,
   isEditCheck,
   noneEnterAtom,
-  isLoginSuccessAtom
+  isLoginSuccessAtom,
 } from '../../Atom/atom';
 import { useNavigate } from 'react-router-dom';
 const CommonModal = ({
@@ -42,10 +42,9 @@ const CommonModal = ({
   const searchFeedListAtom = useSetRecoilState(searchFeedList);
   const setIsFollowedAtom = useSetRecoilState(setIsFollowed);
 
-  // 로그아웃 시 랜딩 페이지 애니메이션 
+  // 로그아웃 시 랜딩 페이지 애니메이션
   const [noneEnter, setNoneEnter] = useRecoilState(noneEnterAtom);
   const [isLoginSucess, setIsLoginSucess] = useRecoilState(isLoginSuccessAtom);
-
 
   const navigate = useNavigate();
 
@@ -83,7 +82,7 @@ const CommonModal = ({
     setAccountNameAtom('');
     searchFeedListAtom('');
     setIsFollowedAtom(null);
-    setIsLoginedAtom(false);
+    // setIsLoginedAtom(false);
     alert('로그아웃 성공');
     setNoneEnter(false);
     setIsLoginSucess(false);
@@ -271,7 +270,7 @@ const SBackground = styled.div`
   left: 0;
   top: 0;
   overflow-y: hidden;
-  z-index:9999;
+  z-index: 9999;
   /* text-align: center; */
   background-color: rgba(0, 0, 0, 0.8);
 `;

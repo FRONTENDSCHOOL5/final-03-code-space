@@ -92,6 +92,7 @@ export const noneEnterAtom = atom({
 export const isLoginSuccessAtom = atom({
   key: 'isLoginSuccess',
   default: false,
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const isInitialLoadAtom = atom({
