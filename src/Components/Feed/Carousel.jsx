@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import delImg from '../../assets/icons/del.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const Carousel = ({ imgArr }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transition, setTransition] = useState(false);
+  const [imgView, setImgView] = useState(false);
 
   useEffect(() => {
     // Enable transition after the initial render
@@ -25,7 +27,28 @@ const Carousel = ({ imgArr }) => {
     setTransition(false);
   };
 
+  const handleOnImgView = () => {
+    setImgView(true);
+    console.log("이미지 열림");
+  }
+
+  const handleCloseImgView = () => {
+    setImgView(false);
+  }
+
+  const ImgModal = ({isOpen, src}) => {
+    if (!isOpen) return null;
+  
+    return (
+      <StyledModal>
+        <SDelBtn onClick={handleCloseImgView} />
+        <SSingleModal src={src}></SSingleModal>
+      </StyledModal>
+    );
+  };
+
   return (
+    <div>
     <CarouselContainer>
       <CarouselImageContainer>
         <CarouselImageWrapper currentIndex={currentIndex}>
@@ -37,6 +60,7 @@ const Carousel = ({ imgArr }) => {
               currentIndex={currentIndex}
               transition={transition}
               onTransitionEnd={handleTransitionEnd}
+              onClick={handleOnImgView}
             />
           ))}
         </CarouselImageWrapper>
@@ -59,6 +83,9 @@ const Carousel = ({ imgArr }) => {
         ))}
       </IndicatorsContainer>
     </CarouselContainer>
+    {imgArr.map((img, index) => (
+      <ImgModal isOpen={imgView} key={index} src={img.url}/>))}
+    </div>
   );
 };
 
@@ -132,4 +159,40 @@ const Indicator = styled.li`
   z-index: 5;
 `;
 
+const StyledModal = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: hidden;
+  z-index:9999;
+  background-color: rgba(0, 0, 0, 0.8);
+`;
+
+const SSingleModal = styled.img`
+  width: 100%;
+  max-width: 390px;
+  background-color: var(--black);
+  background-size: auto;
+  position: fixed;
+`;
+
+const SDelBtn = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-image: url(${delImg});
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
 export default Carousel;
