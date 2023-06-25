@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import delImg from '../../assets/icons/delete1.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -121,6 +121,7 @@ const CarouselImageContainer = styled.div`
   height: 200px;
   overflow: hidden;
   perspective: 1000px; /* 3D 효과를 위한 perspective 설정 */
+  border-radius: 20px;
 `;
 
 const CarouselImageWrapper = styled.div`
@@ -130,7 +131,9 @@ const CarouselImageWrapper = styled.div`
   transition: transform 0.5s ease; /* 슬라이드 애니메이션 설정 */
   transform-style: preserve-3d; /* 3D 변환 유지 */
   transform: translate3d(${({ currentIndex }) => -currentIndex * 100}%, 0, 0); /* X축으로 이동 */
+  border-radius: 20px;
 `;
+
 const CarouselImage = styled.img`
   flex-shrink: 0;
   width: 100%;
@@ -138,7 +141,12 @@ const CarouselImage = styled.img`
   object-fit: cover;
   border-radius: 20px;
   cursor: pointer;
+
+  &:hover {
+    scale: 0.99;
+  }
 `;
+
 const CarouselButton = styled.button`
   position: absolute;
   top: 50%;

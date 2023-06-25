@@ -189,14 +189,17 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
                   )}
                   <STitleContainer>
                     <STitleContent>
-                      <STitle>{title}</STitle>
-                      {item.image ? (
-                        <SImgContainer>
-                          <FontAwesomeIcon icon={faImage} style={{ color: '#2bae66' }} />
-                        </SImgContainer>
-                      ) : (
-                        <></>
-                      )}
+                      <STitle>
+                        {title}
+
+                        {item.image ? (
+                          <SImgContainer>
+                            <FontAwesomeIcon icon={faImage} style={{ color: '#2bae66' }} />
+                          </SImgContainer>
+                        ) : (
+                          <></>
+                        )}
+                      </STitle>
                     </STitleContent>
 
                     <SAuthorInfo>

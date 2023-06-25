@@ -5,6 +5,7 @@ const STitle = styled.div`
   color: var(--white);
   word-break: break-all;
   font-weight: bold;
+  display: flex;
 `;
 const SMainContent = styled.div`
   color: var(--white);
@@ -177,7 +178,7 @@ const SCodeLanguage = styled.div`
 `;
 const SImgContainer = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin-left: 5px;
 `;
 export {
