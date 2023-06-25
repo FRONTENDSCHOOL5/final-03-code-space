@@ -37,8 +37,8 @@ const PostPage = () => {
   const [isCode, setIsCode] = useState(false);
   const [isEditCheckState, setEditCheckState] = useRecoilState(isEditCheck);
 
-  const [showAlert, setShowAlert] = useState(false); // alert창 상태
-  const [showAlert1, setShowAlert1] = useState(false); // alert창 상태
+  const [showAlert, setShowAlert] = useState(false); // 이미지 업로드 alert창 상태
+  const [showWarningAlert, setShowWarningAlert] = useState(false); // 이미지 업로드 3장 초과 alert창 상태
 
   const [isOpenLanguageDropdown, setIsOpenLanguageDropdown] = useState(false);
 
@@ -181,11 +181,11 @@ const PostPage = () => {
 
     if (imgAddList.length >= 3) {
       // alert('이미지는 최대 3장까지만 업로드 가능합니다!');
-      setShowAlert(true);
+      setShowWarningAlert(true);
       return;
     } else {
       try {
-        const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(setShowAlert1(true));
+        const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(setShowAlert(true));
         const uploadedImageUrl = url + response.data[0].filename;
         console.log(uploadedImageUrl);
         setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
@@ -236,43 +236,63 @@ const PostPage = () => {
 
   return (
     <>
-      <div>
-        <MainHeader
-          type="upload"
-          buttonDisabled={isSaveEnabled ? false : true}
-          handleUploadPost={isSaveEnabled ? handleUploadPost : null}
-        />
-        <STitle>
+      <MainHeader
+        type="upload"
+        buttonDisabled={isSaveEnabled ? false : true}
+        handleUploadPost={isSaveEnabled ? handleUploadPost : null}
+      />
+      <STitle>
+        <DropdownWrapper>
+          <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '카테고리'}</DropdownButton>
+          <DropdownContent isOpen={isOpen}>
+            {category.map(item => (
+              <DropdownItem key={item} onClick={() => handleItemClick(item)}>
+                {item}
+              </DropdownItem>
+            ))}
+          </DropdownContent>
+        </DropdownWrapper>
+        {isEdit ? (
+          <SContentTitle placeholder="제목" onChange={writeTitle} value={title} />
+        ) : (
+          <SContentTitle placeholder="제목" onChange={writeTitle} />
+        )}
+      </STitle>
+      {isEdit ? (
+        <SContentWrap>
+          <SPostContent
+            placeholder="게시글 입력하기..."
+            ref={contentInput}
+            onChange={writePost}
+            value={content}></SPostContent>
+        </SContentWrap>
+      ) : (
+        <SContentWrap>
+          <SPostContent placeholder="게시글 입력하기..." ref={contentInput} onChange={writePost}></SPostContent>
+        </SContentWrap>
+      )}
+      {isCode && !isEdit ? (
+        <SCodeWrap>
           <DropdownWrapper>
-            <DropdownButton onClick={toggleDropdown}>{selectedItem ? selectedItem : '카테고리'}</DropdownButton>
-            <DropdownContent isOpen={isOpen}>
-              {category.map(item => (
-                <DropdownItem key={item} onClick={() => handleItemClick(item)}>
-                  {item}
+            <DropdownButton onClick={toggleLanguageDropdown}>{language ? language : '코드 언어'}</DropdownButton>
+            <DropdownContent isOpen={isOpenLanguageDropdown}>
+              {codeLanguages.map(language => (
+                <DropdownItem key={language} onClick={() => handleLanguageItemClick(language)}>
+                  {language}
                 </DropdownItem>
               ))}
             </DropdownContent>
           </DropdownWrapper>
-          {isEdit ? (
-            <SContentTitle placeholder="제목" onChange={writeTitle} value={title} />
-          ) : (
-            <SContentTitle placeholder="제목" onChange={writeTitle} />
-          )}
-        </STitle>
-        {isEdit ? (
-          <SContentWrap>
-            <SPostContent
-              placeholder="게시글 입력하기..."
-              ref={contentInput}
-              onChange={writePost}
-              value={content}></SPostContent>
-          </SContentWrap>
-        ) : (
-          <SContentWrap>
-            <SPostContent placeholder="게시글 입력하기..." ref={contentInput} onChange={writePost}></SPostContent>
-          </SContentWrap>
-        )}
-        {isCode && !isEdit ? (
+          <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} />
+          <SCode>
+            <SSyntaxHighlighter language={language} style={atomDark}>
+              {code}
+            </SSyntaxHighlighter>
+          </SCode>
+        </SCodeWrap>
+      ) : (
+        isEdit &&
+        isCode && (
           <SCodeWrap>
             <DropdownWrapper>
               <DropdownButton onClick={toggleLanguageDropdown}>{language ? language : '코드 언어'}</DropdownButton>
@@ -284,51 +304,29 @@ const PostPage = () => {
                 ))}
               </DropdownContent>
             </DropdownWrapper>
-            <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} />
+            <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} value={code} />
             <SCode>
-              <SSyntaxHighlighter language={language} style={atomDark}>
+              <SyntaxHighlighter language={language} style={atomDark}>
                 {code}
-              </SSyntaxHighlighter>
+              </SyntaxHighlighter>
             </SCode>
           </SCodeWrap>
-        ) : (
-          isEdit &&
-          isCode && (
-            <SCodeWrap>
-              <DropdownWrapper>
-                <DropdownButton onClick={toggleLanguageDropdown}>{language ? language : '코드 언어'}</DropdownButton>
-                <DropdownContent isOpen={isOpenLanguageDropdown}>
-                  {codeLanguages.map(language => (
-                    <DropdownItem key={language} onClick={() => handleLanguageItemClick(language)}>
-                      {language}
-                    </DropdownItem>
-                  ))}
-                </DropdownContent>
-              </DropdownWrapper>
-              <SPostContent placeholder="코드 입력하기..." ref={contentInput} onChange={writeCode} value={code} />
-              <SCode>
-                <SyntaxHighlighter language={language} style={atomDark}>
-                  {code}
-                </SyntaxHighlighter>
-              </SCode>
-            </SCodeWrap>
-          )
-        )}
-        {imgAddPreview()}
-        <SUploadImgBtn onClick={handleClick}>
-          <SInputImg
-            type="file"
-            accept="image/jpg, image/jpeg, image/png, image/gif, image/bmp, image/tif, image/heic"
-            multiple
-            ref={imgInput}
-            onChange={handleUploadImg}
-          />
-        </SUploadImgBtn>
-        {showAlert1 && <AlertModal message="이미지 업로드 완료" onClose={() => setShowAlert1(false)} />}
-        {showAlert && (
-          <AlertModal message="이미지는 최대 3장까지만 업로드 가능합니다!" onClose={() => setShowAlert(false)} />
-        )}
-      </div>
+        )
+      )}
+      {imgAddPreview()}
+      <SUploadImgBtn onClick={handleClick}>
+        <SInputImg
+          type="file"
+          accept="image/jpg, image/jpeg, image/png, image/gif"
+          multiple
+          ref={imgInput}
+          onChange={handleUploadImg}></SInputImg>
+      </SUploadImgBtn>
+      {showAlert && <AlertModal message="이미지 업로드 완료" onClose={() => setShowAlert(false)} />}
+      {showWarningAlert && (
+        <AlertModal message="이미지는 최대 3장까지만 업로드 가능합니다." onClose={() => setShowWarningAlert(false)} />
+      )}{' '}
+      {/* alert 띄우는 곳 */}
     </>
   );
 };
