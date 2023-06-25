@@ -41,8 +41,10 @@ const Carousel = ({ imgArr }) => {
   
     return (
       <StyledModal>
-        <SDelBtn onClick={handleCloseImgView} />
-        <SSingleModal src={src}></SSingleModal>
+        <SImgWrap>
+          <SDelBtn onClick={handleCloseImgView} />
+          <SSingleModal src={src}/>
+        </SImgWrap>
       </StyledModal>
     );
   };
@@ -83,8 +85,7 @@ const Carousel = ({ imgArr }) => {
         ))}
       </IndicatorsContainer>
     </CarouselContainer>
-    {imgArr.map((img, index) => (
-      <ImgModal isOpen={imgView} key={index} src={img.url}/>))}
+    <ImgModal isOpen={imgView} key={currentIndex} src={imgArr[currentIndex].url}/>
     </div>
   );
 };
@@ -173,20 +174,23 @@ const StyledModal = styled.div`
   background-color: rgba(0, 0, 0, 0.8);
 `;
 
-const SSingleModal = styled.img`
-  width: 100%;
-  max-width: 390px;
+const SImgWrap = styled.div`
+  width: 390px;
   background-color: var(--black);
   background-size: auto;
   position: fixed;
 `;
 
+const SSingleModal = styled.img`
+  width: 100%;
+`;
+
 const SDelBtn = styled.div`
   position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
   background-image: url(${delImg});
   background-repeat: no-repeat;
   background-size: contain;
