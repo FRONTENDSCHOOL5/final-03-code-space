@@ -7,6 +7,7 @@ import { useRecoilValue } from 'recoil';
 import { setToken } from '../../Atom/atom';
 import axios from 'axios';
 import { removeFollowerById } from '../Profile/removeMainAccount';
+import { useNavigate } from 'react-router-dom';
 
 export default function MainProfileBtns({
   accountName,
@@ -18,6 +19,7 @@ export default function MainProfileBtns({
 }) {
   const token = useRecoilValue(setToken);
   const URL = 'https://api.mandarin.weniv.co.kr';
+  const navigate = useNavigate();
 
   // console.log(isfollow);
   console.log(isSubscribed);
@@ -90,7 +92,7 @@ export default function MainProfileBtns({
         </SBtnLayout>
       ) : (
         <SBtnContainer>
-          <SChatBtn />
+          <SChatBtn onClick={() => navigate('/messagelist')}/>
           <Button width="120px" onClick={handleClick} subscribed={isSubscribed} padding="8px 0">
             {isSubscribed ? '언팔로우 ' : '팔로우'}
           </Button>
@@ -122,8 +124,10 @@ const SChatBtn = styled.button`
   height: 34px;
   border: 1px solid var(--border-gray);
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 const SShareBtn = styled(SChatBtn)`
   background: url(${iconShare}) no-repeat center/ 20px 20px;
+  cursor: pointer;
 `;
