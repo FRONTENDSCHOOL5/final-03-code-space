@@ -29,6 +29,7 @@ const SAlertWrap = styled.div`
   align-items: center;
   padding: 20px;
   box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.671);
+  z-index: 999;
 
   img {
     display: block;

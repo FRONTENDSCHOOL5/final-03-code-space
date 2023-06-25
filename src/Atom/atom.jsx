@@ -89,10 +89,9 @@ export const noneEnterAtom = atom({
   default: false,
 });
 
-export const isLoginSuccessAtom = atom({
+export const isLoginModalSuccessAtom = atom({
   key: 'isLoginSuccess',
   default: false,
-  effects_UNSTABLE: [persistAtom],
 });
 
 export const isInitialLoadAtom = atom({
@@ -110,4 +109,12 @@ export const configPostIdAtom = atom({
 export const searchTabAtom = atom({
   key: 'searchTabAtom',
   default: true,
+});
+export const isLoginAlertAtom = atom({
+  key: 'isLoginAlertAtom',
+  default: false,
+});
+export const isLogOutAlertAtom = atom({
+  key: 'isLogOutAlertAtom',
+  default: false,
 });

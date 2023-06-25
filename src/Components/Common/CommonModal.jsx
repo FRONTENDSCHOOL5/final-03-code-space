@@ -10,7 +10,8 @@ import {
   setIsFollowed,
   isEditCheck,
   noneEnterAtom,
-  isLoginSuccessAtom,
+  isLoginModalSuccessAtom,
+  isLogOutAlertAtom,
 } from '../../Atom/atom';
 import { useNavigate } from 'react-router-dom';
 const CommonModal = ({
@@ -44,7 +45,8 @@ const CommonModal = ({
 
   // 로그아웃 시 랜딩 페이지 애니메이션
   const [noneEnter, setNoneEnter] = useRecoilState(noneEnterAtom);
-  const [isLoginSucess, setIsLoginSucess] = useRecoilState(isLoginSuccessAtom);
+  const [isLoginSucess, setIsLoginModalSucess] = useRecoilState(isLoginModalSuccessAtom);
+  const [alertModal, setAlertModal] = useRecoilState(isLogOutAlertAtom);
 
   const navigate = useNavigate();
 
@@ -75,19 +77,24 @@ const CommonModal = ({
     }
   }, []);
 
-  // 로그아웃
-  const handleLogout = () => {
-    // 토큰 상태 초기화 또는 삭제
-    setTokenAtom('');
-    setAccountNameAtom('');
-    searchFeedListAtom('');
-    setIsFollowedAtom(null);
-    // setIsLoginedAtom(false);
-    alert('로그아웃 성공');
-    setNoneEnter(false);
-    setIsLoginSucess(false);
-    navigate('/');
+  const handelLogoutAlert = () => {
+    setAlertModal(true);
   };
+  // 로그아웃
+
+  // const handleLogout = () => {
+  //   setAlertModal(false);
+
+  //   // 토큰 상태 초기화 또는 삭제
+  //   setTokenAtom('');
+  //   setAccountNameAtom('');
+  //   searchFeedListAtom('');
+  //   setIsFollowedAtom(null);
+  //   setIsLoginedAtom(false);
+  //   setNoneEnter(false);
+  //   setIsLoginModalSucess(false);
+  //   navigate('/');
+  // };
 
   function goEdit() {
     navigate('/post', { state: { isEdit, ...feedList, imgArr, title, content, code, category, language } });
@@ -144,7 +151,7 @@ const CommonModal = ({
               <SConfirmTitle className="confirm-title">로그아웃 하시겠어요?</SConfirmTitle>
               <SConfirmContents>
                 <SConfirmContent>취소</SConfirmContent>
-                <div onClick={handleLogout}>로그아웃</div>
+                <div onClick={handelLogoutAlert}>로그아웃</div>
               </SConfirmContents>
             </SConfirmModal>
           ) : type === 'comment-config' ? (
