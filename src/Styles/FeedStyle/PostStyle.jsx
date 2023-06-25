@@ -35,6 +35,11 @@ const SAccountname = styled.div`
   color: var(--darkgray);
   font-size: 10px;
 `;
+const SCreateDate = styled.div`
+  font-family: none;
+  color: var(--darkgray);
+  font-size: 10px;
+`;
 
 const SFeedCard = styled.div`
   display: flex;
@@ -199,4 +204,5 @@ export {
   SImgContainer,
   STitleContent,
   SCodeContainer,
+  SCreateDate,
 };

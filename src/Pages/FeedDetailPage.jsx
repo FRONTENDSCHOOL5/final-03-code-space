@@ -25,6 +25,7 @@ import {
   SCodeEditor,
   SSyntaxHighlighter,
   SCodeLanguage,
+  SCreateDate,
 } from '../Styles/FeedStyle/PostStyle';
 import WriteComment from '../Components/Feed/WriteComment';
 import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
@@ -233,7 +234,7 @@ const FeedDetailPage = () => {
                 </SReactionCount>
               </SReactionContent>
 
-              <SAccountname>{feedList.createdAt.slice(0, 10)}</SAccountname>
+              <SCreateDate>{feedList.createdAt.slice(0, 10)}</SCreateDate>
             </SReactionContainer>
           </SDetailFeedCard>
           <Comment

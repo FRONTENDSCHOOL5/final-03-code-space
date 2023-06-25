@@ -344,8 +344,8 @@ const DropdownButton = styled.button`
   padding: 5px 0;
   background-color: var(--point-color);
   color: var(--white);
-  font-size: 14px;
-  border-radius: 22px;
+  font-size: 12px;
+  border-radius: 10px;
   cursor: pointer;
 `;
 
@@ -355,7 +355,7 @@ const DropdownContent = styled.div`
   margin-top: 2px;
   color: var(--gray);
   background-color: var(--black);
-  min-width: 140px;
+  min-width: 110px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 `;
@@ -363,7 +363,7 @@ const DropdownContent = styled.div`
 const DropdownItem = styled.div`
   padding: 10px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 12px;
 
   &:hover {
     background-color: var(--point-color);
@@ -388,7 +388,7 @@ const SContentTitle = styled.input`
   border-bottom: 1px solid var(--gray);
   padding: 5px 0;
   color: var(--white);
-  font-size: 20px;
+  font-size: 16px;
   &:focus {
     transition: all 0.5s;
     border-bottom: 1px solid var(--point-color);

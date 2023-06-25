@@ -16,6 +16,7 @@ import {
   SReactionContent,
   SReactionCount,
   SMainContent,
+  SCreateDate,
 } from '../../Styles/FeedStyle/PostStyle';
 import styled from 'styled-components';
 
@@ -34,7 +35,8 @@ const Post = ({ postData, isGrid }) => {
   function goFeedDetail(item, title, content, category) {
     navigate('/feeddetail', { state: { feedList: { item, title, content, category } } });
   }
-  function goProfile(item) {
+  function goProfile(event, item) {
+    event.stopPropagation();
     navigate('/myprofile', { state: item });
   }
 
@@ -106,14 +108,16 @@ const Post = ({ postData, isGrid }) => {
                     <img src={contentImgArr.length === 0 ? logoImg : contentImgArr[0].url} alt="" />
                   </SContentContainer>
                 ) : (
-                  <SFeedCard key={item.id}>
+                  <SFeedCard key={item.id} onClick={() => goFeedDetail(item, title, content, category)}>
                     <SAuthor>
-                      <SProfileImg src={item.author.image} alt="프사" onClick={() => goProfile(item.author)} />
+                      <SProfileImg
+                        src={item.author.image}
+                        alt="프사"
+                        onClick={event => goProfile(event, item.author)}
+                      />
 
-                      <STitleContainer onClick={() => goFeedDetail(item, title, content, category)}>
-                        <STitle onClick={() => goFeedDetail(item, title, content, category, code, language)}>
-                          {title}
-                        </STitle>
+                      <STitleContainer>
+                        <STitle>{title}</STitle>
                         <SAuthorInfo>
                           <SUserName>{item.author.username}</SUserName>
                           <SAccountname>@{item.author.accountname}</SAccountname>
@@ -121,12 +125,10 @@ const Post = ({ postData, isGrid }) => {
                       </STitleContainer>
                     </SAuthor>
                     <div>
-                      <SMainContent onClick={() => goFeedDetail(item, title, content, category, code, language)}>
-                        {content}
-                      </SMainContent>
+                      <SMainContent>{content}</SMainContent>
                     </div>
                     <SReactionContainer>
-                      <SReactionContent onClick={() => goFeedDetail(item, title, content, category)}>
+                      <SReactionContent>
                         <SReactionCount>
                           <SHeartImg src={iconHeart} alt="하트" />
                           {item.heartCount}
@@ -136,7 +138,7 @@ const Post = ({ postData, isGrid }) => {
                           {item.comments.length}
                         </SReactionCount>
                       </SReactionContent>
-                      <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>
+                      <SCreateDate>{item.createdAt.slice(0, 10)}</SCreateDate>
                     </SReactionContainer>
                   </SFeedCard>
                 )}

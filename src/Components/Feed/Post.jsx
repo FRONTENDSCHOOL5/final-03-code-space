@@ -22,6 +22,7 @@ import {
   SCodeEditor,
   SCodeLanguage,
   SCodeContainer,
+  SCreateDate,
 } from '../../Styles/FeedStyle/PostStyle';
 
 import iconHeart from '../../assets/icons/heart.svg';
@@ -228,7 +229,7 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
                       <div>{item.comments.length}</div>
                     </SReactionCount>
                   </SReactionContent>
-                  <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>
+                  <SCreateDate>{item.createdAt.slice(0, 10)}</SCreateDate>
                 </SReactionContainer>
               </SFeedCard>
             );

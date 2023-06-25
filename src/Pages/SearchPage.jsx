@@ -23,6 +23,7 @@ import {
   SReactionContent,
   SReactionCount,
   SMainContent,
+  SCreateDate,
 } from '../Styles/FeedStyle/PostStyle';
 import useSearchUser from '../Hooks/useSearchUser';
 import Button from '../Components/Common/Button';
@@ -180,7 +181,7 @@ const SearchPage = () => {
                         {item.comments.length}
                       </SReactionCount>
                     </SReactionContent>
-                    <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>
+                    <SCreateDate>{item.createdAt.slice(0, 10)}</SCreateDate>
                   </SReactionContainer>
                 </SFeedCard>
               ))
