@@ -229,6 +229,7 @@ const PostPage = () => {
 
   return (
     <>
+      <div>
       <MainHeader
         type="upload"
         buttonDisabled={isSaveEnabled ? false : true}
@@ -313,8 +314,9 @@ const PostPage = () => {
           accept="image/jpg, image/jpeg, image/png, image/gif, image/bmp, image/tif, image/heic"
           multiple
           ref={imgInput}
-          onChange={handleUploadImg}></SInputImg>
+          onChange={handleUploadImg}/>
       </SUploadImgBtn>
+      </div>
     </>
   );
 };
@@ -343,7 +345,7 @@ const DropdownContent = styled.div`
   margin-top: 2px;
   color: var(--gray);
   background-color: var(--black);
-  min-width: 80px;
+  min-width: 140px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 `;
@@ -351,11 +353,11 @@ const DropdownContent = styled.div`
 const DropdownItem = styled.div`
   padding: 10px;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 16px;
 
   &:hover {
-    background-color: var(--gray);
-    color: var(--black);
+    background-color: var(--point-color);
+    color: var(--white);
   }
 `;
 
@@ -387,9 +389,10 @@ const SContentTitle = styled.input`
 `;
 
 const SPostContent = styled(TextareaAutosize)`
-  margin: 0 20px 15px 20px;
+  margin: 10px 20px 15px 20px;
   padding: 0;
   width: 350px;
+  min-height: 100px;
   background-color: var(--black);
   border: none;
   color: var(--white);
@@ -436,6 +439,7 @@ const SUploadImgBtn = styled.div`
   border-radius: 50%;
   background-image: url(${uploadImg});
   cursor: pointer;
+  background-color: var(--black);
 `;
 
 const SInputImg = styled.input`
