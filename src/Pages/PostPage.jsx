@@ -314,14 +314,16 @@ const PostPage = () => {
         )
       )}
       {imgAddPreview()}
-      <SUploadImgBtn onClick={handleClick}>
-        <SInputImg
-          type="file"
-          accept="image/jpg, image/jpeg, image/png, image/gif"
-          multiple
-          ref={imgInput}
-          onChange={handleUploadImg}></SInputImg>
-      </SUploadImgBtn>
+      <SUploadBtnWrap>
+        <SUploadImgBtn onClick={handleClick}>
+          <SInputImg
+            type="file"
+            accept="image/jpg, image/jpeg, image/png, image/gif"
+            multiple
+            ref={imgInput}
+            onChange={handleUploadImg}></SInputImg>
+        </SUploadImgBtn>
+      </SUploadBtnWrap>
       {showAlert && <AlertModal message="이미지 업로드 완료" onClose={() => setShowAlert(false)} />}
       {showWarningAlert && (
         <AlertModal message="이미지는 최대 3장까지만 업로드 가능합니다." onClose={() => setShowWarningAlert(false)} />
@@ -493,6 +495,12 @@ const SPreviewImgCover = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+`;
+
+const SUploadBtnWrap = styled.div`
+  width: 390px;
+  height:100px;
+  background-color: var(--black);
 `;
 
 const SDelBtn = styled.div`
