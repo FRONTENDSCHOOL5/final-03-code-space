@@ -44,9 +44,9 @@ const LandingPage = () => {
       navigate('/feed');
     }
 
-    if (location.state && location.state.showGreenlight === false) {
-      setShowGreenlight(false);
-    }
+    // if (location.state && location.state.showGreenlight === false) {
+    //   setShowGreenlight(false);
+    // }
   }, []);
 
   const [isBlinking, setIsBlinking] = useState(false);
@@ -63,9 +63,11 @@ const LandingPage = () => {
   const handleEnterClick = () => {
     setIsLandingEnter(false);
     setIsModal(true);
-    setIsBlinking(false);
-    setIsEnterClicked(true);
+    setIsBlinking(true);
+    // setIsEnterClicked(true);
   };
+  console.log(isLandingEnterState, isAnimationDisabled);
+  console.log(isBlinking, isEnterClicked);
 
   return (
     <SBackground>
@@ -79,9 +81,11 @@ const LandingPage = () => {
           isAnimationDisabled={isAnimationDisabled}
           isLoginModalSuccess={isLoginModalSuccess}
         />
-        {showGreenlight && !isEnterClicked && !isSignupPage && (
-          <SgreenlightBackground isBlinking={isBlinking} isVisible={!isModal && !noneEnter} />
-        )}
+        <SgreenlightBackground
+          isBlinking={isBlinking}
+          isLandingEnterState={isLandingEnterState}
+          isAnimationDisabled={isAnimationDisabled}
+        />
         {!isModal && !noneEnter && !isEnterClicked && !isSignupPage && (
           <SEnter
             isLandingEnterState={isLandingEnterState}
@@ -111,8 +115,12 @@ const LandingPage = () => {
 export default LandingPage;
 
 const logofadeOut = keyframes`
-  0% { transform: translateY(0);  }
+  0% { transform: translateY(20%);  }
   100% { transform: translateY(-95%);  }
+`;
+const lightfadeOut = keyframes`
+  0% { transform: translateY(0);  }
+  100% { transform: translateY(-70%);  }
 `;
 
 const enterScale = keyframes`
@@ -161,7 +169,7 @@ const SLogoImg = styled.img`
   transition: all 2s;
   width: ${({ isLandingEnterState, isAnimationDisabled }) =>
     isAnimationDisabled ? '200px' : isLandingEnterState ? '300px' : '200px'};
-  transform: translateY(${({ isLandingEnterState }) => (isLandingEnterState ? '40%' : '-95%')});
+  transform: translateY(${({ isLandingEnterState }) => (isLandingEnterState ? '20%' : '-95%')});
   animation: ${({ isLandingEnterState, isAnimationDisabled }) =>
       isAnimationDisabled ? 'none' : isLandingEnterState ? 'none' : logofadeOut}
     0.8s ease-in;
@@ -184,66 +192,37 @@ const blinkAnimation = keyframes`
   }
    50% {
     opacity: 1;
+    width: 385px;
+
   }
   100% {
     opacity: 0;
+
   }
 `;
 
 // 750까지 820,
 const SgreenlightBackground = styled.div`
   position: absolute;
+  width: ${({ isLandingEnterState }) => (isLandingEnterState ? '335px' : '235px')};
+  height: ${({ isLandingEnterState }) => (isLandingEnterState ? '335px' : '235px')};
 
-  top: ${({ isLandingEnterState }) => (isLandingEnterState ? 'calc(50% - 78%)' : 'calc(50% - 121.99px)')};
-  left: 50%;
-  transform: translateX(-50%);
-
-  @media (min-height: 715px) {
-    top: ${({ isLandingEnterState }) =>
-      isLandingEnterState ? 'calc(50% - 78% - 30px)' : 'calc(50% - 121.99px - 30px)'};
-  }
-
-  @media (min-height: 745px) {
-    top: ${({ isLandingEnterState }) =>
-      isLandingEnterState ? 'calc(50% - 78% - 40px)' : 'calc(50% - 121.99px - 40px)'};
-  }
-
-  @media (min-height: 770px) {
-    top: ${({ isLandingEnterState }) =>
-      isLandingEnterState ? 'calc(50% - 78% - 60px)' : 'calc(50% - 121.99px - 60px)'};
-  }
-
-  @media (min-height: 800px) {
-    top: ${({ isLandingEnterState }) =>
-      isLandingEnterState ? 'calc(50% - 78% - 80px)' : 'calc(50% - 121.99px - 80px)'};
-  }
-
-  @media (min-height: 840px) {
-    top: ${({ isLandingEnterState }) =>
-      isLandingEnterState ? 'calc(50% - 78% - 100px)' : 'calc(50% - 121.99px - 100px)'};
-  }
-
-  @media (min-height: 870px) {
-    top: ${({ isLandingEnterState }) =>
-      isLandingEnterState ? 'calc(50% - 78% - 120px)' : 'calc(50% - 121.99px - 120px)'};
-  }
-
-  @media (min-height: 930px) {
-    top: ${({ isLandingEnterState }) =>
-      isLandingEnterState ? 'calc(50% - 78% - 140px)' : 'calc(50% - 121.99px - 140px)'};
-  }
-
-  width: ${({ isLandingEnterState }) => (isLandingEnterState ? '435px' : '335px')};
-  height: ${({ isLandingEnterState }) => (isLandingEnterState ? '435px' : '335px')};
   border-radius: 50%;
   background-image: url(${Light});
   background-size: cover;
   z-index: 1;
+  transform: translateY(${({ isLandingEnterState }) => (isLandingEnterState ? '-15%' : '-70%')});
 
   ${({ isBlinking }) =>
     isBlinking &&
     css`
       animation: ${blinkAnimation} 1s ease-in-out infinite;
+    `}
+  ${({ isLandingEnterState, isAnimationDisabled }) =>
+    !isAnimationDisabled &&
+    !isLandingEnterState &&
+    css`
+      animation: ${lightfadeOut} 0.8s ease-in;
     `}
 `;
 
@@ -272,7 +251,7 @@ const SEnter = styled.div`
   color: var(--white);
   font-family: var(--title-font);
   font-size: 40px;
-  margin-top: 120px;
+  margin-top: 90px;
   text-align: center;
   font-style: italic;
   &:hover {
