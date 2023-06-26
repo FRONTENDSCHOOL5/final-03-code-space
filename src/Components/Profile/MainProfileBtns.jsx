@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import iconChat from 'assets/icons/chat.png';
 import iconShare from 'assets/icons/share.png';
@@ -18,6 +18,7 @@ export default function MainProfileBtns({
 }) {
   const token = useRecoilValue(setToken);
   const URL = 'https://api.mandarin.weniv.co.kr';
+  const navigate = useNavigate();
 
   //
 
@@ -83,7 +84,7 @@ export default function MainProfileBtns({
         </SBtnLayout>
       ) : (
         <SBtnContainer>
-          <SChatBtn />
+          <SChatBtn onClick={() => navigate('/messagelist')} />
           <Button width="120px" onClick={handleClick} subscribed={isSubscribed} padding="8px 0">
             {isSubscribed ? '언팔로우 ' : '팔로우'}
           </Button>
