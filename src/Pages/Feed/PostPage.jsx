@@ -47,9 +47,9 @@ const PostPage = () => {
   const [code, setCode] = useState(isEditCheckState ? state.code : '');
   const [language, setLanguage] = useState(isEditCheckState ? state.language : '');
   const [imgAddList, setImgAddList] = useState([]);
-
+  console.log(isEditCheckState, isEdit);
   useEffect(() => {
-    if (!isEditCheckState && !isEdit) {
+    if (!isEditCheckState && isEdit) {
       navigate('/feeddetail', { state: { ...location.state, isEdit: false } });
     }
     if (isEditCheckState) {
@@ -298,14 +298,16 @@ const PostPage = () => {
         )
       )}
       {imgAddPreview()}
-      <SUploadImgBtn onClick={handleClick}>
-        <SInputImg
-          type="file"
-          accept="image/jpg, image/jpeg, image/png, image/gif"
-          multiple
-          ref={imgInput}
-          onChange={handleUploadImg}></SInputImg>
-      </SUploadImgBtn>
+      <SUploadBtnWrap>
+        <SUploadImgBtn onClick={handleClick}>
+          <SInputImg
+            type="file"
+            accept="image/jpg, image/jpeg, image/png, image/gif"
+            multiple
+            ref={imgInput}
+            onChange={handleUploadImg}></SInputImg>
+        </SUploadImgBtn>
+      </SUploadBtnWrap>
       {showAlert && <AlertModal message="이미지 업로드 완료" onClose={() => setShowAlert(false)} />}
       {showWarningAlert && (
         <AlertModal message="이미지는 최대 3장까지만 업로드 가능합니다." onClose={() => setShowWarningAlert(false)} />
@@ -316,6 +318,12 @@ const PostPage = () => {
 };
 
 export default PostPage;
+
+const SUploadBtnWrap = styled.div`
+  width: 390px;
+  height: 100px;
+  background-color: var(--black);
+`;
 
 const DropdownWrapper = styled.div`
   margin: 15px;
