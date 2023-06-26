@@ -94,6 +94,11 @@ export const isLoginModalSuccessAtom = atom({
   default: false,
 });
 
+export const ShowGreenlightAtom = atom({
+  key: 'ShowGreenlight',
+  default: true,
+});
+
 export const isInitialLoadAtom = atom({
   key: 'isInitialLoadAtom',
   default: true,
