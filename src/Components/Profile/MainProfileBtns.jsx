@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import iconChat from '../../assets/icons/chat.png';
-import iconShare from '../../assets/icons/share.png';
-import Button from '../Common/Button';
+import iconChat from 'assets/icons/chat.png';
+import iconShare from 'assets/icons/share.png';
+import Button from 'Components/Common/Button';
 import { useRecoilValue } from 'recoil';
-import { setToken } from '../../Atom/atom';
+import { setToken } from 'Atom/atomStore';
 import axios from 'axios';
-import { removeFollowerById } from '../Profile/removeMainAccount';
+import { removeFollowerById } from 'Components/Profile/removeMainAccount';
 
 export default function MainProfileBtns({
   accountName,
@@ -19,13 +19,12 @@ export default function MainProfileBtns({
   const token = useRecoilValue(setToken);
   const URL = 'https://api.mandarin.weniv.co.kr';
 
-  // console.log(isfollow);
-  console.log(isSubscribed);
+  //
+
   // setIsSubscribed(isfollow);
 
   async function handleClick() {
     if (isSubscribed === false) {
-      console.log(isSubscribed);
       //   팔로워 추가해주기 -> api 요청
       const reqPath = `/profile/${accountName}/follow`;
       try {
@@ -41,9 +40,7 @@ export default function MainProfileBtns({
         setIsSubscribed(followrUpdate.isfollow);
         setFollowerCount(followrUpdate.followerCount);
         setIsClickFollow(true);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     } else if (isSubscribed) {
       //   팔로워 제거해주기 -> api 요청
       const reqPath = `/profile/${accountName}/unfollow`;
@@ -60,10 +57,8 @@ export default function MainProfileBtns({
         setIsSubscribed(followrUpdate.isfollow);
         setFollowerCount(followrUpdate.followerCount);
         setIsClickFollow(true);
-        // console.log(response.data.profile.followerCount);
-      } catch (error) {
-        console.log(error);
-      }
+        //
+      } catch (error) {}
     }
   }
 
@@ -72,9 +67,7 @@ export default function MainProfileBtns({
     try {
       await navigator.clipboard.writeText(text);
       alert('클립보드에 링크가 복사되었어요.');
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   return (
@@ -82,7 +75,7 @@ export default function MainProfileBtns({
       {isMyProfile ? (
         <SBtnLayout>
           <Button width="120px" myProfileBtn={true} padding="8px 0">
-            <Link to="/setprofile">프로필 수정</Link>
+            <Link to="/editprofile">프로필 수정</Link>
           </Button>
           <Button width="100px" myProfileBtn={true} padding="8px 0">
             <Link to="/product">상품 등록</Link>

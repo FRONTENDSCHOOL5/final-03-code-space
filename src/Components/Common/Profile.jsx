@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { ReactComponent as ProfileIcon } from '../../assets/icons/profileicon.svg';
-import { ReactComponent as UploadImgIcon } from '../../assets/icons/uploadImg.svg';
+import { ReactComponent as ProfileIcon } from 'assets/icons/profileicon.svg';
+import { ReactComponent as UploadImgIcon } from 'assets/icons/uploadImg.svg';
 import Input from './Input';
 
 export default function Profile({ onFormValidityChange, userInfo, setUserInfoValue }) {
@@ -21,7 +21,6 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
     const formData = new FormData();
     const imageFile = e.target.files[0];
     formData.append('image', imageFile);
-    console.log(imageFile);
 
     try {
       const response = await axios.post('https://api.mandarin.weniv.co.kr/image/uploadfile', formData);
@@ -65,11 +64,8 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
         },
       );
 
-      console.log(response.data.message);
       setAccountMessage(response.data.message);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleIntroChange = e => {

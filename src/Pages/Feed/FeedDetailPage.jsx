@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import iconHeart from '../assets/icons/heart.svg';
-import iconFillHeart from '../assets/icons/fill-heart.svg';
-import iconComment from '../assets/icons/chat-green.svg';
+import iconHeart from 'assets/icons/heart.svg';
+import iconFillHeart from 'assets/icons/fill-heart.svg';
+import iconComment from 'assets/icons/chat-green.svg';
 import { useLocation, useNavigate } from 'react-router-dom';
-import MainHeader from '../Components/Common/MainHeader';
-import Comment from '../Components/Feed/Comment';
+import MainHeader from 'Components/Common/MainHeader';
+import Comment from 'Components/Feed/Comment';
 import { motion } from 'framer-motion';
 import {
   STitle,
@@ -20,33 +20,30 @@ import {
   SReactionContent,
   SReactionCount,
   SDetailFeedCard,
-  SPostImage,
   SHeartImgDetail,
   SCodeEditor,
   SSyntaxHighlighter,
   SCodeLanguage,
   SCreateDate,
-} from '../Styles/FeedStyle/PostStyle';
-import WriteComment from '../Components/Feed/WriteComment';
-import { APIDefaultImage, profileImg } from '../Components/Feed/COMMON';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { setToken, configModalAtom, isEditCheck, setAccountName } from '../Atom/atom';
-import CommonModal from '../Components/Common/CommonModal';
-import useFetchComment from '../Hooks/useFetchComment';
-import { extractString } from '../Components/Feed/extractString';
-import { extractImageLinks } from '../Components/Feed/extractImage';
-import Carousel from '../Components/Feed/Carousel';
-import WithSkeleton from '../Components/Common/Skeleton';
+} from 'Styles/FeedStyle/PostStyle';
+import WriteComment from 'Components/Feed/WriteComment';
+import { APIDefaultImage, profileImg } from 'Components/Feed/COMMON';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { configModalAtom, isEditCheck, setAccountName } from 'Atom/atomStore';
+import ConfigModal from 'Components/Common/ConfigModal';
+import useFetchComment from 'Hooks/useFetchComment';
+import { extractString } from 'Components/Feed/extractString';
+import { extractImageLinks } from 'Components/Feed/extractImage';
+import Carousel from 'Components/Feed/Carousel';
+import WithSkeleton from 'Components/Common/Skeleton';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import AlertModal from '../Components/Common/AlertModal';
-import { type } from '@testing-library/user-event/dist/type';
+import AlertModal from 'Components/Common/AlertModal';
 const FeedDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const feedList = location.state.feedList.item;
   const feedTitle = location.state.feedList.title;
-  console.log(location.state);
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -85,7 +82,6 @@ const FeedDetailPage = () => {
   });
 
   function goProfile(item) {
-    console.log(item);
     if (myAccountName === item.accountname) {
       navigate(`/myprofile`, { state: item });
     } else {
@@ -123,8 +119,7 @@ const FeedDetailPage = () => {
 
     setFeedFunction(feedData.post); // reactionCount.post에 대한 처리
   }
-  console.log(feedList);
-  console.log(imgArr);
+
   useEffect(() => {
     setIsFeedFetchData(false);
     initFeed();
@@ -175,7 +170,7 @@ const FeedDetailPage = () => {
     setCategory(categoryData.extracted);
     setLanguage(languageData.extracted);
   };
-  console.log(isModalState);
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       {location.state.feedList.isSearch ? <MainHeader type="search-detail" /> : <MainHeader type="detail" />}
@@ -255,7 +250,7 @@ const FeedDetailPage = () => {
             setReactionCount={setReactionCount}
           />
           {isModalState === 'post-config' && !otherAdmin ? (
-            <CommonModal
+            <ConfigModal
               deleteFeed={deleteFeed}
               feedList={location.state}
               isEdit={isEdit}
@@ -269,14 +264,14 @@ const FeedDetailPage = () => {
               language={language}
             />
           ) : isModalState === 'comment-config' ? (
-            <CommonModal
+            <ConfigModal
               deleteComment={deleteCommentFunction}
               commentId={commentId}
               commentAccount={commentAccount}
               type="comment-config"
             />
           ) : (
-            isModalState !== '' && otherAdmin && <CommonModal type="other-config" />
+            isModalState !== '' && otherAdmin && <ConfigModal type="other-config" />
           )}
           {alertModal === '게시글이 삭제되었습니다.' ? (
             <AlertModal message="게시글이 삭제되었습니다." onClose={() => handleAlertModalClose('feed')} />

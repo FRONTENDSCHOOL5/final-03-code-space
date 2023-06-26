@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
-import Post from './Post';
+import MainFeed from './MainFeed';
 import axios from 'axios';
-import { setToken, isfeedFetchToggle } from '../../Atom/atom';
+import { setToken, isfeedFetchToggle } from 'Atom/atomStore';
 import { MainAccountToken } from './COMMON';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { searchFeedList } from '../../Atom/atom';
+import { searchFeedList } from 'Atom/atomStore';
 import { debounce } from 'lodash';
-import BackToTopBtn from '../../Styles/FeedStyle/BackToTopBtn';
+import BackToTopBtn from 'Styles/FeedStyle/BackToTopBtn';
 
 const FetchFeed = ({ setFeedList, FeedList }) => {
   const URL = 'https://api.mandarin.weniv.co.kr/';
@@ -54,8 +54,6 @@ const FetchFeed = ({ setFeedList, FeedList }) => {
     },
   });
   async function getFollowingFeed() {
-    console.log(isToken);
-
     try {
       const response = await following_instance.get(`${FollowingPOST}?limit=999`);
       setFollowingFeed(response.data.posts);
@@ -74,13 +72,12 @@ const FetchFeed = ({ setFeedList, FeedList }) => {
   }
 
   async function getFeed() {
-    console.log(skip);
     try {
       const response = await instance.get(`${FollowingPOST}?limit=${limit}&skip=${skip}`);
       const newFeedList = response.data.posts;
       if (newFeedList.length === 0) {
         // 데이터가 없으면 작업 중지
-        console.log('No more data to fetch.');
+
         setIsScrollCheck(true);
         return;
       }
@@ -94,7 +91,6 @@ const FetchFeed = ({ setFeedList, FeedList }) => {
 
   const handleScroll = debounce(() => {
     if (isScrollCheck) {
-      console.log(isScrollCheck);
       return;
     }
     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -103,7 +99,6 @@ const FetchFeed = ({ setFeedList, FeedList }) => {
     setShowScrollTopButton(scrollTop > 600);
 
     if (scrollTop + clientHeight >= scrollHeight - 100) {
-      console.log('하단!');
       setSkip(prevSkip => prevSkip + limit); // skip 값을 업데이트하여 다음 페이지의 데이터 요청
     }
   }, 200);
@@ -123,7 +118,7 @@ const FetchFeed = ({ setFeedList, FeedList }) => {
 
   return (
     <>
-      <Post
+      <MainFeed
         isFetchData={isFetchData}
         FeedList={FeedList}
         allFeed={allFeed}

@@ -23,11 +23,14 @@ import {
   SCodeLanguage,
   SCodeContainer,
   SCreateDate,
-} from '../../Styles/FeedStyle/PostStyle';
+} from 'Styles/FeedStyle/PostStyle';
 
-import iconHeart from '../../assets/icons/heart.svg';
-import iconComment from '../../assets/icons/chat-green.svg';
-import { profileImg, APIDefaultImage } from './COMMON';
+import iconComment from 'assets/icons/chat-green.svg';
+
+import iconHeart from 'assets/icons/heart.svg';
+
+import { profileImg, APIDefaultImage } from 'Components/Feed/COMMON';
+
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
@@ -42,11 +45,11 @@ import {
   isInitialLoadAtom,
   scrollPositionAtom,
   setAccountName,
-} from '../../Atom/atom';
-import Skeleton from '../Common/Skeleton';
-import WithSkeleton from '../Common/Skeleton';
+} from 'Atom/atomStore';
+import Skeleton from 'Components/Common/Skeleton';
+import WithSkeleton from 'Components/Common/Skeleton';
 
-const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
+const MainFeed = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   const setFeedListState = useSetRecoilState(searchFeedList);
   const feedListState = useRecoilValue(searchFeedList);
   const navigate = useNavigate();
@@ -243,4 +246,4 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   );
 };
 
-export default Post;
+export default MainFeed;

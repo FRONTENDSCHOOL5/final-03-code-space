@@ -12,10 +12,10 @@ import {
   noneEnterAtom,
   isLoginModalSuccessAtom,
   isLogOutAlertAtom,
-  ShowGreenlightAtom
-} from '../../Atom/atom';
+  ShowGreenlightAtom,
+} from 'Atom/atomStore';
 import { useNavigate } from 'react-router-dom';
-const CommonModal = ({
+const ConfigModal = ({
   deleteFeed,
   feedList,
   isEdit,
@@ -42,7 +42,6 @@ const CommonModal = ({
   const [alertModal, setAlertModal] = useRecoilState(isLogOutAlertAtom);
   const [showGreenlight, setShowGreenlight] = useRecoilState(ShowGreenlightAtom);
 
-
   const navigate = useNavigate();
 
   const handleClickOutside = event => {
@@ -54,10 +53,9 @@ const CommonModal = ({
       setconfigModalAtom('');
     }
   };
-  console.log(feedList);
+
   useEffect(() => {
     if (type === 'post-config') {
-      console.log('isEdit=true');
       setIsEdit(true);
       setEditCheckState(true);
     }
@@ -76,7 +74,7 @@ const CommonModal = ({
     setAlertModal(true);
     setShowGreenlight(true);
   };
-  
+
   // 로그아웃
 
   // const handleLogout = () => {
@@ -174,7 +172,7 @@ const CommonModal = ({
   );
 };
 
-export default CommonModal;
+export default ConfigModal;
 
 const SConfirmModalBackground = styled.div`
   background-color: rgba(85, 85, 85, 0.6);

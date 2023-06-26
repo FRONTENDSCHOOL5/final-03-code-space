@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import alertImg from '../../assets/icons/alert.png';
+import alertImg from 'assets/icons/alert.png';
 
 export default function AlertModal({ message, onClose }) {
   const shouldBreakLines = message.length > 14; // message길이 14글자 이상이면 다음 줄 적용

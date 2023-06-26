@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Modal from '../Components/Common/Modal';
-import Profile from '../Components/Common/Profile';
+import LoginModal from 'Components/Common/LoginModal';
+import Profile from 'Components/Common/Profile';
 import LandingPage from './LandingPage';
 
 const SignUpPage = () => {
@@ -23,13 +23,13 @@ const SignUpPage = () => {
 
   const ValidSubmit = async e => {
     const email = e?.target.value; // 최신 이메일 값 사용
-    // console.log(email); // 이메일 값 출력
+    //  // 이메일 값 출력
     if (userPassword.length < 6) {
       setIsPasswordValid(false);
     }
 
     const url = 'https://api.mandarin.weniv.co.kr';
-    console.log(email);
+
     try {
       const response = await axios.post(
         url + '/user/emailvalid/',
@@ -46,8 +46,6 @@ const SignUpPage = () => {
       );
 
       setSuccessRes(response.data.message);
-      console.log(response.data.message);
-      console.log(response);
 
       if (successRes === '사용 가능한 이메일 입니다.' && isSubmitBtn) {
         setUserEmail(email);
@@ -55,15 +53,13 @@ const SignUpPage = () => {
       }
     } catch (error) {
       setSuccessRes(error.response.data.message);
-      console.log(error.response.data.message);
-      console.log(error.response.data.message);
     }
   };
 
   return (
     <>
       <LandingPage />
-      <Modal
+      <LoginModal
         title="이메일로 회원가입"
         ValidSubmit={ValidSubmit}
         userEmail={userEmail}

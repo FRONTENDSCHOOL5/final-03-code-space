@@ -1,14 +1,14 @@
 import { useRecoilValue } from 'recoil';
-import { setAccountName } from '../../Atom/atom';
+import { setAccountName } from 'Atom/atomStore';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MainProfileBtns from './MainProfileBtns';
 import axios from 'axios';
-import { setToken } from '../../Atom/atom';
+import { setToken } from 'Atom/atomStore';
 import { removeFollowerById } from './removeMainAccount';
 
-import WithSkeleton from '../../Components/Common/Skeleton';
+import WithSkeleton from 'Components/Common/Skeleton';
 
 export default function MainProfile({ accountName }) {
   const token = useRecoilValue(setToken);
@@ -20,15 +20,13 @@ export default function MainProfile({ accountName }) {
   const [isSubscribed, setIsSubscribed] = useState(profile.isfollow);
   const [isClickFollow, setIsClickFollow] = useState(false);
 
-  console.log(profile);
-  // console.log(profile.followerCount);
-  // console.log(followerCount);
-  // console.log(followerCountRender);
+  //
+  //
+  //
 
   useEffect(() => {
     setIsFetchData(false);
     getUserData();
-    console.log(profile);
   }, [followerCount, accountName, isSubscribed]);
 
   async function getUserData() {
@@ -43,7 +41,7 @@ export default function MainProfile({ accountName }) {
           'Content-type': 'application/json',
         },
       });
-      console.log(response.data.profile);
+
       // 메인계정 지워주기
       const followrUpdate = removeFollowerById(response.data.profile, '6494255eb2cb20566369fa5c');
       setProfile(followrUpdate);
@@ -51,11 +49,7 @@ export default function MainProfile({ accountName }) {
       setFollowerCount(followrUpdate.follower.length);
       setFollowerCountRender(followrUpdate.follower.length);
       setIsFetchData(true);
-
-      console.log(followrUpdate);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   return (

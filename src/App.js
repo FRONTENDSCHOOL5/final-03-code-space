@@ -1,24 +1,24 @@
 import { Route, Routes } from 'react-router-dom';
-import GlobalStyle from './globalStyle';
-import LandingPage from './Pages/LandingPage';
-import FeedPage from './Pages/FeedPage';
-import ProfileSetPage from './Pages/ProfileSetPage';
-import SignUpPage from './Pages/SignUpPage';
-import LoginPage from './Pages/LoginPage';
-import MessagePage from './Pages/MessagePage';
-import MessageListPage from './Pages/MessageListPage';
-import PostPage from './Pages/PostPage';
-import FollowPage from './Pages/FollowPage';
-import FollowingPage from './Pages/FollowingPage';
-import MyProfilePage from './Pages/MyProfilePage';
-import SearchPage from './Pages/SearchPage';
-import FeedDetailPage from './Pages/FeedDetailPage';
-import ProductPage from './Pages/ProductPage';
-import NotFoundErrorPage from './Pages/NotFoundErrorPage';
-import ProfileResetPage from './Pages/ProfileResetPage';
-import { SMainLayout, Sbackground, Sastronaut, SSastronautLayout } from './Styles/MainLayoutStyle';
+import GlobalStyle from 'Styles/globalStyle';
+import LandingPage from 'Pages/Landing/LandingPage';
+import FeedPage from 'Pages/Feed/FeedPage';
+import ProfileCreatePage from 'Pages/Landing/ProfileCreatePage';
+import SignUpPage from 'Pages/Landing/SignUpPage';
+import LoginPage from 'Pages/Landing/LoginPage';
+import MessagePage from 'Pages/Message/MessagePage';
+import MessageListPage from 'Pages/Message/MessageListPage';
+import PostPage from 'Pages/Feed/PostPage';
+import FollowPage from 'Pages/Profile/FollowPage';
+import FollowingPage from 'Pages/Profile/FollowingPage';
+import MyProfilePage from 'Pages/Profile/MyProfilePage';
+import SearchPage from 'Pages/Feed/SearchPage';
+import FeedDetailPage from 'Pages/Feed/FeedDetailPage';
+import ProductPage from 'Pages/Profile/ProductPage';
+import NotFoundErrorPage from 'Pages/NotFoundErrorPage';
+import ProfileEditPage from 'Pages/Profile/ProfileEditPage';
+import { SMainLayout, Sbackground, Sastronaut } from 'Styles/MainLayoutStyle';
 import { AnimatePresence } from 'framer-motion';
-import PrivateRoute from './Route/PrivateRoute';
+import PrivateRoute from 'Route/PrivateRoute';
 
 function App() {
   return (
@@ -30,16 +30,15 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/landing" element={<LandingPage />} />
-
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/profile" element={<ProfileSetPage />} />
+            <Route path="/profile" element={<ProfileCreatePage />} />
             {/* PrivateRoute로 변경 */}
             <Route path="/feed" element={<PrivateRoute path="/" element={<FeedPage />} />} />
             <Route path="/feeddetail" element={<PrivateRoute path="/" element={<FeedDetailPage />} />} />
             <Route path="/search" element={<PrivateRoute path="/" element={<SearchPage />} />} />
-            <Route path="/profile" element={<PrivateRoute path="/" element={<ProfileSetPage />} />} />
-            <Route path="/setprofile" element={<PrivateRoute path="/" element={<ProfileResetPage />} />} />
+            <Route path="/profile" element={<PrivateRoute path="/" element={<ProfileCreatePage />} />} />
+            <Route path="/editprofile" element={<PrivateRoute path="/" element={<ProfileEditPage />} />} />
             <Route path="/myprofile" element={<PrivateRoute path="/" element={<MyProfilePage />} />} />
             <Route path={'/myprofile/:accountname'} element={<PrivateRoute path="/" element={<MyProfilePage />} />} />
 

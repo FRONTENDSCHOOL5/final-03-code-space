@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import delImg from '../../assets/icons/delete1.svg';
+import delImg from 'assets/icons/delete1.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useRef } from 'react';
@@ -31,7 +31,6 @@ const Carousel = ({ imgArr }) => {
 
   const handleOnImgView = () => {
     setImgView(true);
-    console.log('이미지 열림');
   };
 
   const handleCloseImgView = () => {
@@ -40,10 +39,8 @@ const Carousel = ({ imgArr }) => {
 
   const handleClickOutside = event => {
     const target = event.target;
-    console.log('in');
 
     if (modalRef.current && !modalRef.current.contains(target)) {
-      console.log('in');
       handleCloseImgView();
     }
   };

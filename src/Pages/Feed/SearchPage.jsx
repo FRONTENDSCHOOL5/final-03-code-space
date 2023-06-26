@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import BottomNav from '../Components/Common/BottomNav';
-import MainHeader from '../Components/Common/MainHeader';
+import BottomNav from 'Components/Common/BottomNav';
+import MainHeader from 'Components/Common/MainHeader';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { setToken, searchFeedList, searchQuery, searchUserListAtom, searchTabAtom, setAccountName } from '../Atom/atom';
+import {
+  setToken,
+  searchFeedList,
+  searchQuery,
+  searchUserListAtom,
+  searchTabAtom,
+  setAccountName,
+} from 'Atom/atomStore';
 import styled from 'styled-components';
-import { profileImg, APIDefaultImage } from '../Components/Feed/COMMON';
-import iconHeart from '../assets/icons/heart.svg';
-import iconComment from '../assets/icons/chat-green.svg';
+import { profileImg, APIDefaultImage } from 'Components/Feed/COMMON';
+import iconHeart from 'assets/icons/heart.svg';
+import iconComment from 'assets/icons/chat-green.svg';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { SMainLayout } from '../Styles/MainLayoutStyle';
+import { SMainLayout } from 'Styles/MainLayoutStyle';
 import {
   SFeedCard,
   STitle,
@@ -24,11 +31,11 @@ import {
   SReactionCount,
   SMainContent,
   SCreateDate,
-} from '../Styles/FeedStyle/PostStyle';
-import useSearchUser from '../Hooks/useSearchUser';
-import Button from '../Components/Common/Button';
+} from 'Styles/FeedStyle/PostStyle';
+import useSearchUser from 'Hooks/useSearchUser';
+import Button from 'Components/Common/Button';
 import { motion } from 'framer-motion';
-import { AddFollow, DeleteFollow } from '../Components/Follow/FollowAddDelete';
+import { AddFollow, DeleteFollow } from 'Components/Follow/FollowAddDelete';
 const SearchPage = () => {
   const feedList = useRecoilValue(searchFeedList);
   const query = useRecoilValue(searchQuery);
@@ -46,7 +53,6 @@ const SearchPage = () => {
 
   useEffect(() => {
     if (resetToggle) {
-      console.log('리셋');
       setUserList([]);
       setResetToggle(false);
     }
@@ -67,7 +73,6 @@ const SearchPage = () => {
     const searchContent = event.target.value;
     setSearchContent(searchContent);
     if (searchContent !== '' || !searchTabToggle) {
-      console.log('ddd');
       setResetToggle(true);
     }
 
@@ -115,26 +120,24 @@ const SearchPage = () => {
       DeleteFollow(accountName, token)
         .then(() => {
           // 함수 호출 성공 시 실행될 코드
-          console.log('삭제완');
+
           searchUser(searchContent);
 
           // setIsFollowing(false);
         })
         .catch(error => {
-          console.log(error);
           // 함수 호출 실패 시 실행될 코드
         });
     } else if (buttonContent === '팔로우') {
       AddFollow(accountName, token)
         .then(() => {
           // 함수 호출 성공 시 실행될 코드
-          console.log('추가완');
+
           searchUser(searchContent);
 
           // setIsFollowing(true);
         })
         .catch(error => {
-          console.log(error);
           // 함수 호출 실패 시 실행될 코드
         });
     }

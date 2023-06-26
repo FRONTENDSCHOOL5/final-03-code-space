@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import MainHeader from '../Components/Common/MainHeader';
-import BottomNav from '../Components/Common/BottomNav';
-import MainProfile from '../Components/Profile/MainProfile';
-import ProductList from '../Components/Product/ProductList';
-// import MyProfileInfo from '../Components/Profile/MyProfileInfo';
+import MainHeader from 'Components/Common/MainHeader';
+import BottomNav from 'Components/Common/BottomNav';
+import MainProfile from 'Components/Profile/MainProfile';
+import ProductList from 'Components/Product/ProductList';
+// import MyProfileInfo from 'Components/Profile/MyProfileInfo';
 import styled from 'styled-components';
-import CommonModal from '../Components/Common/CommonModal';
+import ConfigModal from 'Components/Common/ConfigModal';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 import {
   configModalAtom,
@@ -17,13 +17,13 @@ import {
   setIsFollowed,
   noneEnterAtom,
   isLoginModalSuccessAtom,
-} from '../Atom/atom';
+} from 'Atom/atomStore';
 
 import { motion } from 'framer-motion';
 
-import ProfilePost from '../Components/Post/ProfilePost';
+import ProfilePost from 'Components/Post/ProfilePost';
 import { useState } from 'react';
-import AlertModal from '../Components/Common/AlertModal';
+import AlertModal from 'Components/Common/AlertModal';
 import { useEffect } from 'react';
 
 function MyProfile() {
@@ -31,9 +31,9 @@ function MyProfile() {
   const location = useLocation();
   const navigate = useNavigate();
   const profile = location.state;
-  console.log(profile);
+
   const accountName = useRecoilValue(setAccountName);
-  const ConfigModal = useRecoilValue(configModalAtom);
+  const ConfigModalState = useRecoilValue(configModalAtom);
   const [alertModal, setAlertModal] = useRecoilState(isLogOutAlertAtom);
   const setTokenAtom = useSetRecoilState(setToken);
   const setIsLoginedAtom = useSetRecoilState(setIsLogined);
@@ -63,8 +63,6 @@ function MyProfile() {
     setIsLoginModalSucess(false);
   };
 
-  console.log(profile?.accountname);
-  console.log(accountName);
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <SLayout>
@@ -77,10 +75,10 @@ function MyProfile() {
         </SContainer>
         <ProfilePost accountName={accountNameState} />
         <BottomNav />
-        {ConfigModal === 'post-config' ? (
-          <CommonModal type="profile" />
-        ) : ConfigModal !== '' && accountNameState !== accountName ? (
-          <CommonModal type="other" />
+        {ConfigModalState === 'post-config' ? (
+          <ConfigModal type="profile" />
+        ) : ConfigModalState !== '' && accountNameState !== accountName ? (
+          <ConfigModal type="other" />
         ) : (
           <></>
         )}

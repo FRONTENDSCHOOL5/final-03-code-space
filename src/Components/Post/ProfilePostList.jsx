@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { extractString } from '../Feed/extractString';
-import { extractImageLinks } from '../Feed/extractImage';
+import { extractString } from 'Components/Feed/extractString';
+import { extractImageLinks } from 'Components/Feed/extractImage';
 import {
   SFeedCard,
   STitle,
@@ -17,15 +17,16 @@ import {
   SReactionCount,
   SMainContent,
   SCreateDate,
-} from '../../Styles/FeedStyle/PostStyle';
+} from 'Styles/FeedStyle/PostStyle';
 import styled from 'styled-components';
 
-import logoImg from '../../assets/img/icon-logo.svg';
-import iconHeart from '../../assets/icons/heart.svg';
-import iconMore from '../../assets/icons/more-img.svg';
-import iconComment from '../../assets/icons/chat-green.svg';
+import logoImg from 'assets/img/icon-logo.svg';
+import iconHeart from 'assets/icons/heart.svg';
+
+import iconMore from 'assets/icons/more-img.svg';
+import iconComment from 'assets/icons/chat-green.svg';
 import { useRecoilValue } from 'recoil';
-import { categoryTag } from '../../Atom/atom';
+import { categoryTag } from 'Atom/atomStore';
 
 const Post = ({ postData, isGrid }) => {
   const navigate = useNavigate();
@@ -39,9 +40,6 @@ const Post = ({ postData, isGrid }) => {
     event.stopPropagation();
     navigate('/myprofile', { state: item });
   }
-
-  console.log(postData);
-  console.log(postData.post);
 
   return (
     <>
@@ -96,7 +94,6 @@ const Post = ({ postData, isGrid }) => {
 
             // 이미지 여러장 배열로 변환
             const contentImgArr = extractImageLinks(item.image);
-            console.log(contentImgArr);
 
             return (
               <>

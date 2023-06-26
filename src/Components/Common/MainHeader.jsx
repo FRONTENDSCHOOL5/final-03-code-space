@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import backIcon from '../../assets/icon-arrow-left.svg';
-import searchIcon from '../../assets/icon-search.svg';
-import moreIcon from '../../assets/icons/more.svg';
-import Button from './Button';
-import configIcon from '../../assets/icons/icon- more-vertical.svg';
+import backIcon from 'assets/icon-arrow-left.svg';
+import searchIcon from 'assets/icon-search.svg';
+import moreIcon from 'assets/icons/more.svg';
+import Button from 'Components/Common/Button';
+import configIcon from 'assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { configModalAtom } from '../../Atom/atom';
+import { configModalAtom } from 'Atom/atomStore';
 const MainHeader = ({
   type,
   handleUploadPost,

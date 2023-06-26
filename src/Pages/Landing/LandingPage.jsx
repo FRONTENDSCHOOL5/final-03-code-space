@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import Logo from '../assets/img/Logo.svg';
-import Light from '../assets/img/light.svg';
-import Splash from '../assets/img/splash.png';
-import whitelight from '../assets/img/whitelight.svg';
-import whitelight2 from '../assets/img/whitelight2.svg';
-import whitelight3 from '../assets/img/whitelight3.svg';
-import whitelight4 from '../assets/img/whitelight4.svg';
-import whitelight5 from '../assets/img/whitelight5.svg';
-import whitelight6 from '../assets/img/whitelight6.svg';
+import Logo from 'assets/img/Logo.svg';
+import Light from 'assets/img/light.svg';
+import Splash from 'assets/img/splash.png';
+import whitelight from 'assets/img/whitelight.svg';
+import whitelight2 from 'assets/img/whitelight2.svg';
+import whitelight3 from 'assets/img/whitelight3.svg';
+import whitelight4 from 'assets/img/whitelight4.svg';
+import whitelight5 from 'assets/img/whitelight5.svg';
+import whitelight6 from 'assets/img/whitelight6.svg';
 import LoginPage from './LoginPage';
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import {
@@ -19,9 +19,9 @@ import {
   setIsLogined,
   isLoginAlertAtom,
   ShowGreenlightAtom,
-} from '../Atom/atom';
+} from 'Atom/atomStore';
 import { useLocation, useNavigate } from 'react-router-dom';
-import AlertModal from '../Components/Common/AlertModal';
+import AlertModal from 'Components/Common/AlertModal';
 
 const LandingPage = () => {
   const [isModal, setIsModal] = useRecoilState(isModalAtom);
@@ -66,8 +66,6 @@ const LandingPage = () => {
     setIsBlinking(true);
     // setIsEnterClicked(true);
   };
-  console.log(isLandingEnterState, isAnimationDisabled);
-  console.log(isBlinking, isEnterClicked);
 
   return (
     <SBackground>

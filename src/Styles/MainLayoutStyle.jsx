@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import astronaut from '../assets/img/astronaut.svg';
+import astronaut from 'assets/img/astronaut.svg';
 function setScreenSize() {
   let vh = window.innerHeight * 0.01;
 
