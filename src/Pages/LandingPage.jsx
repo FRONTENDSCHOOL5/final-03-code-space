@@ -18,7 +18,7 @@ import {
   isLoginModalSuccessAtom,
   setIsLogined,
   isLoginAlertAtom,
-  ShowGreenlightAtom
+  ShowGreenlightAtom,
 } from '../Atom/atom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AlertModal from '../Components/Common/AlertModal';
@@ -28,7 +28,6 @@ const LandingPage = () => {
   const [showGreenlight, setShowGreenlight] = useRecoilState(ShowGreenlightAtom);
   const noneEnter = useRecoilValue(noneEnterAtom);
   const isLoginModalSuccess = useRecoilValue(isLoginModalSuccessAtom);
-
 
   const setIsLandingEnter = useSetRecoilState(isLandingEnter);
   const isLandingEnterState = useRecoilValue(isLandingEnter);
@@ -191,11 +190,49 @@ const blinkAnimation = keyframes`
   }
 `;
 
+// 750까지 820,
 const SgreenlightBackground = styled.div`
   position: absolute;
-  top: 50%;
+
+  top: ${({ isLandingEnterState }) => (isLandingEnterState ? 'calc(50% - 78%)' : 'calc(50% - 121.99px)')};
   left: 50%;
-  transform: translate(-50%, -78%);
+  transform: translateX(-50%);
+
+  @media (min-height: 715px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 30px)' : 'calc(50% - 121.99px - 30px)'};
+  }
+
+  @media (min-height: 745px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 40px)' : 'calc(50% - 121.99px - 40px)'};
+  }
+
+  @media (min-height: 770px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 60px)' : 'calc(50% - 121.99px - 60px)'};
+  }
+
+  @media (min-height: 800px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 80px)' : 'calc(50% - 121.99px - 80px)'};
+  }
+
+  @media (min-height: 840px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 100px)' : 'calc(50% - 121.99px - 100px)'};
+  }
+
+  @media (min-height: 870px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 120px)' : 'calc(50% - 121.99px - 120px)'};
+  }
+
+  @media (min-height: 930px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 140px)' : 'calc(50% - 121.99px - 140px)'};
+  }
+
   width: ${({ isLandingEnterState }) => (isLandingEnterState ? '435px' : '335px')};
   height: ${({ isLandingEnterState }) => (isLandingEnterState ? '435px' : '335px')};
   border-radius: 50%;
@@ -255,7 +292,7 @@ const SBackground = styled.div`
   position: relative;
 `;
 
-// whitelight 
+// whitelight
 
 const SWhitelight1 = styled.div`
   position: absolute;
