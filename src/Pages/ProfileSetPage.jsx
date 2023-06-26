@@ -6,7 +6,7 @@ import Button from '../Components/Common/Button';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useMainAccountFollow from '../Hooks/useMainAccountFollow';
-import { isModalAtom } from '../Atom/atom';
+import { isModalAtom,ShowGreenlightAtom } from '../Atom/atom';
 import { useRecoilState } from 'recoil';
 import AlertModal from '../Components/Common/AlertModal';
 
@@ -15,6 +15,7 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
   const [userInfo, setUserInfo] = useState({});
   const [isModal, setIsModal] = useRecoilState(isModalAtom);
   const [showAlertModal, setShowAlertModal] = useState(false);
+  const [showGreenlight, setShowGreenlight] = useRecoilState(ShowGreenlightAtom);
   const location = useLocation();
   const userLoginInfo = location.state;
 
@@ -68,6 +69,7 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
   const handleModalClose = () => {
     setShowAlertModal(false);
     setIsModal(true);
+    setShowGreenlight(false);
     navigate('/landing');
   };
 

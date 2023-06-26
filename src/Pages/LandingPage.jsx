@@ -18,12 +18,14 @@ import {
   isLoginModalSuccessAtom,
   setIsLogined,
   isLoginAlertAtom,
+  ShowGreenlightAtom,
 } from '../Atom/atom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AlertModal from '../Components/Common/AlertModal';
 
 const LandingPage = () => {
   const [isModal, setIsModal] = useRecoilState(isModalAtom);
+  const [showGreenlight, setShowGreenlight] = useRecoilState(ShowGreenlightAtom);
   const noneEnter = useRecoilValue(noneEnterAtom);
   const isLoginModalSuccess = useRecoilValue(isLoginModalSuccessAtom);
 
@@ -41,9 +43,14 @@ const LandingPage = () => {
     if (isLoginSuccess) {
       navigate('/feed');
     }
+
+    if (location.state && location.state.showGreenlight === false) {
+      setShowGreenlight(false);
+    }
   }, []);
 
   const [isBlinking, setIsBlinking] = useState(false);
+  const [isEnterClicked, setIsEnterClicked] = useState(false);
 
   const handleEnterHover = () => {
     setIsBlinking(true);
@@ -57,6 +64,7 @@ const LandingPage = () => {
     setIsLandingEnter(false);
     setIsModal(true);
     setIsBlinking(false);
+    setIsEnterClicked(true);
   };
 
   return (
@@ -71,8 +79,10 @@ const LandingPage = () => {
           isAnimationDisabled={isAnimationDisabled}
           isLoginModalSuccess={isLoginModalSuccess}
         />
-        <SgreenlightBackground isBlinking={isBlinking} />
-        {!isModal && !isSignupPage && !noneEnter && (
+        {showGreenlight && !isEnterClicked && !isSignupPage && (
+          <SgreenlightBackground isBlinking={isBlinking} isVisible={!isModal && !noneEnter} />
+        )}
+        {!isModal && !noneEnter && !isEnterClicked && !isSignupPage && (
           <SEnter
             isLandingEnterState={isLandingEnterState}
             isAnimationDisabled={isAnimationDisabled}
@@ -84,12 +94,16 @@ const LandingPage = () => {
         )}
       </LogoBox>
       {isModal && <LoginPage setIsModal={setIsModal} />}
-      <SWhitelight1 />
-      <SWhitelight2 />
-      <SWhitelight3 />
-      <SWhitelight4 />
-      <SWhitelight5 />
-      <SWhitelight6 />
+      {!isEnterClicked && !isSignupPage && (
+        <>
+          <SWhitelight1 isVisible={!isModal && !noneEnter} />
+          <SWhitelight2 isVisible={!isModal && !noneEnter} />
+          <SWhitelight3 isVisible={!isModal && !noneEnter} />
+          <SWhitelight4 isVisible={!isModal && !noneEnter} />
+          <SWhitelight5 isVisible={!isModal && !noneEnter} />
+          <SWhitelight6 isVisible={!isModal && !noneEnter} />
+        </>
+      )}
     </SBackground>
   );
 };
@@ -168,7 +182,7 @@ const blinkAnimation = keyframes`
   0% {
     opacity: 0;
   }
-  50% {
+   50% {
     opacity: 1;
   }
   100% {
@@ -176,13 +190,51 @@ const blinkAnimation = keyframes`
   }
 `;
 
+// 750까지 820,
 const SgreenlightBackground = styled.div`
   position: absolute;
-  top: 50%;
+
+  top: ${({ isLandingEnterState }) => (isLandingEnterState ? 'calc(50% - 78%)' : 'calc(50% - 121.99px)')};
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: ${({ isLandingEnterState }) => (isLandingEnterState ? '400px' : '300px')};
-  height: ${({ isLandingEnterState }) => (isLandingEnterState ? '400px' : '300px')};
+  transform: translateX(-50%);
+
+  @media (min-height: 715px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 30px)' : 'calc(50% - 121.99px - 30px)'};
+  }
+
+  @media (min-height: 745px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 40px)' : 'calc(50% - 121.99px - 40px)'};
+  }
+
+  @media (min-height: 770px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 60px)' : 'calc(50% - 121.99px - 60px)'};
+  }
+
+  @media (min-height: 800px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 80px)' : 'calc(50% - 121.99px - 80px)'};
+  }
+
+  @media (min-height: 840px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 100px)' : 'calc(50% - 121.99px - 100px)'};
+  }
+
+  @media (min-height: 870px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 120px)' : 'calc(50% - 121.99px - 120px)'};
+  }
+
+  @media (min-height: 930px) {
+    top: ${({ isLandingEnterState }) =>
+      isLandingEnterState ? 'calc(50% - 78% - 140px)' : 'calc(50% - 121.99px - 140px)'};
+  }
+
+  width: ${({ isLandingEnterState }) => (isLandingEnterState ? '435px' : '335px')};
+  height: ${({ isLandingEnterState }) => (isLandingEnterState ? '435px' : '335px')};
   border-radius: 50%;
   background-image: url(${Light});
   background-size: cover;
@@ -220,7 +272,7 @@ const SEnter = styled.div`
   color: var(--white);
   font-family: var(--title-font);
   font-size: 40px;
-  margin-top: 100px;
+  margin-top: 120px;
   text-align: center;
   font-style: italic;
   &:hover {
@@ -240,68 +292,76 @@ const SBackground = styled.div`
   position: relative;
 `;
 
+// whitelight
+
 const SWhitelight1 = styled.div`
   position: absolute;
-  top: 15%;
-  left: 13%;
+  top: 18%;
+  left: 18%;
   width: 35px;
   height: 35px;
   background-image: url(${whitelight});
   background-size: cover;
   z-index: 3;
+  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
 `;
 
 const SWhitelight2 = styled.div`
   position: absolute;
-  top: 30%;
-  right: 25%;
+  top: 28%;
+  right: 23%;
   width: 20px;
   height: 20px;
   background-image: url(${whitelight2});
   background-size: cover;
   z-index: 3;
+  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
 `;
 
 const SWhitelight3 = styled.div`
   position: absolute;
-  bottom: 20%;
-  left: 15%;
-  width: 15px;
-  height: 15px;
+  bottom: 35%;
+  left: 8%;
+  width: 20px;
+  height: 20px;
   background-image: url(${whitelight3});
   background-size: cover;
   z-index: 3;
+  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
 `;
 
 const SWhitelight4 = styled.div`
   position: absolute;
-  bottom: 8%;
-  right: 7%;
-  width: 45px;
-  height: 45px;
+  bottom: 20%;
+  left: 30%;
+  width: 15px;
+  height: 15px;
   background-image: url(${whitelight4});
   background-size: cover;
   z-index: 3;
+  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
 `;
 
 const SWhitelight5 = styled.div`
   position: absolute;
-  top: 10%;
-  left: 30%;
-  width: 15px;
-  height: 15px;
+  top: 12%;
+  left: 40%;
+  width: 18px;
+  height: 18px;
   background-image: url(${whitelight5});
   background-size: cover;
   z-index: 3;
+  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
 `;
 
 const SWhitelight6 = styled.div`
   position: absolute;
-  bottom: 33%;
+  bottom: 20%;
   right: 13%;
-  width: 20px;
-  height: 20px;
+  width: 38px;
+  height: 38px;
   background-image: url(${whitelight6});
   background-size: cover;
   z-index: 3;
+  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
 `;

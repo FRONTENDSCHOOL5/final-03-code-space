@@ -12,6 +12,7 @@ import {
   noneEnterAtom,
   isLoginModalSuccessAtom,
   isLogOutAlertAtom,
+  ShowGreenlightAtom
 } from '../../Atom/atom';
 import { useNavigate } from 'react-router-dom';
 const CommonModal = ({
@@ -39,6 +40,8 @@ const CommonModal = ({
 
   // 로그아웃 시 랜딩 페이지 애니메이션
   const [alertModal, setAlertModal] = useRecoilState(isLogOutAlertAtom);
+  const [showGreenlight, setShowGreenlight] = useRecoilState(ShowGreenlightAtom);
+
 
   const navigate = useNavigate();
 
@@ -71,7 +74,9 @@ const CommonModal = ({
 
   const handelLogoutAlert = () => {
     setAlertModal(true);
+    setShowGreenlight(true);
   };
+  
   // 로그아웃
 
   // const handleLogout = () => {
