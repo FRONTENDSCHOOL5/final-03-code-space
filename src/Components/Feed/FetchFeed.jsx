@@ -2,10 +2,9 @@ import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import MainFeed from './MainFeed';
 import axios from 'axios';
-import { setToken, isfeedFetchToggle } from 'Atom/atomStore';
+import { setToken } from 'Atom/atomStore';
 import { MainAccountToken } from './COMMON';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { searchFeedList } from 'Atom/atomStore';
+import { useRecoilValue } from 'recoil';
 import { debounce } from 'lodash';
 import BackToTopBtn from 'Styles/FeedStyle/BackToTopBtn';
 

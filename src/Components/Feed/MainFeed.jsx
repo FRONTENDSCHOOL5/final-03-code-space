@@ -30,7 +30,6 @@ import { profileImg, APIDefaultImage } from 'Components/Feed/COMMON';
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { formatCodeSnippet } from './formatCodeSnippet';
 

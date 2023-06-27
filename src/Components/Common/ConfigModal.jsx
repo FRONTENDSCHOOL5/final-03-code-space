@@ -1,19 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import {
-  configModalAtom,
-  setToken,
-  setIsLogined,
-  setAccountName,
-  searchFeedList,
-  setIsFollowed,
-  isEditCheck,
-  noneEnterAtom,
-  isLoginModalSuccessAtom,
-  isLogOutAlertAtom,
-  ShowGreenlightAtom,
-} from 'Atom/atomStore';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { configModalAtom, setAccountName, isEditCheck, isLogOutAlertAtom, ShowGreenlightAtom } from 'Atom/atomStore';
 import { useNavigate } from 'react-router-dom';
 const ConfigModal = ({
   deleteFeed,
@@ -27,7 +15,6 @@ const ConfigModal = ({
   content,
   code,
   category,
-  commentId,
   commentAccount,
   language,
 }) => {

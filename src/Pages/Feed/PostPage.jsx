@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { setToken } from 'Atom/atomStore';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { isEditCheck } from 'Atom/atomStore';
 import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
@@ -11,14 +11,10 @@ import MainHeader from 'Components/Common/MainHeader';
 import uploadImg from 'assets/icons/uploadImg.svg';
 import delImg from 'assets/icons/delete1.svg';
 import axios from 'axios';
-import language from 'react-syntax-highlighter/dist/esm/languages/hljs/1c';
 import AlertModal from 'Components/Common/AlertModal';
 
 const PostPage = () => {
   const url = 'https://api.mandarin.weniv.co.kr/';
-  const authorization =
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
-
   const isToken = useRecoilValue(setToken);
   const contentInput = useRef();
   const imgInput = useRef();

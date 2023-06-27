@@ -18,14 +18,12 @@ import {
   isLoginModalSuccessAtom,
   setIsLogined,
   isLoginAlertAtom,
-  ShowGreenlightAtom,
 } from 'Atom/atomStore';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AlertModal from 'Components/Common/AlertModal';
 
 const LandingPage = () => {
   const [isModal, setIsModal] = useRecoilState(isModalAtom);
-  const [showGreenlight, setShowGreenlight] = useRecoilState(ShowGreenlightAtom);
   const noneEnter = useRecoilValue(noneEnterAtom);
   const isLoginModalSuccess = useRecoilValue(isLoginModalSuccessAtom);
 

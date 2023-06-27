@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BottomNav from 'Components/Common/BottomNav';
 import MainHeader from 'Components/Common/MainHeader';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   setToken,
   searchFeedList,
