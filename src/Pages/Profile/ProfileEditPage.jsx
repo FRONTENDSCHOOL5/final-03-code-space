@@ -5,12 +5,21 @@ import MainHeader from 'Components/Common/MainHeader';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { setToken, setAccountName } from 'Atom/atomStore';
 import styled from 'styled-components';
+import MyProfileInfo from '../../Components/Profile/MyProfileInfo';
 
 const ProfileEditPage = ({ userEmail, userPassword }) => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const token = useRecoilValue(setToken);
   const setAccountNameAtom = useSetRecoilState(setAccountName);
+  const [myprofile, setMyprofile] = useState({
+    user: {
+      username: '',
+      accountname: '',
+      intro: '',
+      image: '',
+    },
+  });
 
   const setUserInfoValue = (key, value) => {
     setUserInfo(prevUserInfo => ({
@@ -48,11 +57,18 @@ const ProfileEditPage = ({ userEmail, userPassword }) => {
     }
   };
 
+  const myProfile = MyProfileInfo();
+
   return (
     <>
       <MainHeader type={'set-profile'} handleSubmit={handleSubmit} />
       <ProfileWrapper>
-        <Profile onFormValidityChange={handleFormValidity} userInfo={userInfo} setUserInfoValue={setUserInfoValue} />
+        <Profile
+          onFormValidityChange={handleFormValidity}
+          userInfo={userInfo}
+          setUserInfoValue={setUserInfoValue}
+          myProfile={myProfile}
+        />
       </ProfileWrapper>
     </>
   );

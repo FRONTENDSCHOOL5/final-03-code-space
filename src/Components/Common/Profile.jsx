@@ -5,7 +5,7 @@ import { ReactComponent as ProfileIcon } from 'assets/icons/profileicon.svg';
 import { ReactComponent as UploadImgIcon } from 'assets/icons/uploadImg.svg';
 import Input from './Input';
 
-export default function Profile({ onFormValidityChange, userInfo, setUserInfoValue }) {
+export default function Profile({ onFormValidityChange, userInfo, setUserInfoValue, myProfile }) {
   const [profileImage, setProfileImage] = useState(null);
   const [username, setUsername] = useState('');
   const [accountId, setAccountId] = useState('');
@@ -78,7 +78,11 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
     <Container>
       <CenteredDiv>
         <ProfileWrap>
-          {profileImage ? (
+          {myProfile && myProfile.image ? (
+            <StyledProfileImageWrapper>
+              <StyledProfileImage src={profileImage ? profileImage : myProfile.image} alt="Profile Image" />
+            </StyledProfileImageWrapper>
+          ) : profileImage ? (
             <StyledProfileImageWrapper>
               <StyledProfileImage src={profileImage} alt="Profile Image" />
             </StyledProfileImageWrapper>
@@ -96,13 +100,13 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
       <Input
         placeholder="2~10자 이내여야 합니다."
         label="사용자 이름"
-        value={username}
+        defaultValue={myProfile ? myProfile.username : username}
         onChange={handleUsernameChange}
       />
       <Input
         placeholder="영문, 숫자, 특수문자(.), (_)만 사용 가능합니다."
         label="계정 ID"
-        value={accountId}
+        defaultValue={myProfile ? myProfile.accountname : accountId}
         onChange={handleAccountIdChange}
         onBlur={handleAccountIdBlur}
       />
@@ -111,7 +115,7 @@ export default function Profile({ onFormValidityChange, userInfo, setUserInfoVal
       <Input
         placeholder="자신과 판매할 상품에 대해 소개해주세요."
         label="소개"
-        value={Intro}
+        defaultValue={myProfile ? myProfile.intro : Intro}
         onChange={handleIntroChange}
       />
     </Container>
