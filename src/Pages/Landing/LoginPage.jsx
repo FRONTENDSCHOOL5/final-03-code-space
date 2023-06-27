@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Modal from '../Components/Common/Modal';
+import LoginModal from 'Components/Common/LoginModal';
 
 import { useSetRecoilState } from 'recoil';
-import { setToken } from '../Atom/atom';
-import { setAccountName, loginUserImageAtom } from '../Atom/atom';
-import { isLandingEnter, isModalAtom, noneEnterAtom, isLoginModalSuccessAtom, setIsLogined } from '../Atom/atom';
+import { setToken } from 'Atom/atomStore';
+import { setAccountName, loginUserImageAtom } from 'Atom/atomStore';
+import { isLandingEnter, isModalAtom, noneEnterAtom, isLoginModalSuccessAtom, setIsLogined } from 'Atom/atomStore';
 import { useRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
 
@@ -58,7 +58,7 @@ const LoginPage = () => {
         },
       );
       const userData = response.data.user;
-      console.log(userData.token);
+
       setTokenAtom(userData.token);
       setAccountNameAtom(userData.accountname);
       setLoginUserImage(userData.image);
@@ -79,7 +79,7 @@ const LoginPage = () => {
   }
 
   return (
-    <Modal
+    <LoginModal
       title="로그인"
       LoginSubmit={LoginSubmit}
       userEmail={userEmail}

@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import ProfileHeader from '../Components/Common/ProfileHeader';
-import Profile from '../Components/Common/Profile';
-import Button from '../Components/Common/Button';
+import ProfileHeader from 'Components/Common/ProfileHeader';
+import Profile from 'Components/Common/Profile';
+import Button from 'Components/Common/Button';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
-import useMainAccountFollow from '../Hooks/useMainAccountFollow';
-import { isModalAtom } from '../Atom/atom';
+import useMainAccountFollow from 'Hooks/useMainAccountFollow';
+import { isModalAtom, ShowGreenlightAtom } from 'Atom/atomStore';
 import { useRecoilState } from 'recoil';
-import AlertModal from '../Components/Common/AlertModal';
+import AlertModal from 'Components/Common/AlertModal';
 
-const ProfileSetPage = ({ userEmail, userPassword }) => {
+const ProfileCreatePage = ({ userEmail, userPassword }) => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [isModal, setIsModal] = useRecoilState(isModalAtom);
   const [showAlertModal, setShowAlertModal] = useState(false);
+  const [showGreenlight, setShowGreenlight] = useRecoilState(ShowGreenlightAtom);
   const location = useLocation();
   const userLoginInfo = location.state;
 
@@ -54,8 +55,6 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
         },
       });
 
-      console.log('User profile created:', response.data);
-
       if (response.data.message === '회원가입 성공') {
         setShowAlertModal(true);
         followingAcount(userInfo.accountId);
@@ -68,7 +67,8 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
   const handleModalClose = () => {
     setShowAlertModal(false);
     setIsModal(true);
-    navigate('/landing');
+    setShowGreenlight(false);
+    navigate('/');
   };
 
   return (
@@ -88,7 +88,7 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
   );
 };
 
-export default ProfileSetPage;
+export default ProfileCreatePage;
 
 const SBtnBox = styled.div`
   margin: 16px 32px;

@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import MainHeader from '../Components/Common/MainHeader';
-import uploadImg from '../assets/icons/uploadImg.svg';
-import ProfileImg from '../assets/img/profile-img.svg';
+import MainHeader from 'Components/Common/MainHeader';
+import uploadImg from 'assets/icons/uploadImg.svg';
+import ProfileImg from 'assets/img/profile-img.svg';
 
 const MessagePage = () => {
   const navigate = useNavigate();
@@ -16,11 +16,11 @@ const MessagePage = () => {
     imgInput.current.click();
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = e => {
     setMessage(e.target.value);
   };
 
-  const handleInputKeyPress = (e) => {
+  const handleInputKeyPress = e => {
     if (e.key === 'Enter') {
       handleSendMessage();
     }
@@ -54,9 +54,9 @@ const MessagePage = () => {
     setIsModalOpen(false);
   };
 
-  const Modal = ({isOpen}) => {
+  const Modal = ({ isOpen }) => {
     if (!isOpen) return null;
-  
+
     return (
       <StyledModal>
         <SSingleModal>
@@ -70,13 +70,11 @@ const MessagePage = () => {
 
   return (
     <>
-      <MainHeader type="message" handleOpenModal={handleOpenModal}/>
+      <MainHeader type="message" handleOpenModal={handleOpenModal} />
       <SMsgWrap>
         <SProfileImg />
         <SContentWrap>
-          <SMsgContent>
-            안녕하세요^~^
-          </SMsgContent>
+          <SMsgContent>안녕하세요^~^</SMsgContent>
           <SMsgTime>10:23</SMsgTime>
         </SContentWrap>
       </SMsgWrap>
@@ -87,7 +85,7 @@ const MessagePage = () => {
           <SMsgTime>10:24</SMsgTime>
         </SContentWrap>
       </SMsgWrap>
-      {messages.map((msg) => (
+      {messages.map(msg => (
         <SMsgWrap key={msg.id} isMine={msg.isMine}>
           <SContentWrap>
             <SMsgTime>{msg.timestamp}</SMsgTime>
@@ -123,7 +121,7 @@ export default MessagePage;
 const SMsgWrap = styled.div`
   margin: 10px;
   display: flex;
-  justify-content: ${(props) => (props.isMine ? 'flex-end' : 'flex-start')};
+  justify-content: ${props => (props.isMine ? 'flex-end' : 'flex-start')};
   align-items: center;
 `;
 
@@ -143,14 +141,10 @@ const SMsgContent = styled.div`
   max-width: 240px;
   margin-left: 10px;
   padding: 10px 8px;
-  color : ${(props) => 
-  props.isMine ? 'var(--black)': 'var(--white)'};
-  background-color : ${(props) => 
-  props.isMine ? 'var(--point-color)': 'var(--black)'};
-  border : ${(props) => 
-  props.isMine ? 'none': '0.5px solid var(--white)'};
-  border-radius: ${(props) =>
-  props.isMine ? '9px 0px 9px 9px' : '0px 9px 9px 9px'};
+  color: ${props => (props.isMine ? 'var(--black)' : 'var(--white)')};
+  background-color: ${props => (props.isMine ? 'var(--point-color)' : 'var(--black)')};
+  border: ${props => (props.isMine ? 'none' : '0.5px solid var(--white)')};
+  border-radius: ${props => (props.isMine ? '9px 0px 9px 9px' : '0px 9px 9px 9px')};
   font-size: 13px;
   line-height: 1.3;
 `;
@@ -235,7 +229,7 @@ const StyledModal = styled.div`
   left: 0;
   top: 0;
   overflow-y: hidden;
-  z-index:9999;
+  z-index: 9999;
   /* text-align: center; */
   background-color: rgba(0, 0, 0, 0.8);
 `;

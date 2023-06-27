@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Profile from '../Components/Common/Profile';
-import MainHeader from '../Components/Common/MainHeader';
+import Profile from 'Components/Common/Profile';
+import MainHeader from 'Components/Common/MainHeader';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { setToken, setAccountName } from '../Atom/atom';
+import { setToken, setAccountName } from 'Atom/atomStore';
 import styled from 'styled-components';
+import MyProfileInfo from '../../Components/Profile/MyProfileInfo';
 
-const ProfileSetPage = ({ userEmail, userPassword }) => {
+const ProfileEditPage = ({ userEmail, userPassword }) => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const token = useRecoilValue(setToken);
   const setAccountNameAtom = useSetRecoilState(setAccountName);
+  const [myprofile, setMyprofile] = useState({
+    user: {
+      username: '',
+      accountname: '',
+      intro: '',
+      image: '',
+    },
+  });
 
   const setUserInfoValue = (key, value) => {
     setUserInfo(prevUserInfo => ({
@@ -42,24 +51,30 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
         },
       });
 
-      console.log(response.data);
       setAccountNameAtom(response.data.user.accountname);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const myProfile = MyProfileInfo();
+
   return (
     <>
       <MainHeader type={'set-profile'} handleSubmit={handleSubmit} />
       <ProfileWrapper>
-        <Profile onFormValidityChange={handleFormValidity} userInfo={userInfo} setUserInfoValue={setUserInfoValue} />
+        <Profile
+          onFormValidityChange={handleFormValidity}
+          userInfo={userInfo}
+          setUserInfoValue={setUserInfoValue}
+          myProfile={myProfile}
+        />
       </ProfileWrapper>
     </>
   );
 };
 
-export default ProfileSetPage;
+export default ProfileEditPage;
 
 const ProfileWrapper = styled.div`
   padding-top: 30px;

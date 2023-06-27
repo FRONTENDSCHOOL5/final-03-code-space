@@ -12,9 +12,10 @@ import {
   noneEnterAtom,
   isLoginModalSuccessAtom,
   isLogOutAlertAtom,
-} from '../../Atom/atom';
+  ShowGreenlightAtom,
+} from 'Atom/atomStore';
 import { useNavigate } from 'react-router-dom';
-const CommonModal = ({
+const ConfigModal = ({
   deleteFeed,
   feedList,
   isEdit,
@@ -37,16 +38,9 @@ const CommonModal = ({
 
   const accountName = useRecoilValue(setAccountName);
 
-  const setTokenAtom = useSetRecoilState(setToken);
-  const setIsLoginedAtom = useSetRecoilState(setIsLogined);
-  const setAccountNameAtom = useSetRecoilState(setAccountName);
-  const searchFeedListAtom = useSetRecoilState(searchFeedList);
-  const setIsFollowedAtom = useSetRecoilState(setIsFollowed);
-
   // 로그아웃 시 랜딩 페이지 애니메이션
-  const [noneEnter, setNoneEnter] = useRecoilState(noneEnterAtom);
-  const [isLoginSucess, setIsLoginModalSucess] = useRecoilState(isLoginModalSuccessAtom);
   const [alertModal, setAlertModal] = useRecoilState(isLogOutAlertAtom);
+  const [showGreenlight, setShowGreenlight] = useRecoilState(ShowGreenlightAtom);
 
   const navigate = useNavigate();
 
@@ -59,10 +53,9 @@ const CommonModal = ({
       setconfigModalAtom('');
     }
   };
-  console.log(feedList);
+
   useEffect(() => {
     if (type === 'post-config') {
-      console.log('isEdit=true');
       setIsEdit(true);
       setEditCheckState(true);
     }
@@ -79,7 +72,9 @@ const CommonModal = ({
 
   const handelLogoutAlert = () => {
     setAlertModal(true);
+    setShowGreenlight(true);
   };
+
   // 로그아웃
 
   // const handleLogout = () => {
@@ -177,7 +172,7 @@ const CommonModal = ({
   );
 };
 
-export default CommonModal;
+export default ConfigModal;
 
 const SConfirmModalBackground = styled.div`
   background-color: rgba(85, 85, 85, 0.6);

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { setToken } from '../Atom/atom';
+import { setToken } from 'Atom/atomStore';
 import axios from 'axios';
-import MainHeader from '../Components/Common/MainHeader';
-import BottomNav from '../Components/Common/BottomNav';
-import FollowListCard from '../Components/Follow/FollowListCard';
+import MainHeader from 'Components/Common/MainHeader';
+import BottomNav from 'Components/Common/BottomNav';
+import FollowListCard from 'Components/Follow/FollowListCard';
 import styled from 'styled-components';
 
 export default function FollowPage() {
@@ -15,11 +15,10 @@ export default function FollowPage() {
   let accountName = location.state.accountName;
 
   const [followList, setFollowList] = useState([]);
-  console.log(accountName);
 
   // followList가 변할 때마다 실행
   useEffect(() => {
-    // console.log('test');
+    //
     getFollowData();
   }, [followList]);
 
@@ -38,9 +37,7 @@ export default function FollowPage() {
       });
 
       setFollowList(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   return (
@@ -48,7 +45,6 @@ export default function FollowPage() {
       <MainHeader type="profile" />
       <SFollowingList>
         {followList.map(follow => {
-          console.log(follow);
           return <FollowListCard key={follow._id} profile={follow} />;
         })}
       </SFollowingList>
