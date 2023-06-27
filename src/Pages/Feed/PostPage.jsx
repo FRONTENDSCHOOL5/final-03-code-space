@@ -487,12 +487,6 @@ const SPreviewImgCover = styled.img`
   object-fit: cover;
 `;
 
-const SUploadBtnWrap = styled.div`
-  width: 390px;
-  height:100px;
-  background-color: var(--black);
-`;
-
 const SDelBtn = styled.div`
   position: absolute;
   top: 5px;
