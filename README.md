@@ -5,8 +5,8 @@
 **🧑‍🚀 테스트 계정** :
 
 ```
-ID :
-PW :
+ID :codespacetest1@test.com
+PW :000000
 ```
 
 <img src="">
@@ -194,6 +194,50 @@ PW :
 <br/>
 
 ## <span id="ui">🪐CodeSpace UI</span>
+
+## 1) 홈
+
+|    Splash  |  로그인       |              회원가입                |
+| :----------: | :----------: | :----------: |
+| <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/3814faea-ff86-4195-9e86-8c4e8c3bd81a"> | <img height="540px" width="300px"  src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/0cda02ec-d94b-4402-b23f-db667a841ea5"> | <img height="540px" width="300px"   src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/f60ee10c-66b4-4d60-9295-90b62e154359"> |
+
+|     홈 피드 / 카테고리별        |        게시글 검색 / 유저 검색             |        메시지       |
+| :----------: | :----------: | :----------: |
+| <img height="540px" width="300px"  src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/bf521f5e-e316-4c99-bd24-5614026dda82"> | <img height="540px" width="300px"  src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/ffca6ba8-b9fe-4801-93d4-a149a8bf4bee"> | <img height="540px"  width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/2b90415b-e37f-4aba-b303-b6e53e6af71f"> |
+
+| Top 버튼 / 무한 스크롤 |  404 Error   |
+| :-------: | :-------: |
+| <img height="540px" width="300px"  src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/4ffd904d-b39a-45e2-b218-8d705ed91015">   | <img height="540px" width="300px"  src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/07817d93-f424-4856-9b92-df7fc6c3e32d">    |
+
+
+
+
+## 2) 게시글
+|                                                           게시글 작성                                                            |                                                           게시글 수정                                                            |                        게시글 삭제                         |
+| :------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------: |
+| <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/59fd96db-135a-4916-be4e-5823a2d0385b"> | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/3af7b66c-1ed8-407a-9c39-7f4f572802d1"> | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/08b0b21c-7ade-4a24-afd5-3b595cb3eba3"> |
+
+|    게시글 좋아요/코드블럭                        |                          댓글 작성                          |                     댓글 삭제                      |
+| :---------------------------------------------------------: | :---------------------------------------------------------: | :--------------------------------------------------------: |
+| <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/7dc636f1-323e-4b8b-b92e-18f10bf0d052" > | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/c0b01039-fac6-4f68-ada5-ddc9f4b3456e"> | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/5590b5b6-6c46-41c4-80fb-127922cce967"> |
+
+|    이미지 업로드 3장 제한                        |                      이미지 상세보기                        |                
+| :---------------------------------------------------------: | :---------------------------------------------------------: | 
+| <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/bd7b7a7b-9d23-4fdf-beeb-c268e7d12901" > | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/1b5e4793-024e-4ac6-9cbe-06da4670eb56"> 
+
+
+## 3) 프로필
+
+|                      프로필 전체                                                                         |                                                             팔로우/언팔로우                                                              |                                                            로그아웃                                                             |
+| :-----------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
+| <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/0f5c8b4f-d167-4db7-a2cd-dccea48a8bdc"> | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/b69685d1-169b-47f5-81d5-388f169e45f4">| <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/573e26e9-313d-49d0-b689-86ec7047de08"> |
+
+|                                                           초기 프로필 설정                                                           |                                                                                                           프로필 수정           |                                                                                                             상품 등록        |
+| :-----------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
+| <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/b2e6f39a-ecd2-43ed-82d5-a4a6ec9ccc61"> | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/1520e4e9-ab58-4137-9878-0ef41516f054"> | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/9765c2e0-9fbc-4e7c-bc06-d0a2c06d61a3"> |
+
+---
+
 
 ## <span id="folder">📁폴더 구조</span>
 ```
