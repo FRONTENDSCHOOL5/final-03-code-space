@@ -54,7 +54,7 @@ const Comment = ({
                       <div>{comment.author.username}</div>
                       <SCreateTime>{elapsedTime(comment.createdAt)}</SCreateTime>
                     </SUsername>
-                    <div>{comment.content}</div>
+                    <SCommentContents>{comment.content}</SCommentContents>
                   </SComment>
                   <SConfigIcon
                     src={configIcon}
@@ -120,7 +120,7 @@ const SProfileImg = styled.img`
 const SComment = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 `;
 const SUsername = styled.div`
   display: flex;
@@ -134,4 +134,7 @@ const SCreateTime = styled.div`
     content: '•';
     margin-right: 5px;
   }
+`;
+const SCommentContents = styled.div`
+  line-height: 21px;
 `;

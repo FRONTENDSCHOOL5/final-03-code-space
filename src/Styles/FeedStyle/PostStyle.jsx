@@ -6,6 +6,7 @@ const STitle = styled.div`
   word-break: break-all;
   font-weight: bold;
   display: flex;
+  line-height: 22px;
 `;
 const SMainContent = styled.div`
   color: var(--white);
@@ -13,7 +14,7 @@ const SMainContent = styled.div`
   margin: 10px 5px;
   box-sizing: border-box;
   word-break: break-all;
-  line-height: 16px;
+  line-height: 21px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
@@ -25,7 +26,7 @@ const SContent = styled.div`
   margin: 10px 5px;
   box-sizing: border-box;
   word-break: break-all;
-  line-height: 16px;
+  line-height: 21px;
 `;
 const SUserName = styled.div`
   color: var(--lightgray);
