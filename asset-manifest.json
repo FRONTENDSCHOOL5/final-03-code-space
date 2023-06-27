@@ -22,6 +22,7 @@
     "static/media/more.svg": "/final-03-code-space/static/media/more.9ede97cc64c84d3a3ccac9a032ba83c4.svg",
     "static/media/chat-green.svg": "/final-03-code-space/static/media/chat-green.151181be5586e3d825bb6d8b4318eba6.svg",
     "static/media/chat.svg": "/final-03-code-space/static/media/chat.26489fc10a614bc4feac5b34c619cd07.svg",
+    "index.html": "/final-03-code-space/index.html",
     "static/media/profile.svg": "/final-03-code-space/static/media/profile.e210b846292bd15a154e52ba0689900e.svg",
     "static/media/kakao.svg": "/final-03-code-space/static/media/kakao.25453053a4610662ff2fd7752dcbdc7f.svg",
     "static/media/post-album-on.svg": "/final-03-code-space/static/media/post-album-on.57cede1ba908eb7ffefb2eefd2842352.svg",
@@ -37,7 +38,6 @@
     "static/media/post-list.svg": "/final-03-code-space/static/media/post-list.54e27ad1c2d137b046177ea9915b1a3f.svg",
     "static/media/icon-arrow-left.svg": "/final-03-code-space/static/media/icon-arrow-left.d57556345db57a26d363e8ca2f56f7b5.svg",
     "static/media/post.svg": "/final-03-code-space/static/media/post.a408fa4e560ac2457861e4a709fc3f16.svg",
-    "index.html": "/final-03-code-space/index.html",
     "main.2e27c442.js.map": "/final-03-code-space/static/js/main.2e27c442.js.map"
   },
   "entrypoints": [
