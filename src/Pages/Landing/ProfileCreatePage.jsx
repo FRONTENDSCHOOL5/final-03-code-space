@@ -68,7 +68,7 @@ const ProfileCreatePage = ({ userEmail, userPassword }) => {
     setShowAlertModal(false);
     setIsModal(true);
     setShowGreenlight(false);
-    navigate('/landing');
+    navigate('/');
   };
 
   return (
