@@ -23,7 +23,7 @@ export default function FollowPage() {
   }, [followList]);
 
   const URL = 'https://api.mandarin.weniv.co.kr';
-  const reqPath = `/profile/${accountName}/following`;
+  const reqPath = `/profile/${accountName}/following/?limit=100`;
 
   async function getFollowData() {
     try {
