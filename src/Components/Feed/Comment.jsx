@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import elapsedTime from './elapsedTime';
 import { useNavigate } from 'react-router-dom';
 import { APIDefaultImage, profileImg } from './COMMON';
-import useFetchComment from '../../Hooks/useFetchComment';
-import configIcon from '../../assets/icons/icon- more-vertical.svg';
-import CommonModal from '../Common/CommonModal';
-import { configModalAtom } from '../../Atom/atom';
+import useFetchComment from 'Hooks/useFetchComment';
+import configIcon from 'assets/icons/icon- more-vertical.svg';
+import ConfigModal from 'Components/Common/ConfigModal';
+import { configModalAtom } from 'Atom/atomStore';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import WithSkeleton from '../Common/Skeleton';
+import WithSkeleton from 'Components/Common/Skeleton';
 
 const Comment = ({
   feedList,
@@ -38,7 +38,6 @@ const Comment = ({
 
     getComment(); // 컴포넌트가 마운트될 때 FetchDetailFeed 실행
   }, []);
-  console.log(commentList);
 
   return (
     <SCommentListLayout>
@@ -67,7 +66,6 @@ const Comment = ({
                       setconfigModalAtom('comment-config');
                       setCommentId(comment.id);
                       setCommentAccount(comment.author.accountname);
-                      console.log(comment.author.accountname);
                     }}></SConfigIcon>
                 </SCommentContainer>
               </SCommentLayout>

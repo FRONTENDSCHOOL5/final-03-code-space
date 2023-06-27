@@ -31,10 +31,11 @@ const SButton = styled.button`
     width: 100%;
     height: 100%;
     position: relative;
-    transition: 0.2s ease-out;
+    transition: 0.5s ease-out;
+    transform: rotate(50deg);
   }
 
   &:hover svg {
-    transform: rotate(360deg);
+    transform: rotate(720deg);
   }
 `;

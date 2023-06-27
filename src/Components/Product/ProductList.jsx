@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { setToken } from '../../Atom/atom';
+import { setToken } from 'Atom/atomStore';
 import axios from 'axios';
 import styled from 'styled-components';
 import ProductCard from './ProductCard';
@@ -8,11 +8,9 @@ import ProductCard from './ProductCard';
 export default function ProductList({ accountName }) {
   const [productData, setProductData] = useState([]);
   const token = useRecoilValue(setToken);
-  console.log(accountName);
 
   const URL = 'https://api.mandarin.weniv.co.kr';
   const reqPath = `/product/${accountName}`;
-  console.log(reqPath);
 
   useEffect(() => {
     getUserData();
@@ -28,14 +26,10 @@ export default function ProductList({ accountName }) {
           'Content-type': 'application/json',
         },
       });
-      console.log(response.data.product);
-      setProductData(response.data.product);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
-  console.log(productData);
+      setProductData(response.data.product);
+    } catch (error) {}
+  }
 
   if (productData.length === 0) {
     // 상품이 없을 때

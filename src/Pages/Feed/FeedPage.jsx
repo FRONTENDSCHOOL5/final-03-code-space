@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import MainHeader from '../Components/Common/MainHeader';
-import BottomNav from '../Components/Common/BottomNav';
-import FetchFeed from '../Components/Feed/FetchFeed';
-import TagButton from '../Components/Feed/TagButton';
-import { SMainLayout } from '../Styles/MainLayoutStyle';
+import MainHeader from 'Components/Common/MainHeader';
+import BottomNav from 'Components/Common/BottomNav';
+import FetchFeed from 'Components/Feed/FetchFeed';
+import TagButton from 'Components/Feed/TagButton';
+import { SMainLayout } from 'Styles/MainLayoutStyle';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { headerToggle, categoryTag, categoryTagIndex, isEditCheck } from '../Atom/atom';
-import { extractString } from '../Components/Feed/extractString';
+import { headerToggle, categoryTag, categoryTagIndex, isEditCheck } from 'Atom/atomStore';
+import { extractString } from 'Components/Feed/extractString';
 import SearchPage from './SearchPage';
 import { motion } from 'framer-motion';
 // 피드 메인 페이지
@@ -33,7 +33,6 @@ const FeedPage = () => {
   const tagItem = ['전체', '팔로잉', '스터디 모집', '질문있어요!', '자유게시판'];
 
   const headerToggleState = useRecoilValue(headerToggle);
-  console.log(FeedList);
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>

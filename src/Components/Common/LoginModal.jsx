@@ -1,11 +1,12 @@
 import styled, { keyframes } from 'styled-components';
-import Button from './Button';
+import Button from 'Components/Common/Button';
+
 import { useRecoilValue } from 'recoil';
-import { isLandingEnter } from '../../Atom/atom';
+import { isLandingEnter } from 'Atom/atomStore';
 import { Link } from 'react-router-dom';
-import kakaoIcon from '../../assets/icons/kakao.svg';
-import googleIcon from '../../assets/icons/google.svg';
-import naverIcon from '../../assets/icons/naver.svg';
+import kakaoIcon from 'assets/icons/kakao.svg';
+import googleIcon from 'assets/icons/google.svg';
+import naverIcon from 'assets/icons/naver.svg';
 
 const Modal = ({
   title,
@@ -32,25 +33,18 @@ const Modal = ({
   const handleSubmit = e => {
     e.preventDefault();
     if (title === '이메일로 회원가입') {
-      console.log('이메일 검증 submit 실행');
       ValidSubmit(e);
     } else {
-      console.log('로그인 submit 실행');
       LoginSubmit(e);
     }
   };
 
   function inputOnchangeFunc(e) {
-    console.log(e.target.value);
     inputHandler(e);
     ValidSubmit(e); // 이벤트 객체를 그대로 전달
   }
 
-  
-
   function submitBtnCheck() {
-    console.log(successRes);
-    console.log(PwMessage);
     if (successRes !== '사용 가능한 이메일 입니다.' && PwMessage !== null) {
       setIsSubmitBtn(false);
     } else {

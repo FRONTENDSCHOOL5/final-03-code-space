@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import MainHeader from '../Components/Common/MainHeader';
-import BottomNav from '../Components/Common/BottomNav';
-import ProfileImg from '../assets/img/profile-img.svg';
+import MainHeader from 'Components/Common/MainHeader';
+import BottomNav from 'Components/Common/BottomNav';
+import ProfileImg from 'assets/img/profile-img.svg';
 import { useNavigate } from 'react-router-dom';
 
 const MessageListPage = () => {
@@ -60,7 +60,7 @@ const SMsgWrap = styled.div`
   margin-left: 10px;
 `;
 
-const SMsgName = styled.p` 
+const SMsgName = styled.p`
   margin-bottom: 5px;
   color: var(--white);
   font-size: 14px;
