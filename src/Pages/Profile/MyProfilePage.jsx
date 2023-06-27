@@ -21,7 +21,7 @@ import {
 
 import { motion } from 'framer-motion';
 
-import ProfilePost from 'Components/Post/ProfilePost';
+import ProfilePost from 'Components/Profile/Post/ProfilePost';
 import { useState } from 'react';
 import AlertModal from 'Components/Common/AlertModal';
 import { useEffect } from 'react';
