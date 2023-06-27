@@ -5,7 +5,7 @@ import { ReactComponent as ProfileIcon } from 'assets/icons/profileicon.svg';
 import { ReactComponent as UploadImgIcon } from 'assets/icons/uploadImg.svg';
 import Input from './Input';
 
-export default function Profile({ onFormValidityChange, userInfo, setUserInfoValue, myProfile }) {
+export default function Profile({ onFormValidityChange, setUserInfoValue, myProfile }) {
   const [profileImage, setProfileImage] = useState(null);
   const [username, setUsername] = useState('');
   const [accountId, setAccountId] = useState('');

@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { setToken } from 'Atom/atomStore';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { isEditCheck } from 'Atom/atomStore';
 import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
@@ -11,7 +11,6 @@ import MainHeader from 'Components/Common/MainHeader';
 import uploadImg from 'assets/icons/uploadImg.svg';
 import delImg from 'assets/icons/delete1.svg';
 import axios from 'axios';
-import language from 'react-syntax-highlighter/dist/esm/languages/hljs/1c';
 import AlertModal from 'Components/Common/AlertModal';
 
 const PostPage = () => {
@@ -171,7 +170,6 @@ const PostPage = () => {
     };
 
     if (imgAddList.length >= 3) {
-      // alert('이미지는 최대 3장까지만 업로드 가능합니다!');
       setShowWarningAlert(true);
       return;
     } else {

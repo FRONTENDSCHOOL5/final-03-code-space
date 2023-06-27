@@ -18,9 +18,9 @@ const SButton = styled.button`
   color: var(--point-color);
   background: none;
   position: relative;
-  display: flex; /* 수정 */
-  align-items: center; /* 수정 */
-  justify-content: center; /* 수정 */
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
   width: 50px;
   height: 50px;
   margin-left: auto;

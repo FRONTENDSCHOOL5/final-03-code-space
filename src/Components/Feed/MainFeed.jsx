@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-
-import styled from 'styled-components';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { extractString } from './extractString';
 import {
@@ -41,15 +39,13 @@ import { formatCodeSnippet } from './formatCodeSnippet';
 import {
   categoryTag,
   searchFeedList,
-  isEditCheck,
   isInitialLoadAtom,
   scrollPositionAtom,
   setAccountName,
 } from 'Atom/atomStore';
 import Skeleton from 'Components/Common/Skeleton';
-import WithSkeleton from 'Components/Common/Skeleton';
 
-const MainFeed = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
+  const MainFeed = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   const setFeedListState = useSetRecoilState(searchFeedList);
   const feedListState = useRecoilValue(searchFeedList);
   const navigate = useNavigate();

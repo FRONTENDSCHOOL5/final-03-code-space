@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { setToken, isfeedFetchToggle, loginUserImageAtom } from 'Atom/atomStore';
+import { useRecoilValue } from 'recoil';
+import { setToken, loginUserImageAtom } from 'Atom/atomStore';
 import { profileImg, APIDefaultImage } from 'Components/Feed/COMMON';
 
 import useFetchComment from 'Hooks/useFetchComment';
 
-const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetchData, setReactionCount }) => {
+const WriteComment = ({ feedList, setCommentList, setIsFetchData, setReactionCount }) => {
   const [inputComment, setInputComment] = useState('');
   const isToken = useRecoilValue(setToken);
   const LoginUserImage = useRecoilValue(loginUserImageAtom);

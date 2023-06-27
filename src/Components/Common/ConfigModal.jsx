@@ -1,16 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   configModalAtom,
-  setToken,
-  setIsLogined,
   setAccountName,
-  searchFeedList,
-  setIsFollowed,
   isEditCheck,
-  noneEnterAtom,
-  isLoginModalSuccessAtom,
   isLogOutAlertAtom,
   ShowGreenlightAtom,
 } from 'Atom/atomStore';
@@ -27,7 +21,6 @@ const ConfigModal = ({
   content,
   code,
   category,
-  commentId,
   commentAccount,
   language,
 }) => {
@@ -75,21 +68,6 @@ const ConfigModal = ({
     setShowGreenlight(true);
   };
 
-  // 로그아웃
-
-  // const handleLogout = () => {
-  //   setAlertModal(false);
-
-  //   // 토큰 상태 초기화 또는 삭제
-  //   setTokenAtom('');
-  //   setAccountNameAtom('');
-  //   searchFeedListAtom('');
-  //   setIsFollowedAtom(null);
-  //   setIsLoginedAtom(false);
-  //   setNoneEnter(false);
-  //   setIsLoginModalSucess(false);
-  //   navigate('/');
-  // };
 
   function goEdit() {
     navigate('/post', { state: { isEdit, ...feedList, imgArr, title, content, code, category, language } });

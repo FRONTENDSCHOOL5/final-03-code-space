@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import elapsedTime from './elapsedTime';
 import { useNavigate } from 'react-router-dom';
 import { APIDefaultImage, profileImg } from './COMMON';
 import useFetchComment from 'Hooks/useFetchComment';
 import configIcon from 'assets/icons/icon- more-vertical.svg';
-import ConfigModal from 'Components/Common/ConfigModal';
 import { configModalAtom } from 'Atom/atomStore';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import WithSkeleton from 'Components/Common/Skeleton';
 
 const Comment = ({
   feedList,

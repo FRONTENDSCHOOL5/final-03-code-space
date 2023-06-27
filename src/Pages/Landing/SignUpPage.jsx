@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LoginModal from 'Components/Common/LoginModal';
-import Profile from 'Components/Common/Profile';
 import LandingPage from './LandingPage';
 
 const SignUpPage = () => {
@@ -23,7 +22,6 @@ const SignUpPage = () => {
 
   const ValidSubmit = async e => {
     const email = e?.target.value; // 최신 이메일 값 사용
-    //  // 이메일 값 출력
     if (userPassword.length < 6) {
       setIsPasswordValid(false);
     }

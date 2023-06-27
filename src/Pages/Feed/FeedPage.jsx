@@ -7,8 +7,6 @@ import TagButton from 'Components/Feed/TagButton';
 import { SMainLayout } from 'Styles/MainLayoutStyle';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { headerToggle, categoryTag, categoryTagIndex, isEditCheck } from 'Atom/atomStore';
-import { extractString } from 'Components/Feed/extractString';
-import SearchPage from './SearchPage';
 import { motion } from 'framer-motion';
 // 피드 메인 페이지
 const FeedPage = () => {

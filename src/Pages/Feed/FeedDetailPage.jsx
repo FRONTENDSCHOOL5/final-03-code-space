@@ -108,8 +108,6 @@ const FeedDetailPage = () => {
     setAlertModal(message);
 
     // setFeedFunction(feedData.post); // reactionCount.post에 대한 처리
-
-    // navigate('/feed');
   }
   async function initFeed() {
     const type = 'init';

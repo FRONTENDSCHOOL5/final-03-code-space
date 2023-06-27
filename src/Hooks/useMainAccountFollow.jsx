@@ -1,4 +1,3 @@
-import React from 'react';
 import { MainAccountToken, BASEURL } from 'Components/Feed/COMMON';
 import axios from 'axios';
 

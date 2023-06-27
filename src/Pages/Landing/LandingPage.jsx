@@ -44,9 +44,6 @@ const LandingPage = () => {
       navigate('/feed');
     }
 
-    // if (location.state && location.state.showGreenlight === false) {
-    //   setShowGreenlight(false);
-    // }
   }, []);
 
   const [isBlinking, setIsBlinking] = useState(false);
@@ -64,7 +61,6 @@ const LandingPage = () => {
     setIsLandingEnter(false);
     setIsModal(true);
     setIsBlinking(true);
-    // setIsEnterClicked(true);
   };
 
   return (
