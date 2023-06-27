@@ -18,7 +18,6 @@ const Comment = ({
   setCommentAccount,
 }) => {
   const navigate = useNavigate();
-  const isModalState = useRecoilValue(configModalAtom);
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
 
   function goProfile(item) {
@@ -97,6 +96,8 @@ const SConfigIcon = styled.img`
   max-width: 20px;
   max-height: 20px;
   cursor: pointer;
+  display: flex;
+  align-self: flex-start;
 `;
 
 const SCommentContainer = styled.div`
@@ -106,10 +107,15 @@ const SCommentContainer = styled.div`
   align-items: center;
 `;
 const SProfileImg = styled.img`
+  max-width: 36px;
+  max-height: 36px;
   width: 36px;
   height: 36px;
+
   border-radius: 50%;
   object-fit: cover;
+  display: flex;
+  align-self: flex-start;
 `;
 const SComment = styled.div`
   display: flex;
