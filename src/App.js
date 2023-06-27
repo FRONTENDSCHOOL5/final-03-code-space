@@ -16,7 +16,7 @@ import FeedDetailPage from 'Pages/Feed/FeedDetailPage';
 import ProductPage from 'Pages/Profile/ProductPage';
 import NotFoundErrorPage from 'Pages/NotFoundErrorPage';
 import ProfileEditPage from 'Pages/Profile/ProfileEditPage';
-import { SMainLayout, Sbackground, Sastronaut } from 'Styles/MainLayoutStyle';
+import { SMainLayout, Sbackground, SAstronaut } from 'Styles/MainLayoutStyle';
 import { AnimatePresence } from 'framer-motion';
 import PrivateRoute from 'Route/PrivateRoute';
 
@@ -24,12 +24,11 @@ function App() {
   return (
     <Sbackground>
       <GlobalStyle />
-      <Sastronaut />
+      <SAstronaut />
       <AnimatePresence>
         <SMainLayout>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/landing" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/profile" element={<ProfileCreatePage />} />

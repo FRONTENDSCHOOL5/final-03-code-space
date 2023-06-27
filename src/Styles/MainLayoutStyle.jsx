@@ -18,7 +18,7 @@ const SMainLayout = styled.div`
   box-shadow: rgba(0, 0, 0, 0.8) 0 0 50px;
   z-index: 1;
 `;
-const Sastronaut = styled.img.attrs({
+const SAstronaut = styled.img.attrs({
   src: astronaut,
   alt: 'astronaut',
 })`
@@ -26,12 +26,12 @@ const Sastronaut = styled.img.attrs({
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-120%, -155%);
+  transform: translate(-120%, -115%);
 
   z-index: 0;
   transition: all 0.3s ease-in-out;
   &:hover {
-    transform: translate(-80%, -155%);
+    transform: translate(-80%, -125%);
   }
 `;
 const Sbackground = styled.div`
@@ -40,4 +40,4 @@ const Sbackground = styled.div`
   z-index: -2;
 `;
 
-export { SMainLayout, Sbackground, Sastronaut };
+export { SMainLayout, Sbackground, SAstronaut };
