@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { extractString } from './extractString';
 import {
@@ -21,33 +22,22 @@ import {
   SCodeLanguage,
   SCodeContainer,
   SCreateDate,
+  SSyntaxHighlighter,
 } from 'Styles/FeedStyle/PostStyle';
-
 import iconComment from 'assets/icons/chat-green.svg';
-
 import iconHeart from 'assets/icons/heart.svg';
-
 import { profileImg, APIDefaultImage } from 'Components/Feed/COMMON';
-
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { formatCodeSnippet } from './formatCodeSnippet';
 
-import {
-  categoryTag,
-  searchFeedList,
-  isInitialLoadAtom,
-  scrollPositionAtom,
-  setAccountName,
-} from 'Atom/atomStore';
+import { categoryTag, searchFeedList, isInitialLoadAtom, scrollPositionAtom, setAccountName } from 'Atom/atomStore';
 import Skeleton from 'Components/Common/Skeleton';
 
   const MainFeed = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   const setFeedListState = useSetRecoilState(searchFeedList);
-  const feedListState = useRecoilValue(searchFeedList);
   const navigate = useNavigate();
   const tagState = useRecoilValue(categoryTag);
   const [scrollPosition, setScrollPosition] = useRecoilState(scrollPositionAtom);
@@ -135,22 +125,17 @@ import Skeleton from 'Components/Common/Skeleton';
       ) : (
         <div>
           {(tagState === '전체' ? FeedList : tagState === '팔로잉' ? followingFeed : allFeed).map(item => {
-            let title;
-            let content;
-            let code;
-            let language;
             const extractedData = extractString(item.content, 'title');
+
             if (extractedData === null) {
               return null;
             }
             const { extracted, remaining } = extractedData;
-
             const categoryData = extractString(remaining, 'category');
+
             if (categoryData === null) {
               return null;
             }
-            const category = categoryData.extracted;
-
             const codeData = extractString(categoryData.remaining, 'code');
 
             if (codeData === null) {
@@ -166,17 +151,18 @@ import Skeleton from 'Components/Common/Skeleton';
             if (languageData === null) {
               return null;
             }
+            const category = categoryData.extracted;
+
             if (tagState !== '팔로잉') {
               if (tagState !== '전체' && tagState !== category) {
                 return null;
               }
             }
 
-            title = extracted;
-            content = contentData.extracted;
-            code = codeData.extracted;
-            language = languageData.extracted;
-            code = formatCodeSnippet(code);
+            const title = extracted;
+            const content = contentData.extracted;
+            const language = languageData.extracted;
+            const code = formatCodeSnippet(codeData.extracted);
 
             return (
               <SFeedCard key={item.id} onClick={() => goFeedDetail(item, title, content, category, code, language)}>
@@ -190,7 +176,6 @@ import Skeleton from 'Components/Common/Skeleton';
                     <STitleContent>
                       <STitle>
                         {title}
-
                         {item.image ? (
                           <SImgContainer>
                             <FontAwesomeIcon icon={faImage} style={{ color: '#2bae66' }} />
@@ -213,9 +198,9 @@ import Skeleton from 'Components/Common/Skeleton';
                     <SCodeEditor>
                       <SCodeLanguage>{language}</SCodeLanguage>
                       <SCodeContainer>
-                        <SyntaxHighlighter language={language} style={atomDark}>
+                        <SSyntaxHighlighter language={language} style={atomDark}>
                           {code}
-                        </SyntaxHighlighter>
+                        </SSyntaxHighlighter>
                       </SCodeContainer>
                     </SCodeEditor>
                   )}

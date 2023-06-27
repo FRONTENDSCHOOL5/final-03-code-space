@@ -15,9 +15,6 @@ import AlertModal from 'Components/Common/AlertModal';
 
 const PostPage = () => {
   const url = 'https://api.mandarin.weniv.co.kr/';
-  const authorization =
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZjYjJjYjIwNTY2MzJjZmZlYiIsImV4cCI6MTY5MDY5NDM4MCwiaWF0IjoxNjg1NTEwMzgwfQ.Bjwk8EyTTxyFP8-QYiY1SlXsAXTAYQ_Fwmi-nJ-NDx4';
-
   const isToken = useRecoilValue(setToken);
   const contentInput = useRef();
   const imgInput = useRef();

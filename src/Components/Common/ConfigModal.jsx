@@ -1,13 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import {
-  configModalAtom,
-  setAccountName,
-  isEditCheck,
-  isLogOutAlertAtom,
-  ShowGreenlightAtom,
-} from 'Atom/atomStore';
+import { configModalAtom, setAccountName, isEditCheck, isLogOutAlertAtom, ShowGreenlightAtom } from 'Atom/atomStore';
 import { useNavigate } from 'react-router-dom';
 const ConfigModal = ({
   deleteFeed,

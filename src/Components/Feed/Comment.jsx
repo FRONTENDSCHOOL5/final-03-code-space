@@ -6,7 +6,7 @@ import { APIDefaultImage, profileImg } from './COMMON';
 import useFetchComment from 'Hooks/useFetchComment';
 import configIcon from 'assets/icons/icon- more-vertical.svg';
 import { configModalAtom } from 'Atom/atomStore';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 const Comment = ({
   feedList,

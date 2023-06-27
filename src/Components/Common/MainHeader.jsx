@@ -6,7 +6,7 @@ import moreIcon from 'assets/icons/more.svg';
 import Button from 'Components/Common/Button';
 import configIcon from 'assets/icons/icon- more-vertical.svg';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { configModalAtom } from 'Atom/atomStore';
 const MainHeader = ({
   type,
