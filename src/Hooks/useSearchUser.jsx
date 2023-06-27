@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { setToken } from '../Atom/atom';
-import { BASEURL } from '../Components/Feed/COMMON';
-import { searchUserListAtom } from '../Atom/atom';
+import { setToken } from 'Atom/atomStore';
+import { BASEURL } from 'Components/Feed/COMMON';
+import { searchUserListAtom } from 'Atom/atomStore';
 
 const useSearchUser = () => {
   const UserToken = useRecoilValue(setToken);
@@ -20,8 +20,7 @@ const useSearchUser = () => {
     const searchUserEndpoint = `user/searchuser/?keyword=${keyword}`;
     try {
       const response = await GET_instance.get(searchUserEndpoint);
-      console.log(response.data);
-      console.log(response.data.message);
+
       setUserList(response.data);
     } catch (error) {
       console.error(error);

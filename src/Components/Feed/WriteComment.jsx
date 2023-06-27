@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { setToken, isfeedFetchToggle, loginUserImageAtom } from '../../Atom/atom';
-import { profileImg, APIDefaultImage } from './COMMON';
-import useFetchComment from '../../Hooks/useFetchComment';
+import { setToken, isfeedFetchToggle, loginUserImageAtom } from 'Atom/atomStore';
+import { profileImg, APIDefaultImage } from 'Components/Feed/COMMON';
+
+import useFetchComment from 'Hooks/useFetchComment';
 
 const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setIsFetchData, setReactionCount }) => {
   const [inputComment, setInputComment] = useState('');
@@ -34,12 +35,10 @@ const WriteComment = ({ feedList, commentList, setCommentList, isFetchData, setI
           content: inputComment,
         },
       });
-      console.log(response.data);
 
       // 댓글 작성 후, 새로운 댓글을 commentList에 추가하고 isFetchData를 true로 설정하여 댓글 목록을 다시 불러옴
       setCommentList(prevCommentList => [...prevCommentList, response.data.comment]);
       setIsFetchData(true);
-      console.log('댓글쓰기2');
 
       getFeed({ setReactionCount }); // 컴포넌트가 마운트될 때 FetchDetailFeed 실행
 

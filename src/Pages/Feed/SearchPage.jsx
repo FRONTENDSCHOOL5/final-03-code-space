@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import BottomNav from '../Components/Common/BottomNav';
-import MainHeader from '../Components/Common/MainHeader';
+import BottomNav from 'Components/Common/BottomNav';
+import MainHeader from 'Components/Common/MainHeader';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { searchFeedList, searchQuery, searchUserListAtom, searchTabAtom, setAccountName } from '../Atom/atom';
+import {
+  setToken,
+  searchFeedList,
+  searchQuery,
+  searchUserListAtom,
+  searchTabAtom,
+  setAccountName,
+} from 'Atom/atomStore';
 import styled from 'styled-components';
-import { profileImg, APIDefaultImage } from '../Components/Feed/COMMON';
-import iconHeart from '../assets/icons/heart.svg';
-import iconComment from '../assets/icons/chat-green.svg';
+import { profileImg, APIDefaultImage } from 'Components/Feed/COMMON';
+import iconHeart from 'assets/icons/heart.svg';
+import iconComment from 'assets/icons/chat-green.svg';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { SMainLayout } from '../Styles/MainLayoutStyle';
+import { SMainLayout } from 'Styles/MainLayoutStyle';
 import {
   SFeedCard,
   STitle,
@@ -23,10 +30,12 @@ import {
   SReactionContent,
   SReactionCount,
   SMainContent,
-} from '../Styles/FeedStyle/PostStyle';
-import useSearchUser from '../Hooks/useSearchUser';
-import Button from '../Components/Common/Button';
+  SCreateDate,
+} from 'Styles/FeedStyle/PostStyle';
+import useSearchUser from 'Hooks/useSearchUser';
+import Button from 'Components/Common/Button';
 import { motion } from 'framer-motion';
+import { AddFollow, DeleteFollow } from 'Components/Follow/FollowAddDelete';
 const SearchPage = () => {
   const feedList = useRecoilValue(searchFeedList);
   const query = useRecoilValue(searchQuery);
@@ -38,12 +47,12 @@ const SearchPage = () => {
   const { searchUser } = useSearchUser();
   const [userList, setUserList] = useRecoilState(searchUserListAtom);
   const [myAccountName, setMyAccountName] = useRecoilState(setAccountName);
+  const [token, setTokenState] = useRecoilState(setToken);
 
   const [resetToggle, setResetToggle] = useState(false);
 
   useEffect(() => {
     if (resetToggle) {
-      console.log('리셋');
       setUserList([]);
       setResetToggle(false);
     }
@@ -64,7 +73,6 @@ const SearchPage = () => {
     const searchContent = event.target.value;
     setSearchContent(searchContent);
     if (searchContent !== '' || !searchTabToggle) {
-      console.log('ddd');
       setResetToggle(true);
     }
 
@@ -104,6 +112,36 @@ const SearchPage = () => {
       setSearchResults(results);
     }
   }, [feedList, searchParams]);
+
+  function handleFollow(e, accountName) {
+    const buttonContent = e.target.innerText;
+    if (buttonContent === '팔로잉') {
+      // 팔로워 제거
+      DeleteFollow(accountName, token)
+        .then(() => {
+          // 함수 호출 성공 시 실행될 코드
+
+          searchUser(searchContent);
+
+          // setIsFollowing(false);
+        })
+        .catch(error => {
+          // 함수 호출 실패 시 실행될 코드
+        });
+    } else if (buttonContent === '팔로우') {
+      AddFollow(accountName, token)
+        .then(() => {
+          // 함수 호출 성공 시 실행될 코드
+
+          searchUser(searchContent);
+
+          // setIsFollowing(true);
+        })
+        .catch(error => {
+          // 함수 호출 실패 시 실행될 코드
+        });
+    }
+  }
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <SFeedLayout>
@@ -180,32 +218,34 @@ const SearchPage = () => {
                         {item.comments.length}
                       </SReactionCount>
                     </SReactionContent>
-                    <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>
+                    <SCreateDate>{item.createdAt.slice(0, 10)}</SCreateDate>
                   </SReactionContainer>
                 </SFeedCard>
               ))
             ) : (
               userList.map(user => (
-                <SFeedCard key={user.id}>
-                  <SFollowContainer onClick={() => navigate('/myprofile', { state: user })}>
-                    <SImage src={user.image} alt={user.username} />
-                    <STextContainer>
-                      <SUserName>{user.username}</SUserName>
-                      <SAccountName>@ {user.accountname}</SAccountName>
-                    </STextContainer>
-                  </SFollowContainer>
+                <SFollowerList>
+                  <SFollowCard key={user.id}>
+                    <SFollowContainer onClick={() => navigate('/myprofile', { state: user })}>
+                      <SImage src={user.image} alt={user.username} />
+                      <STextContainer>
+                        <SUserTabName>{user.username}</SUserTabName>
+                        <SAccountName>@ {user.accountname}</SAccountName>
+                      </STextContainer>
+                    </SFollowContainer>
 
-                  <SBtnContainer>
                     <Button
-                      width="80px"
+                      isFollowing={!user.isfollow}
+                      followBtn={true}
+                      padding="7px 0"
+                      width="70px"
                       bgColor="var(--gray)"
                       fontSize="12px"
-                      // onClick={e => handleFollow(e, user.accountname, token)}
-                    >
-                      {/* {isFollower ? '삭제' : isFollowing ? '팔로잉' : '팔로우'} */}
+                      onClick={e => handleFollow(e, user.accountname, token)}>
+                      {user.isfollow ? '팔로잉' : '팔로우'}
                     </Button>
-                  </SBtnContainer>
-                </SFeedCard>
+                  </SFollowCard>
+                </SFollowerList>
               ))
             )
           ) : (
@@ -219,6 +259,11 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
+const SFollowerList = styled.div`
+  padding: 20px 16px;
+  color: var(--white);
+  font-family: var(--default-font);
+`;
 
 const SFeedLayout = styled(SMainLayout)`
   padding-bottom: 70px;
@@ -246,6 +291,17 @@ const SSearchTab = styled.div`
   }
 `;
 
+const SFollowCard = styled.div`
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
 const SFollowContainer = styled.div`
   display: flex;
   align-items: center;
@@ -263,10 +319,14 @@ const STextContainer = styled.div`
   margin-left: 12px;
 `;
 
+const SUserTabName = styled.p`
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: var(--white);
+`;
+
 const SAccountName = styled.p`
   font-size: 12px;
   font-weight: 700;
   color: var(--darkgray);
 `;
-
-const SBtnContainer = styled.div``;

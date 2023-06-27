@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
-import { isfeedFetchToggle, setToken } from '../Atom/atom';
-import { MainAccountToken, BASEURL } from '../Components/Feed/COMMON';
+import { isfeedFetchToggle, setToken } from 'Atom/atomStore';
+import { MainAccountToken, BASEURL } from 'Components/Feed/COMMON';
 
 const useFetchComment = ({
   postID,
@@ -27,8 +27,7 @@ const useFetchComment = ({
     const deletePost = `post/${postID}`;
     try {
       const response = await POST_instance.delete(deletePost);
-      console.log(response.data);
-      console.log(response.data.message);
+
       return '게시글이 삭제되었습니다.';
       // alert('삭제되었습니다!');
     } catch (error) {
@@ -43,8 +42,7 @@ const useFetchComment = ({
     const deleteComment = `post/${postID}/comments/${commentId}`;
     try {
       const response = await POST_instance.delete(deleteComment);
-      console.log(response.data);
-      console.log(response.data.message);
+
       // alert('삭제되었습니다!');
       return '댓글이 삭제되었습니다.';
     } catch (error) {
@@ -56,8 +54,6 @@ const useFetchComment = ({
     const editPost = `post/${postID}`;
     try {
       const response = await POST_instance.put(editPost);
-      console.log(response.data);
-      console.log(response.data.message);
     } catch (error) {
       console.error(error);
       return '잘못된 접근입니다.';
@@ -71,7 +67,6 @@ const useFetchComment = ({
       const response = await POST_instance.get(CommentPOST);
       setCommentList(response.data.comments.reverse());
       setIsFetchData(true);
-      console.log(response.data.comments);
     } catch (error) {
       console.error(error);
       return '잘못된 접근입니다.';
@@ -84,7 +79,7 @@ const useFetchComment = ({
       try {
         const response = await POST_instance.get(FeedGET);
         // setReactionCount(response.data);
-        console.log(response.data.post);
+
         setIsFeedFetchData(true);
         return response.data;
       } catch (error) {
@@ -94,7 +89,7 @@ const useFetchComment = ({
       try {
         const response = await POST_instance.get(FeedGET);
         setReactionCount(response.data);
-        console.log(response.data.post);
+
         return response.data;
       } catch (error) {
         console.error(error);
@@ -103,7 +98,6 @@ const useFetchComment = ({
   }
 
   async function postHeart(hearted, setReactionCount) {
-    console.log('하트');
     let POST_URL = '';
     const HeartPost = `post/${postID}/heart`;
     const UNHeartPost = `post/${postID}/unheart`;
@@ -113,18 +107,14 @@ const useFetchComment = ({
     } else {
       POST_URL = UNHeartPost;
     }
-    console.log(POST_URL);
+
     try {
       if (!hearted) {
         const response = await POST_instance.post(POST_URL);
         getFeed({ setReactionCount });
-        console.log(response.data);
       } else {
-        console.log('delete!!');
         const response = await POST_instance.delete(POST_URL);
         getFeed({ setReactionCount });
-
-        console.log(response.data);
       }
     } catch (error) {
       console.error(error);

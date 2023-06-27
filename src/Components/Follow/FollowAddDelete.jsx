@@ -12,10 +12,7 @@ export async function AddFollow(accountName, token) {
         'Content-type': 'application/json',
       },
     });
-    console.log(response.data.profile);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }
 
 export async function DeleteFollow(accountName, token) {
@@ -30,8 +27,5 @@ export async function DeleteFollow(accountName, token) {
         'Content-type': 'application/json',
       },
     });
-    console.log(response.data.profile);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }

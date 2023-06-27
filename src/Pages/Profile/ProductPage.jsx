@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import MainHeader from '../Components/Common/MainHeader';
-import Input from '../Components/Common/Input';
-import uploadImg from '../assets/icons/uploadImg.svg';
+import MainHeader from 'Components/Common/MainHeader';
+import Input from 'Components/Common/Input';
+import uploadImg from 'assets/icons/uploadImg.svg';
 import { motion } from 'framer-motion';
 
 import axios from 'axios';
-import { setToken } from '../Atom/atom';
+import { setToken } from 'Atom/atomStore';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 
@@ -52,13 +52,10 @@ const ProductPage = () => {
     try {
       const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(alert('업로드완료!'));
       const uploadedImageUrl = response.data[0].filename;
-      console.log(uploadedImageUrl);
+
       setUploadedImageUrl(uploadedImageUrl);
       setImgAddList([...imgAddList, { url: uploadedImageUrl }]);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   // 상품명
@@ -72,7 +69,7 @@ const ProductPage = () => {
   function writeProductPrice(e) {
     const productPrice = e.target.value;
     const commaProductPrice = productPrice.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    console.log(productPrice);
+
     setProductPrice(productPrice);
     setCommaProductPrice(commaProductPrice);
   }
@@ -111,11 +108,9 @@ const ProductPage = () => {
         },
         config,
       );
-      console.log(response);
+
       navigate('/myprofile');
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (

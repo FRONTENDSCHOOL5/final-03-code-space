@@ -89,6 +89,8 @@ img{
 
 body{
   font-family: var(--default-font);
+  background-color: var(--black);
+
 }
 
 `;

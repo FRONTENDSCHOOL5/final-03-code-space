@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { setIsLogined, isLoginAlertAtom } from '../Atom/atom';
-import AlertModal from '../Components/Common/AlertModal';
+import { setIsLogined, isLoginAlertAtom } from 'Atom/atomStore';
+import AlertModal from 'Components/Common/AlertModal';
 
 const PrivateRoute = ({ path, element }) => {
   const isLoginSuccess = useRecoilValue(setIsLogined);

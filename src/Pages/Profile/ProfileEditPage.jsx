@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Profile from '../Components/Common/Profile';
-import MainHeader from '../Components/Common/MainHeader';
+import Profile from 'Components/Common/Profile';
+import MainHeader from 'Components/Common/MainHeader';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { setToken, setAccountName } from '../Atom/atom';
+import { setToken, setAccountName } from 'Atom/atomStore';
 import styled from 'styled-components';
 
-const ProfileSetPage = ({ userEmail, userPassword }) => {
+const ProfileEditPage = ({ userEmail, userPassword }) => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const token = useRecoilValue(setToken);
@@ -42,7 +42,6 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
         },
       });
 
-      console.log(response.data);
       setAccountNameAtom(response.data.user.accountname);
     } catch (error) {
       console.error(error);
@@ -59,7 +58,7 @@ const ProfileSetPage = ({ userEmail, userPassword }) => {
   );
 };
 
-export default ProfileSetPage;
+export default ProfileEditPage;
 
 const ProfileWrapper = styled.div`
   padding-top: 30px;
