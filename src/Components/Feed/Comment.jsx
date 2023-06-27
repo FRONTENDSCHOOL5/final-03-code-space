@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import elapsedTime from './elapsedTime';
 import { useNavigate } from 'react-router-dom';
 import { APIDefaultImage, profileImg } from './COMMON';
 import useFetchComment from 'Hooks/useFetchComment';
 import configIcon from 'assets/icons/icon- more-vertical.svg';
-import ConfigModal from 'Components/Common/ConfigModal';
 import { configModalAtom } from 'Atom/atomStore';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import WithSkeleton from 'Components/Common/Skeleton';
 
 const Comment = ({
   feedList,
@@ -20,7 +18,6 @@ const Comment = ({
   setCommentAccount,
 }) => {
   const navigate = useNavigate();
-  const isModalState = useRecoilValue(configModalAtom);
   const setconfigModalAtom = useSetRecoilState(configModalAtom);
 
   function goProfile(item) {
@@ -99,6 +96,8 @@ const SConfigIcon = styled.img`
   max-width: 20px;
   max-height: 20px;
   cursor: pointer;
+  display: flex;
+  align-self: flex-start;
 `;
 
 const SCommentContainer = styled.div`
@@ -108,10 +107,14 @@ const SCommentContainer = styled.div`
   align-items: center;
 `;
 const SProfileImg = styled.img`
-  width: 36px;
-  height: 36px;
+  max-width: 36px;
+  max-height: 36px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   object-fit: cover;
+  display: flex;
+  align-self: flex-start;
 `;
 const SComment = styled.div`
   display: flex;
