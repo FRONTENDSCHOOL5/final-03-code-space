@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { setToken } from '../../Atom/atom';
+import { setToken } from 'Atom/atomStore';
 import { useNavigate } from 'react-router-dom';
 import { AddFollow, DeleteFollow } from './FollowAddDelete';
-import Button from '../Common/Button';
+import Button from 'Components/Common/Button';
 import styled from 'styled-components';
 
 export default function FollowCard({ profile }) {
   const navigate = useNavigate();
   const token = useRecoilValue(setToken);
-
-  console.log(profile);
 
   // const [isFollowing, setIsFollowing] = useState(true);
   function handleFollow(e) {
@@ -20,22 +18,18 @@ export default function FollowCard({ profile }) {
       DeleteFollow(profile.accountname, token)
         .then(() => {
           // 함수 호출 성공 시 실행될 코드
-          console.log('삭제완');
           // setIsFollowing(false);
         })
         .catch(error => {
-          console.log(error);
           // 함수 호출 실패 시 실행될 코드
         });
     } else if (buttonContent === '팔로우') {
       AddFollow(profile.accountname, token)
         .then(() => {
           // 함수 호출 성공 시 실행될 코드
-          console.log('추가완');
           // setIsFollowing(true);
         })
         .catch(error => {
-          console.log(error);
           // 함수 호출 실패 시 실행될 코드
         });
     }

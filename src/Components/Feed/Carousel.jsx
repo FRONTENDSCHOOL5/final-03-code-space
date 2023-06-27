@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import delImg from '../../assets/icons/delete1.svg'
+import styled, { keyframes } from 'styled-components';
+import delImg from 'assets/icons/delete1.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { useRef } from 'react';
 
 const Carousel = ({ imgArr }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transition, setTransition] = useState(false);
   const [imgView, setImgView] = useState(false);
+  const modalRef = useRef(null);
 
   useEffect(() => {
     // Enable transition after the initial render
@@ -29,31 +31,38 @@ const Carousel = ({ imgArr }) => {
 
   const handleOnImgView = () => {
     setImgView(true);
-    console.log("이미지 열림");
-  }
+  };
 
   const handleCloseImgView = () => {
     setImgView(false);
-  }
+  };
 
-  const ImgModal = ({isOpen, src}) => {
+  const handleClickOutside = event => {
+    const target = event.target;
+
+    if (modalRef.current && !modalRef.current.contains(target)) {
+      handleCloseImgView();
+    }
+  };
+
+  const ImgModal = ({ isOpen, src }) => {
     if (!isOpen) return null;
-  
+
     return (
-      <StyledModal>
-        <SImgWrap>
+      <StyledModal onClick={handleClickOutside}>
+        <SImgWrap ref={modalRef}>
           <SDelBtn onClick={handleCloseImgView} />
-          <SSingleModal src={src}/>
+          <SSingleModal src={src} />
           {imgArr.length > 1 && (
-        <>
-          <CarouselButton onClick={goToPrevious} disabled={currentIndex === 0}>
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </CarouselButton>
-          <CarouselButton onClick={goToNext} disabled={currentIndex === imgArr.length - 1}>
-            <FontAwesomeIcon icon={faChevronRight} />
-          </CarouselButton>
-        </>
-      )}
+            <>
+              <CarouselButton onClick={goToPrevious} disabled={currentIndex === 0}>
+                <FontAwesomeIcon icon={faChevronLeft} />
+              </CarouselButton>
+              <CarouselButton onClick={goToNext} disabled={currentIndex === imgArr.length - 1}>
+                <FontAwesomeIcon icon={faChevronRight} />
+              </CarouselButton>
+            </>
+          )}
         </SImgWrap>
       </StyledModal>
     );
@@ -61,41 +70,41 @@ const Carousel = ({ imgArr }) => {
 
   return (
     <div>
-    <CarouselContainer>
-      <CarouselImageContainer>
-        <CarouselImageWrapper currentIndex={currentIndex}>
-          {imgArr.map((img, index) => (
-            <CarouselImage
-              key={index}
-              src={img.url}
-              alt="feed"
-              currentIndex={currentIndex}
-              transition={transition}
-              onTransitionEnd={handleTransitionEnd}
-              onClick={handleOnImgView}
-            />
+      <CarouselContainer>
+        <CarouselImageContainer>
+          <CarouselImageWrapper currentIndex={currentIndex}>
+            {imgArr.map((img, index) => (
+              <CarouselImage
+                key={index}
+                src={img.url}
+                alt="feed"
+                currentIndex={currentIndex}
+                transition={transition}
+                onTransitionEnd={handleTransitionEnd}
+                onClick={handleOnImgView}
+              />
+            ))}
+          </CarouselImageWrapper>
+        </CarouselImageContainer>
+
+        {imgArr.length > 1 && (
+          <>
+            <CarouselButton onClick={goToPrevious} disabled={currentIndex === 0}>
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </CarouselButton>
+            <CarouselButton onClick={goToNext} disabled={currentIndex === imgArr.length - 1}>
+              <FontAwesomeIcon icon={faChevronRight} />
+            </CarouselButton>
+          </>
+        )}
+
+        <IndicatorsContainer>
+          {imgArr.map((_, index) => (
+            <Indicator key={index} active={index === currentIndex} />
           ))}
-        </CarouselImageWrapper>
-      </CarouselImageContainer>
-
-      {imgArr.length > 1 && (
-        <>
-          <CarouselButton onClick={goToPrevious} disabled={currentIndex === 0}>
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </CarouselButton>
-          <CarouselButton onClick={goToNext} disabled={currentIndex === imgArr.length - 1}>
-            <FontAwesomeIcon icon={faChevronRight} />
-          </CarouselButton>
-        </>
-      )}
-
-      <IndicatorsContainer>
-        {imgArr.map((_, index) => (
-          <Indicator key={index} active={index === currentIndex} />
-        ))}
-      </IndicatorsContainer>
-    </CarouselContainer>
-    <ImgModal isOpen={imgView} key={currentIndex} src={imgArr[currentIndex].url}/>
+        </IndicatorsContainer>
+      </CarouselContainer>
+      <ImgModal isOpen={imgView} key={currentIndex} src={imgArr[currentIndex].url} />
     </div>
   );
 };
@@ -109,6 +118,7 @@ const CarouselImageContainer = styled.div`
   height: 200px;
   overflow: hidden;
   perspective: 1000px; /* 3D 효과를 위한 perspective 설정 */
+  border-radius: 20px;
 `;
 
 const CarouselImageWrapper = styled.div`
@@ -118,14 +128,22 @@ const CarouselImageWrapper = styled.div`
   transition: transform 0.5s ease; /* 슬라이드 애니메이션 설정 */
   transform-style: preserve-3d; /* 3D 변환 유지 */
   transform: translate3d(${({ currentIndex }) => -currentIndex * 100}%, 0, 0); /* X축으로 이동 */
+  border-radius: 20px;
 `;
+
 const CarouselImage = styled.img`
   flex-shrink: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 20px;
+  cursor: pointer;
+
+  &:hover {
+    scale: 0.99;
+  }
 `;
+
 const CarouselButton = styled.button`
   position: absolute;
   top: 50%;
@@ -180,7 +198,7 @@ const StyledModal = styled.div`
   left: 0;
   top: 0;
   overflow-y: hidden;
-  z-index:9999;
+  z-index: 9999;
   background-color: rgba(0, 0, 0, 0.8);
 `;
 

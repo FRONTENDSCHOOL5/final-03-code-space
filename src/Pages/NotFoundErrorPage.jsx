@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import Logo from '../assets/img/icon-logo.svg';
-import Splash from '../assets/img/splash.png';
-import errorIcon from '../assets/img/error404.svg';
-import Button from '../Components/Common/Button';
+import Logo from 'assets/img/icon-logo.svg';
+import Splash from 'assets/img/splash.png';
+import errorIcon from 'assets/img/error404.svg';
+import Button from 'Components/Common/Button';
 import { useNavigate } from 'react-router-dom';
 
 const NotFoundErrorPage = () => {

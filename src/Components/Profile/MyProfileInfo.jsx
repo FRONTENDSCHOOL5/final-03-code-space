@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { setToken } from '../../Atom/atom';
+import { setToken } from 'Atom/atomStore';
 import axios from 'axios';
 
 export default function MyProfileInfo() {
@@ -8,7 +8,7 @@ export default function MyProfileInfo() {
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    // console.log('test');
+    //
     getUserData();
   }, []);
 
@@ -24,12 +24,10 @@ export default function MyProfileInfo() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+
       // const userData = response.data.user;
       setUserData(response.data.user);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
   return userData;
 }

@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import postAlbumIcon from '../../assets/icons/post-album.svg';
-import postListIcon from '../../assets/icons/post-list.svg';
-import postAlbumOnIcon from '../../assets/icons/post-album-on.svg';
-import postListOnIcon from '../../assets/icons/post-list-on.svg';
+import postAlbumIcon from 'assets/icons/post-album.svg';
+import postListIcon from 'assets/icons/post-list.svg';
+import postAlbumOnIcon from 'assets/icons/post-album-on.svg';
+import postListOnIcon from 'assets/icons/post-list-on.svg';
 import { useRecoilValue } from 'recoil';
-import { setToken } from '../../Atom/atom';
+import { setToken } from 'Atom/atomStore';
 import axios from 'axios';
 import ProfilePostList from './ProfilePostList';
 
@@ -13,8 +13,6 @@ export default function ProfilePost({ accountName }) {
   const [isData, setIsData] = useState(false);
   const [postData, setPostData] = useState([]);
   const [isGrid, setIsGrid] = useState(false);
-
-  console.log(accountName);
 
   const token = useRecoilValue(setToken);
 
@@ -26,7 +24,6 @@ export default function ProfilePost({ accountName }) {
     const URL = 'https://api.mandarin.weniv.co.kr';
     const reqPath = `/post/${accountName}/userpost`;
 
-    console.log(reqPath);
     try {
       const response = await axios.get(URL + reqPath, {
         method: 'get',
@@ -36,16 +33,11 @@ export default function ProfilePost({ accountName }) {
           'Content-type': 'application/json',
         },
       });
-      console.log(response.data);
+
       setPostData(response.data);
       setIsData(true);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
-
-  console.log(postData.post);
-  console.log(postData);
 
   const handleAlbumClick = e => {
     setIsGrid(true);

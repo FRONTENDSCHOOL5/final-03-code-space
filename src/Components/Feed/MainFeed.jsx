@@ -22,11 +22,15 @@ import {
   SCodeEditor,
   SCodeLanguage,
   SCodeContainer,
-} from '../../Styles/FeedStyle/PostStyle';
+  SCreateDate,
+} from 'Styles/FeedStyle/PostStyle';
 
-import iconHeart from '../../assets/icons/heart.svg';
-import iconComment from '../../assets/icons/chat-green.svg';
-import { profileImg, APIDefaultImage } from './COMMON';
+import iconComment from 'assets/icons/chat-green.svg';
+
+import iconHeart from 'assets/icons/heart.svg';
+
+import { profileImg, APIDefaultImage } from 'Components/Feed/COMMON';
+
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
@@ -41,11 +45,11 @@ import {
   isInitialLoadAtom,
   scrollPositionAtom,
   setAccountName,
-} from '../../Atom/atom';
-import Skeleton from '../Common/Skeleton';
-import WithSkeleton from '../Common/Skeleton';
+} from 'Atom/atomStore';
+import Skeleton from 'Components/Common/Skeleton';
+import WithSkeleton from 'Components/Common/Skeleton';
 
-const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
+const MainFeed = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   const setFeedListState = useSetRecoilState(searchFeedList);
   const feedListState = useRecoilValue(searchFeedList);
   const navigate = useNavigate();
@@ -188,14 +192,17 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
                   )}
                   <STitleContainer>
                     <STitleContent>
-                      <STitle>{title}</STitle>
-                      {item.image ? (
-                        <SImgContainer>
-                          <FontAwesomeIcon icon={faImage} style={{ color: '#2bae66' }} />
-                        </SImgContainer>
-                      ) : (
-                        <></>
-                      )}
+                      <STitle>
+                        {title}
+
+                        {item.image ? (
+                          <SImgContainer>
+                            <FontAwesomeIcon icon={faImage} style={{ color: '#2bae66' }} />
+                          </SImgContainer>
+                        ) : (
+                          <></>
+                        )}
+                      </STitle>
                     </STitleContent>
 
                     <SAuthorInfo>
@@ -228,7 +235,7 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
                       <div>{item.comments.length}</div>
                     </SReactionCount>
                   </SReactionContent>
-                  <SAccountname>{item.createdAt.slice(0, 10)}</SAccountname>
+                  <SCreateDate>{item.createdAt.slice(0, 10)}</SCreateDate>
                 </SReactionContainer>
               </SFeedCard>
             );
@@ -239,4 +246,4 @@ const Post = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   );
 };
 
-export default Post;
+export default MainFeed;

@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
-import homeIcon from '../../assets/icons/home.svg';
-import chatIcon from '../../assets/icons/chat.svg';
-import postIcon from '../../assets/icons/post.svg';
-import profileIcon from '../../assets/icons/profile.svg';
+import homeIcon from 'assets/icons/home.svg';
+import chatIcon from 'assets/icons/chat.svg';
+import postIcon from 'assets/icons/post.svg';
+import profileIcon from 'assets/icons/profile.svg';
 
 import { useRecoilValue } from 'recoil';
 import { useSetRecoilState } from 'recoil';
-import { bottomNavIndex } from '../../Atom/atom';
+import { bottomNavIndex } from 'Atom/atomStore';
 const BottomNav = () => {
   const navItems = ['feed', 'messagelist', 'post', 'myprofile'];
   const imgs = [homeIcon, chatIcon, postIcon, profileIcon];

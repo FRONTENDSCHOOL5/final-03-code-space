@@ -5,6 +5,7 @@ const STitle = styled.div`
   color: var(--white);
   word-break: break-all;
   font-weight: bold;
+  display: flex;
 `;
 const SMainContent = styled.div`
   color: var(--white);
@@ -32,6 +33,11 @@ const SUserName = styled.div`
   font-size: 13px;
 `;
 const SAccountname = styled.div`
+  color: var(--darkgray);
+  font-size: 10px;
+`;
+const SCreateDate = styled.div`
+  font-family: none;
   color: var(--darkgray);
   font-size: 10px;
 `;
@@ -172,7 +178,7 @@ const SCodeLanguage = styled.div`
 `;
 const SImgContainer = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin-left: 5px;
 `;
 export {
@@ -199,4 +205,5 @@ export {
   SImgContainer,
   STitleContent,
   SCodeContainer,
+  SCreateDate,
 };
