@@ -11,7 +11,7 @@ export const formatCodeSnippet = code => {
     const remainingCharsCount = lines[MAX_LINES].length;
 
     if (remainingCharsCount > MAX_CHARS_PER_LINE) {
-      truncatedCode += '\n' + lines[MAX_LINES].slice(0, MAX_CHARS_PER_LINE) + ELLIPSIS;
+      truncatedCode += '\n' + lines[MAX_LINES].slice(0, MAX_CHARS_PER_LINE);
     } else {
       truncatedCode += '\n' + lines[MAX_LINES];
     }
