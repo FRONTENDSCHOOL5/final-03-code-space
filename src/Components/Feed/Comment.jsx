@@ -109,7 +109,7 @@ const SCommentContainer = styled.div`
 const SProfileImg = styled.img`
   max-width: 36px;
   max-height: 36px;
-  width: 36px;
+  width: 100%;
   height: 36px;
 
   border-radius: 50%;
