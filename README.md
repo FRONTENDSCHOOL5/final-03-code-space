@@ -9,9 +9,9 @@ ID :codespacetest1@test.com
 PW :000000
 ```
 
-<img src="">
+<img src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/0c2f7d0c-5168-418e-9303-a425fd5a4273">
 
-`개발 기간 : 2023.06.01 ~ 2023.06.30`
+`개발 기간 : 2023.06.01 ~ 2023.06.30` <br/>
 
 > `코딩 질문,` `스터디모집`, `코딩 꿀팁`
 >
@@ -84,7 +84,7 @@ PW :000000
 ## <span id="distributingroles">👥 역할 분담</span>
 
 
-<img width="800" alt="역할분담" src = "https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/05759e56-4a79-4e80-98d1-1ea63cff9a76">
+<img width="800" alt="역할분담" src = "https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/f43d0796-d76b-4e33-87dd-84ab24873a42">
 
 
 
@@ -238,7 +238,7 @@ PW :000000
 | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/b2e6f39a-ecd2-43ed-82d5-a4a6ec9ccc61"> | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/1520e4e9-ab58-4137-9878-0ef41516f054"> | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/9765c2e0-9fbc-4e7c-bc06-d0a2c06d61a3"> |
 
 
-## [🚀 핵심 기능 설명](https://github.com/FRONTENDSCHOOL5/final-03-code-space/wiki/CodeSpace)
+### [🚀 핵심 기능 설명](https://github.com/FRONTENDSCHOOL5/final-03-code-space/wiki/CodeSpace)
 ## <span id="folder">📁폴더 구조</span>
 ```
 📦final-03-code-space 
