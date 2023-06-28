@@ -1,6 +1,5 @@
 // 제목, 본문 찾기 함수
 export function extractString(inputString, extractType) {
-  //
   if (inputString === undefined) {
     return null;
   }
