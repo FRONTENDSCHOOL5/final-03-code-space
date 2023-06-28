@@ -1,8 +1,8 @@
 # <span id="top">🪐Coding 커뮤니티 공간, CodeSpace🧑‍🚀</span>
 
-**🚀 배포 링크** :
+**🚀 배포 링크** : https://frontendschool5.github.io/final-03-code-space
 
-**🧑‍🚀 테스트 계정** :
+**🧑‍🚀 테스트 계정** 
 
 ```
 ID :codespacetest1@test.com
@@ -84,7 +84,7 @@ PW :000000
 ## <span id="distributingroles">👥 역할 분담</span>
 
 
-<img width="800" alt="역할분담" src = "https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/f43d0796-d76b-4e33-87dd-84ab24873a42">
+<img width="1000px" alt="역할분담" src = "https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/f43d0796-d76b-4e33-87dd-84ab24873a42">
 
 
 
@@ -247,80 +247,23 @@ PW :000000
  ┃ ┃ ┣ 📂icons
  ┃ ┃ ┣ 📂img
  ┃ ┣ 📂Atom
- ┃ ┃ ┗ atomStore.jsx
  ┃ ┣ 📂Components
  ┃ ┃ ┣ 📂Common
- ┃ ┃ ┃ ┣ AlertModal.jsx
- ┃ ┃ ┃ ┣ BottomNav.jsx
- ┃ ┃ ┃ ┣ Button.jsx
- ┃ ┃ ┃ ┣ ConfigModal.jsx
- ┃ ┃ ┃ ┣ Dropdown.jsx
- ┃ ┃ ┃ ┣ Input.jsx
- ┃ ┃ ┃ ┣ LoginModal.jsx
- ┃ ┃ ┃ ┣ MainHeader.jsx
- ┃ ┃ ┃ ┣ Profile.jsx
- ┃ ┃ ┃ ┣ ProfileHeader.jsx
- ┃ ┃ ┃ ┗ Skeleton.jsx
  ┃ ┃ ┣ 📂Feed
- ┃ ┃ ┃ ┣ Carousel.jsx
- ┃ ┃ ┃ ┣ Comment.jsx
- ┃ ┃ ┃ ┣ COMMON.jsx
- ┃ ┃ ┃ ┣ elapsedTime.jsx
- ┃ ┃ ┃ ┣ extractImage.jsx
- ┃ ┃ ┃ ┣ extractString.jsx
- ┃ ┃ ┃ ┣ FetchFeed.jsx
- ┃ ┃ ┃ ┣ formatCodeSnippet.jsx
- ┃ ┃ ┃ ┣ MainFeed.jsx
- ┃ ┃ ┃ ┣ TagButton.jsx
- ┃ ┃ ┃ ┗ WriteComment.jsx
  ┃ ┃ ┣ 📂Follow
- ┃ ┃ ┃ ┣ FollowAddDelete.jsx
- ┃ ┃ ┃ ┗ FollowListCard.jsx
  ┃ ┃ ┣ 📂Product
- ┃ ┃ ┃ ┣ ProductCard.jsx
- ┃ ┃ ┃ ┗ ProductList.jsx
  ┃ ┃ ┗ 📂Profile
  ┃ ┃ ┃ ┣ 📂Post
- ┃ ┃ ┃ ┃ ┣ ProfilePost.jsx
- ┃ ┃ ┃ ┃ ┗ ProfilePostList.jsx
- ┃ ┃ ┃ ┣ MainProfile.jsx
- ┃ ┃ ┃ ┣ MainProfileBtns.jsx
- ┃ ┃ ┃ ┣ MyProfileInfo.jsx
- ┃ ┃ ┃ ┗ removeMainAccount.jsx
  ┃ ┣ 📂Hooks
- ┃ ┃ ┣ useFetchComment.jsx
- ┃ ┃ ┣ useMainAccountFollow.jsx
- ┃ ┃ ┗ useSearchUser.jsx
  ┃ ┣ 📂Pages
  ┃ ┃ ┣ 📂Feed
- ┃ ┃ ┃ ┣ FeedDetailPage.jsx
- ┃ ┃ ┃ ┣ FeedPage.jsx
- ┃ ┃ ┃ ┣ PostPage.jsx
- ┃ ┃ ┃ ┗ SearchPage.jsx
  ┃ ┃ ┣ 📂Landing
- ┃ ┃ ┃ ┣ LandingPage.jsx
- ┃ ┃ ┃ ┣ LoginPage.jsx
- ┃ ┃ ┃ ┣ ProfileCreatePage.jsx
- ┃ ┃ ┃ ┗ SignUpPage.jsx
  ┃ ┃ ┣ 📂Message
- ┃ ┃ ┃ ┣ MessageListPage.jsx
- ┃ ┃ ┃ ┗ MessagePage.jsx
  ┃ ┃ ┣ 📂Profile
- ┃ ┃ ┃ ┣ FollowingPage.jsx
- ┃ ┃ ┃ ┣ FollowPage.jsx
- ┃ ┃ ┃ ┣ MyProfilePage.jsx
- ┃ ┃ ┃ ┣ ProductPage.jsx
- ┃ ┃ ┃ ┗ ProfileEditPage.jsx
- ┃ ┃ ┗ NotFoundErrorPage.jsx
  ┃ ┣ 📂Route
- ┃ ┃ ┗ PrivateRoute.jsx
  ┃ ┣ 📂Styles
  ┃ ┃ ┣ 📂FeedStyle
- ┃ ┃ ┃ ┣ BackToTopBtn.jsx
- ┃ ┃ ┃ ┗ PostStyle.jsx
  ┃ ┃ ┣ 📂LandingStyle
- ┃ ┃ ┃ ┣ Astronaut.jsx
- ┃ ┃ ┃ ┗ LandingPage.css
  ┃ ┃ ┣ CommonStyle.jsx
  ┃ ┃ ┣ globalStyle.jsx
  ┃ ┃ ┗ MainLayoutStyle.jsx
