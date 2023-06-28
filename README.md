@@ -41,6 +41,7 @@ PW :000000
 <br/>
 
 ## <span id="team">🧑‍🚀팀 소개</span>
+<hr/>
 
 <table>
   <tr>
@@ -82,12 +83,14 @@ PW :000000
 <br>
 
 ## <span id="distributingroles">👥 역할 분담</span>
+<hr/>
 
 <img width="800" alt="역할분담" src = "https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/05759e56-4a79-4e80-98d1-1ea63cff9a76">
 
 
 
 ## <span id="stack">⚙️ 기술 및 개발환경</span>
+<hr/>
 
 | 분야             | 기술 및 개발환경                                                                                                                                                                                                                                                                                          |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -102,9 +105,9 @@ PW :000000
 
  [📑 팀 워크스페이스](https://www.notion.so/1a47347bc73c4821a1e56774fd52a969) <br/><br/>
  [🎨 디자인 피그마](https://www.figma.com/file/CceCWYQTTGtH507XSVn3ou/Untitled?type=design&node-id=0-1&mode=design&t=LwFhTHvld5uvmQeF-0)
- <br/>
+ <br/> <br/>
 ## <span id="convention">☝️ 컨벤션</span>
-<br/>
+<hr/>
 
 ####  **커밋 컨벤션** <img style="vertical-align:middle" src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white">
 ```
@@ -193,7 +196,7 @@ PW :000000
 
 <br/>
 
-## <span id="ui">🪐CodeSpace UI</span>
+# <span id="ui">🪐CodeSpace UI</span>
 
 ## 1) 홈
 
@@ -205,9 +208,9 @@ PW :000000
 | :----------: | :----------: | :----------: |
 | <img height="540px" width="300px"  src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/bf521f5e-e316-4c99-bd24-5614026dda82"> | <img height="540px" width="300px"  src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/ffca6ba8-b9fe-4801-93d4-a149a8bf4bee"> | <img height="540px"  width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/2b90415b-e37f-4aba-b303-b6e53e6af71f"> |
 
-| Top 버튼 / 무한 스크롤 |  404 Error   |
-| :-------: | :-------: |
-| <img height="540px" width="300px"  src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/4ffd904d-b39a-45e2-b218-8d705ed91015">   | <img height="540px" width="300px"  src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/07817d93-f424-4856-9b92-df7fc6c3e32d">    |
+|미로그인 시 피드 접속 | Top 버튼 / 무한 스크롤 |  404 Error   | 
+| :----------: | :----------: | :----------: |
+| <img height="540px" width="300px"  src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/c8d0372b-f7c8-4ff1-a7df-09973839a50e">| <img height="540px" width="300px"  src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/4ffd904d-b39a-45e2-b218-8d705ed91015">   | <img height="540px" width="300px"  src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/07817d93-f424-4856-9b92-df7fc6c3e32d">   |
 
 
 
@@ -236,9 +239,8 @@ PW :000000
 | :-----------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
 | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/b2e6f39a-ecd2-43ed-82d5-a4a6ec9ccc61"> | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/1520e4e9-ab58-4137-9878-0ef41516f054"> | <img height="540px" width="300px" src="https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/9765c2e0-9fbc-4e7c-bc06-d0a2c06d61a3"> |
 
----
 
-
+## [🚀 핵심 기능 설명](https://github.com/FRONTENDSCHOOL5/final-03-code-space/wiki/CodeSpace)
 ## <span id="folder">📁폴더 구조</span>
 ```
 📦final-03-code-space 
@@ -332,9 +334,5 @@ PW :000000
  ┣ package-lock.json
  ┣ package.json
 ```
-## <span id="skill">🛠️핵심 기능</span>
-### 피드 필터링 기능
-### 코드 블럭 작성 기능
-
 
 <p align="right"><a href="#top">🔼 Top</a></p>
