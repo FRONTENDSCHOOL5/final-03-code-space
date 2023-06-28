@@ -167,7 +167,6 @@ const PostPage = () => {
     };
 
     if (imgAddList.length >= 3) {
-      // alert('이미지는 최대 3장까지만 업로드 가능합니다!');
       setShowWarningAlert(true);
       return;
     } else {

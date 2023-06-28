@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { setToken } from 'Atom/atomStore';
 import { useNavigate } from 'react-router-dom';

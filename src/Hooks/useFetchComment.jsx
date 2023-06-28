@@ -1,17 +1,14 @@
-import { useEffect } from 'react';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
-import { isfeedFetchToggle, setToken } from 'Atom/atomStore';
-import { MainAccountToken, BASEURL } from 'Components/Feed/COMMON';
+import { setToken } from 'Atom/atomStore';
+import { BASEURL } from 'Components/Feed/COMMON';
 
 const useFetchComment = ({
   postID,
   setCommentList,
   setIsFetchData,
-  fetchType,
   commentId,
   setIsFeedFetchData,
-  setAlertModal,
 }) => {
   const UserToken = useRecoilValue(setToken);
 
@@ -29,12 +26,10 @@ const useFetchComment = ({
       const response = await POST_instance.delete(deletePost);
 
       return '게시글이 삭제되었습니다.';
-      // alert('삭제되었습니다!');
     } catch (error) {
       console.error(error);
       return '잘못된 접근입니다.';
 
-      // return Promise.reject(error);
     }
   }
   async function deleteComment() {
@@ -43,7 +38,6 @@ const useFetchComment = ({
     try {
       const response = await POST_instance.delete(deleteComment);
 
-      // alert('삭제되었습니다!');
       return '댓글이 삭제되었습니다.';
     } catch (error) {
       console.error(error);

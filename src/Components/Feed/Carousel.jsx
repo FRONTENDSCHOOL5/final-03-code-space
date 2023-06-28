@@ -12,7 +12,6 @@ const Carousel = ({ imgArr }) => {
   const modalRef = useRef(null);
 
   useEffect(() => {
-    // Enable transition after the initial render
     setTransition(true);
   }, []);
   const goToPrevious = () => {

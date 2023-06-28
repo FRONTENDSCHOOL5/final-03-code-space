@@ -7,12 +7,13 @@ import { setToken, setAccountName } from 'Atom/atomStore';
 import styled from 'styled-components';
 import MyProfileInfo from '../../Components/Profile/MyProfileInfo';
 
-const ProfileEditPage = ({ userEmail, userPassword }) => {
+const ProfileEditPage = () => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const token = useRecoilValue(setToken);
   const setAccountNameAtom = useSetRecoilState(setAccountName);
-  const [myprofile, setMyprofile] = useState({
+  
+  useState({
     user: {
       username: '',
       accountname: '',

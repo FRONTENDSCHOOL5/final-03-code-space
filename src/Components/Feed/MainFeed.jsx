@@ -36,7 +36,7 @@ import { formatCodeSnippet } from './formatCodeSnippet';
 import { categoryTag, searchFeedList, isInitialLoadAtom, scrollPositionAtom, setAccountName } from 'Atom/atomStore';
 import Skeleton from 'Components/Common/Skeleton';
 
-const MainFeed = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
+  const MainFeed = ({ isFetchData, FeedList, allFeed, followingFeed }) => {
   const setFeedListState = useSetRecoilState(searchFeedList);
   const navigate = useNavigate();
   const tagState = useRecoilValue(categoryTag);

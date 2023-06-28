@@ -20,9 +20,6 @@ export default function MainProfile({ accountName }) {
   const [isSubscribed, setIsSubscribed] = useState(profile.isfollow);
   const [isClickFollow, setIsClickFollow] = useState(false);
 
-  //
-  //
-  //
 
   useEffect(() => {
     setIsFetchData(false);

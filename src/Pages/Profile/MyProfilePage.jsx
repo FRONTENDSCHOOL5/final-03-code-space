@@ -3,7 +3,6 @@ import MainHeader from 'Components/Common/MainHeader';
 import BottomNav from 'Components/Common/BottomNav';
 import MainProfile from 'Components/Profile/MainProfile';
 import ProductList from 'Components/Product/ProductList';
-// import MyProfileInfo from 'Components/Profile/MyProfileInfo';
 import styled from 'styled-components';
 import ConfigModal from 'Components/Common/ConfigModal';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';

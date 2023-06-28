@@ -2,12 +2,12 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import MainHeader from 'Components/Common/MainHeader';
 import Input from 'Components/Common/Input';
+import AlertModal from 'Components/Common/AlertModal';
 import uploadImg from 'assets/icons/uploadImg.svg';
 import { motion } from 'framer-motion';
-
 import axios from 'axios';
 import { setToken } from 'Atom/atomStore';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue} from 'recoil';
 import { useNavigate } from 'react-router-dom';
 
 const ProductPage = () => {
@@ -25,6 +25,8 @@ const ProductPage = () => {
   const [commaProductPrice, setCommaProductPrice] = useState('');
   const [saleUrl, setSaleURl] = useState('');
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
+
+  const [showAlert, setShowAlert] = useState(false); // 상품 업로드 alert 창 상태
 
   useEffect(() => {
     if (productName !== '' && productPrice !== '' && saleUrl !== '' && uploadedImageUrl !== '') {
@@ -50,7 +52,7 @@ const ProductPage = () => {
     };
 
     try {
-      const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(alert('업로드완료!'));
+      const response = await axios.post(url + 'image/uploadfiles/', formData, config).then(setShowAlert(true));
       const uploadedImageUrl = response.data[0].filename;
 
       setUploadedImageUrl(uploadedImageUrl);
@@ -131,6 +133,7 @@ const ProductPage = () => {
                 ref={imgInput}
                 onChange={handleUploadImg}></SInputImg>
             </SUploadImgBtn>
+            {showAlert && <AlertModal message="상품 이미지 업로드 완료" onClose={() => setShowAlert(false)} />}
           </SImgBg>
         </SImgWrap>
         <Input

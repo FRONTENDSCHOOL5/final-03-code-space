@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import postAlbumIcon from 'assets/icons/post-album.svg';
 import postListIcon from 'assets/icons/post-list.svg';
