@@ -41,7 +41,6 @@ PW :000000
 <br/>
 
 ## <span id="team">🧑‍🚀팀 소개</span>
-<hr/>
 
 <table>
   <tr>
@@ -83,14 +82,14 @@ PW :000000
 <br>
 
 ## <span id="distributingroles">👥 역할 분담</span>
-<hr/>
+
 
 <img width="800" alt="역할분담" src = "https://github.com/FRONTENDSCHOOL5/final-03-code-space/assets/75787973/05759e56-4a79-4e80-98d1-1ea63cff9a76">
 
 
 
 ## <span id="stack">⚙️ 기술 및 개발환경</span>
-<hr/>
+
 
 | 분야             | 기술 및 개발환경                                                                                                                                                                                                                                                                                          |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -107,7 +106,7 @@ PW :000000
  [🎨 디자인 피그마](https://www.figma.com/file/CceCWYQTTGtH507XSVn3ou/Untitled?type=design&node-id=0-1&mode=design&t=LwFhTHvld5uvmQeF-0)
  <br/> <br/>
 ## <span id="convention">☝️ 컨벤션</span>
-<hr/>
+
 
 ####  **커밋 컨벤션** <img style="vertical-align:middle" src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white">
 ```
@@ -161,7 +160,6 @@ PW :000000
 
 
 ## <span id="skill">🛠️기능 및 추가기능</span>
-<hr/>
 
 ### 🔒 로그인 / 회원가입
  * 로그인
