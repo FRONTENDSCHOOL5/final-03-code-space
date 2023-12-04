@@ -1,6 +1,6 @@
 # <span id="top">🪐Coding 커뮤니티 공간, CodeSpace🧑‍🚀</span>
 
-**🚀 배포 링크** : [https://code-space-tan.vercel.app/](https://code-space-tan.vercel.app/feed)
+**🚀 배포 링크** : [https://code-space-tan.vercel.app/](https://code-space-tan.vercel.app/)
 
 **🧑‍🚀 테스트 계정** 
 
