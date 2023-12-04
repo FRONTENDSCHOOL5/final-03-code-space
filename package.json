@@ -2,7 +2,6 @@
   "name": "final-3-code-space",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://frontendschool5.github.io/final-03-code-space/",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",

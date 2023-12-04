@@ -2,7 +2,9 @@ import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 
 // recoil-persist
-const { persistAtom } = recoilPersist();
+const { persistAtom } = recoilPersist({
+  key: 'code-space-config',
+});
 
 export const setToken = atom({
   key: 'tokenState',
